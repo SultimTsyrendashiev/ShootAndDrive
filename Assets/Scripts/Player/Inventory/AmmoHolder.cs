@@ -5,7 +5,7 @@ using SD.Weapons;
 
 namespace SD.Player
 {
-    // Represents player's ammo
+    // Represents ammo in player's inventory
     class AmmoHolder
     {
         Dictionary<AmmoType, RefInt> ammo;

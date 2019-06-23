@@ -39,7 +39,7 @@ namespace SD.Weapons
             main.customSimulationSpace = Player.Player.Instance.transform;
         }
 
-        public void EmitCasing(Vector3 position, Quaternion rotation, AmmoType type, int amount = 1)
+        public void EmitCasings(Vector3 position, Quaternion rotation, AmmoType type, int amount = 1)
         {
             // particle system to emit
             ParticleSystem system = null;

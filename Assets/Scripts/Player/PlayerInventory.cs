@@ -7,8 +7,115 @@ namespace SD.Player
 {
     class PlayerInventory
     {
-        WeaponsHolder weapons;
-        AmmoHolder ammo;
+        public WeaponsHolder    Weapons;
+        public AmmoHolder       Ammo;
+        public ItemsHolder      Items;
 
+        /// <summary>
+        /// Save inventory
+        /// </summary>
+        public void Save()
+        {
+            foreach (WeaponsEnum w in Enum.GetValues(typeof(WeaponsEnum)))
+            {
+                SaveWeapon(w);
+            }
+
+            foreach (AmmoType a in Enum.GetValues(typeof(AmmoType)))
+            {
+                SaveAmmo(a);
+            }
+
+            foreach (ItemType i in Enum.GetValues(typeof(ItemType)))
+            {
+                SaveItem(i);
+            }
+        }
+        /// <summary>
+        /// Load inventory to this class
+        /// </summary>
+        public void Load()
+        {
+            Weapons.Clear();
+
+            foreach (WeaponsEnum w in Enum.GetValues(typeof(WeaponsEnum)))
+            {
+                LoadWeapon(w);
+            }
+
+            foreach (AmmoType a in Enum.GetValues(typeof(AmmoType)))
+            {
+                LoadAmmo(a);
+            }
+
+            foreach (ItemType i in Enum.GetValues(typeof(ItemType)))
+            {
+                LoadItem(i);
+            }
+        }
+
+        void SaveWeapon(WeaponsEnum w)
+        {
+            WeaponItem weapon = Weapons.Get(w);
+
+            int bought = weapon.IsBought ? 1 : 0;
+            PlayerPrefs.SetInt(GetNameB(w), bought);
+
+            float health = weapon.Health;
+            PlayerPrefs.SetFloat(GetNameH(w), health);
+        }
+
+        void LoadWeapon(WeaponsEnum w)
+        {
+            int bought = PlayerPrefs.GetInt(GetNameB(w), 0);
+            float health = PlayerPrefs.GetFloat(GetNameH(w), 0);
+
+            Weapons.Add(w, health, bought == 1);
+        }
+
+        void SaveAmmo(AmmoType a)
+        {
+            int amount = Ammo.Get(a);
+            PlayerPrefs.SetInt(GetAmmoName(a), amount);
+        }
+        
+        void LoadAmmo(AmmoType a)
+        {
+            int amount = PlayerPrefs.GetInt(GetAmmoName(a), 0);
+            Ammo.Set(a, amount);
+        }
+
+        void SaveItem(ItemType a)
+        {
+            int amount = Items.Get(a);
+            PlayerPrefs.SetInt(GetItemName(a), amount);
+        }
+
+        void LoadItem(ItemType a)
+        {
+            int amount = PlayerPrefs.GetInt(GetItemName(a), 0);
+            Items.Set(a, amount);
+        }
+
+        #region names
+        string GetNameB(WeaponsEnum w)
+        {
+            return AllWeaponsStats.Instance.Get(w).Name + "Bought";
+        }
+
+        string GetNameH(WeaponsEnum w)
+        {
+            return AllWeaponsStats.Instance.Get(w).Name + "Health";
+        }
+
+        string GetAmmoName(AmmoType a)
+        {
+            return a.ToString();
+        }
+        string GetItemName(ItemType a)
+        {
+            return a.ToString();
+        }
+        #endregion
     }
 }

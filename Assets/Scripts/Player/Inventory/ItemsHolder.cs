@@ -5,6 +5,7 @@ using SD.Weapons;
 
 namespace SD.Player
 {
+    // Represents special items in player's inventory
     class ItemsHolder
     {
         Dictionary<ItemType, RefInt> playerItems;
@@ -30,5 +31,20 @@ namespace SD.Player
         /// Add additional ammo stats, used for addons, etc
         /// </summary>
         protected virtual void AddAdditional() { }
+
+        public int Get(ItemType type)
+        {
+            return playerItems[type].Value;
+        }
+
+        public void Set(ItemType type, int amount)
+        {
+            playerItems[type].Value = amount;
+        }
+
+        public void Add(ItemType type, int toAdd)
+        {
+            playerItems[type].Value += toAdd;
+        }
     }
 }

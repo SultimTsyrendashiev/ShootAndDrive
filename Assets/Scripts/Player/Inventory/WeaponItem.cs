@@ -6,15 +6,19 @@ using System.Threading.Tasks;
 
 namespace SD.Player
 {
-    // Represents weapon in player's inventory
+    // Represents weapon item in player's inventory
     class WeaponItem
     {
-        WeaponsEnum weapon; // current weapon
+        private WeaponsEnum weapon; // this weapon
 
-        // here, as it's changing over time,
-        // WeaponStats holds stats that are constant for each weapon
-        public float Health { get; set; }
-        public WeaponStats Stats { get { return AllWeaponsStats.Instance.Get(weapon); } }
-        public bool IsBroken { get { return Health <= 0.0f; } }
+        /// <summary>
+        /// Health in percents [0,1]
+        /// </summary>
+        public float        Health { get; set; }
+        public bool         IsBought { get; set; }
+
+        public WeaponsEnum  This { get { return weapon; } }
+        public bool         IsBroken { get { return Health <= 0.0f; } }
+        public WeaponStats  Stats { get { return AllWeaponsStats.Instance.Get(weapon); } }
     }
 }

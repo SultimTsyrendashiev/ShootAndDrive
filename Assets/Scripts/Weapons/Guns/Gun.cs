@@ -6,14 +6,9 @@ namespace SD.Weapons
 {
     class Gun : HitscanWeapon
     {
-        public override void PrimaryAttack()
+        protected override void Hitscan()
         {
             CheckRay(PlayerCamera.transform.position, PlayerCamera.transform.forward);
-
-            PlayPrimaryAnimation();
-            PlayAudio(ShotSound);
-
-            Ammo.Add(this.AmmoType, -AmmoConsumption);
         }
     }
 }
