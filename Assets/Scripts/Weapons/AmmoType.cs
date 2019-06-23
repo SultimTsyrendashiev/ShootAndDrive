@@ -1,11 +1,14 @@
-﻿public enum AmmoType
+﻿namespace SD.Weapons
 {
-    Shells,
-    BulletsPistol,
-    Bullets,
-    BulletsHeavy,
-    Grenades,
-    FireBottles,
-    Rockets,
-    CannonBalls
+    enum AmmoType
+    {
+        Shells,
+        BulletsPistol,
+        Bullets,
+        BulletsHeavy,
+        Grenades,
+        FireBottles,
+        Rockets,
+        CannonBalls
+    }
 }

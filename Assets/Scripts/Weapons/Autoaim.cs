@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Weapons
+namespace SD.Weapons
 {
     public static class Autoaim
     {
         /// <summary>
-        /// Find object using sphere cast, assuming that there is no objects between result and source
+        /// Find object using sphere cast, assuming that there is no objects between result and source.
+        /// If nothing to aim, "aimedDirection" will be equal to "direction"
         /// </summary>
         /// <param name="radius">radius of sphere cast</param>
         /// <param name="aimedDirection">result</param>
@@ -23,7 +24,7 @@ namespace Weapons
                 return true;
             }
 
-            aimedDirection = new Vector3();
+            aimedDirection = direction;
             return false;
         }
     }

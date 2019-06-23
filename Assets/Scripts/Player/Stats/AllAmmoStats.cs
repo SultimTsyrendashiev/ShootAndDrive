@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SD.Weapons;
+using UnityEngine;
 
 namespace SD.Player
 {
@@ -35,6 +34,9 @@ namespace SD.Player
 
             AddAmmoStats();
             AddAdditional();
+
+            // check if all types are added
+            Debug.Assert(ammoStats.Keys.Count == Enum.GetValues(typeof(AmmoType)).Length, "AllAmmoStats::Not enough ammo types in dictionary");
         }
 
         private void AddAmmoStats()

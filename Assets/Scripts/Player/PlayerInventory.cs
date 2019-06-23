@@ -7,6 +7,8 @@ namespace SD.Player
 {
     class PlayerInventory
     {
-        ammo
+        WeaponsHolder weapons;
+        AmmoHolder ammo;
+
     }
 }

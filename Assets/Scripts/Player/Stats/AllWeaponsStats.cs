@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
+using SD.Weapons;
 
 namespace SD.Player
 {
@@ -35,6 +34,9 @@ namespace SD.Player
 
             AddWeapons();
             AddAdditional();
+
+            // check if all types are added
+            Debug.Assert(weapons.Keys.Count == Enum.GetValues(typeof(WeaponsEnum)).Length, "AllWeaponsStats::Not enough weapons types in dictionary");
         }
 
         /// <summary>
@@ -92,5 +94,10 @@ namespace SD.Player
         /// Add additional weapons stats, used for addons, etc
         /// </summary>
         protected virtual void AddAdditional() { }
+
+        public WeaponStats Get(WeaponsEnum weapon)
+        {
+            return weapons[weapon];
+        }
     }
 }

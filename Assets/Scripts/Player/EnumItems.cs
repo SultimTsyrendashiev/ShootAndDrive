@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace SD.Player
 {
-    class WeaponsHolder
+    enum ItemType
     {
-        Dictionary<string, WeaponItem> playerWeapons;
+        Medkit
     }
-
-
 }
