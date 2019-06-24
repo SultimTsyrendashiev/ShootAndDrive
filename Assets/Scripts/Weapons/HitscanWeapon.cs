@@ -54,7 +54,7 @@ namespace SD.Weapons
             }
         }
 
-        public override void PrimaryAttack()
+        protected override void PrimaryAttack()
         {
             // main
             Hitscan();

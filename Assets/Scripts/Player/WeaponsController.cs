@@ -55,6 +55,26 @@ namespace SD.Player
             // for testing
             TakeOutWeapon();
         }
+        
+        public void Fire()
+        {
+            Weapon current = weapons[currentWeapon];
+
+            // There is no special button for unajamming,
+            // so fire button is used.
+            // But player must retap on it.
+            if (current.State == WeaponState.Jamming)
+            {
+                // if weapon is jamming, unjam it
+                current.Unjam();
+            }
+
+            // while player is holding fire button
+            while (InputController.FireButton)
+            {
+                current.Fire();
+            }
+        }
 
         public void TakeOutWeapon()
         {

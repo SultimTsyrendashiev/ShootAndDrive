@@ -88,7 +88,7 @@ namespace SD.Weapons
         #endregion
 
         #region overridable
-        public abstract void PrimaryAttack();
+        protected abstract void PrimaryAttack();
 
         /// <summary>
         /// Called on weapon disable
@@ -243,12 +243,7 @@ namespace SD.Weapons
 
         public void Fire()
         {
-            if (state == WeaponState.Jamming)
-            {
-                // if weapon is jamming, unjam it
-                Unjam();
-            }
-            else if (state != WeaponState.Ready)
+            if (state != WeaponState.Ready)
             {
                 // ignore if not ready to shoot
                 // Debug.LogWarning("Wrong weapon state");
@@ -291,7 +286,7 @@ namespace SD.Weapons
             PrimaryAttack();
         }
 
-        void Unjam()
+        public void Unjam()
         {
             // play animation (shaking)
             PlayUnjammingAnimation();

@@ -20,7 +20,7 @@ namespace SD.Weapons
             missileSpawn = transform.Find("MissileSpawn");
         }
 
-        public override void PrimaryAttack()
+        protected override void PrimaryAttack()
         {
             SpawnMissile();
             ReduceAmmo();
