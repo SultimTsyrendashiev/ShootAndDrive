@@ -7,11 +7,17 @@ namespace SD.Weapons
 {
     class WeaponsParticles : MonoBehaviour
     {
+        [SerializeField]
         private ParticleSystem casingsPistol;
+        [SerializeField]
         private ParticleSystem casingsBullet;
+        [SerializeField]
         private ParticleSystem casingsHeavyPart;
+        [SerializeField]
         private ParticleSystem casingsShell;
+        [SerializeField]
         private ParticleSystem casingsGrenade;
+        [SerializeField]
         private ParticleSystem muzzleFlash;
 
         private static WeaponsParticles instance;
@@ -19,6 +25,10 @@ namespace SD.Weapons
 
         private void Start()
         {
+            Debug.Assert(instance == null, "Several weapons particles constrollers");
+
+            instance = this;
+
             SetSimulationSpace(casingsPistol);
             SetSimulationSpace(casingsBullet);
             SetSimulationSpace(casingsHeavyPart);

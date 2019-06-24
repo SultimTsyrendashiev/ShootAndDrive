@@ -17,6 +17,7 @@ namespace SD.Weapons
         private WeaponItem item;
         private AmmoHolder ammo;
 
+        private WeaponsEnum weaponIndex;
         private string weaponName;
         private float damage;
         private AmmoType ammoType;
@@ -26,10 +27,8 @@ namespace SD.Weapons
         private float shotDmg;      // damage to the weapon, for 1 shot
 
         [SerializeField]
-        protected int AmmoConsumption;
+        protected int AmmoConsumption = 1;
 
-        [SerializeField]
-        private AudioSource audioSource;
         private Animation weaponAnimation;
 
         [SerializeField]
@@ -40,25 +39,27 @@ namespace SD.Weapons
         protected AudioClip BreakSound;
         #endregion
 
-        public string Name { get { return weaponName; } }
-        public float DamageValue { get { return damage; } }
-        public AmmoType AmmoType { get { return ammoType; } }
-        public float ReloadingTime { get { return reloadingTime; } }
+        public WeaponsEnum WeaponIndex => weaponIndex;
+        public string Name => weaponName;
+        public float DamageValue => damage;
+        public AmmoType AmmoType => ammoType;
+        public float ReloadingTime => reloadingTime;
         /// <summary>
         /// Health in percents: [0,1]
         /// </summary>
-        public float Health { get { return health; } }
+        public float Health => health;
         /// <summary>
         /// Accuracy in percents
         /// </summary>
-        public float Accuracy { get { return accuracy; } }
-        public bool IsBroken { get { return health <= 0.0f; } }
-        public WeaponState State { get { return state; } }
+        public float Accuracy => accuracy;
+        public bool IsBroken => health <= 0.0f;
+        public WeaponState State => state;
 
         #region initialization
         void Start()
         {
             WeaponLayerMask = LayerMask.GetMask(LayerNames.Default, LayerNames.Damageable);
+            state = WeaponState.Nothing;
         }
 
         /// <summary>
@@ -70,6 +71,8 @@ namespace SD.Weapons
             item = playerItem;
 
             weaponName = item.Stats.Name;
+            weaponIndex = item.This;
+
             damage = item.Stats.Damage;
             ammoType = item.Stats.AmmoType;
             reloadingTime = item.Stats.ReloadingTime;
@@ -79,6 +82,8 @@ namespace SD.Weapons
             health = item.Health;
 
             weaponAnimation = GetComponentInChildren<Animation>();
+
+            state = WeaponState.Nothing;
         }
         #endregion
 
@@ -104,7 +109,7 @@ namespace SD.Weapons
         #region weapons
         protected void PlayAudio(AudioClip clip)
         {
-            audioSource.PlayOneShot(clip);
+            WeaponsController.Instance.PlaySound(clip);
         }
 
         protected void PlayPrimaryAnimation()
@@ -178,6 +183,42 @@ namespace SD.Weapons
 
             gameObject.SetActive(false);
             Deactivate();
+        }
+
+        /// <summary>
+        /// Force weapon to disable.
+        /// When weapon is disabled, its state is Nothing.
+        /// </summary>
+        public void ForceDisable()
+        {
+            switch (state)
+            {
+                case WeaponState.Nothing:
+                    return;
+                case WeaponState.Breaking:
+                    return;
+                case WeaponState.Disabling:
+                    return;
+                case WeaponState.Ready:
+                    Disable();
+                    return;
+                default:
+                    StartCoroutine(WaitForReady());
+                    return;
+            }
+        }
+
+        /// <summary>
+        /// Wait for Ready state and then disable
+        /// </summary>
+        IEnumerator WaitForReady()
+        {
+            while (state != WeaponState.Ready)
+            {
+                yield return null;
+            }
+
+            Disable();
         }
 
         public void Enable()

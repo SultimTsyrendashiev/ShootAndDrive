@@ -14,11 +14,18 @@ namespace SD.Player
         /// <summary>
         /// Health in percents [0,1]
         /// </summary>
-        public float        Health { get; set; }
-        public bool         IsBought { get; set; }
+        public float        Health;
+        public bool         IsBought;
 
         public WeaponsEnum  This { get { return weapon; } }
         public bool         IsBroken { get { return Health <= 0.0f; } }
         public WeaponStats  Stats { get { return AllWeaponsStats.Instance.Get(weapon); } }
+
+        public WeaponItem(WeaponsEnum weapon, float health, bool isBought)
+        {
+            this.weapon = weapon;
+            this.Health = health;
+            this.IsBought = isBought;
+        }
     }
 }

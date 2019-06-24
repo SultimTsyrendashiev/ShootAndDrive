@@ -11,13 +11,13 @@ namespace SD.Weapons
     class MissileLauncher : Weapon
     {
         [SerializeField]
-        private Transform MissileSpawn;
-        [SerializeField]
         protected GameObject Missile;
+
+        private Transform missileSpawn;
         
         void Start()
         {
-            MissileSpawn = transform.Find("MissileSpawn");
+            missileSpawn = transform.Find("MissileSpawn");
         }
 
         public override void PrimaryAttack()
@@ -35,7 +35,7 @@ namespace SD.Weapons
         void SpawnMissile()
         {
             // TODO: object pool
-            Instantiate(Missile, MissileSpawn.position, MissileSpawn.rotation);
+            Instantiate(Missile, missileSpawn.position, missileSpawn.rotation);
         }
     }
 }

@@ -14,14 +14,14 @@ namespace SD.Player
         {
             playerItems = new Dictionary<ItemType, RefInt>();
 
-            AddAmmoTypes();
+            AddItemTypes();
             AddAdditional();
 
             // check if all types are added
-            Debug.Assert(playerItems.Keys.Count == Enum.GetValues(typeof(AmmoType)).Length, "ItemHolder::Not enough item types in dictionary");
+            Debug.Assert(playerItems.Keys.Count == Enum.GetValues(typeof(ItemType)).Length, "ItemHolder::Not enough item types in dictionary");
         }
 
-        private void AddAmmoTypes()
+        private void AddItemTypes()
         {
             // add ammo types
             playerItems.Add(ItemType.Medkit, new RefInt());

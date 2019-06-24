@@ -9,7 +9,7 @@ namespace SD.Player
         [SerializeField]
         private Transform cameraParent;
 
-        private int axis;
+        private int axis = 0;
 
         private static CameraShaker instance;
         public static CameraShaker Instance { get { return instance; } }

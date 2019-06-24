@@ -12,13 +12,29 @@ namespace SD.Player
         private Camera playerCamera;
         private float health;
 
-        PlayerInventory inventory;
+        [SerializeField]
+        private PlayerInventory inventory;
 
         private static Player instance;
-        public static Player Instance { get { return instance; } }
+        public static Player Instance => instance;
 
-        public Camera MainCamera { get { return playerCamera; } }
+        public Camera MainCamera => playerCamera;
+        internal PlayerInventory Inventory => inventory;
 
+        void Start()
+        {
+            Debug.Assert(instance == null, "Several players in a scene");
+          
+            instance = this;
+
+            playerCamera = GetComponentInChildren<Camera>();
+
+            inventory = new PlayerInventory();
+            inventory.Load();
+
+            // for testing
+            inventory.GiveAll();
+        }
 
         #region inherited
         float IDamageable.Health

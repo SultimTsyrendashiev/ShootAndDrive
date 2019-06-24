@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 182412372}
   - component: {fileID: 182412374}
   - component: {fileID: 182412373}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4765,7 +4765,7 @@ GameObject:
   - component: {fileID: 457170277}
   - component: {fileID: 457170279}
   - component: {fileID: 457170278}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: ThrGrenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4843,7 +4843,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 797689736}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: SteeringWheelRotatorDummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4864,7 +4864,7 @@ Transform:
   - {fileID: 831689822}
   m_Father: {fileID: 3694709223248278072}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: -165, y: 0, z: -193}
+  m_LocalEulerAnglesHint: {x: -165, y: 0, z: -310}
 --- !u!1 &831689821
 GameObject:
   m_ObjectHideFlags: 0
@@ -4876,7 +4876,7 @@ GameObject:
   - component: {fileID: 831689822}
   - component: {fileID: 831689824}
   - component: {fileID: 831689823}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: SteeringWheelMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4955,7 +4955,7 @@ GameObject:
   - component: {fileID: 1437008462}
   - component: {fileID: 1437008464}
   - component: {fileID: 1437008463}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5034,7 +5034,7 @@ GameObject:
   - component: {fileID: 1271288558124015606}
   - component: {fileID: 1449866219431078969}
   - component: {fileID: 5301240642405184725}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: CarMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5113,7 +5113,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5059200648868188173}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5144,8 +5144,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1772918269649938421}
-  m_Layer: 2
-  m_Name: Muzzle
+  m_Layer: 8
+  m_Name: MissileSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5159,7 +5159,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 177980783032195706}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.0551, z: 0.52}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7857125600136448050}
@@ -5174,7 +5174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9093452877991714387}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5195,7 +5195,7 @@ Transform:
   - {fileID: 3757446994652626832}
   m_Father: {fileID: 3782675170399623394}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 10.134792, y: 37.098698, z: 21.024807}
+  m_LocalEulerAnglesHint: {x: 18.371, y: 44.303, z: 34.011}
 --- !u!1 &766618059302891587
 GameObject:
   m_ObjectHideFlags: 0
@@ -5205,8 +5205,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2118929380252797503}
-  m_Layer: 2
-  m_Name: RocketSpawn
+  m_Layer: 8
+  m_Name: MissileSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5235,7 +5235,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 913204045640105882}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5265,7 +5265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6668976050656608697}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger301
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5296,7 +5296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 400402021326443482}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger302
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5327,7 +5327,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 128707910129299725}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5348,6 +5348,89 @@ Transform:
   m_Father: {fileID: 8353204996906164220}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -28.5, y: 50.31, z: 0}
+--- !u!1 &1297592344543378825
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6273340873760438162}
+  - component: {fileID: 7114326467448109457}
+  - component: {fileID: 4095562608048336273}
+  m_Layer: 8
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6273340873760438162
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297592344543378825}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7581316841082096813}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &7114326467448109457
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297592344543378825}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 1
+  m_SensorSize: {x: 54.12, y: 25.59}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 14.96
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.01
+  far clip plane: 1000
+  field of view: 58.715508
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 1793
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!81 &4095562608048336273
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297592344543378825}
+  m_Enabled: 1
 --- !u!1 &1517593924371928401
 GameObject:
   m_ObjectHideFlags: 0
@@ -5357,8 +5440,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7178897771601763422}
-  m_Layer: 2
-  m_Name: Muzzle
+  m_Layer: 8
+  m_Name: MissileSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5372,7 +5455,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1517593924371928401}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.0551, z: 0.52}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7484952146414377599}
@@ -5387,7 +5470,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1167530128904450363}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger200
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5418,7 +5501,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 455708502728986443}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5449,7 +5532,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4016110485901005466}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HWrist0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5484,7 +5567,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7148021625844320526}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger402
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5515,7 +5598,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2538943188923939991}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger402
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5546,7 +5629,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4270415216644220577}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger102
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5579,7 +5662,7 @@ GameObject:
   - component: {fileID: 6813131746073255789}
   - component: {fileID: 2258088991741590034}
   - component: {fileID: 3577695624835098899}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: MachineGunPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5657,7 +5740,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5688339671881347767}
   - component: {fileID: 6095450947642974951}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5704,7 +5787,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5401542033028185461}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger102
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5737,7 +5820,7 @@ GameObject:
   - component: {fileID: 9169867478044015656}
   - component: {fileID: 6584595853990995840}
   - component: {fileID: 7908946679228140841}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: RifleCarbin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5815,7 +5898,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8405368586629379942}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger101
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5846,7 +5929,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3432881944193386731}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5876,7 +5959,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2338629124356640568}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger100
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5909,7 +5992,7 @@ GameObject:
   - component: {fileID: 6951766026871491183}
   - component: {fileID: 9845727536292524}
   - component: {fileID: 2422276427572361945}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: PistolRevolverPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5988,7 +6071,7 @@ GameObject:
   - component: {fileID: 2140086307033035741}
   - component: {fileID: 1576906752639669334}
   - component: {fileID: 1052125491949334884}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: ShotgunDoubleBarrelPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6067,8 +6150,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1552254193005494070}
-  m_Layer: 2
-  m_Name: RocketLauncher
+  - component: {fileID: 2032386654}
+  m_Layer: 8
+  m_Name: LauncherRocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6091,6 +6175,23 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.28}
+--- !u!114 &2032386654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2230105813646030025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39391da2b34307649b6f31b70a9f037c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoConsumption: 1
+  ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
+  Missile: {fileID: 0}
 --- !u!1 &2230671976434647286
 GameObject:
   m_ObjectHideFlags: 0
@@ -6100,7 +6201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4667706176013149867}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6132,7 +6233,7 @@ GameObject:
   - component: {fileID: 7813431972816500490}
   - component: {fileID: 2762310040625531043}
   - component: {fileID: 7825870743721841389}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: PistolPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6209,8 +6310,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8353204996906164220}
-  m_Layer: 2
-  m_Name: MachineGun
+  - component: {fileID: 2032386658}
+  m_Layer: 8
+  m_Name: HMachineGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6233,6 +6335,22 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.28}
+--- !u!114 &2032386658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2463104535427512966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a1a4526ceb090049abb27a5e8094c10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoConsumption: 1
+  ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
 --- !u!1 &2560941440116234905
 GameObject:
   m_ObjectHideFlags: 0
@@ -6242,7 +6360,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5955567039576727461}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger301
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6273,7 +6391,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4182221365300191051}
-  m_Layer: 2
+  - component: {fileID: 2032386660}
+  m_Layer: 8
   m_Name: RifleAssault
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6297,6 +6416,22 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.28}
+--- !u!114 &2032386660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2568235828848391532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a1a4526ceb090049abb27a5e8094c10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoConsumption: 1
+  ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
 --- !u!1 &2600416528904361028
 GameObject:
   m_ObjectHideFlags: 0
@@ -6306,7 +6441,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 586868062959314402}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HBase0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6338,7 +6473,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2442777700416166721}
   - component: {fileID: 2409069619123905373}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6387,7 +6522,7 @@ GameObject:
   - component: {fileID: 3624780139685017529}
   - component: {fileID: 7335615886841354329}
   - component: {fileID: 7845543851390474841}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: RocketLauncher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6466,7 +6601,7 @@ GameObject:
   - component: {fileID: 1146029505158497578}
   - component: {fileID: 9026837842142469022}
   - component: {fileID: 1057727745378319238}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: RifleAssault
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6546,7 +6681,7 @@ GameObject:
   - component: {fileID: 8411450817576819919}
   - component: {fileID: 5752945109808441455}
   - component: {fileID: 1680729545531742904}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: MachineGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6626,7 +6761,7 @@ GameObject:
   - component: {fileID: 311859644631676173}
   - component: {fileID: 5024507340170530895}
   - component: {fileID: 2991936152813425572}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: ShotgunDoubleBarrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6704,7 +6839,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5468808478178777213}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger401
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6735,7 +6870,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5375780125031432761}
-  m_Layer: 2
+  - component: {fileID: 2032386661}
+  m_Layer: 8
   m_Name: ShotgunDouble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6757,6 +6893,23 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.28}
+--- !u!114 &2032386661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3186253691423213793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6e53c48f2209d4985a436f4ea6797c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoConsumption: 2
+  ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
+  PelletCount: 14
 --- !u!1 &3205522657167195674
 GameObject:
   m_ObjectHideFlags: 0
@@ -6766,7 +6919,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7158504711701567152}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger201
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6797,7 +6950,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4585261322232676932}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6827,7 +6980,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2066162176020742472}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6857,7 +7010,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2305856685889905723}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6888,7 +7041,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5639601391224352892}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger202
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6921,7 +7074,7 @@ GameObject:
   - component: {fileID: 7691407045915713184}
   - component: {fileID: 8586384902054072070}
   - component: {fileID: 9010150880105209025}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: PistolRevolverTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6998,8 +7151,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7857125600136448050}
-  m_Layer: 2
-  m_Name: ThrGrenade
+  - component: {fileID: 2032386656}
+  m_Layer: 8
+  m_Name: TGrenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7022,6 +7176,23 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2032386656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3636168754620362708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39391da2b34307649b6f31b70a9f037c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoConsumption: 1
+  ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
+  Missile: {fileID: 0}
 --- !u!1 &3779693181320821852
 GameObject:
   m_ObjectHideFlags: 0
@@ -7031,7 +7202,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2758191932993370783}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger302
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7063,7 +7234,7 @@ GameObject:
   m_Component:
   - component: {fileID: 137876588153347103}
   - component: {fileID: 346874036325777657}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7110,7 +7281,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 624529442243292804}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger100
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7142,7 +7313,7 @@ GameObject:
   m_Component:
   - component: {fileID: 923211116567832436}
   - component: {fileID: 110345331940709826}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7189,7 +7360,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8713098141696593035}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger103
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7219,7 +7390,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6251981675926598790}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger400
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7250,7 +7421,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3782675170399623394}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7281,7 +7452,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2300963458585885390}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: SteeringWheelRotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7313,7 +7484,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4228742544011356922}
   - component: {fileID: 1514170768}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: SteeringWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7362,7 +7533,7 @@ GameObject:
   - component: {fileID: 4042172607016686266}
   - component: {fileID: 1677237396138943205}
   - component: {fileID: 4523517929958937785}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: RifleAssaultPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7439,8 +7610,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1401189499570997747}
-  m_Layer: 2
-  m_Name: RifleCarbin
+  - component: {fileID: 2032386659}
+  m_Layer: 8
+  m_Name: RifleCarbine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7463,6 +7635,22 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.28}
+--- !u!114 &2032386659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4194618721011819240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a1a4526ceb090049abb27a5e8094c10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoConsumption: 1
+  ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
 --- !u!1 &4215500648217848936
 GameObject:
   m_ObjectHideFlags: 0
@@ -7474,7 +7662,7 @@ GameObject:
   - component: {fileID: 6800354288300210215}
   - component: {fileID: 2368761374813512224}
   - component: {fileID: 6253411532009661028}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: ThrGrenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7555,7 +7743,7 @@ GameObject:
   - component: {fileID: 6043400123177011774}
   - component: {fileID: 8902666753758591796}
   - component: {fileID: 5473690417775111722}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: ThrGrenadeCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7632,7 +7820,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1280241448608008898}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger101
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7663,8 +7851,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8464676373268641916}
-  m_Layer: 2
-  m_Name: GrenadeLauncher
+  - component: {fileID: 2032386653}
+  m_Layer: 8
+  m_Name: LauncherGrenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7687,6 +7876,23 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: -3.07, y: 0, z: 1.9}
+--- !u!114 &2032386653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4407018091467902034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39391da2b34307649b6f31b70a9f037c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoConsumption: 1
+  ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
+  Missile: {fileID: 0}
 --- !u!1 &4545666948798040056
 GameObject:
   m_ObjectHideFlags: 0
@@ -7697,7 +7903,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4292040284691935230}
   - component: {fileID: 476085050447731576}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7744,7 +7950,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 282284162916803785}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7775,7 +7981,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3392656440495267606}
   - component: {fileID: 4042534380921973822}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HandLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7866,8 +8072,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 8727069226747134024}
   m_AABB:
-    m_Center: {x: -0.296319, y: -0.008545723, z: -0.00922329}
-    m_Extent: {x: 0.30452, y: 0.07397057, z: 0.04719906}
+    m_Center: {x: -0.296319, y: -0.008545723, z: 0.29}
+    m_Extent: {x: 0.66, y: 0.52, z: 0.44}
   m_DirtyAABB: 0
 --- !u!1 &4609183685945027110
 GameObject:
@@ -7878,7 +8084,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2121959932906287644}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger200
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7909,7 +8115,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5734789748404393211}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger203
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7940,7 +8146,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6214706286243216600}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger203
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7970,7 +8176,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4345223890473485768}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8001,7 +8207,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5767007334576956368}
   - component: {fileID: 7764247787828612712}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8048,7 +8254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8565166876735722754}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8079,7 +8285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3694709223248278072}
   - component: {fileID: 9065736569667117751}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Hands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8132,7 +8338,7 @@ GameObject:
   - component: {fileID: 2320079110765448479}
   - component: {fileID: 1960449205861251526}
   - component: {fileID: 6552650784735472482}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8209,7 +8415,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3267100253240819946}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLWrist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8244,8 +8450,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2105771431505239652}
-  m_Layer: 2
-  m_Name: CannonballSpawn
+  m_Layer: 8
+  m_Name: MissileSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8276,7 +8482,7 @@ GameObject:
   - component: {fileID: 7244072828253522830}
   - component: {fileID: 7771306980802768423}
   - component: {fileID: 1830357967625986874}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: MinigunRotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8353,7 +8559,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7019928373694673317}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger300
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8384,7 +8590,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8463491009155672304}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger401
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8415,7 +8621,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1383494875024085581}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8446,7 +8652,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 125901253020495028}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Bone010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8479,7 +8685,7 @@ GameObject:
   - component: {fileID: 5563147908420347311}
   - component: {fileID: 1911035446462530993}
   - component: {fileID: 1513563533041882347}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8557,7 +8763,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4936078803734137028}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger403
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8589,7 +8795,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3072424147820339542}
   - component: {fileID: 2576664105791919525}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8636,7 +8842,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2217374670826770078}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLBase0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8657,7 +8863,7 @@ Transform:
   - {fileID: 3267100253240819946}
   m_Father: {fileID: 8727069226747134024}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 41.202625, y: -11.57788, z: -49.198147}
+  m_LocalEulerAnglesHint: {x: -30.754002, y: 44.786003, z: -36.760002}
 --- !u!1 &6287326266311789257
 GameObject:
   m_ObjectHideFlags: 0
@@ -8668,7 +8874,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7339176607960690309}
   - component: {fileID: 6542544685769619752}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8715,7 +8921,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3596853765031701629}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger303
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8746,7 +8952,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6397076192492808440}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8778,7 +8984,7 @@ GameObject:
   - component: {fileID: 5255054008638927547}
   - component: {fileID: 7741750676620847299}
   - component: {fileID: 6178736852602150150}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: GrenadeLauncher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8858,7 +9064,7 @@ GameObject:
   - component: {fileID: 9142131416033440439}
   - component: {fileID: 3831039818226243104}
   - component: {fileID: 5394922164699403609}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Minigun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8936,8 +9142,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1498243284547804569}
-  m_Layer: 2
-  m_Name: Minigun
+  - component: {fileID: 2032386657}
+  m_Layer: 8
+  m_Name: HMinigun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8960,6 +9167,22 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: -3, y: -3, z: 20}
+--- !u!114 &2032386657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6807802675788321948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a1a4526ceb090049abb27a5e8094c10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoConsumption: 1
+  ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
 --- !u!1 &6820010989373805520
 GameObject:
   m_ObjectHideFlags: 0
@@ -8971,7 +9194,7 @@ GameObject:
   - component: {fileID: 3500821132203192803}
   - component: {fileID: 1971720703751684486}
   - component: {fileID: 748420175903255833}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: ShotgunPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9048,7 +9271,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1108352816572639280}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger303
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9078,8 +9301,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7484952146414377599}
-  m_Layer: 2
-  m_Name: ThrFireBottle
+  - component: {fileID: 2032386655}
+  m_Layer: 8
+  m_Name: TFireBottle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9102,6 +9326,23 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: -1.85, y: -6.2, z: -8.3}
+--- !u!114 &2032386655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6946358111385968364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39391da2b34307649b6f31b70a9f037c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoConsumption: 1
+  ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
+  Missile: {fileID: 0}
 --- !u!1 &6968877319634108226
 GameObject:
   m_ObjectHideFlags: 0
@@ -9111,7 +9352,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4777325112693786404}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9142,7 +9383,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2092070591400426995}
   - component: {fileID: 1629750627646316709}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9189,7 +9430,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 311909711957071478}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger202
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9220,7 +9461,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 169612198761771929}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger300
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9251,7 +9492,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3567213054310034178}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger403
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9283,7 +9524,7 @@ GameObject:
   - component: {fileID: 816928564690809297}
   - component: {fileID: 2808465316393582078}
   - component: {fileID: 7233333868498429390}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9363,7 +9604,7 @@ GameObject:
   - component: {fileID: 4340765200685247539}
   - component: {fileID: 7007518183435449354}
   - component: {fileID: 608310302258598739}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: PistolRevolver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9444,7 +9685,7 @@ GameObject:
   - component: {fileID: 3520525999091823270}
   - component: {fileID: 9126957308881135670}
   - component: {fileID: 4570854087690099418}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: SteeringWheelMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9521,7 +9762,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2801491834856229795}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9553,7 +9794,7 @@ GameObject:
   - component: {fileID: 6228762169040515211}
   - component: {fileID: 8177966106684433602}
   - component: {fileID: 3008364627593956864}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: ShotgunAutoPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9631,7 +9872,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7581316839599281312}
   - component: {fileID: 7581316839599281315}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9678,7 +9919,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316839646837758}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9708,7 +9949,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316839665967543}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9740,7 +9981,7 @@ GameObject:
   - component: {fileID: 7581316839742902232}
   - component: {fileID: 7581316839742902234}
   - component: {fileID: 7581316839742902235}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: SmgMicro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9818,7 +10059,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316839745594045}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9850,7 +10091,7 @@ GameObject:
   - component: {fileID: 7581316839754900980}
   - component: {fileID: 7581316839754900982}
   - component: {fileID: 7581316839754900983}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: SmgClassic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9928,7 +10169,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316839766860105}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9958,7 +10199,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316839778510705}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9988,7 +10229,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316839808586354}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10020,7 +10261,7 @@ GameObject:
   - component: {fileID: 7581316839813071969}
   - component: {fileID: 7581316839813071971}
   - component: {fileID: 7581316839813071968}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: PistolHeavyTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10097,7 +10338,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316839824631181}
-  m_Layer: 2
+  - component: {fileID: 132855909}
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10122,6 +10364,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &132855909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7581316839824631170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff1bb0e95bb2abd42812f48e6e98d60b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7581316839884307941
 GameObject:
   m_ObjectHideFlags: 0
@@ -10131,7 +10385,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316839884307940}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10161,8 +10415,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316839930867762}
-  - component: {fileID: 2032386642}
-  m_Layer: 2
+  - component: {fileID: 2032386665}
+  m_Layer: 8
   m_Name: SmgHeavy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10186,7 +10440,7 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.28}
---- !u!114 &2032386642
+--- !u!114 &2032386665
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10198,8 +10452,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1a4526ceb090049abb27a5e8094c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 2032386641}
+  AmmoConsumption: 1
   ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
 --- !u!1 &7581316839966624928
 GameObject:
   m_ObjectHideFlags: 0
@@ -10209,7 +10465,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316839966624931}
-  m_Layer: 2
+  - component: {fileID: 2032386663}
+  m_Layer: 8
   m_Name: Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10233,6 +10490,23 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.28}
+--- !u!114 &2032386663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7581316839966624928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6e53c48f2209d4985a436f4ea6797c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoConsumption: 1
+  ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
+  PelletCount: 7
 --- !u!1 &7581316840039066451
 GameObject:
   m_ObjectHideFlags: 0
@@ -10242,7 +10516,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316840039066450}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10272,8 +10546,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316840048491383}
-  - component: {fileID: 2032386646}
-  m_Layer: 2
+  - component: {fileID: 2032386669}
+  m_Layer: 8
   m_Name: PistolHeavy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10287,8 +10561,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7581316840048491380}
-  m_LocalRotation: {x: 0, y: 0, z: 0.071758606, w: 0.99742204}
-  m_LocalPosition: {x: 0.14, y: 0.55, z: 0.19}
+  m_LocalRotation: {x: 0, y: 0, z: 0.031236295, w: 0.999512}
+  m_LocalPosition: {x: 0.15, y: 0.56, z: 0.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7581316840464711864}
@@ -10296,8 +10570,8 @@ Transform:
   - {fileID: 7581316841684389802}
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 8.23}
---- !u!114 &2032386646
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3.58}
+--- !u!114 &2032386669
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10309,8 +10583,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1a4526ceb090049abb27a5e8094c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 2032386641}
+  AmmoConsumption: 1
   ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
 --- !u!1 &7581316840062303428
 GameObject:
   m_ObjectHideFlags: 0
@@ -10320,8 +10596,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316840062303431}
-  - component: {fileID: 2032386644}
-  m_Layer: 2
+  - component: {fileID: 2032386667}
+  m_Layer: 8
   m_Name: SmgMicro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10345,7 +10621,7 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -2.97}
---- !u!114 &2032386644
+--- !u!114 &2032386667
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10357,8 +10633,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1a4526ceb090049abb27a5e8094c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 2032386641}
+  AmmoConsumption: 1
   ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
 --- !u!1 &7581316840206945669
 GameObject:
   m_ObjectHideFlags: 0
@@ -10368,7 +10646,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316840206945668}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10399,7 +10677,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7581316840270594747}
   - component: {fileID: 7581316840270594746}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10447,7 +10725,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7581316840271092634}
   - component: {fileID: 7581316840271092581}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10494,8 +10772,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316840375393139}
-  - component: {fileID: 2032386640}
-  m_Layer: 2
+  - component: {fileID: 2032386664}
+  m_Layer: 8
   m_Name: SmgClassic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10519,7 +10797,7 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 11.73}
---- !u!114 &2032386640
+--- !u!114 &2032386664
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10531,8 +10809,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1a4526ceb090049abb27a5e8094c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 2032386641}
+  AmmoConsumption: 1
   ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
 --- !u!1 &7581316840442807285
 GameObject:
   m_ObjectHideFlags: 0
@@ -10543,7 +10823,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7581316840442807284}
   - component: {fileID: 2032386641}
-  m_Layer: 2
+  - component: {fileID: 2032386671}
+  m_Layer: 8
   m_Name: Weapons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10679,6 +10960,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2032386671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7581316840442807285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8818e03000b4814a8420073e1ddb872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7581316840464711865
 GameObject:
   m_ObjectHideFlags: 0
@@ -10689,7 +10982,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7581316840464711864}
   - component: {fileID: 7581316840464711867}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10738,7 +11031,7 @@ GameObject:
   - component: {fileID: 7581316840467012524}
   - component: {fileID: 7581316840467012526}
   - component: {fileID: 7581316840467012527}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: SmgHeavyPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10817,7 +11110,7 @@ GameObject:
   - component: {fileID: 7581316840499199788}
   - component: {fileID: 7581316840499199790}
   - component: {fileID: 7581316840499199791}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: SmgTacticPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10894,7 +11187,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316840508307251}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10925,7 +11218,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7581316840524449087}
   - component: {fileID: 7581316840524449086}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10972,8 +11265,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316840665430222}
-  - component: {fileID: 2032386647}
-  m_Layer: 2
+  - component: {fileID: 2032386670}
+  m_Layer: 8
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10988,7 +11281,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7581316840665430223}
   m_LocalRotation: {x: 0, y: 0, z: 0.037341367, w: 0.99930257}
-  m_LocalPosition: {x: 0.2117, y: 0.4799, z: 0.263}
+  m_LocalPosition: {x: 0.18, y: 0.52, z: 0.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7581316841601051826}
@@ -10997,7 +11290,7 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.28}
---- !u!114 &2032386647
+--- !u!114 &2032386670
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11009,8 +11302,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1a4526ceb090049abb27a5e8094c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 2032386641}
+  AmmoConsumption: 1
   ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
 --- !u!1 &7581316840692813087
 GameObject:
   m_ObjectHideFlags: 0
@@ -11021,7 +11316,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7581316840692813086}
   - component: {fileID: 7581316840692813081}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11070,7 +11365,7 @@ GameObject:
   - component: {fileID: 7581316840714914372}
   - component: {fileID: 7581316840714914374}
   - component: {fileID: 7581316840714914375}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: SmgMicroPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11147,7 +11442,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316840717484166}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11177,7 +11472,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316840733259979}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11207,7 +11502,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316840766259695}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11237,7 +11532,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316840844208278}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11269,7 +11564,7 @@ GameObject:
   - component: {fileID: 7581316840852524963}
   - component: {fileID: 7581316840852524973}
   - component: {fileID: 7581316840852524962}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: PistolHeavyPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11346,7 +11641,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316840857070111}
-  m_Layer: 2
+  - component: {fileID: 2032386662}
+  m_Layer: 8
   m_Name: ShotgunAuto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11370,6 +11666,23 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.28}
+--- !u!114 &2032386662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7581316840857070108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6e53c48f2209d4985a436f4ea6797c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoConsumption: 1
+  ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
+  PelletCount: 7
 --- !u!1 &7581316840882812889
 GameObject:
   m_ObjectHideFlags: 0
@@ -11379,7 +11692,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316840882812888}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11410,7 +11723,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7581316840954974223}
   - component: {fileID: 7581316840954974222}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11459,7 +11772,7 @@ GameObject:
   - component: {fileID: 7581316840955642562}
   - component: {fileID: 7581316840955642572}
   - component: {fileID: 7581316840955642573}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: SmgHeavy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11537,8 +11850,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316840986998465}
-  - component: {fileID: 2032386643}
-  m_Layer: 2
+  - component: {fileID: 2032386666}
+  m_Layer: 8
   m_Name: SmgTactic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11562,7 +11875,7 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.28}
---- !u!114 &2032386643
+--- !u!114 &2032386666
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11574,8 +11887,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1a4526ceb090049abb27a5e8094c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 2032386641}
+  AmmoConsumption: 1
   ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
 --- !u!1 &7581316841032657785
 GameObject:
   m_ObjectHideFlags: 0
@@ -11585,14 +11900,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316841032657784}
-  - component: {fileID: 2032386645}
-  m_Layer: 2
+  - component: {fileID: 2032386668}
+  m_Layer: 8
   m_Name: PistolRevolver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7581316841032657784
 Transform:
   m_ObjectHideFlags: 0
@@ -11600,8 +11915,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7581316841032657785}
-  m_LocalRotation: {x: -0, y: -0, z: 0.037341367, w: 0.99930257}
-  m_LocalPosition: {x: 0.12, y: 0.55, z: 0.12}
+  m_LocalRotation: {x: 0, y: 0, z: 0.029055594, w: 0.9995778}
+  m_LocalPosition: {x: 0.12, y: 0.56, z: 0.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7581316839599281312}
@@ -11609,8 +11924,8 @@ Transform:
   - {fileID: 7581316839646837758}
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.28}
---- !u!114 &2032386645
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3.33}
+--- !u!114 &2032386668
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11622,8 +11937,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1a4526ceb090049abb27a5e8094c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 2032386641}
+  AmmoConsumption: 1
   ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
 --- !u!1 &7581316841082096802
 GameObject:
   m_ObjectHideFlags: 0
@@ -11633,7 +11950,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316841082096813}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: CameraTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11648,9 +11965,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7581316841082096802}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.966521, y: -1.2319613, z: 4.4683275}
+  m_LocalPosition: {x: -0.5, y: 1.02, z: 0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 6273340873760438162}
   m_Father: {fileID: 7581316841520728044}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11665,7 +11983,7 @@ GameObject:
   - component: {fileID: 7581316841243243572}
   - component: {fileID: 7581316841243243574}
   - component: {fileID: 7581316841243243575}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: PistolHeavy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11746,7 +12064,7 @@ GameObject:
   - component: {fileID: 7581316841287266623}
   - component: {fileID: 7581316841287266617}
   - component: {fileID: 7581316841287266622}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: SmgClassic 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11823,7 +12141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316841369425083}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11855,7 +12173,7 @@ GameObject:
   - component: {fileID: 7581316841467602772}
   - component: {fileID: 7581316841467602774}
   - component: {fileID: 7581316841467602775}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: SmgTactic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11933,8 +12251,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316841520728044}
-  m_Layer: 2
-  m_Name: CameraShaker
+  - component: {fileID: 1227941397098400615}
+  m_Layer: 8
+  m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11955,6 +12274,19 @@ Transform:
   m_Father: {fileID: 7581316839824631181}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1227941397098400615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7581316841520728045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a52adeb139e0c4bba4d12e3b0d992d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraParent: {fileID: 7581316841082096813}
 --- !u!1 &7581316841601051827
 GameObject:
   m_ObjectHideFlags: 0
@@ -11965,7 +12297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7581316841601051826}
   - component: {fileID: 7581316841601051837}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12013,7 +12345,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7581316841629412209}
   - component: {fileID: 7581316841629412208}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12060,7 +12392,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316841636991185}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12090,7 +12422,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316841684389802}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Casings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12120,8 +12452,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2251346857646020934}
-  m_Layer: 2
-  m_Name: Cannon
+  - component: {fileID: 2032386652}
+  m_Layer: 8
+  m_Name: LauncherCannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12144,6 +12477,23 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: -5.8, y: 0, z: 0}
+--- !u!114 &2032386652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7633298076471378959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39391da2b34307649b6f31b70a9f037c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoConsumption: 1
+  ShotSound: {fileID: 0}
+  UnjamSound: {fileID: 0}
+  BreakSound: {fileID: 0}
+  Missile: {fileID: 0}
 --- !u!1 &7644785297359964928
 GameObject:
   m_ObjectHideFlags: 0
@@ -12153,8 +12503,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7445443735782442362}
-  m_Layer: 2
-  m_Name: Muzzle
+  m_Layer: 8
+  m_Name: MissileSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12185,7 +12535,7 @@ GameObject:
   - component: {fileID: 6920583078286483373}
   - component: {fileID: 1383434159547450746}
   - component: {fileID: 7076189512434928937}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: GrenadeLauncherPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12263,7 +12613,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2338741591689328823}
   - component: {fileID: 4006723099947117308}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: AnimatedMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12310,7 +12660,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1454786681880963217}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger400
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12343,7 +12693,7 @@ GameObject:
   - component: {fileID: 5311824381659399737}
   - component: {fileID: 8810942832477022821}
   - component: {fileID: 2401936029941726382}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: ShotgunAuto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12421,7 +12771,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6653185035296857258}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HFinger201
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12452,7 +12802,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8727069226747134024}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12484,7 +12834,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3324595458539665850}
   - component: {fileID: 7102441694458049326}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HandRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12587,7 +12937,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8536698167258330786}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12619,7 +12969,7 @@ GameObject:
   - component: {fileID: 5924559122807319363}
   - component: {fileID: 743069888409750408}
   - component: {fileID: 3215333685737534955}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: RifleCarbinPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12696,7 +13046,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3067568039910453026}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12726,7 +13076,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8677722781007800271}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12756,7 +13106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3757446994652626832}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: HLFinger002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12789,7 +13139,7 @@ GameObject:
   - component: {fileID: 6723351979788719018}
   - component: {fileID: 4526683332842500913}
   - component: {fileID: 7751271124215000134}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: ThrGrenadePart
   m_TagString: Untagged
   m_Icon: {fileID: 0}

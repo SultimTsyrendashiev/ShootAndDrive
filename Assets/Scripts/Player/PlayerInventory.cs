@@ -11,6 +11,14 @@ namespace SD.Player
         public AmmoHolder       Ammo;
         public ItemsHolder      Items;
 
+        public PlayerInventory()
+        {
+            Weapons = new WeaponsHolder();
+            Ammo = new AmmoHolder();
+            Items = new ItemsHolder();
+        }
+
+        #region saving / loading
         /// <summary>
         /// Save inventory
         /// </summary>
@@ -96,6 +104,7 @@ namespace SD.Player
             int amount = PlayerPrefs.GetInt(GetItemName(a), 0);
             Items.Set(a, amount);
         }
+        #endregion
 
         #region names
         string GetNameB(WeaponsEnum w)
@@ -115,6 +124,40 @@ namespace SD.Player
         string GetItemName(ItemType a)
         {
             return a.ToString();
+        }
+        #endregion
+
+        #region cheats
+        /// <summary>
+        /// Give all to player
+        /// </summary>
+        public void GiveAll()
+        {
+            GiveAllWeapons();
+            GiveAllAmmo();
+        }
+
+        /// <summary>
+        /// Give all weapons to player
+        /// </summary>
+        public void GiveAllWeapons()
+        {
+            foreach (WeaponsEnum w in Enum.GetValues(typeof(WeaponsEnum)))
+            {
+                Weapons.SetHealth(w, 1);
+                Weapons.SetBought(w, true);
+            }
+        }
+
+        /// <summary>
+        /// Give all ammo to player
+        /// </summary>
+        public void GiveAllAmmo()
+        {
+            foreach (AmmoType a in Enum.GetValues(typeof(AmmoType)))
+            {
+                Ammo.Set(a, 2000);
+            }
         }
         #endregion
     }

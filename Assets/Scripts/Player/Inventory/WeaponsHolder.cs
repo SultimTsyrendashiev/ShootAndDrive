@@ -8,9 +8,10 @@ namespace SD.Player
     // Represents all weapons in player's inventory
     class WeaponsHolder
     {
+        [SerializeField]
         Dictionary<WeaponsEnum, WeaponItem> playerWeapons;
 
-        private WeaponsHolder()
+        public WeaponsHolder()
         {
             playerWeapons = new Dictionary<WeaponsEnum, WeaponItem>();
         }
@@ -24,15 +25,25 @@ namespace SD.Player
         {
             if (playerWeapons.ContainsKey(weapon))
             {
-                Debug.LogWarning("Weapon is already contained");
+                Debug.LogWarning("Weapon is already added");
             }
 
-            // todo
+            playerWeapons.Add(weapon, new WeaponItem(weapon, health, isBought));
         }
 
-        public WeaponItem Get(WeaponsEnum weapon)
+        public WeaponItem Get(WeaponsEnum w)
         {
-            return playerWeapons[weapon];
+            return playerWeapons[w];
+        }
+
+        public void SetHealth(WeaponsEnum w, float health)
+        {
+            playerWeapons[w].Health = health;
+        }
+
+        public void SetBought(WeaponsEnum w, bool isBought)
+        {
+            playerWeapons[w].IsBought = isBought;
         }
 
         /// <summary>
