@@ -48,7 +48,7 @@ namespace SD.Player
             ammoStats.Add(AmmoType.Grenades,        new AmmoStats("Grenade",        200, 1));
             ammoStats.Add(AmmoType.FireBottles,     new AmmoStats("Fire Bottle",    150, 1));
             ammoStats.Add(AmmoType.Rockets,         new AmmoStats("Rocket",         230, 1));
-            ammoStats.Add(AmmoType.CannonBalls,     new AmmoStats("Cannonball",     350, 1));
+            ammoStats.Add(AmmoType.Cannonballs,     new AmmoStats("Cannonball",     350, 1));
         }
 
         /// <summary>

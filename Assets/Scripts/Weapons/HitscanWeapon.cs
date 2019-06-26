@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SD.Player;
@@ -25,8 +26,8 @@ namespace SD.Weapons
         {
             DamageableLayer = LayerMask.NameToLayer(LayerNames.Damageable);
             PlayerCamera = Player.Player.Instance.MainCamera;
-            Casings = transform.Find("Casings");
-            MuzzleFlash = transform.Find("Muzzle");
+            Casings = FindChildByName("Casings");
+            MuzzleFlash = FindChildByName("Muzzle");
         }
 
         protected abstract void Hitscan();
@@ -36,6 +37,7 @@ namespace SD.Weapons
             Vector3 aimedDir;
             Autoaim.Aim(from, direction, AimRadius, out aimedDir, WeaponLayerMask);
 
+            // TODO:
             // process accuracy
 
             RaycastHit hit;
@@ -43,7 +45,7 @@ namespace SD.Weapons
             {
                 if (hit.collider.gameObject.layer == DamageableLayer)
                 {
-                    Damage dmg = new Damage(DamageValue, DamageType.Bullet, from, hit.point, hit.normal, Player.Player.Instance.gameObject);
+                    Damage dmg = Damage.CreateBulletDamage(DamageValue, direction, hit.point, hit.normal, Player.Player.Instance.gameObject);
                     hit.collider.GetComponent<IDamageable>().ReceiveDamage(dmg);
                 }
                 else
@@ -58,17 +60,9 @@ namespace SD.Weapons
         {
             // main
             Hitscan();
-            ReduceAmmo();
 
             // animation
-            if (State != WeaponState.Jamming)
-            {
-                PlayPrimaryAnimation();
-            }
-            else
-            {
-                PlayJammingAnimation();
-            }
+            PlayPrimaryAnimation();
             
             // sound
             PlayAudio(ShotSound);
@@ -81,16 +75,15 @@ namespace SD.Weapons
             {
                 WeaponsParticles.Instance.EmitMuzzle(MuzzleFlash.position, MuzzleFlash.rotation);
             }
+        }
 
-            if (Casings != null && State != WeaponState.Jamming)
+        // called in animation
+        public void EmitCasings()
+        {
+            if (Casings != null)
             {
                 WeaponsParticles.Instance.EmitCasings(Casings.position, Casings.rotation, this.AmmoType, AmmoConsumption);
             }
-        }
-
-        protected override void UnjamAdditional()
-        {
-            WeaponsParticles.Instance.EmitCasings(Casings.position, Casings.rotation, this.AmmoType, AmmoConsumption);
         }
     }
 }

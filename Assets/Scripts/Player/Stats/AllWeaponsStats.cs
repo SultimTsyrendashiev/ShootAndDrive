@@ -78,16 +78,16 @@ namespace SD.Player
                 35000, 16000, 20, 0.04f, 0.4f));
 
             weapons.Add(WeaponsEnum.TGrenade,           new WeaponStats("Grenade", AmmoType.Grenades, 
-                200, 1, 50, 1.0f, 0));
+                200, int.MaxValue, 50, 1.0f, 0));
             weapons.Add(WeaponsEnum.TFireBottle,        new WeaponStats("Fire Bottle", AmmoType.FireBottles, 
-                150, 1, 50, 1.0f, 0));
+                150, int.MaxValue, 50, 1.0f, 0));
 
             weapons.Add(WeaponsEnum.LauncherRocket,     new WeaponStats("Rocket Launcher", AmmoType.Rockets, 
                 28000, 1200, 100, 1.5f, 0));
             weapons.Add(WeaponsEnum.LauncherGrenade,    new WeaponStats("Grenade Launcher", AmmoType.Rockets, 
                 30000, 2800, 80, 1f, 0));
-            weapons.Add(WeaponsEnum.LauncherCannon,     new WeaponStats("Cannon", AmmoType.CannonBalls, 
-                60000, 3000, 500, 3.5f, 0));
+            weapons.Add(WeaponsEnum.LauncherCannon,     new WeaponStats("Cannon", AmmoType.Cannonballs, 
+                60000, 3000, 500, 2f, 0));
         }
 
         /// <summary>

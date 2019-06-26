@@ -15,30 +15,23 @@ namespace SD.Player
         {
             ammo = new Dictionary<AmmoType, RefInt>();
 
-            AddAmmoTypes();
-            AddAdditional();
-
-            // check if all types are added
-            Debug.Assert(ammo.Keys.Count == Enum.GetValues(typeof(AmmoType)).Length, "AmmoHolder::Not enough ammo types in dictionary");
+            foreach (AmmoType a in Enum.GetValues(typeof(AmmoType)))
+            {
+                ammo.Add(a, new RefInt());
+            }
         }
 
-        private void AddAmmoTypes()
+        public int this[AmmoType type]
         {
-            // add ammo types
-            ammo.Add(AmmoType.Bullets, new RefInt());
-            ammo.Add(AmmoType.BulletsHeavy, new RefInt());
-            ammo.Add(AmmoType.BulletsPistol, new RefInt());
-            ammo.Add(AmmoType.CannonBalls, new RefInt());
-            ammo.Add(AmmoType.FireBottles, new RefInt());
-            ammo.Add(AmmoType.Grenades, new RefInt());
-            ammo.Add(AmmoType.Rockets, new RefInt());
-            ammo.Add(AmmoType.Shells, new RefInt());
+            get
+            {
+                return ammo[type].Value;
+            }
+            set
+            {
+                ammo[type].Value = value;
+            }
         }
-
-        /// <summary>
-        /// Add additional ammo stats, used for addons, etc
-        /// </summary>
-        protected virtual void AddAdditional() { }
 
         public int Get(AmmoType type)
         {

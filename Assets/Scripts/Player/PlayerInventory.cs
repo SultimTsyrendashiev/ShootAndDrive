@@ -144,7 +144,7 @@ namespace SD.Player
         {
             foreach (WeaponsEnum w in Enum.GetValues(typeof(WeaponsEnum)))
             {
-                Weapons.SetHealth(w, 1);
+                Weapons.SetHealth(w, 0.000001f);
                 Weapons.SetBought(w, true);
             }
         }

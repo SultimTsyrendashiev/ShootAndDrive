@@ -14,23 +14,23 @@ namespace SD.Player
         {
             playerItems = new Dictionary<ItemType, RefInt>();
 
-            AddItemTypes();
-            AddAdditional();
-
-            // check if all types are added
-            Debug.Assert(playerItems.Keys.Count == Enum.GetValues(typeof(ItemType)).Length, "ItemHolder::Not enough item types in dictionary");
+            foreach (ItemType a in Enum.GetValues(typeof(ItemType)))
+            {
+                playerItems.Add(a, new RefInt());
+            }
         }
 
-        private void AddItemTypes()
+        public int this[ItemType type]
         {
-            // add ammo types
-            playerItems.Add(ItemType.Medkit, new RefInt());
+            get
+            {
+                return playerItems[type].Value;
+            }
+            set
+            {
+                playerItems[type].Value = value;
+            }
         }
-
-        /// <summary>
-        /// Add additional ammo stats, used for addons, etc
-        /// </summary>
-        protected virtual void AddAdditional() { }
 
         public int Get(ItemType type)
         {

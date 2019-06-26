@@ -11,19 +11,23 @@ namespace SD.Weapons
     class MissileLauncher : Weapon
     {
         [SerializeField]
-        protected GameObject Missile;
+        protected Missile Missile;
+        [SerializeField]
+        private float damageRadius;
+        [SerializeField]
+        private float launchSpeed;
 
         private Transform missileSpawn;
         
         void Start()
         {
-            missileSpawn = transform.Find("MissileSpawn");
+            missileSpawn = FindChildByName("MissileSpawn");
+            Debug.Assert(damageRadius > 0.0f);
         }
 
         protected override void PrimaryAttack()
         {
             SpawnMissile();
-            ReduceAmmo();
 
             PlayPrimaryAnimation();
             PlayAudio(ShotSound);
@@ -35,7 +39,11 @@ namespace SD.Weapons
         void SpawnMissile()
         {
             // TODO: object pool
-            Instantiate(Missile, missileSpawn.position, missileSpawn.rotation);
+            GameObject missileObj = Instantiate(this.Missile.gameObject, missileSpawn.position, Player.Player.Instance.transform.rotation);
+
+            Missile missile = missileObj.GetComponent<Missile>();
+            missile.Init(DamageValue, damageRadius, Player.Player.Instance.gameObject);
+            missile.Launch(launchSpeed);
         }
     }
 }

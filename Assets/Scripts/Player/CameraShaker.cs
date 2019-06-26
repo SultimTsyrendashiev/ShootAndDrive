@@ -19,7 +19,7 @@ namespace SD.Player
             instance = this;
 
             Debug.Assert(cameraParent != null);
-            Debug.Assert(cameraParent.localEulerAngles.sqrMagnitude > 0.01f);
+            Debug.Assert(cameraParent.localEulerAngles.sqrMagnitude < 0.01f);
             Debug.Assert(axis >= 0 && axis < 3);
         }
 

@@ -1,15 +1,26 @@
 ﻿using System.Collections;
 using UnityEngine;
 using SD.Player;
+using System.Collections.Generic;
 
 namespace SD.Weapons
 {
     abstract class Weapon : MonoBehaviour
     {
         #region fields
-        // Layers to be tested, assume that this is readonly
-        protected int WeaponLayerMask;
-        private const float RecoilDivisor = 30.0f;
+        #region readonly
+        protected int WeaponLayerMask; // Layers to be tested
+
+        private string AnimShootName;
+        private string AnimJamName;
+        private string AnimUnjamName;
+        private string AnimBreakName;
+
+        private const float RecoilDivisor = 10.0f;
+
+        const float HealthToJam = 0.15f;    // if below this number then weapon can jam
+        const float JamProbability = 0.02f; // probability of jamming
+        #endregion
 
         private WeaponState state;
 
@@ -26,6 +37,9 @@ namespace SD.Weapons
         private float health;
         private float shotDmg;      // damage to the weapon, for 1 shot
 
+        public float TakingOutTime = 0.2f;
+        public float HidingTime = 0.2f;
+
         [SerializeField]
         protected int AmmoConsumption = 1;
 
@@ -39,6 +53,7 @@ namespace SD.Weapons
         protected AudioClip BreakSound;
         #endregion
 
+        #region properties
         public WeaponsEnum WeaponIndex => weaponIndex;
         public string Name => weaponName;
         public float DamageValue => damage;
@@ -54,6 +69,7 @@ namespace SD.Weapons
         public float Accuracy => accuracy;
         public bool IsBroken => health <= 0.0f;
         public WeaponState State => state;
+        #endregion
 
         #region initialization
         void Start()
@@ -70,6 +86,7 @@ namespace SD.Weapons
             ammo = playerAmmo;
             item = playerItem;
 
+            // load info
             weaponName = item.Stats.Name;
             weaponIndex = item.This;
 
@@ -81,8 +98,18 @@ namespace SD.Weapons
             shotDmg = 1.0f / (float)item.Stats.Durability;
             health = item.Health;
 
-            weaponAnimation = GetComponentInChildren<Animation>();
+            // get anim
+            weaponAnimation = GetComponentInChildren<Animation>(true);
 
+            string tempName = weaponAnimation.clip.name;
+            tempName = tempName.Remove(0, 1);
+
+            AnimShootName = "S" + tempName;
+            AnimJamName = "J" + tempName;
+            AnimUnjamName = "U" + tempName;
+            AnimBreakName = "B" + tempName;
+
+            // set state
             state = WeaponState.Nothing;
         }
         #endregion
@@ -114,22 +141,36 @@ namespace SD.Weapons
 
         protected void PlayPrimaryAnimation()
         {
+            if (weaponAnimation.isPlaying)
+            {
+                foreach (AnimationState state in weaponAnimation)
+                {
+                    state.time = 0;
+                }
+            }
+
+            if (State == WeaponState.Jamming)
+            {
+                PlayJammingAnimation();
+                return;
+            }
+
             weaponAnimation.Play();
         }
 
-        protected void PlayJammingAnimation()
+        void PlayJammingAnimation()
         {
-            weaponAnimation.Play();
+            weaponAnimation.Play(AnimJamName);
         }
 
-        protected void PlayUnjammingAnimation()
+        void PlayUnjammingAnimation()
         {
-            weaponAnimation.Play();
+            weaponAnimation.Play(AnimUnjamName);
         }
 
-        protected void PlayBreakingAnimation()
+        void PlayBreakingAnimation()
         {
-            weaponAnimation.Play();
+            weaponAnimation.Play(AnimBreakName);
         }
 
         protected void RecoilJump()
@@ -139,22 +180,19 @@ namespace SD.Weapons
 
         protected void RecoilJump(float force, float time)
         {
-            CameraShaker.Instance.Shake(force / RecoilDivisor, reloadingTime);
+            CameraShaker.Instance.Shake(force / RecoilDivisor, time);
         }
 
         // Should this weapon be jammed?
         bool ToJam()
         {
             // throwables and cannon never jam
-            if (AmmoType == AmmoType.CannonBalls || AmmoType == AmmoType.FireBottles || AmmoType == AmmoType.Grenades)
+            if (AmmoType == AmmoType.Cannonballs || AmmoType == AmmoType.FireBottles || AmmoType == AmmoType.Grenades)
             {
                 return false;
             }
 
-            const float healthToJam = 0.15f; // if below this number then weapon can jam
-            const float probability = 0.25f; // probability of jamming
-
-            return health > healthToJam ? false : Random.Range(0.0f, 1.0f) < probability;
+            return health > HealthToJam ? false : Random.Range(0.0f, 1.0f) < JamProbability;
         }
         #endregion
 
@@ -170,7 +208,7 @@ namespace SD.Weapons
             state = WeaponState.Disabling;
 
             // wait for disabling
-            StartCoroutine(WaitForDisabling(0.5f));
+            StartCoroutine(WaitForDisabling(HidingTime));
         }
 
         IEnumerator WaitForDisabling(float time)
@@ -238,11 +276,16 @@ namespace SD.Weapons
             Activate();
 
             // wait for enabling
-            StartCoroutine(Wait(0.5f, WeaponState.Ready));
+            StartCoroutine(Wait(TakingOutTime, WeaponState.Ready));
         }
 
         public void Fire()
         {
+            if (ammo[ammoType] < AmmoConsumption)
+            {
+                return;
+            }
+
             if (state != WeaponState.Ready)
             {
                 // ignore if not ready to shoot
@@ -252,8 +295,12 @@ namespace SD.Weapons
 
             state = WeaponState.Reloading;
 
-            // process damage of shooting to the weapon
-            health -= shotDmg;
+            // throwables never breaks
+            if (AmmoType == AmmoType.FireBottles || AmmoType == AmmoType.Grenades)
+            {
+                // process shooting damage to the weapon
+                health -= shotDmg;
+            }
 
             // break if not enough health
             if (health < 0.0f)
@@ -270,6 +317,7 @@ namespace SD.Weapons
 
             // if not jammed, shoot
             PrimaryAttack();
+            ReduceAmmo();
 
             // wait for reload
             StartCoroutine(Wait(reloadingTime, WeaponState.Ready));
@@ -279,15 +327,20 @@ namespace SD.Weapons
         {
             state = WeaponState.Jamming;
 
-            // * play jamming animation (same as fire but stops in the middle)
-            // * don't emit casings (if exist)
+            // jamming animation will be played
             // everything else is same as primary
-            // jamming state must be processed there
             PrimaryAttack();
         }
 
         public void Unjam()
         {
+            if (state != WeaponState.Jamming)
+            {
+                return;
+            }
+
+            state = WeaponState.Unjamming;
+
             // play animation (shaking)
             PlayUnjammingAnimation();
             PlayAudio(UnjamSound);
@@ -299,7 +352,7 @@ namespace SD.Weapons
             UnjamAdditional();
 
             // wait and reset state
-            StartCoroutine(Wait(0.75f, WeaponState.Ready));
+            StartCoroutine(Wait(reloadingTime, WeaponState.Ready));
         }
 
         protected virtual void UnjamAdditional() { }
@@ -309,6 +362,14 @@ namespace SD.Weapons
             // play anim and sound
             PlayBreakingAnimation();
             PlayAudio(BreakSound);
+
+            StartCoroutine(WaitForBreak());
+        }
+
+        IEnumerator WaitForBreak()
+        {
+            // wait for reloading time without disbling
+            yield return new WaitForSeconds(reloadingTime - HidingTime);
 
             // then disable
             Disable();
@@ -323,5 +384,28 @@ namespace SD.Weapons
             state = newState;
         }
         #endregion
+
+        protected Transform FindChildByName(string name)
+        {
+            Stack<Transform> ts = new Stack<Transform>();
+            ts.Push(transform);
+
+            while (ts.Count > 0)
+            {
+                Transform t = ts.Pop();
+
+                if (t.name == name)
+                {
+                    return t;
+                }
+
+                foreach (Transform c in t)
+                {
+                    ts.Push(c);
+                }
+            }
+
+            return null;
+        }
     }
 }

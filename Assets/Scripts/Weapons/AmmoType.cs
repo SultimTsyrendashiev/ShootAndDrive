@@ -9,6 +9,6 @@
         Grenades,
         FireBottles,
         Rockets,
-        CannonBalls
+        Cannonballs
     }
 }
