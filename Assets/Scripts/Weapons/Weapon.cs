@@ -149,16 +149,10 @@ namespace SD.Weapons
                 }
             }
 
-            if (State == WeaponState.Jamming)
-            {
-                PlayJammingAnimation();
-                return;
-            }
-
             weaponAnimation.Play();
         }
 
-        void PlayJammingAnimation()
+        protected void PlayJammingAnimation()
         {
             weaponAnimation.Play(AnimJamName);
         }
