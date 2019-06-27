@@ -9,11 +9,11 @@ namespace SD.Player
     class WeaponsHolder
     {
         [SerializeField]
-        Dictionary<WeaponsEnum, WeaponItem> playerWeapons;
+        Dictionary<WeaponIndex, WeaponItem> playerWeapons;
 
         public WeaponsHolder()
         {
-            playerWeapons = new Dictionary<WeaponsEnum, WeaponItem>();
+            playerWeapons = new Dictionary<WeaponIndex, WeaponItem>();
         }
 
         public void Clear()
@@ -21,7 +21,7 @@ namespace SD.Player
             playerWeapons.Clear();
         }
 
-        public void Add(WeaponsEnum weapon, float health, bool isBought)
+        public void Add(WeaponIndex weapon, float health, bool isBought)
         {
             if (playerWeapons.ContainsKey(weapon))
             {
@@ -31,17 +31,17 @@ namespace SD.Player
             playerWeapons.Add(weapon, new WeaponItem(weapon, health, isBought));
         }
 
-        public WeaponItem Get(WeaponsEnum w)
+        public WeaponItem Get(WeaponIndex w)
         {
             return playerWeapons[w];
         }
 
-        public void SetHealth(WeaponsEnum w, float health)
+        public void SetHealth(WeaponIndex w, float health)
         {
             playerWeapons[w].Health = health;
         }
 
-        public void SetBought(WeaponsEnum w, bool isBought)
+        public void SetBought(WeaponIndex w, bool isBought)
         {
             playerWeapons[w].IsBought = isBought;
         }
@@ -49,7 +49,7 @@ namespace SD.Player
         /// <summary>
         /// Is this weapon available? (Weapon is bought and not broken)
         /// </summary>
-        public bool IsAvailable(WeaponsEnum w)
+        public bool IsAvailable(WeaponIndex w)
         {
             return !playerWeapons[w].IsBroken && playerWeapons[w].IsBought;
         }

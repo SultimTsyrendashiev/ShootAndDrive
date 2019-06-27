@@ -16,7 +16,7 @@ namespace SD.Player
         int durability;         // how many shots is needed to destroy weapon
 
         float damage;           // in health points
-        float reloadingTime;     // in seconds
+        float reloadingTime;    // in seconds
         float accuracy;         // accuracy in percents
 
         public WeaponStats(string name, AmmoType ammoType, int cost, int durability, float damage, float reloadingTime, float accuracy)

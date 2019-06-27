@@ -46,7 +46,7 @@ namespace SD.UI
                 if (WeaponsController.Instance.GetCurrentWeaponState() == Weapons.WeaponState.Ready)
                 {
                     currentWeaponIndex++;
-                    if (currentWeaponIndex >= Enum.GetValues(typeof(WeaponsEnum)).Length)
+                    if (currentWeaponIndex >= Enum.GetValues(typeof(WeaponIndex)).Length)
                     {
                         currentWeaponIndex = 0;
                     }
@@ -61,7 +61,7 @@ namespace SD.UI
                     currentWeaponIndex--;
                     if (currentWeaponIndex < 0)
                     {
-                        currentWeaponIndex = Enum.GetValues(typeof(WeaponsEnum)).Length - 1;
+                        currentWeaponIndex = Enum.GetValues(typeof(WeaponIndex)).Length - 1;
                     }
 
                     OnWeaponUp((int)currentWeaponIndex);
@@ -187,7 +187,7 @@ namespace SD.UI
         {
             UIController.Instance.SetActiveWeaponSelectionMenu(false);
             UIController.Instance.SetActiveHUD(true);
-            WeaponsController.Instance.SwitchTo((WeaponsEnum)w);
+            WeaponsController.Instance.SwitchTo((WeaponIndex)w);
         }
 #endregion
     }

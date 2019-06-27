@@ -30,14 +30,11 @@ namespace SD.Player
 
         private Camera              playerCamera;
 
-        [SerializeField]
-        private PlayerInventory     inventory;
-
         private static Player       instance;
 
         public static Player        Instance => instance;
         public Camera               MainCamera => playerCamera;
-        public PlayerInventory      Inventory => inventory;
+        public PlayerInventory      Inventory => PlayerInventory.Instance;
         public PlayerState          State => state;
 
         void Awake()
@@ -45,14 +42,10 @@ namespace SD.Player
             Debug.Assert(instance == null, "Several players in a scene");
           
             instance = this;
-
             playerCamera = GetComponentInChildren<Camera>();
 
-            inventory = new PlayerInventory();
-            inventory.Load();
-
-            // for testing
-            inventory.GiveAll();
+            // load items from player prefs
+            Inventory.Load();
 
             state = PlayerState.Ready;
         }
@@ -67,9 +60,6 @@ namespace SD.Player
 
             // hide weapon
             WeaponsController.Instance.HideWeapon();
-
-            // 
-
         }
 
         public void RegenerateHealth()

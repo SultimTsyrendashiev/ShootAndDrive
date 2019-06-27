@@ -12,10 +12,10 @@ namespace SD.Weapons
     class WeaponsController : MonoBehaviour
     {
         WeaponsHolder       inventoryWeapons;   // weapons in player's inventory
-        Dictionary<WeaponsEnum, Weapon> weapons; // actual weapons in a scene
+        Dictionary<WeaponIndex, Weapon> weapons; // actual weapons in a scene
 
-        WeaponsEnum         currentWeapon;      // current player's weapon
-        WeaponsEnum         nextWeapon;         // weapon to switch on
+        WeaponIndex         currentWeapon;      // current player's weapon
+        WeaponIndex         nextWeapon;         // weapon to switch on
 
         AmmoHolder          inventoryAmmo;      // weapons in player's inventory
 
@@ -37,13 +37,13 @@ namespace SD.Weapons
             inventoryWeapons = Player.Player.Instance.Inventory.Weapons;
             inventoryAmmo = Player.Player.Instance.Inventory.Ammo;
             Weapon[] ws = GetComponentsInChildren<Weapon>(true);
-            weapons = new Dictionary<WeaponsEnum, Weapon>();
+            weapons = new Dictionary<WeaponIndex, Weapon>();
 
             foreach (Weapon w in ws)
             {
                 // scene's weapon index is not set
                 // so parse it
-                WeaponsEnum index = (WeaponsEnum)Enum.Parse(typeof(WeaponsEnum), w.gameObject.name);
+                WeaponIndex index = (WeaponIndex)Enum.Parse(typeof(WeaponIndex), w.gameObject.name);
 
                 // include it only if available in inventory
                 // if (inventoryWeapons.IsAvailable(index))
@@ -74,7 +74,8 @@ namespace SD.Weapons
 
             // if weapon in these states
             // fire button event must be ignored
-            if (current.State == WeaponState.Breaking 
+            if (current.State == WeaponState.Breaking
+                || current.State == WeaponState.Jamming
                 || current.State == WeaponState.Disabling 
                 || current.State == WeaponState.Nothing)
             {
@@ -84,7 +85,7 @@ namespace SD.Weapons
             // There is no special button for unajamming,
             // so fire button is used.
             // But player must retap on it.
-            if (current.State == WeaponState.Jamming && current.State != WeaponState.Unjamming)
+            if (current.State == WeaponState.ReadyForUnjam && current.State != WeaponState.Unjamming)
             {
                 // if weapon is jamming, unjam it
                 current.Unjam();
@@ -142,7 +143,7 @@ namespace SD.Weapons
             commonAnimation.Play(animHide);
         }
 
-        public void SwitchTo(WeaponsEnum w)
+        public void SwitchTo(WeaponIndex w)
         {
             // check if bought or not broken
             if (!inventoryWeapons.IsAvailable(w))

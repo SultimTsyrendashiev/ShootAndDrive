@@ -19,7 +19,7 @@ namespace SD.Weapons
         const float RecoilJumpMultiplier = 0.15f;
 
         const float HealthToJam = 0.15f;    // if below this number then weapon can jam
-        const float JamProbability = 0.02f; // probability of jamming
+        const float JamProbability = 0.9f; // probability of jamming
         #endregion
 
         private WeaponState state;
@@ -28,7 +28,7 @@ namespace SD.Weapons
         private WeaponItem item;
         private AmmoHolder ammo;
 
-        private WeaponsEnum weaponIndex;
+        private WeaponIndex weaponIndex;
         private string weaponName;
         private float damage;
         private AmmoType ammoType;
@@ -54,7 +54,7 @@ namespace SD.Weapons
         #endregion
 
         #region properties
-        public WeaponsEnum WeaponIndex => weaponIndex;
+        public WeaponIndex WeaponIndex => weaponIndex;
         public string Name => weaponName;
         public float DamageValue => damage;
         public AmmoType AmmoType => ammoType;
@@ -141,7 +141,7 @@ namespace SD.Weapons
 
         protected void PlayPrimaryAnimation()
         {
-            if (State != WeaponState.Jamming)
+            if (state != WeaponState.Jamming)
             {
                 PlayShootingAnimation();
             }
@@ -201,7 +201,7 @@ namespace SD.Weapons
         bool ToJam()
         {
             // throwables and cannon never jam
-            if (AmmoType == AmmoType.Cannonballs || AmmoType == AmmoType.FireBottles || AmmoType == AmmoType.Grenades)
+            if (!AllWeaponsStats.Instance.CanJam(AmmoType))
             {
                 return false;
             }
@@ -323,32 +323,34 @@ namespace SD.Weapons
                 return;
             }
 
+            WeaponState nextState = WeaponState.Ready;
+
+            // check for jamming
             if (ToJam())
             {
                 Jam();
-                return;
+                nextState = WeaponState.ReadyForUnjam;
             }
 
-            // if not jammed, shoot
+            // - shoot
+            // - if weapon must jam, needed animation will be played
+            //   everything else is same as primary
+
             PrimaryAttack();
             ReduceAmmo();
 
             // wait for reload
-            StartCoroutine(Wait(reloadingTime, WeaponState.Ready));
+            StartCoroutine(Wait(reloadingTime, nextState));
         }
 
         void Jam()
         {
             state = WeaponState.Jamming;
-
-            // jamming animation will be played
-            // everything else is same as primary
-            PrimaryAttack();
         }
 
         public void Unjam()
         {
-            if (state != WeaponState.Jamming)
+            if (state != WeaponState.ReadyForUnjam)
             {
                 return;
             }
@@ -360,7 +362,7 @@ namespace SD.Weapons
             PlayAudio(UnjamSound);
 
             // camera
-            RecoilJump(-15, reloadingTime);
+            RecoilJump(-20, reloadingTime);
 
             // additional effects
             UnjamAdditional();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SD.Player
 {
-    enum WeaponsEnum
+    enum WeaponIndex
     {
         Pistol,
         PistolHeavy,

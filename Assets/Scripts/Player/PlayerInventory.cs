@@ -5,17 +5,34 @@ using SD.Weapons;
 
 namespace SD.Player
 {
-    class PlayerInventory
+    /// <summary>
+    /// Player's inventory.
+    /// Holds all information about player's items.
+    /// This class is singleton.
+    /// </summary>
+    class PlayerInventory : MonoBehaviour
     {
         public WeaponsHolder    Weapons;
         public AmmoHolder       Ammo;
         public ItemsHolder      Items;
 
-        public PlayerInventory()
+        static PlayerInventory instance;
+        public static PlayerInventory Instance => instance;
+
+        void Awake()
         {
+            if (instance != null)
+            {
+                return;
+            }
+
+            instance = this;
+
             Weapons = new WeaponsHolder();
             Ammo = new AmmoHolder();
             Items = new ItemsHolder();
+
+            DontDestroyOnLoad(gameObject);
         }
 
         #region saving / loading
@@ -24,7 +41,7 @@ namespace SD.Player
         /// </summary>
         public void Save()
         {
-            foreach (WeaponsEnum w in Enum.GetValues(typeof(WeaponsEnum)))
+            foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
             {
                 SaveWeapon(w);
             }
@@ -46,7 +63,7 @@ namespace SD.Player
         {
             Weapons.Clear();
 
-            foreach (WeaponsEnum w in Enum.GetValues(typeof(WeaponsEnum)))
+            foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
             {
                 LoadWeapon(w);
             }
@@ -62,7 +79,7 @@ namespace SD.Player
             }
         }
 
-        void SaveWeapon(WeaponsEnum w)
+        void SaveWeapon(WeaponIndex w)
         {
             WeaponItem weapon = Weapons.Get(w);
 
@@ -73,7 +90,7 @@ namespace SD.Player
             PlayerPrefs.SetFloat(GetNameH(w), health);
         }
 
-        void LoadWeapon(WeaponsEnum w)
+        void LoadWeapon(WeaponIndex w)
         {
             int bought = PlayerPrefs.GetInt(GetNameB(w), 0);
             float health = PlayerPrefs.GetFloat(GetNameH(w), 0);
@@ -107,12 +124,12 @@ namespace SD.Player
         #endregion
 
         #region names
-        string GetNameB(WeaponsEnum w)
+        string GetNameB(WeaponIndex w)
         {
             return AllWeaponsStats.Instance.Get(w).Name + "Bought";
         }
 
-        string GetNameH(WeaponsEnum w)
+        string GetNameH(WeaponIndex w)
         {
             return AllWeaponsStats.Instance.Get(w).Name + "Health";
         }
@@ -142,7 +159,7 @@ namespace SD.Player
         /// </summary>
         public void GiveAllWeapons()
         {
-            foreach (WeaponsEnum w in Enum.GetValues(typeof(WeaponsEnum)))
+            foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
             {
                 Weapons.SetHealth(w, 0.000001f);
                 Weapons.SetBought(w, true);
