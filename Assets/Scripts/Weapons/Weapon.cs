@@ -16,7 +16,7 @@ namespace SD.Weapons
         private string AnimUnjamName;
         private string AnimBreakName;
 
-        private const float RecoilDivisor = 10.0f;
+        const float RecoilJumpMultiplier = 0.15f;
 
         const float HealthToJam = 0.15f;    // if below this number then weapon can jam
         const float JamProbability = 0.02f; // probability of jamming
@@ -141,6 +141,19 @@ namespace SD.Weapons
 
         protected void PlayPrimaryAnimation()
         {
+            if (State != WeaponState.Jamming)
+            {
+                PlayShootingAnimation();
+            }
+            else
+            {
+                PlayJammingAnimation();
+            }
+        }
+
+        void PlayShootingAnimation()
+        {
+            // reset to start
             if (weaponAnimation.isPlaying)
             {
                 foreach (AnimationState state in weaponAnimation)
@@ -152,7 +165,7 @@ namespace SD.Weapons
             weaponAnimation.Play();
         }
 
-        protected void PlayJammingAnimation()
+        void PlayJammingAnimation()
         {
             weaponAnimation.Play(AnimJamName);
         }
@@ -174,7 +187,14 @@ namespace SD.Weapons
 
         protected void RecoilJump(float force, float time)
         {
-            CameraShaker.Instance.Shake(force / RecoilDivisor, time);
+            if (force == 0)
+            {
+                return;
+            }
+
+            float sign = Mathf.Sign(force);
+
+            CameraShaker.Instance.Shake(sign * RecoilJumpMultiplier * Mathf.Log(Mathf.Abs(force)), time);
         }
 
         // Should this weapon be jammed?
@@ -340,7 +360,7 @@ namespace SD.Weapons
             PlayAudio(UnjamSound);
 
             // camera
-            RecoilJump(10, 0.75f);
+            RecoilJump(-15, reloadingTime);
 
             // additional effects
             UnjamAdditional();

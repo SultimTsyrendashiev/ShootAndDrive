@@ -6,10 +6,27 @@ namespace SD.Player
 {
     public class CameraShaker : MonoBehaviour
     {
+        const float MagnitudeEpsilon = 0.01f;
+
         [SerializeField]
         private Transform cameraParent;
+        [SerializeField]
+        private float maxAngle = 2;
+        [SerializeField]
+        private bool smooth;
+        [SerializeField]
+        private float smoothness;
 
         private int axis = 0;
+
+        private bool isShaking;
+
+        private float shakeMagnitude;
+        private float shakeDuration;
+        private float shakePercentage;
+
+        private float initMagnitude;
+        private float initDuration;
 
         private static CameraShaker instance;
         public static CameraShaker Instance { get { return instance; } }
@@ -21,46 +38,63 @@ namespace SD.Player
             Debug.Assert(cameraParent != null);
             Debug.Assert(cameraParent.localEulerAngles.sqrMagnitude < 0.01f);
             Debug.Assert(axis >= 0 && axis < 3);
+
+            isShaking = false;
+            shakeMagnitude = 0.0f;
+            shakeDuration = 0.0f;
         }
 
-        public void Shake(float power, float duration)
+        public void Shake(float magnitude, float duration)
         {
-            StartCoroutine(ProcessShake(power, duration));
+            if (Mathf.Abs(shakeMagnitude + magnitude) > maxAngle)
+            {
+                return;
+            }
+
+            isShaking = true;
+
+            shakeMagnitude += magnitude;
+            shakeDuration += duration;
+
+            initMagnitude = shakeMagnitude;
+            initDuration = shakeDuration;
         }
 
-        IEnumerator ProcessShake(float power, float duration)
+        void Update()
         {
-            cameraParent.localEulerAngles = Vector3.zero;
-
-            float timer = 0.0f;
-            Vector3 euler = Vector3.zero;
-
-            float upTime = duration * 0.35f;
-            float downTime = duration - upTime;
-
-            // up
-            while (timer < upTime)
+            if (!isShaking)
             {
-                euler[axis] = Mathf.Lerp(0, power, timer / upTime);
-                timer += Time.deltaTime;
-
-                // wait one frame
-                yield return null;
+                return;
             }
 
-            timer -= upTime;
+            Vector3 newRotation = UnityEngine.Random.onUnitSphere;
+            newRotation.x = -shakeMagnitude;
+            newRotation.y = 0;
+            newRotation.z = 0;
 
-            // down
-            while (timer < downTime)
+            shakePercentage = shakeDuration / initDuration;
+
+            shakeMagnitude = initMagnitude * shakePercentage;
+            shakeDuration = Mathf.Lerp(shakeDuration, 0, Time.deltaTime / initDuration);
+
+            if (smooth)
             {
-                euler[axis] = Mathf.Lerp(power, 0, timer / downTime);
-                timer += Time.deltaTime;
-
-                // wait one frame
-                yield return null;
+                cameraParent.localRotation = Quaternion.Lerp(
+                    cameraParent.localRotation, 
+                    Quaternion.Euler(newRotation), 
+                    Time.deltaTime * smoothness);
+            }
+            else
+            {
+                cameraParent.localRotation = Quaternion.Euler(newRotation);
             }
 
-            cameraParent.localEulerAngles = Vector3.zero;
+            if (shakeMagnitude < MagnitudeEpsilon)
+            {
+                shakeMagnitude = 0.0f;
+                shakeDuration = 0.0f;
+                isShaking = false;
+            }
         }
     }
 }

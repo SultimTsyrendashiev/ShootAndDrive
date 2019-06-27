@@ -62,15 +62,7 @@ namespace SD.Weapons
             Hitscan();
 
             // animation
-
-            if (State != WeaponState.Jamming)
-            {
-                PlayPrimaryAnimation();
-            }
-            else
-            {
-                PlayJammingAnimation();
-            }
+            PlayPrimaryAnimation();
             
             // sound
             PlayAudio(ShotSound);
