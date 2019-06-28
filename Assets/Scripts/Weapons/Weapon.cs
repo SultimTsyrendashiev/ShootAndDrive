@@ -16,7 +16,7 @@ namespace SD.Weapons
         private string AnimUnjamName;
         private string AnimBreakName;
 
-        const float RecoilJumpMultiplier = 0.15f;
+        const float RecoilJumpMultiplier = 0.25f;
 
         const float HealthToJam = 0.15f;    // if below this number then weapon can jam
         #endregion

@@ -2,6 +2,7 @@
 using UnityEngine;
 using SD.Player;
 using SD.Weapons;
+using UnityEngine.EventSystems;
 
 namespace SD.UI
 {
@@ -14,9 +15,13 @@ namespace SD.UI
 
     class InputController : MonoBehaviour
     {
-        private static bool fireButtonDown;
-        public static bool FireButton => fireButtonDown;
+        private static bool fireButtonDown = false;
+        private static float movementHorizontal = 0.0f;
 
+        public static bool FireButton => fireButtonDown;
+        public static float MovementHorizontal => movementHorizontal;
+
+        #region input in the editor
 #if UNITY_EDITOR
         [SerializeField]
         bool useEditorInput;
@@ -29,17 +34,8 @@ namespace SD.UI
                 return;
             }
 
-            if (Input.GetMouseButton(0))
-            {
-                if (WeaponsController.Instance.GetCurrentWeaponState() == Weapons.WeaponState.Ready)
-                {
-                    OnFireDown();
-                }
-            }
-            else if (!fireButtonDown)
-            {
-                OnFireUp();
-            }
+            float x = Input.GetAxis("Horizontal");
+            movementHorizontal = x;
 
             if (Input.GetKey(KeyCode.E))
             {
@@ -69,6 +65,12 @@ namespace SD.UI
             }
         }
 #endif
+        #endregion
+
+        public void UpdateMovementInput(float x)
+        {
+            movementHorizontal = x;
+        }
 
         #region event subscribers
         /// <summary>
@@ -90,41 +92,22 @@ namespace SD.UI
             fireButtonDown = false;
         }
 
-        /// <summary>
-        /// Called on pointer down on movement field
-        /// </summary>
-        public void OnMovementDown()
-        {
-            // TODO: 
-            // show joystick
-            // if gyroscope is used, this must be hidden
-        }
-
-        /// <summary>
-        /// Called on pointer up from movement field
-        /// </summary>
-        public void OnMovementUp()
-        {
-            // TODO:
-            // hide joystick
-        }
-
         public void OnRightDown()
         {
-
+            movementHorizontal = 1.0f;
         }
         public void OnRightUp()
         {
-
+            movementHorizontal = 0.0f;
         }
 
         public void OnLeftDown()
         {
-
+            movementHorizontal = -1.0f;
         }
         public void OnLeftUp()
         {
-
+            movementHorizontal = 0.0f;
         }
 
         /// <summary>
@@ -154,7 +137,8 @@ namespace SD.UI
             // deactivate
             if (UIController.Instance.MovementInputType == MovementInputType.Joystick)
             {
-                OnMovementUp();
+                // TODO: call joystick to deactivate
+                // OnMovementUp();
             }
             else if (UIController.Instance.MovementInputType == MovementInputType.Buttons)
             {

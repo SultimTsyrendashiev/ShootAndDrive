@@ -4849,7 +4849,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &797689736
 Transform:
   m_ObjectHideFlags: 0
@@ -5466,7 +5466,7 @@ Transform:
   - {fileID: 400402021326443482}
   m_Father: {fileID: 7019928373694673317}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -1.6940001, y: -14.319, z: 14.2890005}
+  m_LocalEulerAnglesHint: {x: 4.1130004, y: -42.407, z: -0.404}
 --- !u!1 &1146816264164950600
 GameObject:
   m_ObjectHideFlags: 0
@@ -5497,7 +5497,7 @@ Transform:
   - {fileID: 1108352816572639280}
   m_Father: {fileID: 6668976050656608697}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 1.001, y: -102.2, z: -0.20500001}
+  m_LocalEulerAnglesHint: {x: 8.757, y: -134.076, z: -6.577}
 --- !u!1 &1227254227553188284
 GameObject:
   m_ObjectHideFlags: 0
@@ -5819,7 +5819,7 @@ Transform:
   - {fileID: 4936078803734137028}
   m_Father: {fileID: 8463491009155672304}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 12.517, y: -60.141003, z: 11.719001}
+  m_LocalEulerAnglesHint: {x: -2.9910002, y: -81.027, z: -9.451}
 --- !u!1 &1689863172732581936
 GameObject:
   m_ObjectHideFlags: 0
@@ -5881,7 +5881,7 @@ Transform:
   - {fileID: 125901253020495028}
   m_Father: {fileID: 1280241448608008898}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -6.0130005, y: -97.159004, z: -1.6270001}
+  m_LocalEulerAnglesHint: {x: 7.1390004, y: -127.72301, z: -16.229}
 --- !u!1 &1725893465534802429
 GameObject:
   m_ObjectHideFlags: 0
@@ -6229,7 +6229,7 @@ Transform:
   - {fileID: 1280241448608008898}
   m_Father: {fileID: 4016110485901005466}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -3.5620003, y: 7.0940003, z: 26.53}
+  m_LocalEulerAnglesHint: {x: -10.075001, y: 16.368, z: 33.436}
 --- !u!1 &2139262942431849365
 GameObject:
   m_ObjectHideFlags: 0
@@ -6440,6 +6440,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -6603,6 +6604,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -6685,6 +6687,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -7246,6 +7249,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 2
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -7403,7 +7407,7 @@ Transform:
   - {fileID: 5734789748404393211}
   m_Father: {fileID: 6653185035296857258}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -1.682, y: -104.4, z: 0.432}
+  m_LocalEulerAnglesHint: {x: 4.3110003, y: -144.73601, z: -21.6}
 --- !u!1 &3497472969225288828
 GameObject:
   m_ObjectHideFlags: 0
@@ -7532,6 +7536,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -7847,14 +7852,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4228742544011356922}
-  - component: {fileID: 1514170768}
+  - component: {fileID: 66872124}
   m_Layer: 8
   m_Name: SteeringWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4228742544011356922
 Transform:
   m_ObjectHideFlags: 0
@@ -7870,22 +7875,20 @@ Transform:
   m_Father: {fileID: 1271288558124015606}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!111 &1514170768
-Animation:
+--- !u!114 &66872124
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4132562349260337666}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 09605a8846667884496433fcddbee306, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 09605a8846667884496433fcddbee306, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b5ae56dd407f7a459e7b8a728873320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lerpSpeed: 10
+  rotator: {fileID: 2300963458585885390}
 --- !u!1 &4132872302458023404
 GameObject:
   m_ObjectHideFlags: 0
@@ -8013,6 +8016,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -8206,7 +8210,7 @@ Transform:
   - {fileID: 4270415216644220577}
   m_Father: {fileID: 2338629124356640568}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0.282, y: 4.162, z: -5.2520003}
+  m_LocalEulerAnglesHint: {x: -7.1190004, y: -30.382002, z: -23.199001}
 --- !u!1 &4407018091467902034
 GameObject:
   m_ObjectHideFlags: 0
@@ -8256,6 +8260,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -8474,7 +8479,7 @@ Transform:
   - {fileID: 6653185035296857258}
   m_Father: {fileID: 4016110485901005466}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: -2.3530002, y: 9.360001, z: 13.991001}
+  m_LocalEulerAnglesHint: {x: -3.1550002, y: 9.783, z: 21.971}
 --- !u!1 &4616039757143621903
 GameObject:
   m_ObjectHideFlags: 0
@@ -9043,7 +9048,7 @@ Transform:
   - {fileID: 6668976050656608697}
   m_Father: {fileID: 4016110485901005466}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: -0.10300001, y: 10.405001, z: 0.55600005}
+  m_LocalEulerAnglesHint: {x: -1.072, y: 15.554001, z: 8.059}
 --- !u!1 &5966547686635541706
 GameObject:
   m_ObjectHideFlags: 0
@@ -9074,7 +9079,7 @@ Transform:
   - {fileID: 7148021625844320526}
   m_Father: {fileID: 1454786681880963217}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 1.105, y: -18.632, z: 3.2740002}
+  m_LocalEulerAnglesHint: {x: -18.052, y: -14.832001, z: 21.715}
 --- !u!1 &6002408354037428113
 GameObject:
   m_ObjectHideFlags: 0
@@ -9105,7 +9110,7 @@ Transform:
   - {fileID: 2305856685889905723}
   m_Father: {fileID: 455708502728986443}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -32.568, y: -62.600002, z: 70.257}
+  m_LocalEulerAnglesHint: {x: -54.590004, y: -44.557003, z: 66.746}
 --- !u!1 &6111685251277566896
 GameObject:
   m_ObjectHideFlags: 0
@@ -9757,6 +9762,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -9918,6 +9924,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -10375,6 +10382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 729964259873797540}
   - component: {fileID: 5420352909475717057}
+  - component: {fileID: 7298263017269651206}
   m_Layer: 8
   m_Name: HandLeftSkeleton
   m_TagString: Untagged
@@ -10415,6 +10423,19 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &7298263017269651206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7305669275427243253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea50bf9c58671154db79878ec1107456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  steeringWheel: {fileID: 66872124}
 --- !u!1 &7320823031820152878
 GameObject:
   m_ObjectHideFlags: 0
@@ -11027,6 +11048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff1bb0e95bb2abd42812f48e6e98d60b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  steeringWheel: {fileID: 0}
 --- !u!1 &7581316839884307941
 GameObject:
   m_ObjectHideFlags: 0
@@ -11105,6 +11127,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -11156,6 +11179,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -11239,6 +11263,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -11290,6 +11315,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -11499,6 +11525,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -12011,7 +12038,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7581316840665430222
 Transform:
   m_ObjectHideFlags: 0
@@ -12043,6 +12070,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -12436,6 +12464,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -12677,6 +12706,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -12728,6 +12758,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -13345,6 +13376,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -13572,7 +13604,7 @@ Transform:
   - {fileID: 8463491009155672304}
   m_Father: {fileID: 4016110485901005466}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 2.249, y: 9.205001, z: -9.425}
+  m_LocalEulerAnglesHint: {x: 1.5740001, y: 10.097, z: -9.200001}
 --- !u!1 &8104872952945890669
 GameObject:
   m_ObjectHideFlags: 0
@@ -13684,7 +13716,7 @@ Transform:
   - {fileID: 5639601391224352892}
   m_Father: {fileID: 2121959932906287644}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -1.2770001, y: -8.651, z: -0.81100005}
+  m_LocalEulerAnglesHint: {x: -10.588, y: -25.424002, z: -18.66}
 --- !u!1 &8212928564671961498
 GameObject:
   m_ObjectHideFlags: 0
@@ -13833,7 +13865,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8558194088519782555}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

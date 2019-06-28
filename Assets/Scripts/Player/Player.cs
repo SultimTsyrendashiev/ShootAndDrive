@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SD.Weapons;
+using SD.UI;
 
 namespace SD.Player
 {
@@ -28,10 +29,13 @@ namespace SD.Player
         PlayerState                 state;
         private float               health;
 
+        // steering wheel is used for controlling a vehicle
+        [SerializeField]
+        private SteeringWheel       steeringWheel; 
+
         private Camera              playerCamera;
 
         private static Player       instance;
-
         public static Player        Instance => instance;
         public Camera               MainCamera => playerCamera;
         public PlayerInventory      Inventory => PlayerInventory.Instance;
@@ -40,6 +44,7 @@ namespace SD.Player
         void Awake()
         {
             Debug.Assert(instance == null, "Several players in a scene");
+            Debug.Assert(steeringWheel != null);
           
             instance = this;
             playerCamera = GetComponentInChildren<Camera>();
@@ -50,7 +55,13 @@ namespace SD.Player
             state = PlayerState.Ready;
         }
 
-        #region health management
+        void Update()
+        {
+            float x = InputController.MovementHorizontal;
+            steeringWheel.Steer(x);
+        }
+
+#region health management
         void Die()
         {
             state = PlayerState.Dead;
@@ -119,9 +130,9 @@ namespace SD.Player
 
             state = PlayerState.Ready;
         }
-        #endregion
+#endregion
 
-        #region inherited
+#region inherited
         float IDamageable.Health
         {
             get
@@ -153,6 +164,6 @@ namespace SD.Player
                 Die();
             }
         }
-        #endregion
+#endregion
     }
 }

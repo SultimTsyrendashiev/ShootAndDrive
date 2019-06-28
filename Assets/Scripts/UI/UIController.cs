@@ -1,12 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
-using SD.Player;
 
 namespace SD.UI
 {
     class UIController : MonoBehaviour
     {
-
         [SerializeField]
         private GameObject hud;
         [SerializeField]
@@ -17,44 +15,55 @@ namespace SD.UI
         private GameObject pauseMenu;
 
         MovementInputType movementInputType;
-        public MovementInputType MovementInputType => movementInputType;
 
         [SerializeField]
         private GameObject movementField;
-        [SerializeField]
-        private GameObject joystick;
         [SerializeField]
         private GameObject movementButtons;
 
         static UIController instance;
         public static UIController Instance => instance;
 
-        void Start()
+        void Awake()
         {
             instance = this;
         }
 
-        public void SetMovementInputType(MovementInputType type)
+        void Start()
         {
-            if (movementInputType == type)
-            {
-                return;
-            }
+            SetActiveHUD(true);
+            SetActivePauseMenu(false);
+            SetActiveWeaponSelectionMenu(false);
+        }
 
-            switch (type)
+        public MovementInputType MovementInputType
+        {
+            get
             {
-                case MovementInputType.Joystick:
-                    movementField.SetActive(true);
-                    movementButtons.SetActive(false);
-                    break;
-                case MovementInputType.Buttons:
-                    movementField.SetActive(false);
-                    movementButtons.SetActive(true);
-                    break;
-                case MovementInputType.Gyroscope:
-                    movementField.SetActive(false);
-                    movementButtons.SetActive(true);
-                    break;
+                return MovementInputType;
+            }
+            set
+            {
+                if (movementInputType == value)
+                {
+                    return;
+                }
+
+                switch (value)
+                {
+                    case MovementInputType.Joystick:
+                        movementField.SetActive(true);
+                        movementButtons.SetActive(false);
+                        break;
+                    case MovementInputType.Buttons:
+                        movementField.SetActive(false);
+                        movementButtons.SetActive(true);
+                        break;
+                    case MovementInputType.Gyroscope:
+                        movementField.SetActive(false);
+                        movementButtons.SetActive(false);
+                        break;
+                }
             }
         }
 
@@ -73,10 +82,5 @@ namespace SD.UI
         {
             pauseMenu.SetActive(active);
         }
-
-        //public void SetActiveInteractive(bool active)
-        //{
-        //    interactive.SetActive(active);
-        //}
     }
 }
