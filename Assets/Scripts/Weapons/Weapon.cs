@@ -19,7 +19,6 @@ namespace SD.Weapons
         const float RecoilJumpMultiplier = 0.15f;
 
         const float HealthToJam = 0.15f;    // if below this number then weapon can jam
-        const float JamProbability = 0.9f; // probability of jamming
         #endregion
 
         private WeaponState state;
@@ -42,8 +41,11 @@ namespace SD.Weapons
 
         [SerializeField]
         protected int AmmoConsumption = 1;
+        [SerializeField]
+        public float JamProbability = 0.03f; // probability of jamming
 
         private Animation weaponAnimation;
+        private HandPivot handPivot;    // script for attaching hand
 
         [SerializeField]
         protected AudioClip ShotSound;
@@ -72,6 +74,7 @@ namespace SD.Weapons
         #endregion
 
         #region initialization
+
         void Start()
         {
             WeaponLayerMask = LayerMask.GetMask(LayerNames.Default, LayerNames.Damageable);
@@ -108,6 +111,14 @@ namespace SD.Weapons
             AnimJamName = "J" + tempName;
             AnimUnjamName = "U" + tempName;
             AnimBreakName = "B" + tempName;
+
+            // set hand animation
+            handPivot = GetComponentInChildren<HandPivot>(true);
+            if (handPivot != null)
+            {
+                string handAnimName = "H" + tempName;
+                handPivot.Init(handAnimName);
+            }
 
             // set state
             state = WeaponState.Nothing;
@@ -288,6 +299,17 @@ namespace SD.Weapons
 
             gameObject.SetActive(true);
             Activate();
+
+            // pose hand
+            if (handPivot != null)
+            {
+                handPivot.PoseHand();
+            }
+            else
+            {
+                // if doesn't exist, dont render it
+                HandsController.Instance.RenderRightHand = false;
+            }
 
             // wait for enabling
             StartCoroutine(Wait(TakingOutTime, WeaponState.Ready));
