@@ -196,7 +196,7 @@ RectTransform:
   m_Children:
   - {fileID: 282146809}
   m_Father: {fileID: 677942776}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -882,7 +882,7 @@ RectTransform:
   - {fileID: 1195925276}
   - {fileID: 610166713}
   m_Father: {fileID: 677942776}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1107,7 +1107,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -482, y: -320}
+  m_AnchoredPosition: {x: -320, y: -196}
   m_SizeDelta: {x: 96, y: 96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &272484777
@@ -1547,7 +1547,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 777044083}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2276,7 +2276,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 68327016}
-  - {fileID: 1646736261}
   - {fileID: 61089140}
   - {fileID: 1543626008}
   - {fileID: 217605261}
@@ -2843,6 +2842,7 @@ RectTransform:
   - {fileID: 677942776}
   - {fileID: 941403420}
   - {fileID: 623302313}
+  - {fileID: 1646736261}
   - {fileID: 434059527}
   - {fileID: 1528155303}
   m_Father: {fileID: 0}
@@ -2938,10 +2938,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 988f6c80ce87a1c4bb006bbffe721692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startAngle: -180
-  endAngle: -90
-  offset: {x: -72, y: -72}
-  radius: 320
+  StartAngle: -180
+  EndAngle: -90
+  Offset: {x: -72, y: -72}
+  Radius: 320
 --- !u!1 &802249078
 GameObject:
   m_ObjectHideFlags: 0
@@ -3887,7 +3887,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -200.00006, y: -320}
+  m_AnchoredPosition: {x: -196, y: -320}
   m_SizeDelta: {x: 96, y: 96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1196945228
@@ -4701,7 +4701,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 777044083}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4833,7 +4833,7 @@ RectTransform:
   m_Children:
   - {fileID: 2112170719}
   m_Father: {fileID: 677942776}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -5034,8 +5034,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1814077903}
-  m_Father: {fileID: 677942776}
-  m_RootOrder: 1
+  m_Father: {fileID: 777044083}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -5051,27 +5051,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1646736260}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: b84f496bf676f4e4fb5db8e55273a475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 777044085}
-          m_MethodName: OnWeaponSelectorDown
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  inputController: {fileID: 777044085}
+  itemsPosition: {fileID: 794773140}
+  icon: {fileID: 21300000, guid: ded627e7f2edfb34bafb47af94af30b9, type: 3}
 --- !u!114 &1646736263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5671,7 +5656,7 @@ RectTransform:
   - {fileID: 2052140377}
   - {fileID: 1151429196}
   m_Father: {fileID: 677942776}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6197,7 +6182,6 @@ GameObject:
   - component: {fileID: 2016963933}
   - component: {fileID: 2016963935}
   - component: {fileID: 2016963934}
-  - component: {fileID: 2016963936}
   m_Layer: 5
   m_Name: Weapon
   m_TagString: Untagged
@@ -6262,36 +6246,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2016963932}
   m_CullTransparentMesh: 0
---- !u!114 &2016963936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016963932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 777044085}
-          m_MethodName: OnWeaponUp
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 2
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!198 &2022740232 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 7225047011677555481, guid: a7123bb3e301c9a4badd56eff9051b76,
@@ -6338,7 +6292,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -342, y: -320}
+  m_AnchoredPosition: {x: -320, y: -320}
   m_SizeDelta: {x: 96, y: 96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2023434957
@@ -7017,7 +6971,6 @@ GameObject:
   - component: {fileID: 2095485902}
   - component: {fileID: 2095485904}
   - component: {fileID: 2095485903}
-  - component: {fileID: 2095485905}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -7082,36 +7035,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2095485901}
   m_CullTransparentMesh: 0
---- !u!114 &2095485905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2095485901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 3
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_MethodName: OnWeaponSelectorUp
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &2112170718
 GameObject:
   m_ObjectHideFlags: 0

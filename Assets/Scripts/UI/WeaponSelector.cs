@@ -1,21 +1,92 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using SD.Player;
 
 namespace SD.UI
 {
-    public class WeaponsSelector : MonoBehaviour
+    public class WeaponSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
-        // Start is called before the first frame update
-        void Start()
+        const float Threshold = 100;
+
+        [SerializeField]
+        InputController     inputController;
+        [SerializeField]
+        ItemsPosition       itemsPosition;
+
+        // TODO: remove, use instead WeaponData
+        [SerializeField]
+        Sprite              icon;
+
+        bool                wasSelected;
+        WeaponIndex         selectedWeapon;
+        List<WeaponIndex>   availableWeapons;
+        int                 count;
+        
+        public void OnPointerDown(PointerEventData eventData)
         {
-            
+            // enable hud
+            inputController.OnWeaponSelectorDown();
+
+            // get available weapons
+            availableWeapons = Player.Player.Instance.Inventory.GetAvailableWeapons();
+            count = availableWeapons.Count > 5 ? 5 : availableWeapons.Count;
+
+            // place them on hud
+            Transform weaponIcons = itemsPosition.transform;
+            for (int i = 0; i < count; i++)
+            {
+                Image weaponImage = weaponIcons.GetChild(i).GetComponent<Image>();
+                weaponImage.sprite = icon;
+            }
+
+            itemsPosition.SetPositions(count);
+
+            wasSelected = false;
         }
 
-        // Update is called once per frame
-        void Update()
+        public void OnDrag(PointerEventData eventData)
         {
+            int index = -1;
+            float minLength = Threshold * inputController.GetComponent<Canvas>().scaleFactor;
 
+            for (int i = 0; i < count; i++)
+            {
+                Vector2 pos = itemsPosition.transform.GetChild(i).position;
+                float l = (pos - eventData.position).magnitude;
+
+                if (l < minLength)
+                {
+                    minLength = l;
+                    index = i;
+                }
+
+                itemsPosition.transform.GetChild(i).GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+            }
+
+            if (index == -1)
+            {
+                wasSelected = false;
+                return;
+            }
+
+            itemsPosition.transform.GetChild(index).GetComponent<Image>().color = Color.white;
+
+            // temp
+            wasSelected = true;
+            selectedWeapon = (WeaponIndex)index;
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            if (wasSelected)
+            {
+                inputController.SelectWeapon(selectedWeapon);
+            }
+
+            inputController.OnWeaponSelectorUp();
         }
     }
 }

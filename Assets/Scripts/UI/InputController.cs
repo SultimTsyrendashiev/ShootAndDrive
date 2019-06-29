@@ -52,7 +52,7 @@ namespace SD.UI
                         currentWeaponIndex = 0;
                     }
 
-                    OnWeaponUp((int)currentWeaponIndex);
+                    SelectWeapon((WeaponIndex)currentWeaponIndex);
                 }
             }
             else if (Input.GetKey(KeyCode.Q))
@@ -65,7 +65,7 @@ namespace SD.UI
                         currentWeaponIndex = Enum.GetValues(typeof(WeaponIndex)).Length - 1;
                     }
 
-                    OnWeaponUp((int)currentWeaponIndex);
+                    SelectWeapon((WeaponIndex)currentWeaponIndex);
                 }
             }
         }
@@ -172,11 +172,9 @@ namespace SD.UI
         /// <summary>
         /// Called on pointer up from weapon button in weapon selection menu
         /// </summary>
-        public void OnWeaponUp(int w)
+        public void SelectWeapon(WeaponIndex w)
         {
-            UIController.Instance.SetActiveWeaponSelectionMenu(false);
-            UIController.Instance.SetActiveHUD(true);
-            WeaponsController.Instance.SwitchTo((WeaponIndex)w);
+            WeaponsController.Instance.SwitchTo(w);
         }
 #endregion
     }

@@ -7,45 +7,54 @@ namespace SD.UI
     /// <summary>
     /// Sets child items' positions on a circle
     /// </summary>
+    [RequireComponent(typeof(RectTransform))]
     public class ItemsPosition : MonoBehaviour
     {
         /// <summary>
         /// Start angle in degrees
         /// </summary>
-        [SerializeField]
-        private float startAngle;
+        public float StartAngle;
         /// <summary>
         /// End angle in degrees
         /// </summary>
-        [SerializeField]
-        private float endAngle;
+        public float EndAngle;
 
-        [SerializeField]
-        private Vector2 offset;
-
-        [SerializeField]
-        private float radius;
+        public Vector2 Offset;
+        public float Radius;
 
         void Start()
         {
             SetPositions();
         }
 
-        void SetPositions()
+        public void SetPositions()
+        {
+            SetPositions(GetComponent<RectTransform>().childCount);
+        }
+
+        public void SetPositions(int count)
         {
             var thisTransform = GetComponent<RectTransform>();
 
-            float deltaAngle = Mathf.Abs(endAngle - startAngle) / (thisTransform.childCount - 1);
+            float deltaAngle = Mathf.Abs(EndAngle - StartAngle) / (count - 1);
 
-            for (int i = 0; i < thisTransform.childCount; i++)
+            Debug.Assert(thisTransform.childCount <= count);
+
+            for (int i = 0; i < count; i++)
             {
-                float angle = (startAngle + i * deltaAngle) * Mathf.Deg2Rad;
+                float angle = (StartAngle + i * deltaAngle) * Mathf.Deg2Rad;
 
-                float x = Mathf.Cos(angle) * radius;
-                float y = Mathf.Sin(angle) * radius;
+                float x = Mathf.Cos(angle) * Radius;
+                float y = Mathf.Sin(angle) * Radius;
 
                 RectTransform child = (RectTransform)thisTransform.GetChild(i);
-                child.anchoredPosition = new Vector2(x + offset.x, y + offset.y);
+                child.anchoredPosition = new Vector2(x + Offset.x, y + Offset.y);
+            }
+
+            // deactivate other
+            for (int i = thisTransform.childCount; i < count; i++)
+            {
+                thisTransform.GetChild(i).gameObject.SetActive(false);
             }
         }
     }

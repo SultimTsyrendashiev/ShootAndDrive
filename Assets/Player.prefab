@@ -13136,7 +13136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraParent: {fileID: 7581316841082096813}
-  maxAngle: 10
+  maxAngle: 5
   smooth: 1
   smoothness: 18
 --- !u!1 &7581316841601051827

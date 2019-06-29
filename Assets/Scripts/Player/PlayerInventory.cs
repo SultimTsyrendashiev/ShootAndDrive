@@ -144,6 +144,21 @@ namespace SD.Player
         }
         #endregion
 
+        public List<WeaponIndex> GetAvailableWeapons()
+        {
+            List<WeaponIndex> available = new List<WeaponIndex>();
+
+            foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
+            {
+                if (Weapons.IsAvailable(w))
+                {
+                    available.Add(w);
+                }
+            }
+
+            return available;
+        }
+
         #region cheats
         /// <summary>
         /// Give all to player
