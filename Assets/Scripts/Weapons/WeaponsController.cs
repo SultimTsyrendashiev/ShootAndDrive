@@ -22,6 +22,9 @@ namespace SD.Weapons
         AudioSource[]       audioSources;       // audio sources for weapons
         int                 audioSourceIndex;   // last audio source  
 
+        bool                isSwitching;
+        bool                canSwitchToAnotherNext;
+
         Animation           commonAnimation;
         const string        animHide    = "WeaponHide";
         const string        animTakeOut = "WeaponTake";
@@ -63,6 +66,9 @@ namespace SD.Weapons
 
             commonAnimation = GetComponent<Animation>();
             Debug.Assert(commonAnimation != null);
+
+            isSwitching = false;
+            canSwitchToAnotherNext = false;
 
             // for testing
             TakeOutWeapon();
@@ -145,14 +151,44 @@ namespace SD.Weapons
 
         public void SwitchTo(WeaponIndex w)
         {
+            if (currentWeapon == w)
+            {
+                return;
+            }
+
             // check if bought or not broken
             if (!inventoryWeapons.IsAvailable(w))
             {
                 return;
             }
 
-            nextWeapon = w;
+            // if currently switching to one weapon
+            // but player changed his mind 
+            // and now wants another weapon;
+            // it's possible if old desired weapon
+            // is not appeared yet
+            if (isSwitching && canSwitchToAnotherNext)
+            {
+                // just reassign next weapon
+                // and don't call WaitForSwitch()
+                nextWeapon = w;
+                return;
+            }
+            else if (isSwitching && !canSwitchToAnotherNext)
+            {
+                // old desired weapon is already appeared
+                // so start new coroutine
+                StartCoroutine(WaitForNewNext(w));
 
+                return;
+            }
+
+            // note: it's impossible 
+            // if 'isSwitching' = 0
+            // and 'canSwitchToAnotherNext' = 1
+
+            // 
+            nextWeapon = w;
             StartCoroutine(WaitForSwitch());
         }
 
@@ -162,12 +198,28 @@ namespace SD.Weapons
         /// </summary>
         IEnumerator WaitForSwitch()
         {
+            isSwitching = true;
+            canSwitchToAnotherNext = true;
+
             // disable current
             weapons[currentWeapon].ForceDisable();
+
+            // wait for disabling state
+            while (weapons[currentWeapon].State != WeaponState.Disabling)
+            {
+                yield return null;
+            }
+
+            // weapon is now disabling, so play animation
             commonAnimation.Play(animHide);
 
-            // wait to disable
-            yield return new WaitForSeconds(weapons[currentWeapon].TakingOutTime);
+            // wait for hiding
+            yield return new WaitForSeconds(weapons[currentWeapon].HidingTime);
+
+            // if player changed his mind and wants another
+            // now he can't switch to it;
+            // he must wait for previous
+            canSwitchToAnotherNext = false;
 
             // enable next
             weapons[nextWeapon].Enable();
@@ -175,6 +227,20 @@ namespace SD.Weapons
 
             // set new current
             currentWeapon = nextWeapon;
+            isSwitching = false;
+        }
+
+        IEnumerator WaitForNewNext(WeaponIndex newNext)
+        {
+            // wait for old switching
+            while (isSwitching)
+            {
+                yield return null;
+            }
+
+            // now it's safe to reassign 'nextWeapon'
+            nextWeapon = newNext;
+            StartCoroutine(WaitForSwitch());
         }
 
         public void PlaySound(AudioClip clip)

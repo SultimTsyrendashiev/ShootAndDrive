@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 namespace SD.UI
@@ -10,7 +11,18 @@ namespace SD.UI
     public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
         [SerializeField]
+        Canvas canvas;
+
+        [SerializeField]
         InputController inputController;
+
+        [SerializeField]
+        RectTransform joystickBase;
+        [SerializeField]
+        RectTransform joystickDot;
+        
+        Image baseImage;
+        Image dotImage;
 
         Vector3 startPosition;
         float movementRange;
@@ -18,56 +30,55 @@ namespace SD.UI
         void Start()
         {
             // range is a half of parent's width
-            movementRange = transform.parent.GetComponent<RectTransform>().rect.width / 2;
-        }
+            movementRange = joystickBase.rect.width / 2;
 
-        void OnEnable()
-        {
-            startPosition = transform.position;
+            baseImage = joystickBase.GetComponent<Image>();
+            dotImage = joystickDot.GetComponent<Image>();
+
+            baseImage.enabled = false;
+            dotImage.enabled = false;
         }
 
         void UpdateAxis(float delta)
         {
-            delta /= movementRange;
+            // correct range according to canvas scale
+            float actualRange = movementRange * canvas.scaleFactor;
+
+            delta /= actualRange;
             inputController.UpdateMovementInput(delta);
         }
 
         public void OnDrag(PointerEventData data)
         {
-            float delta = data.position.x - startPosition.x;
-            delta = Mathf.Clamp(delta, -movementRange, movementRange);
+            // correct range according to canvas scale
+            float actualRange = movementRange * canvas.scaleFactor;
 
-            transform.position = new Vector3(startPosition.x + delta, startPosition.y, startPosition.z);
+            float delta = data.position.x - startPosition.x;
+            delta = Mathf.Clamp(delta, -actualRange, actualRange);
+            
+            joystickDot.position = new Vector3(startPosition.x + delta, startPosition.y, startPosition.z);
             UpdateAxis(delta);
         }
 
         public void OnPointerUp(PointerEventData data)
         {
-            transform.position = startPosition;
+            joystickBase.position = startPosition;
+            joystickDot.position = startPosition;
             UpdateAxis(0.0f);
+
+            baseImage.enabled = false;
+            dotImage.enabled = false;
         }
 
-        public void OnPointerDown(PointerEventData data) { }
+        public void OnPointerDown(PointerEventData data)
+        {
+            startPosition = data.position;
 
-        ///// <summary>
-        ///// Called on pointer down on movement field
-        ///// </summary>
-        //public void OnMovementDown(BaseEventData data)
-        //{
-        //    // only joystick
-        //    Debug.Assert(UIController.Instance.MovementInputType == MovementInputType.Joystick);
+            joystickBase.position = startPosition;
+            joystickDot.position = startPosition;
 
-        //    PointerEventData pointerData = (PointerEventData)data;
-        //    UIController.Instance.ActivateJoystick(pointerData.position);
-        //}
-
-        ///// <summary>
-        ///// Called on pointer up from movement field
-        ///// </summary>
-        //public void OnMovementUp()
-        //{
-        //    UIController.Instance.DeactivateJoystick();
-        //}
-
+            baseImage.enabled = true;
+            dotImage.enabled = true;
+        }
     }
 }

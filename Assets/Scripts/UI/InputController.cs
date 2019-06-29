@@ -25,6 +25,8 @@ namespace SD.UI
 #if UNITY_EDITOR
         [SerializeField]
         bool useEditorInput;
+        [SerializeField]
+        bool ignoreMovementInput;
         int currentWeaponIndex = 0;
 
         void Update()
@@ -34,8 +36,11 @@ namespace SD.UI
                 return;
             }
 
-            float x = Input.GetAxis("Horizontal");
-            movementHorizontal = x;
+            if (!ignoreMovementInput)
+            {
+                float x = Input.GetAxis("Horizontal");
+                movementHorizontal = x;
+            }
 
             if (Input.GetKey(KeyCode.E))
             {

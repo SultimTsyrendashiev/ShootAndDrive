@@ -46,19 +46,4 @@ public class SteeringWheel : MonoBehaviour
         Vector3 angle = new Vector3(0, 0, Mathf.Lerp(-MaxAngle, MaxAngle, steeringNormalized));
         rotator.localEulerAngles = angle;
     }
-
-    void FixedUpdate()
-    {
-        // ignore if too small
-        if (Mathf.Abs(steering) < Threshold)
-        {
-            return;
-        }
-
-        // send steering value to vehicle
-        if (vehicle != null)
-        {
-            vehicle.Steer(steering);
-        }
-    }
 }
