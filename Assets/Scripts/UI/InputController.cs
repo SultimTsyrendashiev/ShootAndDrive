@@ -55,7 +55,6 @@ namespace SD.UI
 
                         if (WeaponsController.Instance.GetNextAvailable(current, out available, pressedRight))
                         {
-
                             SelectWeapon(available);
                         }
                     }

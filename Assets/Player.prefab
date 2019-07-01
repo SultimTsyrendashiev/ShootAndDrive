@@ -5119,7 +5119,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1437008462
 Transform:
   m_ObjectHideFlags: 0
@@ -6440,7 +6440,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -6604,7 +6604,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -6687,7 +6687,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -7249,7 +7249,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 2
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -7536,7 +7536,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -8016,7 +8016,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -8260,7 +8260,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -9762,7 +9762,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -9797,7 +9797,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 816928564690809297}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0.22, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -54.242367, y: -15.815544, z: 0}
 --- !u!33 &1971720703751684486
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -9924,7 +9924,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -10151,7 +10151,7 @@ Transform:
   - {fileID: 1045537746}
   m_Father: {fileID: 7581316841629412209}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -5.703124, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -1.6431497, y: 0, z: 0}
 --- !u!33 &2808465316393582078
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -10784,7 +10784,7 @@ Transform:
   - {fileID: 1053141497}
   m_Father: {fileID: 7581316840524449087}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -5.15, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -2.7187076, y: 0, z: 0}
 --- !u!33 &7581316839754900982
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -10953,7 +10953,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7581316841243243572}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -6.9, y: -180.88, z: 0}
 --- !u!33 &7581316839813071971
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -11127,7 +11127,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -11179,7 +11179,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -11263,7 +11263,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -11315,7 +11315,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -11525,7 +11525,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -12070,7 +12070,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -12368,7 +12368,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7581316841243243572}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -77.35, y: -16.740002, z: 0}
 --- !u!33 &7581316840852524973
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -12464,7 +12464,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -12706,7 +12706,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -12758,7 +12758,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -12919,7 +12919,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7581316839754900980}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 19.08, z: 0}
 --- !u!33 &7581316841287266617
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -13376,7 +13376,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.03
+  JamProbability: 0.5
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}

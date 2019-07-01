@@ -12,24 +12,27 @@ namespace SD.Player
         private string name;
         private int cost;
         private int amount;
+        private int maxAmount;
 
-        public AmmoStats(string name, int cost, int amount)
+        public AmmoStats(string name, int cost, int amount, int maxAmount)
         {
             this.name = name;
             this.cost = cost;
             this.amount = amount;
+            this.maxAmount = maxAmount;
         }
 
         #region getters
-        public string Name { get { return name; } }
+        public string Name => name; 
         /// <summary>
         /// Cost of ammo for some amount ("Count")
         /// </summary>
-        public int Cost { get { return cost; } }
+        public int Cost => cost; 
         /// <summary>
         /// Amount of ammo which can be bought for some cost ("Cost")
         /// </summary>
-        public int Amount { get { return amount; } }
+        public int Amount => amount; 
+        public int MaxAmount => maxAmount;
         #endregion
     }
 }

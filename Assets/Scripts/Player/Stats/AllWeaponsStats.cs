@@ -61,11 +61,11 @@ namespace SD.Player
                 11000, 4500, 8, 0.08f, 0.2f));
 
             weapons.Add(WeaponIndex.Shotgun,            new WeaponStats("Shotgun", AmmoType.Shells, 
-                4500, 600, 7, 0.75f, 0.3f));
+                4500, 600, 7, 0.75f, 0.42f));
             weapons.Add(WeaponIndex.ShotgunAuto,        new WeaponStats("Auto Shotgun", AmmoType.Shells, 
-                8000, 500, 7, 0.5f, 0.6f));
+                8000, 500, 7, 0.5f, 0.55f));
             weapons.Add(WeaponIndex.ShotgunDouble,      new WeaponStats("Double Barrel Shotgun", AmmoType.Shells, 
-                9000, 2200, 10, 1.0f, 0.8f));
+                9000, 2200, 10, 1.0f, 0.7f));
 
             weapons.Add(WeaponIndex.RifleAssault,       new WeaponStats("Assault Rifle", AmmoType.Bullets, 
                 13000, 4200, 20, 0.08f, 0.2f));

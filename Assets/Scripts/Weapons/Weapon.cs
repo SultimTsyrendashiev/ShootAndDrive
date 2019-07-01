@@ -11,7 +11,8 @@ namespace SD.Weapons
     {
         #region fields
         #region readonly
-        protected int WeaponLayerMask; // Layers to be tested
+        protected int WeaponLayerMask; // Mask to be tested
+        protected int DamageableLayer; // Layer with damageable objects
 
         private string AnimShootName;
         private string AnimJamName;
@@ -84,13 +85,6 @@ namespace SD.Weapons
         #endregion
 
         #region initialization
-
-        void Start()
-        {
-            WeaponLayerMask = LayerMask.GetMask(LayerNames.Default, LayerNames.Damageable);
-            state = WeaponState.Nothing;
-        }
-
         /// <summary>
         /// Init fields from player's items
         /// </summary>
@@ -121,6 +115,10 @@ namespace SD.Weapons
             AnimJamName = "J" + tempName;
             AnimUnjamName = "U" + tempName;
             AnimBreakName = "B" + tempName;
+
+            // layers
+            WeaponLayerMask = ~((1 << LayerMask.GetMask(LayerNames.Default)) | (1 << LayerMask.GetMask(LayerNames.Damageable)));
+            DamageableLayer = LayerMask.NameToLayer(LayerNames.Damageable);
 
             // set hand animation
             handPivot = GetComponentInChildren<HandPivot>(true);

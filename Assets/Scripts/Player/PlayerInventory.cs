@@ -183,7 +183,7 @@ namespace SD.Player
             foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
             {
                 // TODO: remove, 1 is for test
-                Weapons.SetHealth(w, 1 /*AllWeaponsStats.Instance.Get(w).Durability*/);
+                Weapons.SetHealth(w, AllWeaponsStats.Instance.Get(w).Durability);
                 Weapons.SetBought(w, true);
             }
         }
@@ -195,7 +195,7 @@ namespace SD.Player
         {
             foreach (AmmoType a in Enum.GetValues(typeof(AmmoType)))
             {
-                Ammo.Set(a, 2000);
+                Ammo.Set(a, AllAmmoStats.Instance.Get(a).MaxAmount);
             }
         }
         #endregion

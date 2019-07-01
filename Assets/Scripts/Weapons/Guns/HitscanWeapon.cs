@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using SD.Player;
 
 namespace SD.Weapons
@@ -12,20 +9,16 @@ namespace SD.Weapons
     /// </summary>
     abstract class HitscanWeapon : Weapon
     {
-        // Assume that this is readonly
-        protected int DamageableLayer;
-
-        protected Camera PlayerCamera;
+        protected Transform AimTransform;
         protected Transform Casings;
         protected Transform MuzzleFlash;
 
-        protected float AimRadius = 2.0f;
+        protected float AimRadius = 1.3f;
         protected float Range = 150.0f;
 
         void Start()
         {
-            DamageableLayer = LayerMask.NameToLayer(LayerNames.Damageable);
-            PlayerCamera = Player.Player.Instance.MainCamera;
+            AimTransform = CameraShaker.Instance.transform;
             Casings = FindChildByName("Casings");
             MuzzleFlash = FindChildByName("Muzzle");
         }
@@ -34,14 +27,8 @@ namespace SD.Weapons
 
         protected void CheckRay(Vector3 from, Vector3 direction)
         {
-            Vector3 aimedDir;
-            Autoaim.Aim(from, direction, AimRadius, out aimedDir, WeaponLayerMask);
-
-            // TODO:
-            // process accuracy
-
             RaycastHit hit;
-            if (Physics.Raycast(from, aimedDir, out hit, Range, WeaponLayerMask))
+            if (Physics.Raycast(from, direction, out hit, Range, WeaponLayerMask))
             {
                 if (hit.collider.gameObject.layer == DamageableLayer)
                 {
