@@ -21,7 +21,7 @@ namespace SD.Player
             playerWeapons.Clear();
         }
 
-        public void Add(WeaponIndex weapon, float health, bool isBought)
+        public void Add(WeaponIndex weapon, int health, bool isBought)
         {
             if (playerWeapons.ContainsKey(weapon))
             {
@@ -36,9 +36,9 @@ namespace SD.Player
             return playerWeapons[w];
         }
 
-        public void SetHealth(WeaponIndex w, float health)
+        public void SetHealth(WeaponIndex w, int health)
         {
-            playerWeapons[w].Health = health;
+            playerWeapons[w].GetHealthRef().Value = health;
         }
 
         public void SetBought(WeaponIndex w, bool isBought)

@@ -14,18 +14,24 @@ namespace SD.Player
         /// <summary>
         /// Health in percents [0,1]
         /// </summary>
-        public float        Health;
+        private RefInt       refHealth;
+
         public bool         IsBought;
 
-        public WeaponIndex  This { get { return weapon; } }
-        public bool         IsBroken { get { return Health <= 0.0f; } }
-        public WeaponStats  Stats { get { return AllWeaponsStats.Instance.Get(weapon); } }
+        public WeaponIndex  This => weapon;
+        public bool         IsBroken => refHealth.Value <= 0.0f;
+        public WeaponStats  Stats => AllWeaponsStats.Instance.Get(weapon);
 
-        public WeaponItem(WeaponIndex weapon, float health, bool isBought)
+        public WeaponItem(WeaponIndex weapon, int health, bool isBought)
         {
             this.weapon = weapon;
-            this.Health = health;
+            this.refHealth = new RefInt(health);
             this.IsBought = isBought;
+        }
+
+        public RefInt GetHealthRef()
+        {
+            return refHealth;
         }
     }
 }

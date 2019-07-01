@@ -43,6 +43,8 @@ namespace SD.Player
 
         void Awake()
         {
+            Application.targetFrameRate = 30;
+
             Debug.Assert(instance == null, "Several players in a scene");
             Debug.Assert(steeringWheel != null);
           
@@ -51,6 +53,7 @@ namespace SD.Player
 
             // load items from player prefs
             Inventory.Load();
+            Inventory.GiveAll();
 
             state = PlayerState.Ready;
         }
@@ -75,41 +78,36 @@ namespace SD.Player
 
         public void RegenerateHealth()
         {            
-            // check if weapon state is Ready
-            if (WeaponsController.Instance.GetCurrentWeaponState() != WeaponState.Ready)
+            // if player is busy
+            if (state != PlayerState.Ready)
             {
                 return;
             }
 
-            state = PlayerState.Regenerating;
-
-            // hide weapon
-            WeaponsController.Instance.HideWeapon();
-
-            // regenerate
-            if (health < MinHealthForRegeneration)
+            // if weapons controller is busy
+            if (WeaponsController.Instance.IsBusy())
             {
-                // regeneration without medkit
-                health += HealthToRegenerate;
-
-                if (health < MinRegeneratedHealth)
-                {
-                    health = MinRegeneratedHealth;
-                }
-
-                StartCoroutine(WaitForRegeneration(false));
+                return;
             }
-            else if (health < MaxHealth)
-            {
-                // use medkit
-                health = MaxHealth;
 
-                StartCoroutine(WaitForRegeneration(true));
+            // regenerate if health is not max
+            if (health < MaxHealth)
+            {
+                StartCoroutine(WaitForRegeneration());
             }
         }
 
-        IEnumerator WaitForRegeneration(bool usingMedkit)
+        IEnumerator WaitForRegeneration()
         {
+            state = PlayerState.Regenerating;
+
+            // hide weapon and wait
+            WeaponsController.Instance.HideWeapon();
+            while (WeaponsController.Instance.IsBusy())
+            {
+                yield return null;
+            }
+
             // TODO:
             // anim, sound
 
@@ -124,6 +122,21 @@ namespace SD.Player
                 }
 
             } while (state != PlayerState.Ready);
+
+            // add health
+            if (health < MinHealthForRegeneration)
+            {
+                health += HealthToRegenerate;
+
+                if (health < MinRegeneratedHealth)
+                {
+                    health = MinRegeneratedHealth;
+                }
+            }
+            else
+            {
+                health = HealthAfterMedkit;
+            }
 
             // finally, take out weapon
             WeaponsController.Instance.TakeOutWeapon();

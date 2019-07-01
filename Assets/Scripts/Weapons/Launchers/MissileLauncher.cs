@@ -27,12 +27,15 @@ namespace SD.Weapons
 
         protected override void PrimaryAttack()
         {
+            // main
             SpawnMissile();
 
+            // effects
             PlayPrimaryAnimation();
             PlayAudio(ShotSound);
             RecoilJump();
 
+            // particles
             // WeaponsParticles.Instance.EmitMuzzle(MuzzleFlash.position, MuzzleFlash.rotation);
         }
 

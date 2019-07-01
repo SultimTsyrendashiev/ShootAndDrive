@@ -104,5 +104,10 @@ namespace SD.Player
         {
             return !(a == AmmoType.Cannonballs || a == AmmoType.FireBottles || a == AmmoType.Grenades);
         }
+
+        public bool CanBreak(AmmoType a)
+        {
+            return !(a == AmmoType.Cannonballs || a == AmmoType.FireBottles || a == AmmoType.Grenades);
+        }
     }
 }

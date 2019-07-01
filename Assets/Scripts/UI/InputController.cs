@@ -2,7 +2,6 @@
 using UnityEngine;
 using SD.Player;
 using SD.Weapons;
-using UnityEngine.EventSystems;
 
 namespace SD.UI
 {
@@ -27,7 +26,6 @@ namespace SD.UI
         bool useEditorInput;
         [SerializeField]
         bool ignoreMovementInput;
-        int currentWeaponIndex = 0;
 
         void Update()
         {
@@ -42,33 +40,29 @@ namespace SD.UI
                 movementHorizontal = x;
             }
 
-            if (Input.GetKey(KeyCode.E))
-            {
-                if (WeaponsController.Instance.GetCurrentWeaponState() == Weapons.WeaponState.Ready)
-                {
-                    currentWeaponIndex++;
-                    if (currentWeaponIndex >= Enum.GetValues(typeof(WeaponIndex)).Length)
-                    {
-                        currentWeaponIndex = 0;
-                    }
+            bool pressedRight = Input.GetKey(KeyCode.E);
+            bool pressedLeft = Input.GetKey(KeyCode.Q);
 
-                    SelectWeapon((WeaponIndex)currentWeaponIndex);
-                }
-            }
-            else if (Input.GetKey(KeyCode.Q))
+            if (pressedLeft || pressedRight)
             {
-                if (WeaponsController.Instance.GetCurrentWeaponState() == Weapons.WeaponState.Ready)
+                if (!WeaponsController.Instance.IsBusy())
                 {
-                    currentWeaponIndex--;
-                    if (currentWeaponIndex < 0)
-                    {
-                        currentWeaponIndex = Enum.GetValues(typeof(WeaponIndex)).Length - 1;
-                    }
+                    WeaponIndex current;
 
-                    SelectWeapon((WeaponIndex)currentWeaponIndex);
+                    if (WeaponsController.Instance.GetCurrentWeapon(out current))
+                    {
+                        WeaponIndex available;
+
+                        if (WeaponsController.Instance.GetNextAvailable(current, out available, pressedRight))
+                        {
+
+                            SelectWeapon(available);
+                        }
+                    }
                 }
             }
         }
+
 #endif
         #endregion
 

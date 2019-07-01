@@ -61,13 +61,9 @@ namespace SD.Weapons
             // main
             Hitscan();
 
-            // animation
+            // effects
             PlayPrimaryAnimation();
-            
-            // sound
             PlayAudio(ShotSound);
-
-            // camera
             RecoilJump();
 
             // particles

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 namespace SD.Weapons
 {
+    delegate void WeaponBreak(WeaponIndex brokenWeapon); 
+
     abstract class Weapon : MonoBehaviour
     {
         #region fields
@@ -23,6 +25,11 @@ namespace SD.Weapons
 
         private WeaponState state;
 
+        /// <summary>
+        /// Common event, called on waepon breaking
+        /// </summary>
+        public static event WeaponBreak OnWeaponBreak;
+
         // Items in player's inventory
         private WeaponItem item;
         private AmmoHolder ammo;
@@ -33,8 +40,11 @@ namespace SD.Weapons
         private AmmoType ammoType;
         private float reloadingTime;
         private float accuracy;
-        private float health;
-        private float shotDmg;      // damage to the weapon, for 1 shot
+        private int durability;
+
+        // weapon's health must be synced with inventory
+        // so use reference to that int
+        private RefInt refHealth;
 
         public float TakingOutTime = 0.2f;
         public float HidingTime = 0.2f;
@@ -64,12 +74,12 @@ namespace SD.Weapons
         /// <summary>
         /// Health in percents: [0,1]
         /// </summary>
-        public float Health => health;
+        public float Health => (float)refHealth.Value / durability;
         /// <summary>
         /// Accuracy in percents
         /// </summary>
         public float Accuracy => accuracy;
-        public bool IsBroken => health <= 0.0f;
+        public bool IsBroken => refHealth.Value <= 0;
         public WeaponState State => state;
         #endregion
 
@@ -98,8 +108,8 @@ namespace SD.Weapons
             reloadingTime = item.Stats.ReloadingTime;
             accuracy = item.Stats.Accuracy;
 
-            shotDmg = 1.0f / (float)item.Stats.Durability;
-            health = item.Health;
+            durability = item.Stats.Durability;
+            refHealth = item.GetHealthRef();
 
             // get anim
             weaponAnimation = GetComponentInChildren<Animation>(true);
@@ -208,7 +218,9 @@ namespace SD.Weapons
             CameraShaker.Instance.Shake(sign * RecoilJumpMultiplier * Mathf.Log(Mathf.Abs(force)), time);
         }
 
-        // Should this weapon be jammed?
+        /// <summary>
+        /// Should this weapon jam?
+        /// </summary>
         bool ToJam()
         {
             // throwables and cannon never jam
@@ -217,7 +229,28 @@ namespace SD.Weapons
                 return false;
             }
 
-            return health > HealthToJam ? false : Random.Range(0.0f, 1.0f) < JamProbability;
+            return refHealth.Value > HealthToJam ? false : Random.Range(0.0f, 1.0f) < JamProbability;
+        }
+
+        /// <summary>
+        /// Shortcut for 'AllWeaponsStats.Instance.CanBreak'
+        /// </summary>
+        bool CanBreak()
+        {
+            return AllWeaponsStats.Instance.CanBreak(AmmoType);
+        }
+
+        /// <summary>
+        /// Should this weapon break?
+        /// </summary>
+        bool ToBreak()
+        {
+            if (!CanBreak())
+            {
+                return false;
+            }
+
+            return refHealth.Value <= 0;
         }
         #endregion
 
@@ -241,33 +274,30 @@ namespace SD.Weapons
             yield return new WaitForSeconds(time);
             state = WeaponState.Nothing;
 
-            // sync with player's inventory
-            item.Health = health;
-
             gameObject.SetActive(false);
             Deactivate();
         }
 
         /// <summary>
         /// Force weapon to disable.
-        /// When weapon is disabled, its state is Nothing.
+        /// Note: when weapon is disabled, its state is Nothing.
         /// </summary>
-        public void ForceDisable()
+        public bool ForceDisable()
         {
             switch (state)
             {
                 case WeaponState.Nothing:
-                    return;
+                    return true;
                 case WeaponState.Breaking:
-                    return;
+                    return false;
                 case WeaponState.Disabling:
-                    return;
+                    return false;
                 case WeaponState.Ready:
                     Disable();
-                    return;
+                    return false;
                 default:
                     StartCoroutine(WaitForReady());
-                    return;
+                    return false;
             }
         }
 
@@ -293,9 +323,6 @@ namespace SD.Weapons
             }
 
             state = WeaponState.Enabling;
-
-            // sync with player's inventory
-            health = item.Health;
 
             gameObject.SetActive(true);
             Activate();
@@ -331,15 +358,14 @@ namespace SD.Weapons
 
             state = WeaponState.Reloading;
 
-            // throwables never breaks
-            if (AmmoType == AmmoType.FireBottles || AmmoType == AmmoType.Grenades)
+            // process shooting damage to the weapon
+            if (CanBreak())
             {
-                // process shooting damage to the weapon
-                health -= shotDmg;
+                refHealth.Value--;
             }
-
+            
             // break if not enough health
-            if (health < 0.0f)
+            if (ToBreak())
             {
                 Break();
                 return;
@@ -397,6 +423,8 @@ namespace SD.Weapons
 
         void Break()
         {
+            state = WeaponState.Breaking;
+
             // play anim and sound
             PlayBreakingAnimation();
             PlayAudio(BreakSound);
@@ -406,10 +434,13 @@ namespace SD.Weapons
 
         IEnumerator WaitForBreak()
         {
-            // wait for reloading time without disbling
-            yield return new WaitForSeconds(reloadingTime - HidingTime);
+            // wait for breaking time without disabling
+            yield return new WaitForSeconds(weaponAnimation[AnimBreakName].length);
 
-            // then disable
+            // call event
+            OnWeaponBreak(weaponIndex);
+
+            // then disable (there will be waited for disabling)
             Disable();
         }
 

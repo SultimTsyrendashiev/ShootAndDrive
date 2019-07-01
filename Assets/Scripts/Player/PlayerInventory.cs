@@ -35,6 +35,12 @@ namespace SD.Player
             DontDestroyOnLoad(gameObject);
         }
 
+        void OnDestroy()
+        {
+            // save data
+            Save();
+        }
+
         #region saving / loading
         /// <summary>
         /// Save inventory
@@ -86,14 +92,14 @@ namespace SD.Player
             int bought = weapon.IsBought ? 1 : 0;
             PlayerPrefs.SetInt(GetNameB(w), bought);
 
-            float health = weapon.Health;
-            PlayerPrefs.SetFloat(GetNameH(w), health);
+            int health = weapon.GetHealthRef().Value;
+            PlayerPrefs.SetInt(GetNameH(w), health);
         }
 
         void LoadWeapon(WeaponIndex w)
         {
             int bought = PlayerPrefs.GetInt(GetNameB(w), 0);
-            float health = PlayerPrefs.GetFloat(GetNameH(w), 0);
+            int health = PlayerPrefs.GetInt(GetNameH(w), 0);
 
             Weapons.Add(w, health, bought == 1);
         }
@@ -176,7 +182,8 @@ namespace SD.Player
         {
             foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
             {
-                Weapons.SetHealth(w, 0.000001f);
+                // TODO: remove, 1 is for test
+                Weapons.SetHealth(w, 1 /*AllWeaponsStats.Instance.Get(w).Durability*/);
                 Weapons.SetBought(w, true);
             }
         }

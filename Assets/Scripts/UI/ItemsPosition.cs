@@ -36,9 +36,9 @@ namespace SD.UI
         {
             var thisTransform = GetComponent<RectTransform>();
 
-            float deltaAngle = Mathf.Abs(EndAngle - StartAngle) / (count - 1);
+            count = Mathf.Min(thisTransform.childCount, count);
 
-            Debug.Assert(thisTransform.childCount <= count);
+            float deltaAngle = Mathf.Abs(EndAngle - StartAngle) / (count - 1);
 
             for (int i = 0; i < count; i++)
             {

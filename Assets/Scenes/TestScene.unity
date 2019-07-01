@@ -6400,6 +6400,82 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2032386654, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386658, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386660, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386661, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386656, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386659, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386653, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386657, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386655, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386665, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386663, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386669, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386667, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386664, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386670, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386662, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386666, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386668, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032386652, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
+      propertyPath: JamProbability
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fb7ac223cb085f4bb25359fccb3dfa8, type: 3}
 --- !u!1 &2032472241
