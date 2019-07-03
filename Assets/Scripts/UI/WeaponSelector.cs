@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using SD.Player;
+using SD.PlayerLogic;
 
 namespace SD.UI
 {
@@ -31,7 +31,7 @@ namespace SD.UI
             inputController.OnWeaponSelectorDown();
 
             // get available weapons
-            availableWeapons = Player.Player.Instance.Inventory.GetAvailableWeapons();
+            availableWeapons = PlayerLogic.Player.Instance.Inventory.GetAvailableWeapons();
             count = availableWeapons.Count > 5 ? 5 : availableWeapons.Count;
 
             // place them on hud

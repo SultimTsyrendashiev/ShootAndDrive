@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace SD.Weapons
+namespace SD
 {
     /// <summary>
     /// Represents damage.

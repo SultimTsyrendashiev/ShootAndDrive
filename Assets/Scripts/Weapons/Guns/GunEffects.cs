@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using SD.Player;
+using SD.PlayerLogic;
 
 namespace SD.Weapons
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SD.Player
+namespace SD.PlayerLogic
 {
     // Represents weapon item in player's inventory
     class WeaponItem

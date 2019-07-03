@@ -7,10 +7,9 @@ namespace SD.Weapons
         const float AccuracyMultiplier = 3;
 
         protected override void Hitscan()
-        {            
+        {
             // autoaim
-            Vector3 aimedDir;
-            Autoaim.Aim(AimTransform.position, AimTransform.forward, AimRadius, out aimedDir, Range, WeaponLayerMask);
+            Autoaim.Aim(AimTransform.position, AimTransform.forward, AimRadius, out Vector3 aimedDir, Range, AutoaimLayerMask);
 
             // process accuracy
             float rangex = 2 * Accuracy * AccuracyMultiplier;

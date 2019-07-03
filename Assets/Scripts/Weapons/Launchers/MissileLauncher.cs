@@ -42,10 +42,10 @@ namespace SD.Weapons
         void SpawnMissile()
         {
             // TODO: object pool
-            GameObject missileObj = Instantiate(this.Missile.gameObject, missileSpawn.position, Player.Player.Instance.transform.rotation);
+            GameObject missileObj = Instantiate(this.Missile.gameObject, missileSpawn.position, PlayerLogic.Player.Instance.transform.rotation);
 
             Missile missile = missileObj.GetComponent<Missile>();
-            missile.Init(DamageValue, damageRadius, Player.Player.Instance.gameObject);
+            missile.Init(DamageValue, damageRadius, PlayerLogic.Player.Instance.gameObject);
             missile.Launch(launchSpeed);
         }
     }

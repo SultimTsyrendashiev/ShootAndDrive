@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SD.Weapons;
 
-namespace SD.Player
+namespace SD.PlayerLogic
 {
     // Represents all weapons in player's inventory
     class WeaponsHolder

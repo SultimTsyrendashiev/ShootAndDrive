@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using SD.Player;
+using SD.PlayerLogic;
 using SD.Weapons;
 
 namespace SD.UI
@@ -159,7 +159,7 @@ namespace SD.UI
         public void OnHealthClick()
         {
             // try to regenerate
-            Player.Player.Instance.RegenerateHealth();
+            PlayerLogic.Player.Instance.RegenerateHealth();
         }
 
         /// <summary>

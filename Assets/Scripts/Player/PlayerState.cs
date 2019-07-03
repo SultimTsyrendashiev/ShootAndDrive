@@ -1,4 +1,4 @@
-﻿namespace SD.Player
+﻿namespace SD.PlayerLogic
 {
     enum PlayerState
     {

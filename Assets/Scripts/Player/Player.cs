@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SD.Weapons;
 using SD.UI;
+using SD.Vehicles;
 
-namespace SD.Player
+namespace SD.PlayerLogic
 {
+    /// <summary>
+    /// Player class. There must be 
+    /// 'PlayerVehicle' and 'PlayerDamageReceiver'
+    /// as child objects
+    /// </summary>
+    [RequireComponent(typeof(Rigidbody))]
     class Player : MonoBehaviour, IDamageable
     {
         #region constants
@@ -26,40 +32,51 @@ namespace SD.Player
         const float                 MaxHealth = 100;
         #endregion
 
-        PlayerState                 state;
-        private float               health;
-
-        // steering wheel is used for controlling a vehicle
-        [SerializeField]
-        private SteeringWheel       steeringWheel; 
-
         private Camera              playerCamera;
+        PlayerState                 state;
+        private float               health = MaxHealth; // temporary, must be set by game controller
+
+        private PlayerVehicle       playerVehicle;
+        private ISteeringWheel      steeringWheel; 
 
         private static Player       instance;
         public static Player        Instance => instance;
+
         public Camera               MainCamera => playerCamera;
         public PlayerInventory      Inventory => PlayerInventory.Instance;
         public PlayerState          State => state;
+        public float                Health => health;
 
         void Awake()
         {
+            Debug.Assert(instance == null, "Several players in a scene", this);
+            instance = this;
+
+            #region TODO: remove from this class
             Application.targetFrameRate = 30;
 
-            Debug.Assert(instance == null, "Several players in a scene");
-            Debug.Assert(steeringWheel != null);
-          
-            instance = this;
-            playerCamera = GetComponentInChildren<Camera>();
-
+            // TODO: must be not here
             // load items from player prefs
             Inventory.Load();
             Inventory.GiveAll();
+            #endregion
+        }
 
+        void Start()
+        {
+            playerCamera = GetComponentInChildren<Camera>();
+            playerVehicle = GetComponentInChildren<PlayerVehicle>(true);
+
+            Debug.Assert(playerVehicle != null, "There must be a 'PlayerVehicle' as child object", this);
+
+            steeringWheel = playerVehicle.SteeringWheel;
             state = PlayerState.Ready;
         }
 
         void Update()
         {
+            // player must call steering wheel methods
+            // to control vehicle
             float x = InputController.MovementHorizontal;
             steeringWheel.Steer(x);
         }
@@ -146,15 +163,10 @@ namespace SD.Player
 #endregion
 
 #region inherited
-        float IDamageable.Health
-        {
-            get
-            {
-                return health;
-            }
-        }
-
-        void IDamageable.ReceiveDamage(Damage damage)
+        /// <summary>
+        /// Note: must be called only by 'PlayerDamageReceiver'
+        /// </summary>
+        public void ReceiveDamage(Damage damage)
         {
             float damageValue = damage.Value;
 

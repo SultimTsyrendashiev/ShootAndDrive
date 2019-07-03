@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SD.Weapons;
 
-namespace SD.Player
+namespace SD.PlayerLogic
 {
     /// <summary>
     /// Player's inventory.
@@ -52,7 +52,7 @@ namespace SD.Player
                 SaveWeapon(w);
             }
 
-            foreach (AmmoType a in Enum.GetValues(typeof(AmmoType)))
+            foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
             {
                 SaveAmmo(a);
             }
@@ -74,7 +74,7 @@ namespace SD.Player
                 LoadWeapon(w);
             }
 
-            foreach (AmmoType a in Enum.GetValues(typeof(AmmoType)))
+            foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
             {
                 LoadAmmo(a);
             }
@@ -104,13 +104,13 @@ namespace SD.Player
             Weapons.Add(w, health, bought == 1);
         }
 
-        void SaveAmmo(AmmoType a)
+        void SaveAmmo(AmmunitionType a)
         {
             int amount = Ammo.Get(a);
             PlayerPrefs.SetInt(GetAmmoName(a), amount);
         }
         
-        void LoadAmmo(AmmoType a)
+        void LoadAmmo(AmmunitionType a)
         {
             int amount = PlayerPrefs.GetInt(GetAmmoName(a), 0);
             Ammo.Set(a, amount);
@@ -140,7 +140,7 @@ namespace SD.Player
             return AllWeaponsStats.Instance.Get(w).Name + "Health";
         }
 
-        string GetAmmoName(AmmoType a)
+        string GetAmmoName(AmmunitionType a)
         {
             return a.ToString();
         }
@@ -193,7 +193,7 @@ namespace SD.Player
         /// </summary>
         public void GiveAllAmmo()
         {
-            foreach (AmmoType a in Enum.GetValues(typeof(AmmoType)))
+            foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
             {
                 Ammo.Set(a, AllAmmoStats.Instance.Get(a).MaxAmount);
             }

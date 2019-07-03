@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SD.Weapons;
 
-namespace SD.Player
+namespace SD.PlayerLogic
 {
     // Represents stats of a weapon in a shop
     // Used in weapons system
@@ -10,7 +10,7 @@ namespace SD.Player
     class WeaponStats
     {
         string name;            // name
-        AmmoType ammoType;      // what ammo type this weapon uses
+        AmmunitionType ammoType;      // what ammo type this weapon uses
 
         int cost;               // cost in a shop
         int durability;         // how many shots is needed to destroy weapon
@@ -19,7 +19,7 @@ namespace SD.Player
         float reloadingTime;    // in seconds
         float accuracy;         // accuracy in percents
 
-        public WeaponStats(string name, AmmoType ammoType, int cost, int durability, float damage, float reloadingTime, float accuracy)
+        public WeaponStats(string name, AmmunitionType ammoType, int cost, int durability, float damage, float reloadingTime, float accuracy)
         {
             this.name = name;
             this.ammoType = ammoType;
@@ -34,7 +34,7 @@ namespace SD.Player
 
         #region getters
         public string Name { get { return name; } }
-        public AmmoType AmmoType { get { return ammoType; } }
+        public AmmunitionType AmmoType { get { return ammoType; } }
         public int Cost { get { return cost; } }
         /// <summary>
         /// How many shots is needed to destory weapon

@@ -1,33 +1,38 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-[RequireComponent(typeof(Animation))]
-public class SteerHand : MonoBehaviour
+namespace SD.PlayerLogic
 {
-    const string SteerAnimationName = "SteeringWheelHands";
-
-    [SerializeField]
-    SteeringWheel steeringWheel;
-
-    Animation steerHandAnimation;
-    AnimationState steerState;
-
-    void Start()
+    [RequireComponent(typeof(Animation))]
+    public class SteerHand : MonoBehaviour
     {
-        Debug.Assert(steeringWheel != null);
+        const string SteerAnimationName = "SteeringWheelHands";
 
-        steerHandAnimation = GetComponent<Animation>();
-        steerState = steerHandAnimation[SteerAnimationName];
-    }
+        /// <summary>
+        /// Transform for finding steering wheely
+        /// </summary>
+        [SerializeField]
+        Transform player;
 
-    void LateUpdate()
-    {
-        // get steering from steering wheel
-        // and then sample hand animation
-        steerState.enabled = true;
-        steerState.weight = 1.0f;
-        steerState.normalizedTime = steeringWheel.SteeringNormalized;
+        ISteeringWheel steeringWheel;
+        Animation steerHandAnimation;
+        AnimationState steerState;
 
-        steerHandAnimation.Sample();
+        void Start()
+        {
+            steeringWheel = player.GetComponentInChildren<ISteeringWheel>();
+            steerHandAnimation = GetComponent<Animation>();
+            steerState = steerHandAnimation[SteerAnimationName];
+        }
+
+        void LateUpdate()
+        {
+            // get steering from steering wheel
+            // and then sample hand animation
+            steerState.enabled = true;
+            steerState.weight = 1.0f;
+            steerState.normalizedTime = steeringWheel.SteeringNormalized;
+
+            steerHandAnimation.Sample();
+        }
     }
 }

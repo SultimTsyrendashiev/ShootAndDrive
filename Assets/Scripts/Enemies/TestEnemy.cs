@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
-using SD.Weapons;
+﻿using UnityEngine;
 
 namespace SD.Enemies
 {
-    class TestEnemy : MonoBehaviour, IDamageable
+    class TestEnemy : MonoBehaviour, IEnemy, IDamageable
     {
         public float Health => 10;
 

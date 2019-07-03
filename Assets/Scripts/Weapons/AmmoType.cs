@@ -1,6 +1,6 @@
-﻿namespace SD.Weapons
+﻿namespace SD
 {
-    enum AmmoType
+    enum AmmunitionType
     {
         Shells,
         BulletsPistol,

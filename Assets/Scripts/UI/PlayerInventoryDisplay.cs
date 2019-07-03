@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using SD.Player;
+using SD.PlayerLogic;
 using SD.Weapons;
 
 namespace SD.UI
@@ -15,12 +15,12 @@ namespace SD.UI
         [SerializeField]
         private Transform itemTextsParent;
 
-        Dictionary<AmmoType, Text> ammoTexts;
+        Dictionary<AmmunitionType, Text> ammoTexts;
         Dictionary<ItemType, Text> itemTexts;
 
         void Awake()
         {
-            ammoTexts = new Dictionary<AmmoType, Text>();
+            ammoTexts = new Dictionary<AmmunitionType, Text>();
             itemTexts = new Dictionary<ItemType, Text>();
 
             Init(ammoTexts, ammoTextsParent);
@@ -34,9 +34,9 @@ namespace SD.UI
 
         void UpdateText()
         {
-            var inv = Player.Player.Instance.Inventory;
+            var inv = PlayerLogic.Player.Instance.Inventory;
 
-            foreach (AmmoType a in Enum.GetValues(typeof(AmmoType)))
+            foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
             {
                 SetText(a, inv.Ammo[a].ToString());
             }
@@ -65,7 +65,7 @@ namespace SD.UI
         /// <summary>
         /// Set text of Text component for given ammotype
         /// </summary>
-        void SetText(AmmoType t, string text)
+        void SetText(AmmunitionType t, string text)
         {
             ammoTexts[t].text = text;
         }

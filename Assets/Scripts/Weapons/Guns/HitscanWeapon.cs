@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using SD.Player;
+using SD.PlayerLogic;
 
 namespace SD.Weapons
 {
@@ -32,7 +32,7 @@ namespace SD.Weapons
             {
                 if (hit.collider.gameObject.layer == DamageableLayer)
                 {
-                    Damage dmg = Damage.CreateBulletDamage(DamageValue, direction, hit.point, hit.normal, Player.Player.Instance.gameObject);
+                    Damage dmg = Damage.CreateBulletDamage(DamageValue, direction, hit.point, hit.normal, PlayerLogic.Player.Instance.gameObject);
                     hit.collider.GetComponent<IDamageable>().ReceiveDamage(dmg);
                 }
                 else

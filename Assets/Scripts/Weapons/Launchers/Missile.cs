@@ -31,10 +31,10 @@ namespace SD.Weapons
             this.owner = owner;
 
             // ignore collision with owner to prevent instant explosion
-            Collider ownerColl = owner.GetComponent<Collider>();
-            if (ownerColl != null)
+            Collider[] ownerColl = owner.GetComponentsInChildren<Collider>();
+            foreach (var c in ownerColl)
             {
-                Physics.IgnoreCollision(GetComponent<Collider>(), ownerColl);
+                Physics.IgnoreCollision(GetComponent<Collider>(), c);
             }
 
             rb = GetComponent<Rigidbody>();
@@ -64,7 +64,7 @@ namespace SD.Weapons
             gameObject.SetActive(false);
 
             Collider[] cs = Physics.OverlapSphere(transform.position, damageRadius, explosionMask.value);
-            Damage dmg = Damage.CreateExpolosionDamage(damageValue, damageRadius, transform.position, Player.Player.Instance.gameObject);
+            Damage dmg = Damage.CreateExpolosionDamage(damageValue, damageRadius, transform.position, PlayerLogic.Player.Instance.gameObject);
 
             foreach (Collider c in cs)
             {

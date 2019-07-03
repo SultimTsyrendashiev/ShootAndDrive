@@ -15,7 +15,7 @@ namespace SD.Weapons
         {                
             // autoaim
             Vector3 aimedDir;
-            Autoaim.Aim(AimTransform.position, AimTransform.forward, AimRadius, out aimedDir, Range, WeaponLayerMask);
+            Autoaim.Aim(AimTransform.position, AimTransform.forward, AimRadius, out aimedDir, Range, AutoaimLayerMask);
 
             float rangey = 0.3f * Accuracy;
 
@@ -36,8 +36,6 @@ namespace SD.Weapons
                     Quaternion.AngleAxis(Random.Range(rangexl, rangexr), AimTransform.up)
                     * Quaternion.AngleAxis(Random.Range(-rangey, rangey), AimTransform.right)
                     * aimedDir;
-
-                print(distortedDir);
 
                 CheckRay(AimTransform.position, distortedDir);
             }

@@ -20,7 +20,7 @@ namespace SD.Weapons
 
             if (Physics.SphereCast(from, radius, direction, out hit, range, mask))
             {
-                aimedDirection = (hit.point - from).normalized;
+                aimedDirection = (hit.transform.position - from).normalized;
                 return true;
             }
 

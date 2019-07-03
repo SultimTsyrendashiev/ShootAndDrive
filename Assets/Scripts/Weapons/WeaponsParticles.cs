@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using SD.Player;
+using SD.PlayerLogic;
 
 namespace SD.Weapons
 {
@@ -46,15 +46,15 @@ namespace SD.Weapons
 
             var main = system.main;
             main.simulationSpace = ParticleSystemSimulationSpace.Custom;
-            main.customSimulationSpace = Player.Player.Instance.transform;
+            main.customSimulationSpace = PlayerLogic.Player.Instance.transform;
         }
 
-        public void EmitCasings(Vector3 position, Quaternion rotation, AmmoType type, int amount = 1)
+        public void EmitCasings(Vector3 position, Quaternion rotation, AmmunitionType type, int amount = 1)
         {
             // particle system to emit
             ParticleSystem system = null;
 
-            if (type == AmmoType.BulletsHeavy)                
+            if (type == AmmunitionType.BulletsHeavy)                
             {
                 casingsHeavyPart.transform.position = position;
                 casingsHeavyPart.transform.rotation = rotation;
@@ -62,19 +62,19 @@ namespace SD.Weapons
 
                 system = casingsBullet;
             }
-            else if (type == AmmoType.Bullets)
+            else if (type == AmmunitionType.Bullets)
             {
                 system = casingsBullet;
             }
-            else if (type == AmmoType.BulletsPistol)
+            else if (type == AmmunitionType.BulletsPistol)
             {
                 system = casingsPistol;
             }
-            else if (type == AmmoType.Shells)
+            else if (type == AmmunitionType.Shells)
             {
                 system = casingsShell;
             }
-            else if (type == AmmoType.Grenades)
+            else if (type == AmmunitionType.Grenades)
             {
                 system = casingsGrenade;
             }

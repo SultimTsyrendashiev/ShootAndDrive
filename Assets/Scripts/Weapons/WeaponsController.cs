@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using SD.Player;
+using SD.PlayerLogic;
 using SD.UI;
 
 namespace SD.Weapons
@@ -37,8 +37,8 @@ namespace SD.Weapons
             instance = this;
 
             // init weapons
-            inventoryWeapons = Player.Player.Instance.Inventory.Weapons;
-            inventoryAmmo = Player.Player.Instance.Inventory.Ammo;
+            inventoryWeapons = PlayerLogic.Player.Instance.Inventory.Weapons;
+            inventoryAmmo = PlayerLogic.Player.Instance.Inventory.Ammo;
             Weapon[] ws = GetComponentsInChildren<Weapon>(true);
             weapons = new Dictionary<WeaponIndex, Weapon>();
 

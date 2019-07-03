@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace SD.Player
+namespace SD.PlayerLogic
 {
     public class CameraShaker : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using SD.Player;
+using SD.PlayerLogic;
 using System.Collections.Generic;
 
 namespace SD.Weapons
@@ -11,7 +11,9 @@ namespace SD.Weapons
     {
         #region fields
         #region readonly
-        protected int WeaponLayerMask; // Mask to be tested
+        protected int AutoaimLayerMask; // Mask to find autoaim targets
+        protected int WeaponLayerMask;  // Mask to be tested
+
         protected int DamageableLayer; // Layer with damageable objects
 
         private string AnimShootName;
@@ -24,7 +26,6 @@ namespace SD.Weapons
         const float HealthToJam = 0.15f;    // if below this number then weapon can jam
         #endregion
 
-        private WeaponState state;
 
         /// <summary>
         /// Common event, called on waepon breaking
@@ -34,13 +35,6 @@ namespace SD.Weapons
         // Items in player's inventory
         private WeaponItem item;
         private AmmoHolder ammo;
-
-        private WeaponIndex weaponIndex;
-        private string weaponName;
-        private float damage;
-        private AmmoType ammoType;
-        private float reloadingTime;
-        private float accuracy;
         private int durability;
 
         // weapon's health must be synced with inventory
@@ -67,11 +61,11 @@ namespace SD.Weapons
         #endregion
 
         #region properties
-        public WeaponIndex WeaponIndex => weaponIndex;
-        public string Name => weaponName;
-        public float DamageValue => damage;
-        public AmmoType AmmoType => ammoType;
-        public float ReloadingTime => reloadingTime;
+        public WeaponIndex WeaponIndex { get; private set; }
+        public string Name { get; private set; }
+        public float DamageValue { get; private set; }
+        public AmmunitionType AmmoType { get; private set; }
+        public float ReloadingTime { get; private set; }
         /// <summary>
         /// Health in percents: [0,1]
         /// </summary>
@@ -79,9 +73,9 @@ namespace SD.Weapons
         /// <summary>
         /// Accuracy in percents
         /// </summary>
-        public float Accuracy => accuracy;
+        public float Accuracy { get; private set; }
         public bool IsBroken => refHealth.Value <= 0;
-        public WeaponState State => state;
+        public WeaponState State { get; private set; }
         #endregion
 
         #region initialization
@@ -94,13 +88,13 @@ namespace SD.Weapons
             item = playerItem;
 
             // load info
-            weaponName = item.Stats.Name;
-            weaponIndex = item.This;
+            Name = item.Stats.Name;
+            WeaponIndex = item.This;
 
-            damage = item.Stats.Damage;
-            ammoType = item.Stats.AmmoType;
-            reloadingTime = item.Stats.ReloadingTime;
-            accuracy = item.Stats.Accuracy;
+            DamageValue = item.Stats.Damage;
+            AmmoType = item.Stats.AmmoType;
+            ReloadingTime = item.Stats.ReloadingTime;
+            Accuracy = item.Stats.Accuracy;
 
             durability = item.Stats.Durability;
             refHealth = item.GetHealthRef();
@@ -117,7 +111,8 @@ namespace SD.Weapons
             AnimBreakName = "B" + tempName;
 
             // layers
-            WeaponLayerMask = ~((1 << LayerMask.GetMask(LayerNames.Default)) | (1 << LayerMask.GetMask(LayerNames.Damageable)));
+            AutoaimLayerMask = LayerMask.GetMask(LayerNames.AutoaimTargets);
+            WeaponLayerMask = LayerMask.GetMask(LayerNames.Default, LayerNames.Damageable);
             DamageableLayer = LayerMask.NameToLayer(LayerNames.Damageable);
 
             // set hand animation
@@ -129,7 +124,7 @@ namespace SD.Weapons
             }
 
             // set state
-            state = WeaponState.Nothing;
+            State = WeaponState.Nothing;
         }
         #endregion
 
@@ -148,7 +143,7 @@ namespace SD.Weapons
 
         protected void ReduceAmmo()
         {
-            ammo.Add(ammoType, -AmmoConsumption);
+            ammo.Add(AmmoType, -AmmoConsumption);
         }
         #endregion
 
@@ -160,7 +155,7 @@ namespace SD.Weapons
 
         protected void PlayPrimaryAnimation()
         {
-            if (state != WeaponState.Jamming)
+            if (State != WeaponState.Jamming)
             {
                 PlayShootingAnimation();
             }
@@ -201,7 +196,7 @@ namespace SD.Weapons
 
         protected void RecoilJump()
         {
-            RecoilJump(damage, reloadingTime);
+            RecoilJump(DamageValue, ReloadingTime);
         }
 
         protected void RecoilJump(float force, float time)
@@ -255,13 +250,13 @@ namespace SD.Weapons
         #region states
         void Disable()
         {
-            if (state != WeaponState.Breaking && state != WeaponState.Ready)
+            if (State != WeaponState.Breaking && State != WeaponState.Ready)
             {
                 Debug.LogWarning("Wrong weapon state");
                 return;
             }
 
-            state = WeaponState.Disabling;
+            State = WeaponState.Disabling;
 
             // wait for disabling
             StartCoroutine(WaitForDisabling(HidingTime));
@@ -270,7 +265,7 @@ namespace SD.Weapons
         IEnumerator WaitForDisabling(float time)
         {
             yield return new WaitForSeconds(time);
-            state = WeaponState.Nothing;
+            State = WeaponState.Nothing;
 
             gameObject.SetActive(false);
             Deactivate();
@@ -282,7 +277,7 @@ namespace SD.Weapons
         /// </summary>
         public bool ForceDisable()
         {
-            switch (state)
+            switch (State)
             {
                 case WeaponState.Nothing:
                     return true;
@@ -304,7 +299,7 @@ namespace SD.Weapons
         /// </summary>
         IEnumerator WaitForReady()
         {
-            while (state != WeaponState.Ready)
+            while (State != WeaponState.Ready)
             {
                 yield return null;
             }
@@ -314,13 +309,13 @@ namespace SD.Weapons
 
         public void Enable()
         {
-            if (state != WeaponState.Nothing)
+            if (State != WeaponState.Nothing)
             {
                 Debug.LogWarning("Wrong weapon state");
                 return;
             }
 
-            state = WeaponState.Enabling;
+            State = WeaponState.Enabling;
 
             gameObject.SetActive(true);
             Activate();
@@ -342,19 +337,19 @@ namespace SD.Weapons
 
         public void Fire()
         {
-            if (ammo[ammoType] < AmmoConsumption)
+            if (ammo[AmmoType] < AmmoConsumption)
             {
                 return;
             }
 
-            if (state != WeaponState.Ready)
+            if (State != WeaponState.Ready)
             {
                 // ignore if not ready to shoot
                 // Debug.LogWarning("Wrong weapon state");
                 return;
             }
 
-            state = WeaponState.Reloading;
+            State = WeaponState.Reloading;
 
             // process shooting damage to the weapon
             if (CanBreak())
@@ -386,42 +381,42 @@ namespace SD.Weapons
             ReduceAmmo();
 
             // wait for reload
-            StartCoroutine(Wait(reloadingTime, nextState));
+            StartCoroutine(Wait(ReloadingTime, nextState));
         }
 
         void Jam()
         {
-            state = WeaponState.Jamming;
+            State = WeaponState.Jamming;
         }
 
         public void Unjam()
         {
-            if (state != WeaponState.ReadyForUnjam)
+            if (State != WeaponState.ReadyForUnjam)
             {
                 return;
             }
 
-            state = WeaponState.Unjamming;
+            State = WeaponState.Unjamming;
 
             // play animation (shaking)
             PlayUnjammingAnimation();
             PlayAudio(UnjamSound);
 
             // camera
-            RecoilJump(-20, reloadingTime);
+            RecoilJump(-20, ReloadingTime);
 
             // additional effects
             UnjamAdditional();
 
             // wait and reset state
-            StartCoroutine(Wait(reloadingTime, WeaponState.Ready));
+            StartCoroutine(Wait(ReloadingTime, WeaponState.Ready));
         }
 
         protected virtual void UnjamAdditional() { }
 
         void Break()
         {
-            state = WeaponState.Breaking;
+            State = WeaponState.Breaking;
 
             // play anim and sound
             PlayBreakingAnimation();
@@ -436,7 +431,7 @@ namespace SD.Weapons
             yield return new WaitForSeconds(weaponAnimation[AnimBreakName].length);
 
             // call event
-            OnWeaponBreak(weaponIndex);
+            OnWeaponBreak(WeaponIndex);
 
             // then disable (there will be waited for disabling)
             Disable();
@@ -448,7 +443,7 @@ namespace SD.Weapons
         IEnumerator Wait(float time, WeaponState newState)
         {
             yield return new WaitForSeconds(time);
-            state = newState;
+            State = newState;
         }
         #endregion
 

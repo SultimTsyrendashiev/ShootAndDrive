@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using SD.Weapons;
 
-namespace SD.Player
+namespace SD.PlayerLogic
 {
     // Represents ammo in player's inventory
     class AmmoHolder
     {
-        Dictionary<AmmoType, RefInt> ammo;
+        Dictionary<AmmunitionType, RefInt> ammo;
 
         /// Default constructor, all values are 0
         public AmmoHolder()
         {
-            ammo = new Dictionary<AmmoType, RefInt>();
+            ammo = new Dictionary<AmmunitionType, RefInt>();
 
-            foreach (AmmoType a in Enum.GetValues(typeof(AmmoType)))
+            foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
             {
                 ammo.Add(a, new RefInt());
             }
         }
 
-        public int this[AmmoType type]
+        public int this[AmmunitionType type]
         {
             get
             {
@@ -33,17 +33,17 @@ namespace SD.Player
             }
         }
 
-        public int Get(AmmoType type)
+        public int Get(AmmunitionType type)
         {
             return ammo[type].Value;
         }
 
-        public void Set(AmmoType type, int amount)
+        public void Set(AmmunitionType type, int amount)
         {
             ammo[type].Value = amount;
         }
 
-        public void Add(AmmoType type, int toAdd)
+        public void Add(AmmunitionType type, int toAdd)
         {
             ammo[type].Value += toAdd;
         }
