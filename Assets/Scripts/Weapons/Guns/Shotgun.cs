@@ -4,7 +4,7 @@ namespace SD.Weapons
 {
     class Shotgun : HitscanWeapon
     {
-        const float AccuracyMultiplier = 18;
+        const float AccuracyMultiplier = 8;
 
         [SerializeField]
         private int pelletCount = 7;
@@ -37,7 +37,13 @@ namespace SD.Weapons
                     * Quaternion.AngleAxis(Random.Range(-rangey, rangey), AimTransform.right)
                     * aimedDir;
 
-                CheckRay(AimTransform.position, distortedDir);
+                Vector3 end = CheckRay(AimTransform.position, distortedDir);
+
+                // emit trail, if muzzle flash transform exists
+                if (MuzzleFlash != null)
+                {
+                    EmitTrail(MuzzleFlash.position, end);
+                }
             }
         }
 

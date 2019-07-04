@@ -7,7 +7,10 @@
         NotActive,  // f.e. giving up, but not dead
         Dead,       // everybody in a vehicle are dead
         DeadDriver, // driver of the vehicle is dead, 
-                        // but there are still alive passengers
-        Destroyed   // vehicle is destroyed
+                    // but there are still alive passengers
+
+
+        // Destroyed    // this state is unnecessary,
+                        // as destroyed vehicle is another object
     }
 }

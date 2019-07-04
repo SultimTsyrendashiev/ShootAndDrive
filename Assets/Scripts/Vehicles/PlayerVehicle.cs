@@ -19,10 +19,13 @@ namespace SD.Vehicles
         public float Health { get; private set; }
         public ISteeringWheel SteeringWheel { get; private set; }
 
-        void Start()
+        void Awake()
         {
             SteeringWheel = GetComponentInChildren<SteeringWheel>(true);
+        }
 
+        void Start()
+        {
             player = GetComponentInParent<Player>();
 
             playerTransform = player.transform;

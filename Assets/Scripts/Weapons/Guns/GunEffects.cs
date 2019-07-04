@@ -5,6 +5,9 @@ using SD.PlayerLogic;
 
 namespace SD.Weapons
 {
+    /// <summary>
+    /// Special script for transfering info from animation events
+    /// </summary>
     public class GunEffects : MonoBehaviour
     {
         HitscanWeapon currentWeapon;

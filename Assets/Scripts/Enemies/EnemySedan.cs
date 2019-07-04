@@ -7,7 +7,8 @@ namespace SD.Enemies
     {
         [SerializeField]
         float speed;
-        float attackLoopTime = 5;
+        [SerializeField]
+        float attackLoopTime = 2;
 
         Rigidbody vehicleRigidbody;
 
@@ -19,6 +20,8 @@ namespace SD.Enemies
 
         protected override void Die()
         {
+            StopAllCoroutines();
+
             // TODO
         }
 
@@ -33,7 +36,11 @@ namespace SD.Enemies
 
         void Attack()
         {
-            // TODO
+            // each passenger starts to shoot
+            foreach (var p in Passengers)
+            {
+                p.StartAttack(Target);
+            }
         }
     }
 }

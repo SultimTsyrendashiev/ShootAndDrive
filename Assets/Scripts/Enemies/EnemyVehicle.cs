@@ -9,6 +9,7 @@ namespace SD.Enemies
     {
         public EnemyVehicleState State { get; private set; }
         protected VehiclePassenger[] Passengers { get; private set; }
+        protected Transform Target { get; private set; }
         public bool AliveDriver { get; private set; }
 
         [SerializeField]
@@ -35,8 +36,10 @@ namespace SD.Enemies
         /// <summary>
         /// Must be called only once
         /// </summary>
-        public void Init()
+        public void Init(Transform target)
         {
+            this.Target = target;
+
             // get all passengers and init them
             Passengers = GetComponentsInChildren<VehiclePassenger>(true);
             foreach (var p in Passengers)
@@ -109,13 +112,12 @@ namespace SD.Enemies
         /// </summary>
         void Explode()
         {
-            if (State == EnemyVehicleState.Destroyed
-                || State == EnemyVehicleState.Nothing)
+            if (State == EnemyVehicleState.Nothing)
             {
                 return;
             }
 
-            State = EnemyVehicleState.Destroyed;
+            State = EnemyVehicleState.Nothing;
         }
 
         /// <summary>
@@ -128,16 +130,11 @@ namespace SD.Enemies
                 || State == EnemyVehicleState.DeadDriver 
                 || State == EnemyVehicleState.Nothing)
             {
-                Debug.Log("Wrong state", this);
+                Debug.Log("Called from wrong state", this);
                 return;
             }
 
-            // ignore if destroyed
-            if (State != EnemyVehicleState.Destroyed)
-            {
-                return;
-            }
-
+            // decrement
             alivePassengersAmount--;
 
             // if there are passengers
@@ -158,6 +155,17 @@ namespace SD.Enemies
             {
                 State = EnemyVehicleState.Dead;
                 Die();
+            }
+        }
+
+        protected void KillAllPassengers()
+        {
+            foreach (var p in Passengers)
+            {
+                Damage fatalDamage = Damage.CreateBulletDamage(passengersStartHealth,
+                    transform.forward, p.transform.position, transform.forward, gameObject);
+
+                p.ReceiveDamage(fatalDamage);
             }
         }
     }

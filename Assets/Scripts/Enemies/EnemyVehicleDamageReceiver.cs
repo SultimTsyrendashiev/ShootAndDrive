@@ -11,7 +11,6 @@ namespace SD.Enemies
         [SerializeField]
         ParticleSystem sparks;
 
-
         public event VehicleDeath OnVehicleDeath;
         public float Health { get; private set; }
         float startHealth;
@@ -21,6 +20,9 @@ namespace SD.Enemies
             this.startHealth = startHealth;
         }
 
+        /// <summary>
+        /// Restores vehicle's health
+        /// </summary>
         public void Reinit()
         {
             Health = startHealth;

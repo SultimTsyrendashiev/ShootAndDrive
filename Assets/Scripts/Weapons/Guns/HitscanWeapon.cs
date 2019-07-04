@@ -12,6 +12,8 @@ namespace SD.Weapons
         protected Transform AimTransform;
         protected Transform Casings;
         protected Transform MuzzleFlash;
+        [SerializeField]
+        protected bool ShowMuzzleFlash = true;
 
         protected float AimRadius = 1.3f;
         protected float Range = 150.0f;
@@ -25,7 +27,14 @@ namespace SD.Weapons
 
         protected abstract void Hitscan();
 
-        protected void CheckRay(Vector3 from, Vector3 direction)
+        /// <summary>
+        /// Checks ray
+        /// </summary>
+        /// <returns>
+        /// hit point if exists; 
+        /// else point on the end of this ray
+        /// </returns>
+        protected Vector3 CheckRay(Vector3 from, Vector3 direction)
         {
             RaycastHit hit;
             if (Physics.Raycast(from, direction, out hit, Range, WeaponLayerMask))
@@ -40,7 +49,11 @@ namespace SD.Weapons
                     // else only generate particles
 
                 }
+
+                return hit.point;
             }
+
+            return from + Range * direction;
         }
 
         protected override void PrimaryAttack()
@@ -54,7 +67,7 @@ namespace SD.Weapons
             RecoilJump();
 
             // particles
-            if (MuzzleFlash != null)
+            if (MuzzleFlash != null && ShowMuzzleFlash)
             {
                 WeaponsParticles.Instance.EmitMuzzle(MuzzleFlash.position, MuzzleFlash.rotation);
             }
@@ -67,6 +80,11 @@ namespace SD.Weapons
             {
                 WeaponsParticles.Instance.EmitCasings(Casings.position, Casings.rotation, this.AmmoType, AmmoConsumption);
             }
+        }
+
+        protected void EmitTrail(Vector3 start, Vector3 end)
+        {
+            // TODO
         }
     }
 }

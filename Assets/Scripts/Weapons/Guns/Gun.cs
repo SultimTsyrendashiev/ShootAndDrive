@@ -4,7 +4,7 @@ namespace SD.Weapons
 {
     class Gun : HitscanWeapon
     {
-        const float AccuracyMultiplier = 3;
+        const float AccuracyMultiplier = 4;
 
         protected override void Hitscan()
         {
@@ -20,7 +20,13 @@ namespace SD.Weapons
                 * Quaternion.AngleAxis(Random.Range(-rangey, rangey), AimTransform.right)
                 * aimedDir;
 
-            CheckRay(AimTransform.position, distortedDir);
+            Vector3 end = CheckRay(AimTransform.position, distortedDir);
+
+            // emit trail, if muzzle flash transform exists
+            if (MuzzleFlash != null)
+            {
+                EmitTrail(MuzzleFlash.position, end);
+            }
         }
     }
 }
