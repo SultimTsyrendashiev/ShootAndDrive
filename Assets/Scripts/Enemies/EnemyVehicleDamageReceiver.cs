@@ -7,9 +7,7 @@ namespace SD.Enemies
     [RequireComponent(typeof(Collider))]
     class EnemyVehicleDamageReceiver : MonoBehaviour, IDamageable
     {
-        // TODO: object pool
-        [SerializeField]
-        ParticleSystem sparks;
+        public string HitParticleName = "Sparks";
 
         public event VehicleDeath OnVehicleDeath;
         public float Health { get; private set; }
@@ -34,8 +32,11 @@ namespace SD.Enemies
 
             if (damage.Type == DamageType.Bullet)
             {
-                sparks.transform.position = damage.Point;
-                sparks.transform.rotation = Quaternion.LookRotation(damage.Normal);
+                ParticlesPool.Instance.Play(HitParticleName, damage.Point, Quaternion.LookRotation(damage.Normal));
+            }
+            else if (damage.Type == DamageType.Explosion && Health > 0)
+            {
+                // TODO: change mesh to wreck
             }
 
             if (Health <= 0)

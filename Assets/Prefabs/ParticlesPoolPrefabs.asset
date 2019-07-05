@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 118217810f29a0d4d8fc00e75d1378de, type: 3}
+  m_Name: ParticlesPoolPrefabs
+  m_EditorClassIdentifier: 
+  Prefabs:
+  - {fileID: 6867789226890721938, guid: 0b5e3b008bdeadc478272c251e66f0d2, type: 3}
+  - {fileID: 7225047011677555478, guid: a7123bb3e301c9a4badd56eff9051b76, type: 3}
+  - {fileID: 8894094777673815506, guid: b93a5f0635483b44ab8ccd1327a94a66, type: 3}
+  - {fileID: 8512303167343716095, guid: 3012a8e777aed79448c7485dfd6b876b, type: 3}
+  - {fileID: 8301946595461213622, guid: 400b1796179fa3a428e452df5c3bca5f, type: 3}
+  - {fileID: 4593451619560127144, guid: 24cba1920d7b388449e8f2fc7fb252b3, type: 3}
+  - {fileID: 5190052701041062004, guid: 69928c13b3beeb549a211dce63a4cbfc, type: 3}
+  - {fileID: 5863160546561892132, guid: d631f5fa3e2c92d49a524899f4aeec3e, type: 3}
+  - {fileID: 7679511132243319082, guid: 145896078f2add74fa6c832d06cd06a1, type: 3}
+  - {fileID: 6240951152668445035, guid: cca559a103b037047936204db7060a10, type: 3}
+  - {fileID: 2971962187156629277, guid: fd64cbfbaec7a5241839d4b1660d81f9, type: 3}

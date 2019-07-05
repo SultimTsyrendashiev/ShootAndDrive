@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using SD.ObjectPooling;
+using SD.PlayerLogic;
 
 namespace SD.Weapons
 {
@@ -11,7 +13,7 @@ namespace SD.Weapons
     class MissileLauncher : Weapon
     {
         [SerializeField]
-        protected Missile Missile;
+        protected string MissileName;
         [SerializeField]
         private float damageRadius;
         [SerializeField]
@@ -41,11 +43,10 @@ namespace SD.Weapons
 
         void SpawnMissile()
         {
-            // TODO: object pool
-            GameObject missileObj = Instantiate(this.Missile.gameObject, missileSpawn.position, PlayerLogic.Player.Instance.transform.rotation);
+            GameObject missileObj = ObjectPool.Instance.GetObject(MissileName, missileSpawn.position, Player.Instance.transform.rotation);
 
             Missile missile = missileObj.GetComponent<Missile>();
-            missile.Init(DamageValue, damageRadius, PlayerLogic.Player.Instance.gameObject);
+            missile.Set(DamageValue, damageRadius, Player.Instance.gameObject);
             missile.Launch(launchSpeed);
         }
     }

@@ -21,9 +21,9 @@ namespace SD.Enemies
         float fireRateInSeconds;
         [SerializeField]
         int shotsAmount = 1;
-        // TODO: object pool
+
         [SerializeField]
-        GameObject projectile;
+        string projectileName;
         [SerializeField]
         Transform projectileSpawn;
 
@@ -31,9 +31,7 @@ namespace SD.Enemies
         [SerializeField]
         Animator passengerAnimator;
 
-        // TODO: object pool
-        [SerializeField]
-        ParticleSystem blood;
+        public string BloodParticlesName = "Blood";
 
         public event PassengerDied OnPassengerDeath;
 
@@ -69,9 +67,8 @@ namespace SD.Enemies
             State = PassengerState.Damaging;
             Health -= damage.CalculateDamageValue(transform.position);
 
-            // TODO: object pool
-            blood.transform.position = damage.Point;
-            blood.transform.rotation = Quaternion.LookRotation(damage.Type == DamageType.Bullet ? damage.Normal : Vector3.up);
+            ParticlesPool.Instance.Play(BloodParticlesName, damage.Point,
+               Quaternion.LookRotation(damage.Type == DamageType.Bullet ? damage.Normal : Vector3.up));
 
             if (Health > 0)
             {
@@ -111,8 +108,7 @@ namespace SD.Enemies
                 Vector3 direction = target.position - projectileSpawn.position;
                 direction.Normalize();
 
-                // TODO: object pool
-                Instantiate(projectile, projectileSpawn.position, Quaternion.LookRotation(direction));
+                ObjectPool.Instance.GetObject(projectileName, projectileSpawn.position, direction);
 
                 yield return new WaitForSeconds(fireRateInSeconds);
             }

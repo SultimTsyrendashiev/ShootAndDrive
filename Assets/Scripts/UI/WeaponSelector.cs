@@ -31,7 +31,7 @@ namespace SD.UI
             inputController.OnWeaponSelectorDown();
 
             // get available weapons
-            availableWeapons = PlayerLogic.Player.Instance.Inventory.GetAvailableWeapons();
+            availableWeapons = Player.Instance.Inventory.GetAvailableWeapons();
             count = availableWeapons.Count > 5 ? 5 : availableWeapons.Count;
 
             // place them on hud

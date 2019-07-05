@@ -32,14 +32,16 @@ namespace SD.Weapons
         /// </summary>
         public static event WeaponBreak OnWeaponBreak;
 
+        protected WeaponsController WController;
+
         // Items in player's inventory
-        private WeaponItem item;
-        private AmmoHolder ammo;
-        private int durability;
+        WeaponItem item;
+        AmmoHolder ammo;
+        int durability;
 
         // weapon's health must be synced with inventory
         // so use reference to that int
-        private RefInt refHealth;
+        RefInt refHealth;
 
         public float TakingOutTime = 0.2f;
         public float HidingTime = 0.2f;
@@ -49,8 +51,8 @@ namespace SD.Weapons
         [SerializeField]
         public float JamProbability = 0.03f; // probability of jamming
 
-        private Animation weaponAnimation;
-        private HandPivot handPivot;    // script for attaching hand
+        Animation weaponAnimation;
+        HandPivot handPivot;    // script for attaching hand
 
         [SerializeField]
         protected AudioClip ShotSound;
@@ -82,8 +84,10 @@ namespace SD.Weapons
         /// <summary>
         /// Init fields from player's items
         /// </summary>
-        public void Init(WeaponItem playerItem, AmmoHolder playerAmmo)
+        public void Init(WeaponsController controller, WeaponItem playerItem, AmmoHolder playerAmmo)
         {
+            WController = controller;
+
             ammo = playerAmmo;
             item = playerItem;
 
@@ -150,7 +154,7 @@ namespace SD.Weapons
         #region weapons
         protected void PlayAudio(AudioClip clip)
         {
-            WeaponsController.Instance.PlaySound(clip);
+            WController.PlaySound(clip);
         }
 
         protected void PlayPrimaryAnimation()

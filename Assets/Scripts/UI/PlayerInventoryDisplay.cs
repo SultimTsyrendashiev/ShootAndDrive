@@ -34,7 +34,7 @@ namespace SD.UI
 
         void UpdateText()
         {
-            var inv = PlayerLogic.Player.Instance.Inventory;
+            var inv = Player.Instance.Inventory;
 
             foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
             {

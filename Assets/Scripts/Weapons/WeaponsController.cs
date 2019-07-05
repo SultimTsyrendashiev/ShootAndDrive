@@ -37,8 +37,8 @@ namespace SD.Weapons
             instance = this;
 
             // init weapons
-            inventoryWeapons = PlayerLogic.Player.Instance.Inventory.Weapons;
-            inventoryAmmo = PlayerLogic.Player.Instance.Inventory.Ammo;
+            inventoryWeapons = Player.Instance.Inventory.Weapons;
+            inventoryAmmo = Player.Instance.Inventory.Ammo;
             Weapon[] ws = GetComponentsInChildren<Weapon>(true);
             weapons = new Dictionary<WeaponIndex, Weapon>();
 
@@ -52,7 +52,7 @@ namespace SD.Weapons
                 // if (inventoryWeapons.IsAvailable(index))
                 {
                     weapons.Add(index, w);
-                    w.Init(inventoryWeapons.Get(index), inventoryAmmo);
+                    w.Init(this, inventoryWeapons.Get(index), inventoryAmmo);
                 }
 
                 // hide
@@ -69,10 +69,11 @@ namespace SD.Weapons
 
             isSwitching = false;
             canSwitchToAnotherNext = false;
-
             currentWeapon = new Maybe<WeaponIndex>();
 
             Weapon.OnWeaponBreak += ProcessWeaponBreak;
+
+            InitParticles();
 
             // for testing
             TakeOutWeapon();
@@ -363,17 +364,6 @@ namespace SD.Weapons
             currentWeapon.Exist = false;
         }
 
-        public void PlaySound(AudioClip clip)
-        {
-            if (audioSourceIndex >= audioSources.Length)
-            {
-                audioSourceIndex = 0;
-            }
-
-            audioSources[audioSourceIndex].PlayOneShot(clip);
-            audioSourceIndex++;
-        }
-
         public bool GetCurrentWeaponState(out WeaponState result)
         {
             result = weapons[currentWeapon.Value].State;
@@ -426,5 +416,75 @@ namespace SD.Weapons
             weapon = currentWeapon.Value;
             return currentWeapon.Exist;
         }
+
+        #region weapons effects
+        const string CasingsPistol = "CasingsPistol";
+        const string CasingsRifle = "CasingsRifle";
+        const string CasingsHeavyPart = "CasingsHeavyPart";
+        const string CasingsShells = "CasingsShells";
+        const string CasingsGrenade = "CasingsGrenade";
+        const string MuzzleFlash = "MuzzleFlash";
+
+        /// <summary>
+        /// Set new simulation space for weapon particles
+        /// </summary>
+        void InitParticles()
+        {
+            string[] particles = { CasingsPistol, CasingsRifle, CasingsHeavyPart,
+                CasingsShells, CasingsGrenade, MuzzleFlash };
+
+            foreach (string s in particles)
+            {
+                var main = ParticlesPool.Instance.GetParticleSystem(s).main;
+                main.simulationSpace = ParticleSystemSimulationSpace.Custom;
+                main.customSimulationSpace = Player.Instance.transform;
+            }
+        }
+
+        public void EmitCasings(Vector3 position, Quaternion rotation, AmmunitionType type, int amount = 1)
+        {
+            // particle system to emit
+            string system = null;
+
+            if (type == AmmunitionType.BulletsHeavy)
+            {
+                ParticlesPool.Instance.Emit(CasingsHeavyPart, position, rotation, amount);
+
+                system = CasingsRifle;
+            }
+            else if (type == AmmunitionType.Bullets)
+            {
+                system = CasingsRifle;
+            }
+            else if (type == AmmunitionType.BulletsPistol)
+            {
+                system = CasingsPistol;
+            }
+            else if (type == AmmunitionType.Shells)
+            {
+                system = CasingsShells;
+            }
+            else if (type == AmmunitionType.Grenades)
+            {
+                system = CasingsGrenade;
+            }
+
+            if (system != null)
+            {
+                ParticlesPool.Instance.Emit(system, position, rotation, amount);
+            }
+        }
+
+        public void PlaySound(AudioClip clip)
+        {
+            if (audioSourceIndex >= audioSources.Length)
+            {
+                audioSourceIndex = 0;
+            }
+
+            audioSources[audioSourceIndex].PlayOneShot(clip);
+            audioSourceIndex++;
+        }
+        #endregion
     }
 }

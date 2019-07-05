@@ -6,18 +6,24 @@ namespace SD.Enemies
     {
         public float Health => 10;
 
-        [SerializeField]
-        private ParticleSystem particles;
-
         public void ReceiveDamage(Damage damage)
         {
-            if (damage.Type == DamageType.Bullet)
-            {
-                particles.transform.position = damage.Point;
-                particles.transform.rotation = Quaternion.LookRotation(damage.Normal);
+            string particlesName;
 
-                particles.Emit(15);
+            if (name.Contains("Enemy"))
+            {
+                particlesName = "Blood";
             }
+            else
+            {
+                particlesName = "Sparks";
+            }
+
+            Quaternion rotation= damage.Type == DamageType.Bullet?
+                Quaternion.LookRotation(damage.Normal):
+                Quaternion.LookRotation(Vector3.up);
+
+            ParticlesPool.Instance.Play(particlesName, damage.Point, rotation);
         }
     }
 }

@@ -9,6 +9,12 @@ namespace SD.Weapons
     /// </summary>
     abstract class HitscanWeapon : Weapon
     {
+        const string CasingsTransformName = "Casings";
+        const string MuzzleTransformName = "Muzzle";
+        const string MuzzleParticlesName = "MuzzleFlash";
+
+        const string DefaultHitParticleName = "DefaultParticles";
+
         protected Transform AimTransform;
         protected Transform Casings;
         protected Transform MuzzleFlash;
@@ -21,8 +27,8 @@ namespace SD.Weapons
         void Start()
         {
             AimTransform = CameraShaker.Instance.transform;
-            Casings = FindChildByName("Casings");
-            MuzzleFlash = FindChildByName("Muzzle");
+            Casings = FindChildByName(CasingsTransformName);
+            MuzzleFlash = FindChildByName(MuzzleTransformName);
         }
 
         protected abstract void Hitscan();
@@ -41,13 +47,13 @@ namespace SD.Weapons
             {
                 if (hit.collider.gameObject.layer == DamageableLayer)
                 {
-                    Damage dmg = Damage.CreateBulletDamage(DamageValue, direction, hit.point, hit.normal, PlayerLogic.Player.Instance.gameObject);
+                    Damage dmg = Damage.CreateBulletDamage(DamageValue, direction, hit.point, hit.normal, Player.Instance.gameObject);
                     hit.collider.GetComponent<IDamageable>().ReceiveDamage(dmg);
                 }
                 else
                 {
                     // else only generate particles
-
+                    ParticlesPool.Instance.Play(DefaultHitParticleName, hit.point, Quaternion.LookRotation(hit.normal));
                 }
 
                 return hit.point;
@@ -69,7 +75,7 @@ namespace SD.Weapons
             // particles
             if (MuzzleFlash != null && ShowMuzzleFlash)
             {
-                WeaponsParticles.Instance.EmitMuzzle(MuzzleFlash.position, MuzzleFlash.rotation);
+                ParticlesPool.Instance.Play(MuzzleParticlesName, MuzzleFlash.position, MuzzleFlash.rotation);
             }
         }
 
@@ -78,7 +84,7 @@ namespace SD.Weapons
         {
             if (Casings != null)
             {
-                WeaponsParticles.Instance.EmitCasings(Casings.position, Casings.rotation, this.AmmoType, AmmoConsumption);
+                WController.EmitCasings(Casings.position, Casings.rotation, AmmoType, AmmoConsumption);
             }
         }
 

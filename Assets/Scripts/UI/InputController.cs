@@ -159,7 +159,7 @@ namespace SD.UI
         public void OnHealthClick()
         {
             // try to regenerate
-            PlayerLogic.Player.Instance.RegenerateHealth();
+            Player.Instance.RegenerateHealth();
         }
 
         /// <summary>
