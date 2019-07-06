@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace SD.UI
 {
@@ -21,19 +21,30 @@ namespace SD.UI
         [SerializeField]
         private GameObject movementButtons;
 
-        static UIController instance;
-        public static UIController Instance => instance;
+        [SerializeField]
+        Text currentAmmoText;
+        [SerializeField]
+        Text distanceText;
+        [SerializeField]
+        Text killsAmountText;
 
-        void Awake()
-        {
-            instance = this;
-        }
+        const float MaxHealthImageWidth = 160;
+        [SerializeField]
+        Image healthImage;
+        [SerializeField]
+        Image vehicleHealthImage;
 
         void Start()
         {
             SetActiveHUD(true);
             SetActivePauseMenu(false);
             SetActiveWeaponSelectionMenu(false);
+
+            // sign to events
+            Weapons.Weapon.OnAmmoChange += SetAmmoAmount;
+            PlayerLogic.Player.Instance.OnHealthChange += SetHealth;
+            PlayerLogic.PlayerVehicle.OnDistanceChange += SetDistance;
+            PlayerLogic.PlayerVehicle.OnVehicleHealthChange += SetVehicleHealth;
         }
 
         public MovementInputType MovementInputType
@@ -81,6 +92,45 @@ namespace SD.UI
         public void SetActivePauseMenu(bool active)
         {
             pauseMenu.SetActive(active);
+        }
+
+        public void SetAmmoAmount(int amount)
+        {
+            currentAmmoText.text = amount >= 0 ? amount.ToString() : "";
+        }
+
+        public void SetDistance(float meters)
+        {
+            distanceText.text = meters.ToString("N1");
+        }
+
+        public void SetKillsAmount(int amount)
+        {
+            killsAmountText.text = amount.ToString();
+        }
+
+        /// <summary>
+        /// Set health in HUD
+        /// </summary>
+        /// <param name="health">health in [0..100]</param>
+        public void SetHealth(float health)
+        {
+            Vector2 d = healthImage.rectTransform.sizeDelta;
+            d.x = health / 100 * MaxHealthImageWidth;
+
+            healthImage.rectTransform.sizeDelta = d;
+        }
+
+        /// <summary>
+        /// Set health in HUD
+        /// </summary>
+        /// <param name="health">health in [0..100]</param>
+        public void SetVehicleHealth(float health)
+        {
+            Vector2 d = vehicleHealthImage.rectTransform.sizeDelta;
+            d.x = health / 100 * MaxHealthImageWidth;
+
+            vehicleHealthImage.rectTransform.sizeDelta = d;
         }
     }
 }

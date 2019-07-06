@@ -14,21 +14,25 @@ namespace SD.UI
 
     class InputController : MonoBehaviour
     {
-        private static bool fireButtonDown = false;
-        private static float movementHorizontal = 0.0f;
+        UIController uiController;
 
-        public static bool FireButton => fireButtonDown;
-        public static float MovementHorizontal => movementHorizontal;
+        public static bool FireButton { get; private set; } = false;
+        public static float MovementHorizontal { get; private set; } = 0.0f;
 
         #region input in the editor
-#if UNITY_EDITOR
         [SerializeField]
         bool useEditorInput;
         [SerializeField]
         bool ignoreMovementInput;
 
+        void Start()
+        {
+            uiController = GetComponentInParent<UIController>();
+        }
+
         void Update()
         {
+#if UNITY_EDITOR
             if (!useEditorInput)
             {
                 return;
@@ -37,7 +41,7 @@ namespace SD.UI
             if (!ignoreMovementInput)
             {
                 float x = Input.GetAxis("Horizontal");
-                movementHorizontal = x;
+                MovementHorizontal = x;
             }
 
             bool pressedRight = Input.GetKey(KeyCode.E);
@@ -60,14 +64,14 @@ namespace SD.UI
                     }
                 }
             }
+#endif
         }
 
-#endif
         #endregion
 
         public void UpdateMovementInput(float x)
         {
-            movementHorizontal = x;
+            MovementHorizontal = x;
         }
 
         #region event subscribers
@@ -76,7 +80,7 @@ namespace SD.UI
         /// </summary>
         public void OnFireDown()
         {
-            fireButtonDown = true;
+            FireButton = true;
 
             // also call weapon controller
             WeaponsController.Instance.Fire();
@@ -87,25 +91,25 @@ namespace SD.UI
         /// </summary>
         public void OnFireUp()
         {
-            fireButtonDown = false;
+            FireButton = false;
         }
 
         public void OnRightDown()
         {
-            movementHorizontal = 1.0f;
+            MovementHorizontal = 1.0f;
         }
         public void OnRightUp()
         {
-            movementHorizontal = 0.0f;
+            MovementHorizontal = 0.0f;
         }
 
         public void OnLeftDown()
         {
-            movementHorizontal = -1.0f;
+            MovementHorizontal = -1.0f;
         }
         public void OnLeftUp()
         {
-            movementHorizontal = 0.0f;
+            MovementHorizontal = 0.0f;
         }
 
         /// <summary>
@@ -113,8 +117,8 @@ namespace SD.UI
         /// </summary>
         public void OnWeaponSelectorDown()
         {
-            UIController.Instance.SetActiveHUD(false);
-            UIController.Instance.SetActiveWeaponSelectionMenu(true);
+            uiController.SetActiveHUD(false);
+            uiController.SetActiveWeaponSelectionMenu(true);
         }
 
         /// <summary>
@@ -123,8 +127,8 @@ namespace SD.UI
         /// </summary>
         public void OnWeaponSelectorUp()
         {
-            UIController.Instance.SetActiveHUD(true);
-            UIController.Instance.SetActiveWeaponSelectionMenu(false);
+            uiController.SetActiveHUD(true);
+            uiController.SetActiveWeaponSelectionMenu(false);
         }
 
         /// <summary>
@@ -133,24 +137,24 @@ namespace SD.UI
         public void OnPauseClick()
         {
             // deactivate
-            if (UIController.Instance.MovementInputType == MovementInputType.Joystick)
+            if (uiController.MovementInputType == MovementInputType.Joystick)
             {
                 // TODO: call joystick to deactivate
                 // OnMovementUp();
             }
-            else if (UIController.Instance.MovementInputType == MovementInputType.Buttons)
+            else if (uiController.MovementInputType == MovementInputType.Buttons)
             {
                 OnLeftUp();
                 OnRightUp();
             }
 
-            if (fireButtonDown)
+            if (FireButton)
             {
                 OnFireUp();
             }
 
-            UIController.Instance.SetActiveHUD(false);
-            UIController.Instance.SetActivePauseMenu(true);
+            uiController.SetActiveHUD(false);
+            uiController.SetActivePauseMenu(true);
         }
 
         /// <summary>

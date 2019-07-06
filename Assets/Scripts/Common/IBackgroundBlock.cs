@@ -13,7 +13,7 @@ namespace SD
         /// <summary>
         /// For block allocating
         /// </summary>
-        GameObject  CurrentOject { get; }
+        GameObject  CurrentObject { get; }
 
         /// <summary>
         /// Get block's horizontal bounds in world space

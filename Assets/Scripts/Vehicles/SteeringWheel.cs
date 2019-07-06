@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SD.Vehicles
+namespace SD.PlayerLogic
 {
     class SteeringWheel : MonoBehaviour, ISteeringWheel
     {

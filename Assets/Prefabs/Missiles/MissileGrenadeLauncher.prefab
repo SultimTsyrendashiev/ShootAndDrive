@@ -49,8 +49,7 @@ MonoBehaviour:
   explosionMask:
     serializedVersion: 2
     m_Bits: 769
-  explosion: {fileID: 5190052701041062004, guid: 69928c13b3beeb549a211dce63a4cbfc,
-    type: 3}
+  ExplosionName: Explosion
   lifetime: 5
 --- !u!135 &585876984979175358
 SphereCollider:
@@ -201,7 +200,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.5
+  m_Time: 0.2
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.12

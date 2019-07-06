@@ -49,8 +49,8 @@ MonoBehaviour:
   explosionMask:
     serializedVersion: 2
     m_Bits: 769
-  explosion: {fileID: 5190052701041062004, guid: 69928c13b3beeb549a211dce63a4cbfc,
-    type: 3}
+  ExplosionName: Explosion
+  lifetime: 5
 --- !u!135 &672987870569055847
 SphereCollider:
   m_ObjectHideFlags: 0

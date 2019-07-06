@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SD.PlayerLogic;
+// TODO: use events
 using SD.UI;
 
 namespace SD.Weapons
@@ -29,12 +30,11 @@ namespace SD.Weapons
         const string        animHide    = "WeaponHide";
         const string        animTakeOut = "WeaponTake";
 
-        static WeaponsController instance;
-        public static WeaponsController Instance => instance;
+        public static WeaponsController Instance { get; private set; }
 
         void Start()
         {
-            instance = this;
+            Instance = this;
 
             // init weapons
             inventoryWeapons = Player.Instance.Inventory.Weapons;
@@ -64,15 +64,19 @@ namespace SD.Weapons
             audioSourceIndex = 0;
             Debug.Assert(audioSources.Length != 0, "No audio source for weapons");
 
+            // animation
             commonAnimation = GetComponent<Animation>();
             Debug.Assert(commonAnimation != null);
 
+            // states
             isSwitching = false;
             canSwitchToAnotherNext = false;
             currentWeapon = new Maybe<WeaponIndex>();
 
+            // events
             Weapon.OnWeaponBreak += ProcessWeaponBreak;
 
+            // set parameters for weapons particles
             InitParticles();
 
             // for testing
@@ -304,6 +308,7 @@ namespace SD.Weapons
             // set new current
             currentWeapon.Exist = true;
             currentWeapon.Value = nextWeapon;
+
             isSwitching = false;
         }
 

@@ -1,5 +1,4 @@
-﻿
-namespace SD.Vehicles
+﻿namespace SD
 {
     interface IVehicle
     { }

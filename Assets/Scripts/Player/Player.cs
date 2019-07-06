@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using SD.Weapons;
 using SD.UI;
-using SD.Vehicles;
 
 namespace SD.PlayerLogic
 {
+    public delegate void FloatChange(float f);
+
     /// <summary>
     /// Player class. There must be 
     /// 'PlayerVehicle' and 'PlayerDamageReceiver'
@@ -32,28 +33,24 @@ namespace SD.PlayerLogic
         const float                 MaxHealth = 100;
         #endregion
 
-        private Camera              playerCamera;
-        PlayerState                 state;
-        private float               health = MaxHealth; // temporary, must be set by game controller
+        PlayerVehicle       playerVehicle;
+        ISteeringWheel      steeringWheel;
 
-        private PlayerVehicle       playerVehicle;
-        private ISteeringWheel      steeringWheel; 
+        public event FloatChange OnHealthChange;
 
-        private static Player       instance;
-        public static Player        Instance => instance;
-
-        public Camera               MainCamera => playerCamera;
-        public PlayerInventory      Inventory => PlayerInventory.Instance;
-        public PlayerState          State => state;
-        public float                Health => health;
+        public static Player    Instance { get; private set; }
+        public Camera           MainCamera { get; private set; }
+        public PlayerInventory  Inventory => PlayerInventory.Instance;
+        public PlayerState      State { get; private set; }
+        public float            Health { get; private set; } = MaxHealth;
 
         void Awake()
         {
-            Debug.Assert(instance == null, "Several players in a scene", this);
-            instance = this;
+            Debug.Assert(Instance == null, "Several players in a scene", this);
+            Instance = this;
 
             #region TODO: remove from this class
-            Application.targetFrameRate = 30;
+            Application.targetFrameRate = 60;
 
             // TODO: must be not here
             // load items from player prefs
@@ -64,13 +61,13 @@ namespace SD.PlayerLogic
 
         void Start()
         {
-            playerCamera = GetComponentInChildren<Camera>();
+            MainCamera = GetComponentInChildren<Camera>();
             playerVehicle = GetComponentInChildren<PlayerVehicle>(true);
 
             Debug.Assert(playerVehicle != null, "There must be a 'PlayerVehicle' as child object", this);
 
             steeringWheel = playerVehicle.SteeringWheel;
-            state = PlayerState.Ready;
+            State = PlayerState.Ready;
         }
 
         void Update()
@@ -79,12 +76,14 @@ namespace SD.PlayerLogic
             // to control vehicle
             float x = InputController.MovementHorizontal;
             steeringWheel.Steer(x);
+
+            Background.BackgroundController.Instance.UpdateCameraPosition(MainCamera.transform.position);
         }
 
 #region health management
         void Die()
         {
-            state = PlayerState.Dead;
+            State = PlayerState.Dead;
 
             // TODO:
             // play anim, sound
@@ -96,7 +95,7 @@ namespace SD.PlayerLogic
         public void RegenerateHealth()
         {            
             // if player is busy
-            if (state != PlayerState.Ready)
+            if (State != PlayerState.Ready)
             {
                 return;
             }
@@ -108,7 +107,7 @@ namespace SD.PlayerLogic
             }
 
             // regenerate if health is not max
-            if (health < MaxHealth)
+            if (Health < MaxHealth)
             {
                 StartCoroutine(WaitForRegeneration());
             }
@@ -116,7 +115,7 @@ namespace SD.PlayerLogic
 
         IEnumerator WaitForRegeneration()
         {
-            state = PlayerState.Regenerating;
+            State = PlayerState.Regenerating;
 
             // hide weapon and wait
             WeaponsController.Instance.HideWeapon();
@@ -133,32 +132,32 @@ namespace SD.PlayerLogic
                 yield return null;
 
                 // if died while regenerating
-                if (state == PlayerState.Dead || state == PlayerState.Nothing)
+                if (State == PlayerState.Dead || State == PlayerState.Nothing)
                 {
                     yield break;
                 }
 
-            } while (state != PlayerState.Ready);
+            } while (State != PlayerState.Ready);
 
             // add health
-            if (health < MinHealthForRegeneration)
+            if (Health < MinHealthForRegeneration)
             {
-                health += HealthToRegenerate;
+                Health += HealthToRegenerate;
 
-                if (health < MinRegeneratedHealth)
+                if (Health < MinRegeneratedHealth)
                 {
-                    health = MinRegeneratedHealth;
+                    Health = MinRegeneratedHealth;
                 }
             }
             else
             {
-                health = HealthAfterMedkit;
+                Health = HealthAfterMedkit;
             }
 
             // finally, take out weapon
             WeaponsController.Instance.TakeOutWeapon();
 
-            state = PlayerState.Ready;
+            State = PlayerState.Ready;
         }
 #endregion
 
@@ -182,9 +181,10 @@ namespace SD.PlayerLogic
                 damageValue /= length;
             }
 
-            health -= damageValue;
+            Health -= damageValue;
+            OnHealthChange(Health);
 
-            if (health <= 0)
+            if (Health <= 0)
             {
                 Die();
             }

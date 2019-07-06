@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 namespace SD.Weapons
 {
-    delegate void WeaponBreak(WeaponIndex brokenWeapon); 
+    delegate void WeaponBreak(WeaponIndex brokenWeapon);
+    delegate void WeaponAmmoChange(int currentAmount);
 
     abstract class Weapon : MonoBehaviour
     {
@@ -26,11 +27,16 @@ namespace SD.Weapons
         const float HealthToJam = 0.15f;    // if below this number then weapon can jam
         #endregion
 
-
         /// <summary>
         /// Common event, called on waepon breaking
         /// </summary>
         public static event WeaponBreak OnWeaponBreak;
+        
+        /// <summary>
+        /// Called on ammo change.
+        /// Shows current weapon's ammo amount
+        /// </summary>
+        public static event WeaponAmmoChange OnAmmoChange;
 
         protected WeaponsController WController;
 
@@ -148,6 +154,7 @@ namespace SD.Weapons
         protected void ReduceAmmo()
         {
             ammo.Add(AmmoType, -AmmoConsumption);
+            OnAmmoChange(ammo[AmmoType]);
         }
         #endregion
 
@@ -262,6 +269,9 @@ namespace SD.Weapons
 
             State = WeaponState.Disabling;
 
+            // disable current ammo amount
+            OnAmmoChange(-1);
+
             // wait for disabling
             StartCoroutine(WaitForDisabling(HidingTime));
         }
@@ -323,6 +333,10 @@ namespace SD.Weapons
 
             gameObject.SetActive(true);
             Activate();
+
+            // this weapon is activating,
+            // show its ammo
+            OnAmmoChange(ammo[AmmoType]);
 
             // pose hand
             if (handPivot != null)
