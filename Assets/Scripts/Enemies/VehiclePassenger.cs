@@ -6,7 +6,7 @@ namespace SD.Enemies
     enum PassengerState
     {
         Nothing,
-        Alive,
+        Active,
         Attacking,
         Dead,
         Damaging
@@ -16,101 +16,186 @@ namespace SD.Enemies
     class VehiclePassenger : MonoBehaviour, IDamageable
     {
         [SerializeField]
-        bool canAttack;
-        [SerializeField]
-        float fireRateInSeconds;
-        [SerializeField]
-        int shotsAmount = 1;
+        EnemyData               data;
 
         [SerializeField]
-        string projectileName;
+        Transform               projectileSpawn;
         [SerializeField]
-        Transform projectileSpawn;
+        Animator                passengerAnimator;
 
-        EnemyVehicle vehicle;
-        [SerializeField]
-        Animator passengerAnimator;
+        Coroutine               attackCoroutine;
 
-        public string BloodParticlesName = "Blood";
+        // Current vehicle of this passenger
+        EnemyVehicle            vehicle;
 
+        // Current target of this passenger
+        Transform target;
+
+        public PassengerState   State { get; private set; }
+        public float            Health { get; private set; }
+
+        /// <summary>
+        /// Called on death, sends info about this enemy
+        /// </summary>
         public event PassengerDied OnPassengerDeath;
 
-        [SerializeField]
-        bool isDriver;
-        public bool IsDriver => isDriver;
-
-        public PassengerState State { get; private set; }
-
-        float startHealth;
-        public float Health { get; private set; }
-
-        public void Init(int startHealth)
+        /// <summary>
+        /// Called from vehicle class to init
+        /// </summary>
+        public void Init(EnemyVehicle vehicle)
         {
-            this.startHealth = this.Health = startHealth;
-            this.vehicle = GetComponentInParent<EnemyVehicle>();
+            this.vehicle = vehicle;
+            this.target = null;
+            State = PassengerState.Nothing;
         }
 
+        /// <summary>
+        /// Called on respawn
+        /// </summary>
         public void Reinit()
         {
-            Health = startHealth;
-            State = PassengerState.Alive;
+            Health = data.StartHealth;
+            State = PassengerState.Active;
+
+            if (target != null)
+            {
+                StartAttack();
+            }
+        }
+
+        /// <summary>
+        /// Called on vehicle disable
+        /// (when its state turns to 'Nothing')
+        /// </summary>
+        public void Deactivate()
+        {
+            StopAllCoroutines();
+            State = PassengerState.Nothing;
         }
 
         public void ReceiveDamage(Damage damage)
         {
-            if (State == PassengerState.Attacking)
+            if (State == PassengerState.Dead)
             {
-                // stop attacking
-                StopAllCoroutines();
+                return;
+            }
+
+            if (Health <= 0 || State == PassengerState.Nothing)
+            {
+                Debug.Log("Wrone damageable state", this);
+            }
+
+            // stop attacking
+            if (attackCoroutine != null)
+            {
+                StopCoroutine(attackCoroutine);
+                passengerAnimator.ResetTrigger("Attack");
             }
 
             State = PassengerState.Damaging;
             Health -= damage.CalculateDamageValue(transform.position);
 
-            ParticlesPool.Instance.Play(BloodParticlesName, damage.Point,
+            // play blood particle system
+            ParticlesPool.Instance.Play(data.BloodParticlesName, damage.Point,
                Quaternion.LookRotation(damage.Type == DamageType.Bullet ? damage.Normal : Vector3.up));
-
+            
             if (Health > 0)
             {
-                passengerAnimator.ResetTrigger("Attack");
+                // don't play damaging animation more than once
+                if (State == PassengerState.Damaging)
+                {
+                    return;
+                }
+
                 passengerAnimator.SetTrigger("Damage");
+
+                // TODO: wait
+
+                // return state and start attacking 
+                // after receiving damage
+                State = PassengerState.Active;
+                StartAttack();
             }
-            else
+            else // death
             {
-                passengerAnimator.ResetTrigger("Attack");
+                Health = 0;
+                State = PassengerState.Dead;
+
                 passengerAnimator.ResetTrigger("Damage");
                 passengerAnimator.SetTrigger("Die");
-                OnPassengerDeath(isDriver);
+
+                OnPassengerDeath(data);
             }
         }
 
-        public void StartAttack(Transform target)
+        void StartAttack()
         {
-            if (!canAttack)
+            if (!data.CanAttack)
             {
                 return;
             }
 
-            if (Health <= 0)
+            if (target == null)
             {
                 return;
             }
 
-            passengerAnimator.SetTrigger("Attack");
-
-            StartCoroutine(WaitForAttack(target));
+            // this coroutine will be disabled when
+            // passenger will receive damage
+            attackCoroutine = StartCoroutine(WaitForAttack());
         }
 
-        IEnumerator WaitForAttack(Transform target)
+        IEnumerator WaitForAttack()
         {
-            for (int i = 0; i < shotsAmount; i++)
+            float   timeBetweenRounds = data.TimeBetweenRounds;
+            int     shotsAmount = data.ShotsAmount;
+            string  projectileName = data.ProjectileName;
+            float   fireRate = data.FireRate;
+
+            while (isActiveAndEnabled)
             {
-                Vector3 direction = target.position - projectileSpawn.position;
-                direction.Normalize();
+                yield return new WaitForSeconds(timeBetweenRounds);
+             
+                // must be active
+                if (State != PassengerState.Active)
+                {
+                    yield break;
+                }
 
-                ObjectPool.Instance.GetObject(projectileName, projectileSpawn.position, direction);
+                State = PassengerState.Attacking;
+                passengerAnimator.SetTrigger("Attack");
 
-                yield return new WaitForSeconds(fireRateInSeconds);
+                for (int i = 0; i < shotsAmount; i++)
+                {
+                    Vector3 direction = target.position - projectileSpawn.position;
+                    direction.Normalize();
+
+                    ObjectPool.Instance.GetObject(projectileName, projectileSpawn.position, direction);
+
+                    yield return new WaitForSeconds(fireRate);
+                }
+
+                // return to previous state
+                State = PassengerState.Active;
+            }
+        }
+
+        public void Kill()
+        {
+            Damage fatalDamage = Damage.CreateBulletDamage(Health,
+                    transform.forward, transform.position, transform.forward, gameObject);
+
+            ReceiveDamage(fatalDamage);
+        }
+
+        internal void SetTarget(Transform target)
+        {
+            this.target = target;
+
+            // start if object is enabled and ready
+            if (State == PassengerState.Active)
+            {
+                StartAttack();
             }
         }
     }

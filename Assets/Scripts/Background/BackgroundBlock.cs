@@ -19,10 +19,10 @@ namespace SD.Background
         public PooledObjectType Type => PooledObjectType.Important;
         public int AmountInPool => 4;
 
-        public void OnInit()
+        public void Init()
         { }
 
-        public void Enable()
+        public void Reinit()
         { }
 
         public bool Contains(Vector3 position)

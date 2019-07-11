@@ -16,23 +16,22 @@ namespace SD.PlayerLogic
         public AmmoHolder       Ammo;
         public ItemsHolder      Items;
 
-        static PlayerInventory instance;
-        public static PlayerInventory Instance => instance;
+        bool isInitialized = false;
 
-        void Awake()
+        public void Init()
         {
-            if (instance != null)
+            if (isInitialized)
             {
                 return;
             }
-
-            instance = this;
 
             Weapons = new WeaponsHolder();
             Ammo = new AmmoHolder();
             Items = new ItemsHolder();
 
             DontDestroyOnLoad(gameObject);
+
+            isInitialized = true;
         }
 
         void OnDestroy()

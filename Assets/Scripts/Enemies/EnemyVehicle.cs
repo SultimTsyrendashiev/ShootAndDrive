@@ -3,22 +3,37 @@ using UnityEngine;
 
 namespace SD.Enemies
 {
-    delegate void PassengerDied(bool isDriver);
+    // common delegates
+    delegate void EnemyDied(EnemyData data);
+    delegate void VehicleDestroyed(EnemyVehicleData data);
 
-    abstract class EnemyVehicle : MonoBehaviour, IEnemy
+    // from passengers of vehicles
+    delegate void PassengerDied(EnemyData data);
+
+    /// <summary>
+    /// Represents enemy as vehicle with passengers.
+    /// There must be vehicle damage receiver as a child object,
+    /// also passengers, if needed
+    /// </summary>
+    abstract class EnemyVehicle : MonoBehaviour, IEnemy, IPooledObject
     {
-        public EnemyVehicleState State { get; private set; }
-        protected VehiclePassenger[] Passengers { get; private set; }
-        protected Transform Target { get; private set; }
-        public bool AliveDriver { get; private set; }
+        [SerializeField]
+        EnemyVehicleData data;
 
-        [SerializeField]
-        int passengersStartHealth;
-        [SerializeField]
-        int vehicleStarthealth;
         EnemyVehicleDamageReceiver damageReceiver;
-
         int alivePassengersAmount;
+
+        public EnemyVehicleState        State       { get; private set; }
+        protected VehiclePassenger[]    Passengers  { get; private set; }
+        public bool                     AliveDriver => State != EnemyVehicleState.DeadDriver && alivePassengersAmount > 0;
+        public EnemyVehicleData         Data        => data;
+
+        GameObject          IPooledObject.ThisObject    => gameObject;
+        PooledObjectType    IPooledObject.Type          => PooledObjectType.Important;
+        int                 IPooledObject.AmountInPool  => 8;
+
+        public static event EnemyDied           OnEnemyDeath;
+        public static event VehicleDestroyed    OnVehicleDestroy;
 
         /// <summary>
         /// Called on activating
@@ -28,40 +43,41 @@ namespace SD.Enemies
         /// Called on deactivating
         /// </summary>
         protected virtual void Deactivate() { }
-        /// <summary>
-        /// Called on death
-        /// </summary>
-        protected abstract void Die();
 
         /// <summary>
-        /// Must be called only once
+        /// Called on death of all passengers.
+        /// Virtual, as it's only impprtant when driver dies
         /// </summary>
-        public void Init(Transform target)
+        protected virtual void DoPassengerDeath() { }
+        
+        /// <summary>
+        /// Called on death of driver
+        /// </summary>
+        protected abstract void DoDriverDeath();
+
+        public void Init()
         {
-            this.Target = target;
-
             // get all passengers and init them
             Passengers = GetComponentsInChildren<VehiclePassenger>(true);
             foreach (var p in Passengers)
             {
-                p.Init(passengersStartHealth);
+                p.Init(this);
                 p.OnPassengerDeath += PassengerDied;
             }
 
             // get vehicle collision model and init it
             damageReceiver = GetComponentInChildren<EnemyVehicleDamageReceiver>(true);
-            damageReceiver.Init(vehicleStarthealth);
-            damageReceiver.OnVehicleDeath += Explode;
+            damageReceiver.Init(this);
         }
 
         /// <summary>
         /// Must be called on respawn.
         /// Restores enemy to alive state.
         /// </summary>
-        void Reinit()
+        public void Reinit()
         {
+            State = EnemyVehicleState.Active;
             alivePassengersAmount = Passengers.Length;
-            AliveDriver = true;
 
             foreach (var p in Passengers)
             {
@@ -102,32 +118,46 @@ namespace SD.Enemies
 
             State = EnemyVehicleState.Nothing;
 
+            foreach (var p in Passengers)
+            {
+                p.Deactivate();
+            }
+
             Deactivate();
             gameObject.SetActive(false);
         }
 
         /// <summary>
         /// Explode this vehicle.
-        /// Must be called on vehicle 
+        /// Must be called on vehicle destuction
         /// </summary>
-        void Explode()
+        public void Explode()
         {
+            // ignore if not exist
             if (State == EnemyVehicleState.Nothing)
             {
                 return;
             }
 
+            KillAllPassengers();
+
+            // generate explosiion
+            ParticlesPool.Instance.Play(data.ExplosionName, transform.position, transform.rotation);
+
+            // call event
+            OnVehicleDestroy(data);
             State = EnemyVehicleState.Nothing;
         }
 
         /// <summary>
         /// Called on death of one of passengers
         /// </summary>
-        void PassengerDied(bool driver)
+        void PassengerDied(EnemyData passengerData)
         {
-            // check for incorrect states
-            if (State == EnemyVehicleState.Dead 
-                || State == EnemyVehicleState.DeadDriver 
+            // check for incorrect states;
+            // must be 'Active' or 'DeadDriver'
+            if (State == EnemyVehicleState.DeadPassengers
+                || (State == EnemyVehicleState.DeadDriver && passengerData.IsDriver)
                 || State == EnemyVehicleState.Nothing)
             {
                 Debug.Log("Called from wrong state", this);
@@ -137,35 +167,42 @@ namespace SD.Enemies
             // decrement
             alivePassengersAmount--;
 
-            // if there are passengers
-            // but driver died for first time
-            if (alivePassengersAmount > 0 && driver
-                && State != EnemyVehicleState.DeadDriver)
+            // call event
+            OnEnemyDeath(passengerData);
+
+            // if there are passengers, but driver died
+            if (alivePassengersAmount > 0 && passengerData.IsDriver)
             {
                 State = EnemyVehicleState.DeadDriver;
-                AliveDriver = false;
-
-                Die();
-
-                return;
+                
+                DoDriverDeath();
             }
-
             // if there are no alive passengers
-            if (alivePassengersAmount <= 0)
+            else if (alivePassengersAmount <= 0)
             {
-                State = EnemyVehicleState.Dead;
-                Die();
+                alivePassengersAmount = 0;
+                State = EnemyVehicleState.DeadPassengers;
+
+                DoPassengerDeath();
             }
         }
 
-        protected void KillAllPassengers()
+        /// <summary>
+        /// Usually called when vehicle is destroyed
+        /// </summary>
+        public void KillAllPassengers()
         {
             foreach (var p in Passengers)
             {
-                Damage fatalDamage = Damage.CreateBulletDamage(passengersStartHealth,
-                    transform.forward, p.transform.position, transform.forward, gameObject);
+                p.Kill();
+            }
+        }
 
-                p.ReceiveDamage(fatalDamage);
+        public void SetTarget(Transform target)
+        {
+            foreach (var p in Passengers)
+            {
+                p.SetTarget(target);
             }
         }
     }

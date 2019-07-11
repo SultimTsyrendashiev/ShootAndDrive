@@ -1,12 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using SD.Weapons;
-using SD.UI;
 
 namespace SD.PlayerLogic
 {
-    public delegate void FloatChange(float f);
+    delegate void FloatChange(float f);
+    delegate void PlayerScore(GameScore score);
 
     /// <summary>
     /// Player class. There must be 
@@ -21,6 +20,7 @@ namespace SD.PlayerLogic
         /// Min health when regeneration without medkit can be applied 
         /// </summary>
         const float                 MinHealthForRegeneration = 20;
+
         /// <summary>
         /// Min health there must be after regeneration
         /// </summary>
@@ -33,57 +33,71 @@ namespace SD.PlayerLogic
         const float                 MaxHealth = 100;
         #endregion
 
-        PlayerVehicle       playerVehicle;
-        ISteeringWheel      steeringWheel;
-
-        public event FloatChange OnHealthChange;
-
-        public static Player    Instance { get; private set; }
+        PlayerVehicle           playerVehicle;
+        ISteeringWheel          steeringWheel;
+        GameScore               currentScore;
+        
         public Camera           MainCamera { get; private set; }
-        public PlayerInventory  Inventory => PlayerInventory.Instance;
+        public PlayerInventory  Inventory { get; private set; }
         public PlayerState      State { get; private set; }
         public float            Health { get; private set; } = MaxHealth;
+        public GameScore        Score => currentScore;
+        public PlayerVehicle    Vehicle => playerVehicle;
 
-        void Awake()
-        {
-            Debug.Assert(Instance == null, "Several players in a scene", this);
-            Instance = this;
+        public event FloatChange OnHealthChange;
+        public event PlayerScore OnPlayerDeath;
 
-            #region TODO: remove from this class
-            Application.targetFrameRate = 60;
-
-            // TODO: must be not here
-            // load items from player prefs
-            Inventory.Load();
-            Inventory.GiveAll();
-            #endregion
-        }
-
-        void Start()
+        public void Init()
         {
             MainCamera = GetComponentInChildren<Camera>();
+
             playerVehicle = GetComponentInChildren<PlayerVehicle>(true);
-
             Debug.Assert(playerVehicle != null, "There must be a 'PlayerVehicle' as child object", this);
-
+            playerVehicle.Init(this);
             steeringWheel = playerVehicle.SteeringWheel;
+
+            Inventory = FindObjectOfType<PlayerInventory>();
+            Debug.Assert(Inventory != null, "Can't find player's inventory", this);
+            Inventory.Init();
+
+            // reset score
+            currentScore = new GameScore(PlayerVehicle.MaxHealth);
+
+            // sign to events
+            Enemies.EnemyVehicle.OnEnemyDeath += AddEnemyScore;
+            Enemies.EnemyVehicle.OnVehicleDestroy += AddEnemyVehicleScore;
+            UI.InputController.OnHealthRegenerate += RegenerateHealth;
+
             State = PlayerState.Ready;
         }
 
-        void Update()
+        public void UpdateInput(float horizonalAxis)
         {
             // player must call steering wheel methods
             // to control vehicle
-            float x = InputController.MovementHorizontal;
-            steeringWheel.Steer(x);
-
-            Background.BackgroundController.Instance.UpdateCameraPosition(MainCamera.transform.position);
+            steeringWheel.Steer(horizonalAxis);
         }
 
-#region health management
+        void AddEnemyScore(Enemies.EnemyData data)
+        {
+            currentScore.KillsAmount++;
+            currentScore.KillsScore += data.Score;
+        }
+
+        void AddEnemyVehicleScore(Enemies.EnemyVehicleData data)
+        {
+            currentScore.DestroyedVehiclesAmount++;
+            currentScore.KillsScore += data.Score;
+        }
+
+        #region health management
         void Die()
         {
             State = PlayerState.Dead;
+
+            // send player's score
+            currentScore.VehicleHealth = (int)playerVehicle.Health;
+            OnPlayerDeath(Score);
 
             // TODO:
             // play anim, sound

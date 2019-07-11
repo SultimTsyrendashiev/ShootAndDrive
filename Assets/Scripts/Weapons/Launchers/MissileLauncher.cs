@@ -43,10 +43,10 @@ namespace SD.Weapons
 
         void SpawnMissile()
         {
-            GameObject missileObj = ObjectPool.Instance.GetObject(MissileName, missileSpawn.position, Player.Instance.transform.rotation);
+            GameObject missileObj = ObjectPool.Instance.GetObject(MissileName, missileSpawn.position, Owner.transform.rotation);
 
             Missile missile = missileObj.GetComponent<Missile>();
-            missile.Set(DamageValue, damageRadius, Player.Instance.gameObject);
+            missile.Set(DamageValue, damageRadius, Owner);
             missile.Launch(launchSpeed);
         }
     }

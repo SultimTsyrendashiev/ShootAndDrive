@@ -13,23 +13,24 @@ namespace SD.Weapons
         public string               ExplosionName = "Explosion";
 
         [SerializeField]
-        private float               lifetime = 5;
+        float               lifetime = 5;
 
-        private float               damageValue;
-        private float               damageRadius;
-        private Rigidbody           rb;
-        private GameObject          owner;
+        // Entity that launched this missile
+        GameObject          owner;
+        Rigidbody           rb;
+        float               damageValue;
+        float               damageRadius;
 
         public GameObject           ThisObject => gameObject;
         public PooledObjectType     Type => PooledObjectType.Important;
         public int                  AmountInPool => 4;
 
-        public void OnInit()
+        public void Init()
         {
             rb = GetComponent<Rigidbody>();
         }
 
-        public void Enable() { }
+        public void Reinit() { }
 
         /// <summary>
         /// Set parameters of this missile.
@@ -61,10 +62,11 @@ namespace SD.Weapons
 
         void OnCollisionEnter(Collision col)
         {
-            Explode();
+            // there is always at least one contact
+            Explode(col.contacts[0].point);
         }
 
-        void Explode()
+        void Explode(Vector3 position)
         {
             StopAllCoroutines();
             gameObject.SetActive(false);
@@ -73,12 +75,12 @@ namespace SD.Weapons
             IgnoreCollisionWithOwner(false);
 
             // foreach collider apply damage
-            Collider[] cs = Physics.OverlapSphere(transform.position, damageRadius, explosionMask.value);
-            Damage dmg = Damage.CreateExpolosionDamage(damageValue, damageRadius, transform.position, PlayerLogic.Player.Instance.gameObject);
+            Collider[] cs = Physics.OverlapSphere(position, damageRadius, explosionMask.value);
+            Damage dmg = Damage.CreateExpolosionDamage(damageValue, damageRadius, position, owner);
 
             foreach (Collider c in cs)
             {
-                float sqrLength = (transform.position - c.transform.position).sqrMagnitude;
+                float sqrLength = (position - c.transform.position).sqrMagnitude;
 
                 IDamageable d = c.gameObject.GetComponent<IDamageable>();
 
@@ -88,13 +90,13 @@ namespace SD.Weapons
                 }
             }
 
-            ParticlesPool.Instance.Play(ExplosionName, transform.position, Quaternion.identity);
+            ParticlesPool.Instance.Play(ExplosionName, position, Quaternion.identity);
         }
 
         IEnumerator WaitToDisable()
         {
             yield return new WaitForSeconds(lifetime);
-            Explode();
+            Explode(transform.position);
         }
 
         void IgnoreCollisionWithOwner(bool ignore)
@@ -102,7 +104,7 @@ namespace SD.Weapons
             Collider[] ownerColl = owner.GetComponentsInChildren<Collider>();
             foreach (var c in ownerColl)
             {
-                Physics.IgnoreCollision(GetComponent<Collider>(), c);
+                Physics.IgnoreCollision(GetComponent<Collider>(), c, ignore);
             }
         }
     }

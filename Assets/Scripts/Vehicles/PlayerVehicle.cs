@@ -9,12 +9,12 @@ namespace SD.PlayerLogic
     [RequireComponent(typeof(Collider))]
     class PlayerVehicle : MonoBehaviour, IVehicle, IDamageable
     {
-        const int MaxHealth = 100;
+        public const int MaxHealth = 100;
 
         const float SteeringEpsilon = 0.01f;
 
-        public static event FloatChange OnVehicleHealthChange;
-        public static event FloatChange OnDistanceChange;
+        public event FloatChange OnVehicleHealthChange;
+        public event FloatChange OnDistanceChange;
 
         Player          player;
         Transform       playerTransform;
@@ -31,36 +31,31 @@ namespace SD.PlayerLogic
         public float Health { get; private set; } = MaxHealth;
         public ISteeringWheel SteeringWheel { get; private set; }
 
-        void Awake()
+        public void Init(Player player)
         {
-            SteeringWheel = GetComponentInChildren<SteeringWheel>(true);
-        }
-
-        void Start()
-        {
-            player = GetComponentInParent<Player>();
-
+            this.player = player;
             playerTransform = player.transform;
             playerRigidbody = player.GetComponent<Rigidbody>();
             playerRigidbody.isKinematic = true;
 
+            SteeringWheel = GetComponentInChildren<SteeringWheel>(true);
+      
             currentSpeed = Speed;
             currentSideSpeed = SideSpeed;
             travelledDistance = 0;
-
-            OnVehicleHealthChange(Health);
-            OnDistanceChange(travelledDistance);
         }
 
         public void ReceiveDamage(Damage damage)
         {
             Health -= damage.CalculateDamageValue(transform.position);
-            OnVehicleHealthChange(Health);
 
             if (Health <= 0)
             {
+                Health = 0;
                 StartCoroutine(BreakVehicle());
             }
+
+            OnVehicleHealthChange(Health);
         }
 
         IEnumerator BreakVehicle()

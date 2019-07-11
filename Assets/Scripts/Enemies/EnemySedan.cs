@@ -5,41 +5,32 @@ namespace SD.Enemies
 {
     class EnemySedan : EnemyVehicle
     {
-        [SerializeField]
-        float speed;
-        [SerializeField]
-        float attackLoopTime = 2;
-
         Rigidbody vehicleRigidbody;
 
         protected override void Activate()
         {
-            vehicleRigidbody.velocity = transform.forward * speed;
-            StartCoroutine(AttackLoop());
+            vehicleRigidbody.isKinematic = true;
+            vehicleRigidbody.velocity = transform.forward * Data.Speed;
         }
 
-        protected override void Die()
+        protected override void DoDriverDeath()
         {
-            StopAllCoroutines();
-
-            // TODO
+            StartCoroutine(StopVehicle());
         }
 
-        IEnumerator AttackLoop()
+        IEnumerator StopVehicle()
         {
-            while (State == EnemyVehicleState.Active)
+            const float stopEpsilon = 0.1f;
+
+            float brakeTime = 1;
+            Vector3 velocity = vehicleRigidbody.velocity;
+
+            while (velocity.sqrMagnitude > stopEpsilon)
             {
-                yield return new WaitForSeconds(attackLoopTime);
-                Attack();
-            }
-        }
+                velocity = Vector3.Lerp(velocity, Vector3.zero, Time.fixedDeltaTime / brakeTime);
+                vehicleRigidbody.velocity = velocity;
 
-        void Attack()
-        {
-            // each passenger starts to shoot
-            foreach (var p in Passengers)
-            {
-                p.StartAttack(Target);
+                yield return new WaitForFixedUpdate();
             }
         }
     }

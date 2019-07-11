@@ -11,20 +11,25 @@ namespace SD.UI
     class PlayerInventoryDisplay : MonoBehaviour
     {
         [SerializeField]
-        private Transform ammoTextsParent;
+        Transform           ammoTextsParent;
         [SerializeField]
-        private Transform itemTextsParent;
+        Transform           itemTextsParent;
 
-        Dictionary<AmmunitionType, Text> ammoTexts;
-        Dictionary<ItemType, Text> itemTexts;
+        PlayerInventory     inventory;
 
-        void Awake()
+        Dictionary<AmmunitionType, Text>    ammoTexts;
+        Dictionary<ItemType, Text>          itemTexts;
+        
+        void Start()
         {
             ammoTexts = new Dictionary<AmmunitionType, Text>();
             itemTexts = new Dictionary<ItemType, Text>();
 
             Init(ammoTexts, ammoTextsParent);
             Init(itemTexts, itemTextsParent);
+
+            inventory = FindObjectOfType<GameController>().CurrentPlayer.Inventory;
+            Debug.Assert(inventory != null, "Can't find GameController", this);
         }
 
         void OnEnable()
@@ -34,16 +39,14 @@ namespace SD.UI
 
         void UpdateText()
         {
-            var inv = Player.Instance.Inventory;
-
             foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
             {
-                SetText(a, inv.Ammo[a].ToString());
+                SetText(a, inventory.Ammo[a].ToString());
             }
 
             foreach (ItemType a in Enum.GetValues(typeof(ItemType)))
             {
-                SetText(a, inv.Items[a].ToString());
+                SetText(a, inventory.Items[a].ToString());
             }
         }
 

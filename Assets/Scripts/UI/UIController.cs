@@ -42,9 +42,12 @@ namespace SD.UI
 
             // sign to events
             Weapons.Weapon.OnAmmoChange += SetAmmoAmount;
-            PlayerLogic.Player.Instance.OnHealthChange += SetHealth;
-            PlayerLogic.PlayerVehicle.OnDistanceChange += SetDistance;
-            PlayerLogic.PlayerVehicle.OnVehicleHealthChange += SetVehicleHealth;
+
+            var player = FindObjectOfType<GameController>().CurrentPlayer;
+
+            player.OnHealthChange += SetHealth;
+            player.Vehicle.OnDistanceChange += SetDistance;
+            player.Vehicle.OnVehicleHealthChange += SetVehicleHealth;
         }
 
         public MovementInputType MovementInputType

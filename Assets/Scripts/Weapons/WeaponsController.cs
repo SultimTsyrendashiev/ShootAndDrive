@@ -8,8 +8,10 @@ using SD.UI;
 
 namespace SD.Weapons
 {
-    // Player's weapons controller.
-    // All weapons must be children of this object
+    /// <summary>
+    /// Player's weapons controller.
+    /// All weapons must be children of this object
+    /// </summary>
     class WeaponsController : MonoBehaviour
     {
         WeaponsHolder       inventoryWeapons;   // weapons in player's inventory
@@ -30,15 +32,26 @@ namespace SD.Weapons
         const string        animHide    = "WeaponHide";
         const string        animTakeOut = "WeaponTake";
 
+        /// <summary>
+        /// Player which holds this weapons
+        /// </summary>
+        public Player CurrentPlayer { get; private set; }
         public static WeaponsController Instance { get; private set; }
+
+        void Awake()
+        {
+            Instance = this;
+        }
 
         void Start()
         {
-            Instance = this;
+            CurrentPlayer = FindObjectOfType<GameController>().CurrentPlayer;
+            Debug.Assert(CurrentPlayer != null, "Can't find player instance");
 
             // init weapons
-            inventoryWeapons = Player.Instance.Inventory.Weapons;
-            inventoryAmmo = Player.Instance.Inventory.Ammo;
+            inventoryWeapons = CurrentPlayer.Inventory.Weapons;
+            inventoryAmmo = CurrentPlayer.Inventory.Ammo;
+
             Weapon[] ws = GetComponentsInChildren<Weapon>(true);
             weapons = new Dictionary<WeaponIndex, Weapon>();
 
@@ -350,9 +363,7 @@ namespace SD.Weapons
             }
 
             // try to switch to next available
-            WeaponIndex available;
-
-            if (GetNextAvailable(brokenWeapon, out available))
+            if (GetNextAvailable(brokenWeapon, out WeaponIndex available))
             {
                 // if found
                 SwitchTo(available);
@@ -442,7 +453,7 @@ namespace SD.Weapons
             {
                 var main = ParticlesPool.Instance.GetParticleSystem(s).main;
                 main.simulationSpace = ParticleSystemSimulationSpace.Custom;
-                main.customSimulationSpace = Player.Instance.transform;
+                main.customSimulationSpace = transform;
             }
         }
 
@@ -451,27 +462,28 @@ namespace SD.Weapons
             // particle system to emit
             string system = null;
 
-            if (type == AmmunitionType.BulletsHeavy)
+            switch (type)
             {
-                ParticlesPool.Instance.Emit(CasingsHeavyPart, position, rotation, amount);
+                case AmmunitionType.BulletsHeavy:
+                    ParticlesPool.Instance.Emit(CasingsHeavyPart, position, rotation, amount);
+                    system = CasingsRifle;
+                    break;
 
-                system = CasingsRifle;
-            }
-            else if (type == AmmunitionType.Bullets)
-            {
-                system = CasingsRifle;
-            }
-            else if (type == AmmunitionType.BulletsPistol)
-            {
-                system = CasingsPistol;
-            }
-            else if (type == AmmunitionType.Shells)
-            {
-                system = CasingsShells;
-            }
-            else if (type == AmmunitionType.Grenades)
-            {
-                system = CasingsGrenade;
+                case AmmunitionType.Bullets:
+                    system = CasingsRifle;
+                    break;
+
+                case AmmunitionType.BulletsPistol:
+                    system = CasingsPistol;
+                    break;
+
+                case AmmunitionType.Shells:
+                    system = CasingsShells;
+                    break;
+
+                case AmmunitionType.Grenades:
+                    system = CasingsGrenade;
+                    break;
             }
 
             if (system != null)

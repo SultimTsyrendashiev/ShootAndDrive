@@ -19,6 +19,9 @@ namespace SD.UI
         public static bool FireButton { get; private set; } = false;
         public static float MovementHorizontal { get; private set; } = 0.0f;
 
+        public delegate void RegenerateHealth();
+        public static event RegenerateHealth OnHealthRegenerate;
+
         #region input in the editor
         [SerializeField]
         bool useEditorInput;
@@ -51,13 +54,9 @@ namespace SD.UI
             {
                 if (!WeaponsController.Instance.IsBusy())
                 {
-                    WeaponIndex current;
-
-                    if (WeaponsController.Instance.GetCurrentWeapon(out current))
+                    if (WeaponsController.Instance.GetCurrentWeapon(out WeaponIndex current))
                     {
-                        WeaponIndex available;
-
-                        if (WeaponsController.Instance.GetNextAvailable(current, out available, pressedRight))
+                        if (WeaponsController.Instance.GetNextAvailable(current, out WeaponIndex available, pressedRight))
                         {
                             SelectWeapon(available);
                         }
@@ -163,7 +162,7 @@ namespace SD.UI
         public void OnHealthClick()
         {
             // try to regenerate
-            Player.Instance.RegenerateHealth();
+            OnHealthRegenerate();
         }
 
         /// <summary>

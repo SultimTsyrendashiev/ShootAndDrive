@@ -42,12 +42,11 @@ namespace SD.Weapons
         /// </returns>
         protected Vector3 CheckRay(Vector3 from, Vector3 direction)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(from, direction, out hit, Range, WeaponLayerMask))
+            if (Physics.Raycast(from, direction, out RaycastHit hit, Range, WeaponLayerMask))
             {
                 if (hit.collider.gameObject.layer == DamageableLayer)
                 {
-                    Damage dmg = Damage.CreateBulletDamage(DamageValue, direction, hit.point, hit.normal, Player.Instance.gameObject);
+                    Damage dmg = Damage.CreateBulletDamage(DamageValue, direction, hit.point, hit.normal, Owner);
                     hit.collider.GetComponent<IDamageable>().ReceiveDamage(dmg);
                 }
                 else

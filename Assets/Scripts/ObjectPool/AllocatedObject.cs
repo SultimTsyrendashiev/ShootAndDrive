@@ -64,7 +64,7 @@ namespace SD.ObjectPooling
             GameObject result = GameObject.Instantiate(prefab.ThisObject);
 
             IPooledObject pooled = result.GetComponent<IPooledObject>();
-            pooled.OnInit();
+            pooled.Init();
 
             result.name = prefab.ThisObject.name;
             result.SetActive(active);

@@ -21,11 +21,11 @@ namespace SD
         /// <summary>
         /// Called on initialization in object pool
         /// </summary>
-        void OnInit();
+        void Init();
         /// <summary>
         /// Called on getting from object pool
         /// </summary>
-        void Enable();
+        void Reinit();
         
         // NOTE: this method is unnecessary
         // as deactivating object returns it to pool
