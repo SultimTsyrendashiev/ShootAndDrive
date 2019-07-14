@@ -35,13 +35,14 @@ namespace SD.PlayerLogic
 
         PlayerVehicle           playerVehicle;
         ISteeringWheel          steeringWheel;
+        WeaponsController       weaponsController;
         GameScore               currentScore;
-        
+
         public Camera           MainCamera { get; private set; }
         public PlayerInventory  Inventory { get; private set; }
         public PlayerState      State { get; private set; }
         public float            Health { get; private set; } = MaxHealth;
-        public GameScore        Score => currentScore;
+        public GameScore        CurrentScore => currentScore;
         public PlayerVehicle    Vehicle => playerVehicle;
 
         public event FloatChange OnHealthChange;
@@ -53,12 +54,9 @@ namespace SD.PlayerLogic
 
             playerVehicle = GetComponentInChildren<PlayerVehicle>(true);
             Debug.Assert(playerVehicle != null, "There must be a 'PlayerVehicle' as child object", this);
+
             playerVehicle.Init(this);
             steeringWheel = playerVehicle.SteeringWheel;
-
-            Inventory = FindObjectOfType<PlayerInventory>();
-            Debug.Assert(Inventory != null, "Can't find player's inventory", this);
-            Inventory.Init();
 
             // reset score
             currentScore = new GameScore(PlayerVehicle.MaxHealth);
@@ -69,6 +67,32 @@ namespace SD.PlayerLogic
             UI.InputController.OnHealthRegenerate += RegenerateHealth;
 
             State = PlayerState.Ready;
+        }
+
+        /// <summary>
+        /// Inits inventory and weapons
+        /// </summary>
+        public void InitInventory()
+        {
+            Inventory = new PlayerInventory();
+
+            weaponsController = GetComponentInChildren<WeaponsController>();
+            weaponsController.Init(this);
+        }
+
+        /// <summary>
+        /// To enable GC
+        /// </summary>
+        void UnsignFromEvents()
+        {
+            Enemies.EnemyVehicle.OnEnemyDeath -= AddEnemyScore;
+            Enemies.EnemyVehicle.OnVehicleDestroy -= AddEnemyVehicleScore;
+            UI.InputController.OnHealthRegenerate -= RegenerateHealth;
+        }
+
+        void OnDestroy()
+        {
+            UnsignFromEvents();
         }
 
         public void UpdateInput(float horizonalAxis)
@@ -97,13 +121,13 @@ namespace SD.PlayerLogic
 
             // send player's score
             currentScore.VehicleHealth = (int)playerVehicle.Health;
-            OnPlayerDeath(Score);
+            OnPlayerDeath(CurrentScore);
 
             // TODO:
             // play anim, sound
 
             // hide weapon
-            WeaponsController.Instance.HideWeapon();
+            weaponsController.HideWeapon();
         }
 
         public void RegenerateHealth()
@@ -115,7 +139,7 @@ namespace SD.PlayerLogic
             }
 
             // if weapons controller is busy
-            if (WeaponsController.Instance.IsBusy())
+            if (weaponsController.IsBusy())
             {
                 return;
             }
@@ -132,8 +156,8 @@ namespace SD.PlayerLogic
             State = PlayerState.Regenerating;
 
             // hide weapon and wait
-            WeaponsController.Instance.HideWeapon();
-            while (WeaponsController.Instance.IsBusy())
+            weaponsController.HideWeapon();
+            while (weaponsController.IsBusy())
             {
                 yield return null;
             }
@@ -169,7 +193,7 @@ namespace SD.PlayerLogic
             }
 
             // finally, take out weapon
-            WeaponsController.Instance.TakeOutWeapon();
+            weaponsController.TakeOutWeapon();
 
             State = PlayerState.Ready;
         }

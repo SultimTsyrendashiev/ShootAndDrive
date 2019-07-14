@@ -100,6 +100,8 @@ namespace SD.Weapons
         /// </summary>
         public void Init(WeaponsController controller, WeaponItem playerItem, AmmoHolder playerAmmo)
         {
+            Debug.Assert(WController == null, "Several initialization of same weapon", controller);
+
             WController = controller;
             Owner = controller.CurrentPlayer.gameObject;
 
@@ -116,7 +118,7 @@ namespace SD.Weapons
             Accuracy = item.Stats.Accuracy;
 
             Durability = item.Stats.Durability;
-            refHealth = item.GetHealthRef();
+            refHealth = item.HealthRef;
 
             // get anim
             weaponAnimation = GetComponentInChildren<Animation>(true);
@@ -237,12 +239,14 @@ namespace SD.Weapons
         bool ToJam()
         {
             // throwables and cannon never jam
-            if (!AllWeaponsStats.Instance.CanJam(AmmoType))
+            if (!AllWeaponsStats.CanJam(AmmoType))
             {
                 return false;
             }
 
-            return refHealth.Value > HealthToJam ? false : Random.Range(0.0f, 1.0f) < JamProbability;
+            float healthPercentage = (float)refHealth.Value / Durability;
+
+            return healthPercentage > HealthToJam ? false : Random.Range(0.0f, 1.0f) < JamProbability;
         }
 
         /// <summary>
@@ -250,7 +254,7 @@ namespace SD.Weapons
         /// </summary>
         bool CanBreak()
         {
-            return AllWeaponsStats.Instance.CanBreak(AmmoType);
+            return AllWeaponsStats.CanBreak(AmmoType);
         }
 
         /// <summary>

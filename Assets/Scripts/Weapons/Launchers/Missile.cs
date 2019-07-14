@@ -80,6 +80,11 @@ namespace SD.Weapons
 
             foreach (Collider c in cs)
             {
+                if (c.gameObject == owner)
+                {
+                    continue;
+                }
+
                 float sqrLength = (position - c.transform.position).sqrMagnitude;
 
                 IDamageable d = c.gameObject.GetComponent<IDamageable>();

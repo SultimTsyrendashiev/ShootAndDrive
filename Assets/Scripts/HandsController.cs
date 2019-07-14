@@ -40,14 +40,13 @@ public class HandsController : MonoBehaviour
         }
     }
 
-    static HandsController instance;
-    public static HandsController Instance => instance;
+    public static HandsController Instance { get; private set; }
 
     void Awake()
     {
         Debug.Assert(handLeft != null && handRight != null);
         Debug.Assert(handLeftMesh != null && handRightMesh != null);
 
-        instance = this;
+        Instance = this;
     }
 }

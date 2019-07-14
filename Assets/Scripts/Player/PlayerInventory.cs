@@ -10,34 +10,17 @@ namespace SD.PlayerLogic
     /// Holds all information about player's items.
     /// This class is singleton.
     /// </summary>
-    class PlayerInventory : MonoBehaviour
+    class PlayerInventory
     {
-        public WeaponsHolder    Weapons;
-        public AmmoHolder       Ammo;
-        public ItemsHolder      Items;
+        public WeaponsHolder Weapons { get; private set; }
+        public AmmoHolder Ammo { get; private set; }
+        public ItemsHolder Items { get; private set; }
 
-        bool isInitialized = false;
-
-        public void Init()
+        public PlayerInventory()
         {
-            if (isInitialized)
-            {
-                return;
-            }
-
             Weapons = new WeaponsHolder();
             Ammo = new AmmoHolder();
             Items = new ItemsHolder();
-
-            DontDestroyOnLoad(gameObject);
-
-            isInitialized = true;
-        }
-
-        void OnDestroy()
-        {
-            // save data
-            Save();
         }
 
         #region saving / loading
@@ -66,8 +49,6 @@ namespace SD.PlayerLogic
         /// </summary>
         public void Load()
         {
-            Weapons.Clear();
-
             foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
             {
                 LoadWeapon(w);
@@ -89,18 +70,20 @@ namespace SD.PlayerLogic
             WeaponItem weapon = Weapons.Get(w);
 
             int bought = weapon.IsBought ? 1 : 0;
-            PlayerPrefs.SetInt(GetNameB(w), bought);
+            PlayerPrefs.SetInt(GetNameB(weapon), bought);
 
-            int health = weapon.GetHealthRef().Value;
-            PlayerPrefs.SetInt(GetNameH(w), health);
+            int health = weapon.HealthRef.Value;
+            PlayerPrefs.SetInt(GetNameH(weapon), health);
         }
 
         void LoadWeapon(WeaponIndex w)
         {
-            int bought = PlayerPrefs.GetInt(GetNameB(w), 0);
-            int health = PlayerPrefs.GetInt(GetNameH(w), 0);
+            WeaponItem weapon = Weapons.Get(w);
 
-            Weapons.Add(w, health, bought == 1);
+            int bought = PlayerPrefs.GetInt(GetNameB(weapon), 0);
+            int health = PlayerPrefs.GetInt(GetNameH(weapon), 0);
+
+            Weapons.Set(w, health, bought == 1);
         }
 
         void SaveAmmo(AmmunitionType a)
@@ -129,14 +112,14 @@ namespace SD.PlayerLogic
         #endregion
 
         #region names
-        string GetNameB(WeaponIndex w)
+        string GetNameB(WeaponItem w)
         {
-            return AllWeaponsStats.Instance.Get(w).Name + "Bought";
+            return w.Stats.Name + "Bought";
         }
 
-        string GetNameH(WeaponIndex w)
+        string GetNameH(WeaponItem w)
         {
-            return AllWeaponsStats.Instance.Get(w).Name + "Health";
+            return w.Stats.Name + "Health";
         }
 
         string GetAmmoName(AmmunitionType a)
@@ -179,10 +162,17 @@ namespace SD.PlayerLogic
         /// </summary>
         public void GiveAllWeapons()
         {
+            //            // only in editor
+            //#if !UNITY_EDITOR
+            //            return;
+            //#endif
+
+            var stats = UnityEngine.Object.FindObjectOfType<GameController>().WeaponsStats;
+
             foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
             {
                 // TODO: remove, 1 is for test
-                Weapons.SetHealth(w, AllWeaponsStats.Instance.Get(w).Durability);
+                Weapons.SetHealth(w, stats[w].Durability);
                 Weapons.SetBought(w, true);
             }
         }

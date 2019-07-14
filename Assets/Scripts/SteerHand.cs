@@ -8,7 +8,7 @@ namespace SD.PlayerLogic
         const string SteerAnimationName = "SteeringWheelHands";
 
         /// <summary>
-        /// Transform for finding steering wheely
+        /// Transform for finding steering wheel
         /// </summary>
         [SerializeField]
         Transform player;

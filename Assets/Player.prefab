@@ -4798,7 +4798,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d926867829995145820f706a95abfdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInventory: {fileID: 0}
 --- !u!65 &227070567
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5184,12 +5183,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1264350350}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7, y: 0.47, z: 2.3}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.71199995, y: -2.300001, z: 0.46999985}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7581316839824631181}
-  m_RootOrder: 8
+  m_Father: {fileID: 7709675946632735221}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!108 &1264350352
 Light:
@@ -5251,85 +5250,6 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!1 &1308930019
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1308930020}
-  - component: {fileID: 1308930022}
-  - component: {fileID: 1308930021}
-  m_Layer: 11
-  m_Name: Mesh
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1308930020
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1308930019}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.05, z: -0.2}
-  m_LocalScale: {x: 1.1, y: 1, z: 1.1}
-  m_Children: []
-  m_Father: {fileID: 7581316839824631181}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!33 &1308930022
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1308930019}
-  m_Mesh: {fileID: -8475351043336400458, guid: 9297e5a5d70faa94aa9be1f6a77334ee, type: 3}
---- !u!23 &1308930021
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1308930019}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: d449ced343bd92144882d44df69aeb1a, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!1 &1327158341
 GameObject:
   m_ObjectHideFlags: 0
@@ -5354,12 +5274,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1327158341}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.7, y: 0.47, z: 2.3}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.71199995, y: -2.300001, z: 0.46999985}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7581316839824631181}
-  m_RootOrder: 7
+  m_Father: {fileID: 7709675946632735221}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!108 &1327158343
 Light:
@@ -5446,12 +5366,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437008461}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1271288558124015606}
-  m_RootOrder: 1
+  m_Father: {fileID: 7709675946632735221}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1437008464
 MeshRenderer:
@@ -5499,7 +5419,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437008461}
-  m_Mesh: {fileID: -9146618070568788744, guid: f0d94844b82ea3742b716097e8981af4, type: 3}
+  m_Mesh: {fileID: -1269673130810054460, guid: 9297e5a5d70faa94aa9be1f6a77334ee, type: 3}
 --- !u!1 &51510954569744480
 GameObject:
   m_ObjectHideFlags: 0
@@ -5509,10 +5429,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1271288558124015606}
-  - component: {fileID: 1449866219431078969}
-  - component: {fileID: 5301240642405184725}
-  - component: {fileID: 1915308353}
   - component: {fileID: 1915308356}
+  - component: {fileID: 510397816825573822}
   m_Layer: 8
   m_Name: Car
   m_TagString: Untagged
@@ -5527,75 +5445,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 51510954569744480}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: 0.7071068, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 7709675946632735221}
+  - {fileID: 729964259873797540}
   - {fileID: 4228742544011356922}
-  - {fileID: 1437008462}
   m_Father: {fileID: 7581316839824631181}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90.00001, y: 180, z: 0}
---- !u!33 &1449866219431078969
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 51510954569744480}
-  m_Mesh: {fileID: 7322052433544441893, guid: f0d94844b82ea3742b716097e8981af4, type: 3}
---- !u!23 &5301240642405184725
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 51510954569744480}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 2ff6e1168faf7e04885e8d68bb7c824c, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!65 &1915308353
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 51510954569744480}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.9000009, y: 4.7049804, z: 1.4495832}
-  m_Center: {x: 0, y: 0.004557926, z: 0.6752149}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1915308356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5610,6 +5469,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 20
   SideSpeed: 10
+--- !u!64 &510397816825573822
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51510954569744480}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: -1
+  m_Mesh: {fileID: 1460225762249027222, guid: 9297e5a5d70faa94aa9be1f6a77334ee, type: 3}
 --- !u!1 &162431244843757204
 GameObject:
   m_ObjectHideFlags: 0
@@ -5641,7 +5514,7 @@ Transform:
   - {fileID: 586868062959314402}
   m_Father: {fileID: 493446508258053873}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -174.6, y: -93.79999, z: 174}
+  m_LocalEulerAnglesHint: {x: -185.663, y: -93.8, z: 177.761}
 --- !u!111 &3871224887872839447
 Animation:
   m_ObjectHideFlags: 0
@@ -5814,7 +5687,7 @@ Transform:
   - {fileID: 400402021326443482}
   m_Father: {fileID: 7019928373694673317}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -3.6430001, y: -5.1780005, z: 7.2460003}
+  m_LocalEulerAnglesHint: {x: -1.6940001, y: -14.319, z: 14.2890005}
 --- !u!1 &1146816264164950600
 GameObject:
   m_ObjectHideFlags: 0
@@ -6167,7 +6040,7 @@ Transform:
   - {fileID: 4936078803734137028}
   m_Father: {fileID: 8463491009155672304}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 6.275, y: -60.190002, z: 12.696001}
+  m_LocalEulerAnglesHint: {x: 12.517, y: -60.141003, z: 11.719001}
 --- !u!1 &1689863172732581936
 GameObject:
   m_ObjectHideFlags: 0
@@ -6229,7 +6102,7 @@ Transform:
   - {fileID: 125901253020495028}
   m_Father: {fileID: 1280241448608008898}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 1.2090001, y: -111.310005, z: -4.8100004}
+  m_LocalEulerAnglesHint: {x: -6.0130005, y: -97.159004, z: -1.6270001}
 --- !u!1 &1725893465534802429
 GameObject:
   m_ObjectHideFlags: 0
@@ -6788,13 +6661,13 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
   MissileName: MissileRocketLauncher
-  damageRadius: 12
-  launchSpeed: 40
+  damageRadius: 5
+  launchSpeed: 50
 --- !u!1 &2230671976434647286
 GameObject:
   m_ObjectHideFlags: 0
@@ -6952,7 +6825,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.05
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -7036,11 +6909,93 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.05
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
   ShowMuzzleFlash: 1
+--- !u!1 &2596889075601962497
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7709675946632735221}
+  - component: {fileID: 6307533409144971890}
+  - component: {fileID: 7324733408153263700}
+  m_Layer: 8
+  m_Name: CarMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7709675946632735221
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2596889075601962497}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.12, z: -0.2}
+  m_LocalScale: {x: 1.15, y: 1, z: 1.2}
+  m_Children:
+  - {fileID: 1437008462}
+  - {fileID: 1327158342}
+  - {fileID: 1264350351}
+  m_Father: {fileID: 1271288558124015606}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!33 &6307533409144971890
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2596889075601962497}
+  m_Mesh: {fileID: -8475351043336400458, guid: 9297e5a5d70faa94aa9be1f6a77334ee, type: 3}
+--- !u!23 &7324733408153263700
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2596889075601962497}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: d449ced343bd92144882d44df69aeb1a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &2600416528904361028
 GameObject:
   m_ObjectHideFlags: 0
@@ -7599,7 +7554,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 2
-  JamProbability: 0.05
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -7758,7 +7713,7 @@ Transform:
   - {fileID: 5734789748404393211}
   m_Father: {fileID: 6653185035296857258}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -1.682, y: -104.4, z: 4.6410003}
+  m_LocalEulerAnglesHint: {x: -1.682, y: -104.4, z: 0.432}
 --- !u!1 &3497472969225288828
 GameObject:
   m_ObjectHideFlags: 0
@@ -7887,13 +7842,13 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
   MissileName: MissileGrenade
-  damageRadius: 7
-  launchSpeed: 45
+  damageRadius: 5
+  launchSpeed: 50
 --- !u!1 &3779693181320821852
 GameObject:
   m_ObjectHideFlags: 0
@@ -8218,13 +8173,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4132562349260337666}
-  m_LocalRotation: {x: 0.6087614, y: 0, z: -0, w: 0.7933534}
-  m_LocalPosition: {x: 0.47157288, y: 0.61039984, z: 0.72059876}
+  m_LocalRotation: {x: -0, y: 0.99144495, z: 0.13052616, w: 0}
+  m_LocalPosition: {x: -0.471573, y: 0.720599, z: 0.6104001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2300963458585885390}
   m_Father: {fileID: 1271288558124015606}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &75399028
 MonoBehaviour:
@@ -8367,7 +8322,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.05
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -8562,7 +8517,7 @@ Transform:
   - {fileID: 4270415216644220577}
   m_Father: {fileID: 2338629124356640568}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -1.7570001, y: -3.288, z: -15.624001}
+  m_LocalEulerAnglesHint: {x: 0.282, y: 4.162, z: -5.2520003}
 --- !u!1 &4407018091467902034
 GameObject:
   m_ObjectHideFlags: 0
@@ -8612,13 +8567,13 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.1
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
   MissileName: MissileGrenadeLauncher
-  damageRadius: 8
-  launchSpeed: 45
+  damageRadius: 5
+  launchSpeed: 50
 --- !u!1 &4545666948798040056
 GameObject:
   m_ObjectHideFlags: 0
@@ -9126,7 +9081,6 @@ Transform:
   m_Children:
   - {fileID: 3392656440495267606}
   - {fileID: 3324595458539665850}
-  - {fileID: 729964259873797540}
   - {fileID: 493446508258053873}
   m_Father: {fileID: 7581316839824631181}
   m_RootOrder: 2
@@ -9431,7 +9385,7 @@ Transform:
   - {fileID: 7148021625844320526}
   m_Father: {fileID: 1454786681880963217}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0.97200006, y: -16.329, z: 3.3160002}
+  m_LocalEulerAnglesHint: {x: 1.105, y: -18.632, z: 3.2740002}
 --- !u!1 &6002408354037428113
 GameObject:
   m_ObjectHideFlags: 0
@@ -10114,7 +10068,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.05
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -10277,13 +10231,13 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
   MissileName: MissileFireBottle
-  damageRadius: 6
-  launchSpeed: 45
+  damageRadius: 5
+  launchSpeed: 50
 --- !u!1 &6968877319634108226
 GameObject:
   m_ObjectHideFlags: 0
@@ -10750,14 +10704,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7305669275427243253}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.34499997, y: 0.7480003, z: 0.25000018}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8727069226747134024}
   - {fileID: 797689736}
-  m_Father: {fileID: 3694709223248278072}
-  m_RootOrder: 2
+  m_Father: {fileID: 1271288558124015606}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!111 &5420352909475717057
 Animation:
@@ -11389,9 +11343,6 @@ Transform:
   - {fileID: 7581316840442807284}
   - {fileID: 227070566}
   - {fileID: 4612067693686195354}
-  - {fileID: 1308930020}
-  - {fileID: 1327158342}
-  - {fileID: 1264350351}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11501,7 +11452,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.05
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -11554,7 +11505,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.05
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -11639,7 +11590,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.05
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -11692,11 +11643,11 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.05
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
-  ShowMuzzleFlash: 1
+  ShowMuzzleFlash: 0
 --- !u!1 &7581316840206945669
 GameObject:
   m_ObjectHideFlags: 0
@@ -11903,7 +11854,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.05
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -12426,7 +12377,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7581316840665430223}
   m_LocalRotation: {x: 0, y: 0, z: 0.037341367, w: 0.99930257}
-  m_LocalPosition: {x: 0.18, y: 0.52, z: 0.24}
+  m_LocalPosition: {x: 0.14, y: 0.52, z: 0.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7581316841601051826}
@@ -12449,7 +12400,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.05
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -12844,7 +12795,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.05
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -13087,7 +13038,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.05
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -13140,7 +13091,7 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0.05
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
@@ -13519,9 +13470,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraParent: {fileID: 7581316841082096813}
-  maxAngle: 5
+  maxAngle: 4
   smooth: 1
-  smoothness: 18
+  smoothness: 30
 --- !u!1 &7581316841601051827
 GameObject:
   m_ObjectHideFlags: 0
@@ -13759,12 +13710,12 @@ MonoBehaviour:
   TakingOutTime: 0.2
   HidingTime: 0.2
   AmmoConsumption: 1
-  JamProbability: 0
+  JamProbability: 0.03
   ShotSound: {fileID: 0}
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
   MissileName: MissileCannonball
-  damageRadius: 20
+  damageRadius: 5
   launchSpeed: 50
 --- !u!1 &7644785297359964928
 GameObject:
@@ -13955,7 +13906,7 @@ Transform:
   m_Children:
   - {fileID: 5059200648868188173}
   m_Father: {fileID: 3694709223248278072}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7908685046005373428
 GameObject:
@@ -14099,7 +14050,7 @@ Transform:
   - {fileID: 5639601391224352892}
   m_Father: {fileID: 2121959932906287644}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 5.8360004, y: 0.162, z: -9.024}
+  m_LocalEulerAnglesHint: {x: -1.2770001, y: -8.651, z: 2.97}
 --- !u!1 &8212928564671961498
 GameObject:
   m_ObjectHideFlags: 0

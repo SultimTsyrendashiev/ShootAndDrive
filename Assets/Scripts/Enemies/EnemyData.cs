@@ -2,6 +2,7 @@
 
 namespace SD.Enemies
 {
+    [CreateAssetMenu(menuName = "Enemy Data", order = 51)]
     class EnemyData : ScriptableObject
     {
         // common
@@ -22,7 +23,7 @@ namespace SD.Enemies
         [SerializeField] bool       isDriver = false;
         [SerializeField] bool       canAttack = false;
         [SerializeField] string     projectileName;
-        [SerializeField] float      timeBetweenRounds = 1.0f;
+        [SerializeField] Vector2    timeBetweenRounds = new Vector2(1.0f, 1.0f);
         [SerializeField] float      fireRate = 0.1f;
         [SerializeField] int        shotsAmount = 1;
         [SerializeField] string     bloodParticlesName = "Blood";
@@ -36,7 +37,7 @@ namespace SD.Enemies
         /// <summary>
         /// Time between fire rounds
         /// </summary>
-        public float        TimeBetweenRounds => timeBetweenRounds;
+        public Vector2      TimeBetweenRounds => timeBetweenRounds;
         /// <summary>
         /// Time between shots in seconds
         /// </summary>

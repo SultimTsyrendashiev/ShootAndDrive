@@ -71,6 +71,22 @@ namespace SD.Enemies
         }
 
         /// <summary>
+        /// To enable GC
+        /// </summary>
+        void UnsignFromEvents()
+        {
+            foreach (var p in Passengers)
+            {
+                p.OnPassengerDeath -= PassengerDied;
+            }
+        }
+
+        void OnDestroy()
+        {
+            UnsignFromEvents();
+        }
+
+        /// <summary>
         /// Must be called on respawn.
         /// Restores enemy to alive state.
         /// </summary>

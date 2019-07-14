@@ -8,12 +8,17 @@ namespace SD.PlayerLogic
     // Represents all weapons in player's inventory
     class WeaponsHolder
     {
-        [SerializeField]
         Dictionary<WeaponIndex, WeaponItem> playerWeapons;
 
         public WeaponsHolder()
         {
             playerWeapons = new Dictionary<WeaponIndex, WeaponItem>();
+
+            // set default values
+            foreach (WeaponIndex a in Enum.GetValues(typeof(WeaponIndex)))
+            {
+                playerWeapons.Add(a, new WeaponItem(a, 0, false));
+            }
         }
 
         public void Clear()
@@ -21,11 +26,19 @@ namespace SD.PlayerLogic
             playerWeapons.Clear();
         }
 
-        public void Add(WeaponIndex weapon, int health, bool isBought)
+        /// <summary>
+        /// Sets perameters of the weapon.
+        /// If there is no given weapon, it will be added.
+        /// Otherwise, data will be rewritten.
+        /// </summary>
+        public void Set(WeaponIndex weapon, int health, bool isBought)
         {
             if (playerWeapons.ContainsKey(weapon))
             {
-                Debug.LogWarning("Weapon is already added");
+                playerWeapons[weapon].IsBought = isBought;
+                playerWeapons[weapon].HealthRef.Value = health;
+
+                return;
             }
 
             playerWeapons.Add(weapon, new WeaponItem(weapon, health, isBought));
@@ -38,7 +51,7 @@ namespace SD.PlayerLogic
 
         public void SetHealth(WeaponIndex w, int health)
         {
-            playerWeapons[w].GetHealthRef().Value = health;
+            playerWeapons[w].HealthRef.Value = health;
         }
 
         public void SetBought(WeaponIndex w, bool isBought)

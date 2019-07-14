@@ -22,19 +22,47 @@ namespace SD.UI
         
         void Start()
         {
+            if (inventory == null)
+            {
+                Init();
+            }
+        }
+
+        void OnEnable()
+        {
+            if (inventory == null)
+            {
+                return;
+            }
+
+            UpdateText();
+        }
+
+        public void Init()
+        {
             ammoTexts = new Dictionary<AmmunitionType, Text>();
             itemTexts = new Dictionary<ItemType, Text>();
 
-            Init(ammoTexts, ammoTextsParent);
-            Init(itemTexts, itemTextsParent);
+            ParseTextObjects(ammoTexts, ammoTextsParent);
+            ParseTextObjects(itemTexts, itemTextsParent);
 
             inventory = FindObjectOfType<GameController>().CurrentPlayer.Inventory;
             Debug.Assert(inventory != null, "Can't find GameController", this);
         }
 
-        void OnEnable()
+        /// <summary>
+        /// Parse game objects and add them to dictionary
+        /// </summary>
+        /// <param name="ts">parent of transforms</param>
+        void ParseTextObjects<T>(Dictionary<T, Text> texts, Transform ts) where T : Enum
         {
-            UpdateText();
+            foreach (Transform t in ts)
+            {
+                T i = (T)Enum.Parse(typeof(T), t.name);
+                texts.Add(i, t.GetComponentInChildren<Text>(true));
+            }
+
+            Debug.Assert(texts.Keys.Count == Enum.GetValues(typeof(T)).Length);
         }
 
         void UpdateText()
@@ -48,21 +76,6 @@ namespace SD.UI
             {
                 SetText(a, inventory.Items[a].ToString());
             }
-        }
-
-        /// <summary>
-        /// Parse game objects and add them to dictionary
-        /// </summary>
-        /// <param name="ts">parent of transforms</param>
-        void Init<T>(Dictionary<T, Text> texts, Transform ts) where T : Enum
-        {
-            foreach (Transform t in ts)
-            {
-                T i = (T)Enum.Parse(typeof(T), t.name);
-                texts.Add(i, t.GetComponentInChildren<Text>(true));
-            }
-
-            Debug.Assert(texts.Keys.Count == Enum.GetValues(typeof(T)).Length);
         }
 
         /// <summary>

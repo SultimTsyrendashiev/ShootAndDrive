@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using SD.PlayerLogic;
+using SD.Weapons;
 
 namespace SD
 {
@@ -8,31 +9,72 @@ namespace SD
         [SerializeField]
         GameObject playerPrefab;
 
-        Player playerInstance;
-
-        public Player CurrentPlayer => playerInstance;
+        public Player CurrentPlayer { get; private set; }
+        public AllWeaponsStats WeaponsStats { get; private set; }
 
         void Awake()
         {
             Application.targetFrameRate = 60;
 
-            playerInstance = FindObjectOfType<Player>();
+            InitPlayer();
+            InitUI();
 
-            // if not exist create
-            if (playerInstance == null)
-            {
-                playerInstance = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity)
-                    .GetComponent<Player>();
-            }
+            InitWeaponsStats();
+            InitPlayerInventory();
+        }
 
-            playerInstance.Init();
-            
+        private void InitPlayerInventory()
+        {
+            CurrentPlayer.InitInventory();
+
             // load items from player prefs
-            playerInstance.Inventory.Load();
+            CurrentPlayer.Inventory.Load();
 
 #if UNITY_EDITOR
-            playerInstance.Inventory.GiveAll();
+            CurrentPlayer.Inventory.GiveAll();
 #endif
+        }
+
+        void InitUI()
+        {
+            var ui = FindObjectOfType<UI.UIController>();
+            Debug.Assert(ui != null, "Can't find UIController", this);
+
+            ui.Init(CurrentPlayer);
+        }
+
+        void InitPlayer()
+        {
+            var players = FindObjectsOfType<Player>();
+            Debug.Assert(players.Length <= 1, "Player class must be one on the scene", this);
+
+            // if not exist create
+            if (players.Length == 0)
+            {
+                CurrentPlayer = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity)
+                    .GetComponent<Player>();
+            }
+            else
+            {
+                CurrentPlayer = players[0];
+            }
+
+            // init player, player's vehicle, weapons
+            CurrentPlayer.Init();
+        }
+
+        void InitWeaponsStats()
+        {
+            WeaponsStats = GetComponent<AllWeaponsStats>();
+
+            // don't assert as weapon system can be unused
+            if (WeaponsStats == null)
+            {
+                Debug.Log("Can't find AllWeaponsStats class", this);
+                return;
+            }
+
+            WeaponsStats.Init();
         }
 
         void Update()
@@ -44,12 +86,18 @@ namespace SD
         void UpdatePlayerControls()
         {
             float x = UI.InputController.MovementHorizontal;
-            playerInstance.UpdateInput(x);
+            CurrentPlayer.UpdateInput(x);
         }
 
         void UpdateBackground()
         {
-            Background.BackgroundController.Instance.UpdateCameraPosition(playerInstance.MainCamera.transform.position);
+            Background.BackgroundController.Instance.UpdateCameraPosition(CurrentPlayer.MainCamera.transform.position);
+        }
+
+        void OnDestroy()
+        {
+            // save data from player's inventory
+            CurrentPlayer.Inventory.Save();
         }
     }
 }

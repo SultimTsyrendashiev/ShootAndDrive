@@ -23,13 +23,12 @@ namespace SD.Background
         // must be >= 'distance'
         float currentLength;
 
-        static IBackgroundController instance;
-        public static IBackgroundController Instance => instance;
+        public static IBackgroundController Instance { get; private set; }
 
         void Awake()
         {
-            Debug.Assert(instance == null, "Several singletons", this);
-            instance = this;
+            Debug.Assert(Instance == null, "Several singletons", this);
+            Instance = this;
         }
 
         void Start()

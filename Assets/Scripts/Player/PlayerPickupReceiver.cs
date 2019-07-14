@@ -11,8 +11,13 @@ namespace SD.PlayerLogic
     {
         // Note: pickup class already contains OnTriggerEnter
 
-        [SerializeField]
         PlayerInventory playerInventory;
+
+        void Start()
+        {
+            playerInventory = GetComponentInParent<Player>().Inventory;
+            Debug.Assert(playerInventory != null, "PlayerPickupReceiver must be a child object of Player", this);
+        }
 
         public bool ReceivePickup(AmmunitionType type, int amount)
         {

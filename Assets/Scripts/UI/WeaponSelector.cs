@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using SD.PlayerLogic;
+using SD.Weapons;
 
 namespace SD.UI
 {

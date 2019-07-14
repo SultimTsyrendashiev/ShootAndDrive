@@ -15,6 +15,7 @@ namespace SD.PlayerLogic
         {
             ammo = new Dictionary<AmmunitionType, RefInt>();
 
+            // set default values
             foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
             {
                 ammo.Add(a, new RefInt());

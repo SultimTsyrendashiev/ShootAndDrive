@@ -28,12 +28,11 @@ namespace SD.PlayerLogic
         private float initMagnitude;
         private float initDuration;
 
-        private static CameraShaker instance;
-        public static CameraShaker Instance { get { return instance; } }
+        public static CameraShaker Instance { get; private set; }
 
         void Start()
         {
-            instance = this;
+            Instance = this;
 
             Debug.Assert(cameraParent != null);
             Debug.Assert(cameraParent.localEulerAngles.sqrMagnitude < 0.01f);

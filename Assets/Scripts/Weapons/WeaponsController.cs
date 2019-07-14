@@ -36,6 +36,7 @@ namespace SD.Weapons
         /// Player which holds this weapons
         /// </summary>
         public Player CurrentPlayer { get; private set; }
+        public AllWeaponsStats Stats { get; private set; }
         public static WeaponsController Instance { get; private set; }
 
         void Awake()
@@ -43,10 +44,9 @@ namespace SD.Weapons
             Instance = this;
         }
 
-        void Start()
+        public void Init(Player player)
         {
-            CurrentPlayer = FindObjectOfType<GameController>().CurrentPlayer;
-            Debug.Assert(CurrentPlayer != null, "Can't find player instance");
+            CurrentPlayer = player;
 
             // init weapons
             inventoryWeapons = CurrentPlayer.Inventory.Weapons;
@@ -93,7 +93,15 @@ namespace SD.Weapons
             InitParticles();
 
             // for testing
+            currentWeapon.Value = WeaponIndex.Pistol;
+            currentWeapon.Exist = true;
             TakeOutWeapon();
+        }
+
+        void OnDestroy()
+        {
+            // unsign from events to enable GC
+            Weapon.OnWeaponBreak -= ProcessWeaponBreak;
         }
 
         public void Fire()

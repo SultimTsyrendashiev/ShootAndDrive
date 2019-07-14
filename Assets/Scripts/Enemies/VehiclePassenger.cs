@@ -147,14 +147,14 @@ namespace SD.Enemies
 
         IEnumerator WaitForAttack()
         {
-            float   timeBetweenRounds = data.TimeBetweenRounds;
+            Vector2   timeBetweenRounds = data.TimeBetweenRounds;
             int     shotsAmount = data.ShotsAmount;
             string  projectileName = data.ProjectileName;
             float   fireRate = data.FireRate;
 
             while (isActiveAndEnabled)
             {
-                yield return new WaitForSeconds(timeBetweenRounds);
+                yield return new WaitForSeconds(Random.Range(timeBetweenRounds[0], timeBetweenRounds[1]));
              
                 // must be active
                 if (State != PassengerState.Active)

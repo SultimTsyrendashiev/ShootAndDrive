@@ -120,7 +120,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.5
+  m_Time: 0.1
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.9
@@ -226,8 +226,7 @@ MonoBehaviour:
   explosionMask:
     serializedVersion: 2
     m_Bits: 769
-  explosion: {fileID: 5190052701041062004, guid: 69928c13b3beeb549a211dce63a4cbfc,
-    type: 3}
+  ExplosionName: Explosion
   lifetime: 5
 --- !u!135 &4464713267371423277
 SphereCollider:
@@ -250,7 +249,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7325141481679814676}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SD.PlayerLogic
+namespace SD.Weapons
 {
     enum WeaponIndex
     {

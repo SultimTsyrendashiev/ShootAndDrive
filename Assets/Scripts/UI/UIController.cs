@@ -34,20 +34,45 @@ namespace SD.UI
         [SerializeField]
         Image vehicleHealthImage;
 
-        void Start()
+        /// <summary>
+        /// Player to follow
+        /// </summary>
+        PlayerLogic.Player player;
+
+        public void Start()
         {
             SetActiveHUD(true);
             SetActivePauseMenu(false);
             SetActiveWeaponSelectionMenu(false);
+        }
+
+        public void Init(PlayerLogic.Player player)
+        {
+            this.player = player;
 
             // sign to events
-            Weapons.Weapon.OnAmmoChange += SetAmmoAmount;
-
-            var player = FindObjectOfType<GameController>().CurrentPlayer;
-
             player.OnHealthChange += SetHealth;
             player.Vehicle.OnDistanceChange += SetDistance;
             player.Vehicle.OnVehicleHealthChange += SetVehicleHealth;
+            Weapons.Weapon.OnAmmoChange += SetAmmoAmount;
+
+            // set start stats
+            SetHealth(player.Health);
+            SetVehicleHealth(player.Vehicle.Health);
+        }
+
+        void UnsignFromEvents()
+        {
+            Weapons.Weapon.OnAmmoChange -= SetAmmoAmount;
+
+            player.OnHealthChange -= SetHealth;
+            player.Vehicle.OnDistanceChange -= SetDistance;
+            player.Vehicle.OnVehicleHealthChange -= SetVehicleHealth;
+        }
+
+        void OnDestroy()
+        {
+            UnsignFromEvents();
         }
 
         public MovementInputType MovementInputType
@@ -118,8 +143,10 @@ namespace SD.UI
         /// <param name="health">health in [0..100]</param>
         public void SetHealth(float health)
         {
+            const float maxPlayerHealth = 100;
+
             Vector2 d = healthImage.rectTransform.sizeDelta;
-            d.x = health / 100 * MaxHealthImageWidth;
+            d.x = health / maxPlayerHealth * MaxHealthImageWidth;
 
             healthImage.rectTransform.sizeDelta = d;
         }
@@ -130,8 +157,10 @@ namespace SD.UI
         /// <param name="health">health in [0..100]</param>
         public void SetVehicleHealth(float health)
         {
+            const float maxVehicleHealth = 100;
+
             Vector2 d = vehicleHealthImage.rectTransform.sizeDelta;
-            d.x = health / 100 * MaxHealthImageWidth;
+            d.x = health / maxVehicleHealth * MaxHealthImageWidth;
 
             vehicleHealthImage.rectTransform.sizeDelta = d;
         }

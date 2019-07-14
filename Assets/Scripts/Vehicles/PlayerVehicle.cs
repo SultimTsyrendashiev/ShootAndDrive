@@ -47,7 +47,7 @@ namespace SD.PlayerLogic
 
         public void ReceiveDamage(Damage damage)
         {
-            Health -= damage.CalculateDamageValue(transform.position);
+            Health -= damage.CalculateDamageValue(playerTransform.position);
 
             if (Health <= 0)
             {

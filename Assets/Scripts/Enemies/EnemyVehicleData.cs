@@ -2,6 +2,7 @@
 
 namespace SD.Enemies
 {
+    [CreateAssetMenu(menuName = "Enemy Vehicle Data", order = 51)]
     class EnemyVehicleData : ScriptableObject
     {
         [SerializeField] string     vehicleCommonName;
