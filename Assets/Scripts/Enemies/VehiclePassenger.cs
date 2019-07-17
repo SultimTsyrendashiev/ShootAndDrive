@@ -75,29 +75,29 @@ namespace SD.Enemies
 
         public void ReceiveDamage(Damage damage)
         {
+            if (State == PassengerState.Nothing)
+            {
+                Debug.Log("Wrong damageable state", this);
+            }
+
+            // always play blood particle system
+            ParticlesPool.Instance.Play(data.BloodParticlesName, damage.Point,
+               Quaternion.LookRotation(damage.Type == DamageType.Bullet ? damage.Normal : Vector3.up));
+
             if (State == PassengerState.Dead)
             {
                 return;
-            }
-
-            if (Health <= 0 || State == PassengerState.Nothing)
-            {
-                Debug.Log("Wrone damageable state", this);
             }
 
             // stop attacking
             if (attackCoroutine != null)
             {
                 StopCoroutine(attackCoroutine);
-                passengerAnimator.ResetTrigger("Attack");
+                //passengerAnimator.ResetTrigger("Attack");
             }
 
             State = PassengerState.Damaging;
             Health -= damage.CalculateDamageValue(transform.position);
-
-            // play blood particle system
-            ParticlesPool.Instance.Play(data.BloodParticlesName, damage.Point,
-               Quaternion.LookRotation(damage.Type == DamageType.Bullet ? damage.Normal : Vector3.up));
             
             if (Health > 0)
             {
@@ -107,7 +107,7 @@ namespace SD.Enemies
                     return;
                 }
 
-                passengerAnimator.SetTrigger("Damage");
+                //passengerAnimator.SetTrigger("Damage");
 
                 // TODO: wait
 
@@ -121,8 +121,18 @@ namespace SD.Enemies
                 Health = 0;
                 State = PassengerState.Dead;
 
-                passengerAnimator.ResetTrigger("Damage");
-                passengerAnimator.SetTrigger("Die");
+                // disable autoaim target
+                Collider[] cs = GetComponentsInChildren<Collider>(false);
+                foreach(var c in cs)
+                {
+                    if (c.gameObject.layer == LayerMask.NameToLayer(LayerNames.AutoaimTargets))
+                    {
+                        c.enabled = false;
+                    }
+                }
+
+                //passengerAnimator.ResetTrigger("Damage");
+                //passengerAnimator.SetTrigger("Die");
 
                 OnPassengerDeath(data);
             }
@@ -163,7 +173,7 @@ namespace SD.Enemies
                 }
 
                 State = PassengerState.Attacking;
-                passengerAnimator.SetTrigger("Attack");
+                //passengerAnimator.SetTrigger("Attack");
 
                 for (int i = 0; i < shotsAmount; i++)
                 {

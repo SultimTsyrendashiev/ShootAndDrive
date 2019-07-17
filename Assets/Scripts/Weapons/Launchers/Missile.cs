@@ -85,6 +85,12 @@ namespace SD.Weapons
                     continue;
                 }
 
+                var drb = c.attachedRigidbody;
+                if (drb != null && drb.gameObject == owner)
+                {
+                    continue;
+                }
+
                 float sqrLength = (position - c.transform.position).sqrMagnitude;
 
                 IDamageable d = c.gameObject.GetComponent<IDamageable>();
@@ -95,7 +101,10 @@ namespace SD.Weapons
                 }
             }
 
-            ParticlesPool.Instance.Play(ExplosionName, position, Quaternion.identity);
+            if (ExplosionName.Length > 0)
+            {
+                ParticlesPool.Instance.Play(ExplosionName, position, Quaternion.identity);
+            }
         }
 
         IEnumerator WaitToDisable()

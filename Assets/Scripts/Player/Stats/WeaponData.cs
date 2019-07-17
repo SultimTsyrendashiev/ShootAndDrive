@@ -34,10 +34,5 @@ namespace SD.Weapons
         {
             return (int)(60.0f / reloadingTime);
         }
-
-        public void TestCalculateEnum()
-        {
-            weaponIndex = (WeaponIndex)System.Enum.Parse(typeof(WeaponIndex), weaponEditorName);
-        }
     }
 }

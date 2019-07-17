@@ -15,7 +15,7 @@ namespace SD.Enemies
     /// There must be vehicle damage receiver as a child object,
     /// also passengers, if needed
     /// </summary>
-    abstract class EnemyVehicle : MonoBehaviour, IEnemy, IPooledObject
+    abstract class EnemyVehicle : MonoBehaviour, IVehicle, IEnemy, IPooledObject
     {
         [SerializeField]
         EnemyVehicleData data;
@@ -36,7 +36,11 @@ namespace SD.Enemies
         public static event VehicleDestroyed    OnVehicleDestroy;
 
         /// <summary>
-        /// Called on activating
+        /// Called on initializing
+        /// </summary>
+        protected virtual void InitEnemy() { }
+        /// <summary>
+        /// Called on activating (reinitting)
         /// </summary>
         protected virtual void Activate() { }
         /// <summary>
@@ -68,6 +72,11 @@ namespace SD.Enemies
             // get vehicle collision model and init it
             damageReceiver = GetComponentInChildren<EnemyVehicleDamageReceiver>(true);
             damageReceiver.Init(this);
+
+            damageReceiver.OnVechicleDeath += Explode;
+
+            // specific init
+            InitEnemy();
         }
 
         /// <summary>
@@ -100,25 +109,20 @@ namespace SD.Enemies
                 p.Reinit();
             }
 
-            damageReceiver.Reinit();
-        }
-
-        /// <summary>
-        /// Spawn enemy on given position
-        /// </summary>
-        public void Spawn(Vector3 position)
-        {
-            if (State != EnemyVehicleState.Nothing)
+            // enable autoaim targets
+            Collider[] cs = GetComponentsInChildren<Collider>(true);
+            foreach (var c in cs)
             {
-                Debug.Log("Already spawned", this);
+                if (c.gameObject.layer == LayerMask.NameToLayer(LayerNames.AutoaimTargets))
+                {
+                    c.enabled = false;
+                }
             }
 
-            transform.position = position;
+            // restore health
+            damageReceiver.Reinit();
 
-            gameObject.SetActive(true);
-            State = EnemyVehicleState.Active;
-
-            Reinit();
+            // specific activate
             Activate();
         }
 
@@ -162,7 +166,9 @@ namespace SD.Enemies
 
             // call event
             OnVehicleDestroy(data);
-            State = EnemyVehicleState.Nothing;
+
+            // disable vehicle after exlosion
+            Return();
         }
 
         /// <summary>

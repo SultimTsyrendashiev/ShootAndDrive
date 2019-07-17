@@ -37,7 +37,6 @@ namespace SD.Weapons
 
             foreach (var w in weaponsData)
             {
-                w.TestCalculateEnum();
                 weapons.Add(w.Index, w);
             }
         }

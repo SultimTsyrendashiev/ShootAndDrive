@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5026c6e53765a4692e8c121ecab09e, type: 3}
   m_Name: LauncherGrenade
   m_EditorClassIdentifier: 
+  weaponIndex: 17
   weaponEditorName: LauncherGrenade
   weaponName: Grenade Launcher
   icon: {fileID: 0}

@@ -12,10 +12,10 @@ namespace SD.Weapons
     {
         #region fields
         #region readonly
-        protected int   AutoaimLayerMask;   // Mask to find autoaim targets
-        protected int   WeaponLayerMask;    // Mask to be tested
+        protected int   AutoaimLayerMask { get; private set; }   // Mask to find autoaim targets
+        protected int   WeaponLayerMask { get; private set; }    // Mask to be tested
 
-        protected int   DamageableLayer;    // Layer with damageable objects
+        protected int   DamageableLayer { get; private set; }    // Layer with damageable objects
 
         private string  AnimShootName;
         private string  AnimJamName;

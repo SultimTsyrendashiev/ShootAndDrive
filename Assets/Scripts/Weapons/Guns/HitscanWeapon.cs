@@ -21,8 +21,8 @@ namespace SD.Weapons
         [SerializeField]
         protected bool ShowMuzzleFlash = true;
 
-        protected float AimRadius = 1.3f;
-        protected float Range = 150.0f;
+        protected const float AimRadius = 1.3f;
+        protected const float Range = 150.0f;
 
         void Start()
         {

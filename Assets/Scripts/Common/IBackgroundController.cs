@@ -4,6 +4,8 @@ namespace SD
 {
     interface IBackgroundController
     {
+        float CurrentLength { get; }
+
         /// <summary>
         /// Get current block's bounds
         /// </summary>
@@ -11,7 +13,7 @@ namespace SD
         /// x is a left bound,
         /// y is a right bound
         /// </returns>
-        Vector2 GetCurrentBounds(Vector3 position);
+        Vector2 GetBlockBounds(Vector3 position);
 
         /// <summary>
         /// Check for current blocks:

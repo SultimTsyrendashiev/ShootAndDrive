@@ -10,6 +10,7 @@ namespace SD.Weapons
         {
             // autoaim
             Autoaim.Aim(AimTransform.position, AimTransform.forward, AimRadius, out Vector3 aimedDir, Range, AutoaimLayerMask);
+            Debug.DrawRay(AimTransform.position, AimTransform.forward, Color.blue, 20, true);
 
             // process accuracy
             float rangex = 2 * Accuracy * AccuracyMultiplier;
@@ -21,6 +22,7 @@ namespace SD.Weapons
                 * aimedDir;
 
             Vector3 end = CheckRay(AimTransform.position, distortedDir);
+            Debug.DrawRay(AimTransform.position, distortedDir, Color.red, 20, true);
 
             // emit trail, if muzzle flash transform exists
             if (MuzzleFlash != null)

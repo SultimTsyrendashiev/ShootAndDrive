@@ -1,30 +1,74 @@
 ﻿using UnityEngine;
 using SD.PlayerLogic;
 using SD.Weapons;
+using SD.Enemies.Spawner;
+using SD.Background;
 
 namespace SD
 {
     class GameController : MonoBehaviour
     {
+        readonly Vector3 PlayerStartPoint = new Vector3(0,0,0);
+
         [SerializeField]
         GameObject playerPrefab;
 
-        public Player CurrentPlayer { get; private set; }
-        public AllWeaponsStats WeaponsStats { get; private set; }
+        SpawnersController spawnersController;
+
+        public Player               CurrentPlayer { get; private set; }
+        public AllWeaponsStats      WeaponsStats { get; private set; }
+        public BackgroundController Background { get; private set; }
 
         void Awake()
         {
             Application.targetFrameRate = 60;
 
+            // independent
+            InitWeaponsStats();
+            // independent
+            InitBackground();
+            // independent
+            InitEnemySpawners();
+
+            // depends on background (for vehicle)
             InitPlayer();
+            // depends on player and weapons
             InitUI();
 
-            InitWeaponsStats();
+            // depends on player, weapons and its stats
             InitPlayerInventory();
+        }
+
+        void Start()
+        {
+            const float startSpawnerDistance = 50;
+
+            spawnersController.StartCoroutine(spawnersController.StartSpawn(
+                CurrentPlayer.transform.position + CurrentPlayer.transform.forward * startSpawnerDistance,
+                CurrentPlayer.transform));
+        }
+
+        private void InitBackground()
+        {
+            Background = FindObjectOfType<BackgroundController>();
+            Debug.Assert(Background != null, "Can't find BackgroundController", this);
+
+            // independent
+            Background.Init();
+        }
+
+        private void InitEnemySpawners()
+        {
+            spawnersController = FindObjectOfType<SpawnersController>();
+            Debug.Assert(spawnersController != null, "Can't find SpawnersController", this);
+
+            // independent
+            spawnersController.Init();
         }
 
         private void InitPlayerInventory()
         {
+            // depends on player and weapons stats
             CurrentPlayer.InitInventory();
 
             // load items from player prefs
@@ -40,6 +84,7 @@ namespace SD
             var ui = FindObjectOfType<UI.UIController>();
             Debug.Assert(ui != null, "Can't find UIController", this);
 
+            // depends on player and weapons
             ui.Init(CurrentPlayer);
         }
 
@@ -59,8 +104,11 @@ namespace SD
                 CurrentPlayer = players[0];
             }
 
+            CurrentPlayer.transform.position = PlayerStartPoint;
+
+            // independent
             // init player, player's vehicle, weapons
-            CurrentPlayer.Init();
+            CurrentPlayer.Init(Background);
         }
 
         void InitWeaponsStats()
@@ -74,6 +122,7 @@ namespace SD
                 return;
             }
 
+            // independent
             WeaponsStats.Init();
         }
 
@@ -91,7 +140,7 @@ namespace SD
 
         void UpdateBackground()
         {
-            Background.BackgroundController.Instance.UpdateCameraPosition(CurrentPlayer.MainCamera.transform.position);
+            Background.UpdateCameraPosition(CurrentPlayer.MainCamera.transform.position);
         }
 
         void OnDestroy()

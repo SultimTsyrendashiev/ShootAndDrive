@@ -20,11 +20,14 @@ namespace SD.Weapons
         private float launchSpeed;
 
         private Transform missileSpawn;
-        
+
+        protected float AutoaimRadius = 3;
+        protected float AutoaimRange = 150;
+
         void Start()
         {
             missileSpawn = FindChildByName("MissileSpawn");
-            Debug.Assert(damageRadius > 0.0f);
+            Debug.Assert(damageRadius > 0.0f, "Radius > 0", this);
         }
 
         protected override void PrimaryAttack()
@@ -43,11 +46,33 @@ namespace SD.Weapons
 
         void SpawnMissile()
         {
-            GameObject missileObj = ObjectPool.Instance.GetObject(MissileName, missileSpawn.position, Owner.transform.rotation);
+            // reset spawn transform's rotation,
+            // set max speed
+            missileSpawn.rotation = Owner.transform.rotation;
+            float speed = launchSpeed;
+
+            // find target
+            Transform target = Autoaim.GetTarget(missileSpawn.position, Owner.transform.forward, AutoaimRadius, AutoaimRange, AutoaimLayerMask);
+            Vector3 targetPos;
+
+            if (target != null)
+            {
+                // target found
+                targetPos = target.position;
+
+                // rotate spawn transform to aim,
+
+                Autoaim.AimMissile(missileSpawn, targetPos, launchSpeed, out speed);
+
+            }
+            // if cant find target, so launch at max speed
+            // in default direction
+
+            GameObject missileObj = ObjectPool.Instance.GetObject(MissileName, missileSpawn.position, missileSpawn.rotation);
 
             Missile missile = missileObj.GetComponent<Missile>();
             missile.Set(DamageValue, damageRadius, Owner);
-            missile.Launch(launchSpeed);
+            missile.Launch(speed);
         }
     }
 }

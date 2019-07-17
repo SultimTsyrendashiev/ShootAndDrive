@@ -1,61 +1,116 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using SD.Background;
+using UnityEngine;
 
 namespace SD.PlayerLogic
 {
     delegate void CollideVehicle(IVehicle player, IVehicle other);
 
-    [RequireComponent(typeof(Collider))]
     class PlayerVehicle : MonoBehaviour, IVehicle, IDamageable
     {
-        public const int MaxHealth = 100;
-
+        public const int MaxHealth = 1000;
         const float SteeringEpsilon = 0.01f;
 
         public event FloatChange OnVehicleHealthChange;
         public event FloatChange OnDistanceChange;
 
-        Player          player;
         Transform       playerTransform;
         Rigidbody       playerRigidbody;
 
-        public float    Speed = 20;
+        public float    DefaultSpeed = 20;
         public float    SideSpeed = 10;
-        public event    CollideVehicle OnVehicleCollision;
 
+        List<PlayerVehicleDamageReceiver> damageReceivers;
+        public event CollideVehicle OnVehicleCollision;
+
+        // to check horizontal bounds
+        IBackgroundController background;
+
+        [SerializeField]
         float currentSpeed;
         float currentSideSpeed;
         float travelledDistance;
 
+        #region particles
+        [SerializeField]
+        string HitParticlesName = "Sparks";
+        [SerializeField]
+        string SmokeParticlesName = "VehicleSmoke";
+        [SerializeField]
+        Transform EngineSmokeTransform;
+        #endregion
+
         public float Health { get; private set; } = MaxHealth;
         public ISteeringWheel SteeringWheel { get; private set; }
 
-        public void Init(Player player)
+        public Player Player { get; private set; }
+
+        public void Init(Player player, IBackgroundController background)
         {
-            this.player = player;
-            playerTransform = player.transform;
-            playerRigidbody = player.GetComponent<Rigidbody>();
+            Player = player;
+            this.background = background;
+
+            playerTransform = Player.transform;
+            playerRigidbody = Player.GetComponent<Rigidbody>();
             playerRigidbody.isKinematic = true;
 
             SteeringWheel = GetComponentInChildren<SteeringWheel>(true);
       
-            currentSpeed = Speed;
+            // default values
+            currentSpeed = DefaultSpeed;
             currentSideSpeed = SideSpeed;
             travelledDistance = 0;
+
+            // init damage receivers
+            var cs = GetComponentsInChildren<Collider>(true);
+            damageReceivers = new List<PlayerVehicleDamageReceiver>();
+
+            foreach (var c in cs)
+            {
+                var dr = c.GetComponent<PlayerVehicleDamageReceiver>();
+
+                if (dr == null)
+                {
+                    // if it's pickup receiver then ignore it
+                    if (c.GetComponent<PlayerPickupReceiver>())
+                    {
+                        continue;
+                    }
+
+                    Debug.Assert(dr != null, "This collider must contain PlayerVehicleDamageReceiver component", c);
+                }
+
+                dr.Init(this);
+                damageReceivers.Add(dr);
+            }
         }
 
         public void ReceiveDamage(Damage damage)
         {
             Health -= damage.CalculateDamageValue(playerTransform.position);
 
+            // play particle system
+            if (damage.Type == DamageType.Bullet)
+            {
+                ParticlesPool.Instance.Play(HitParticlesName, damage.Point, Quaternion.LookRotation(damage.Normal));
+            }
+
             if (Health <= 0)
             {
                 Health = 0;
                 StartCoroutine(BreakVehicle());
+
+                // play smoke particle system
+                ParticlesPool.Instance.Play(SmokeParticlesName, EngineSmokeTransform.position, EngineSmokeTransform.rotation);
             }
 
             OnVehicleHealthChange(Health);
+        }
+
+        public void Collide(IVehicle otherVehicle)
+        {
+            OnVehicleCollision(this, otherVehicle);
         }
 
         IEnumerator BreakVehicle()
@@ -100,7 +155,7 @@ namespace SD.PlayerLogic
             {
                 newPosition += playerTransform.right * steering * currentSideSpeed * Time.fixedDeltaTime;
 
-                Vector2 backgroundBounds = BackgroundController.Instance.GetCurrentBounds(newPosition);
+                Vector2 backgroundBounds = background.GetBlockBounds(newPosition);
 
                 if (newPosition.x > backgroundBounds[1])
                 {
@@ -116,16 +171,6 @@ namespace SD.PlayerLogic
 
             travelledDistance += forwardDistance;
             OnDistanceChange(travelledDistance);
-        }
-
-        public void OnCollisionEnter(Collision col)
-        {
-            IVehicle otherVehicle = col.gameObject.GetComponent<IVehicle>();
-
-            if (otherVehicle != null)
-            {
-                OnVehicleCollision(this, otherVehicle);
-            }
         }
     }
 }

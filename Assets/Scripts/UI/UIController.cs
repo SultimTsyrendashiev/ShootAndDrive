@@ -143,7 +143,7 @@ namespace SD.UI
         /// <param name="health">health in [0..100]</param>
         public void SetHealth(float health)
         {
-            const float maxPlayerHealth = 100;
+            const float maxPlayerHealth = PlayerLogic.Player.MaxHealth;
 
             Vector2 d = healthImage.rectTransform.sizeDelta;
             d.x = health / maxPlayerHealth * MaxHealthImageWidth;
@@ -157,7 +157,7 @@ namespace SD.UI
         /// <param name="health">health in [0..100]</param>
         public void SetVehicleHealth(float health)
         {
-            const float maxVehicleHealth = 100;
+            const float maxVehicleHealth = PlayerLogic.PlayerVehicle.MaxHealth;
 
             Vector2 d = vehicleHealthImage.rectTransform.sizeDelta;
             d.x = health / maxVehicleHealth * MaxHealthImageWidth;

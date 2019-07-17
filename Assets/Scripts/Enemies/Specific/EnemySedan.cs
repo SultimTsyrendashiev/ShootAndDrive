@@ -6,11 +6,22 @@ namespace SD.Enemies
     class EnemySedan : EnemyVehicle
     {
         Rigidbody vehicleRigidbody;
+        Vector3 velocity;
+
+        protected override void InitEnemy()
+        {
+            vehicleRigidbody = GetComponent<Rigidbody>();
+        }
 
         protected override void Activate()
         {
             vehicleRigidbody.isKinematic = true;
-            vehicleRigidbody.velocity = transform.forward * Data.Speed;
+            velocity = transform.forward * Data.Speed;
+        }
+
+        void FixedUpdate()
+        {
+            vehicleRigidbody.position += velocity * Time.fixedDeltaTime;
         }
 
         protected override void DoDriverDeath()

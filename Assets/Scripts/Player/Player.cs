@@ -30,7 +30,7 @@ namespace SD.PlayerLogic
         /// </summary>
         const float                 HealthToRegenerate = 10;
         const float                 HealthAfterMedkit = 100;
-        const float                 MaxHealth = 100;
+        public const float          MaxHealth = 100;
         #endregion
 
         PlayerVehicle           playerVehicle;
@@ -48,14 +48,18 @@ namespace SD.PlayerLogic
         public event FloatChange OnHealthChange;
         public event PlayerScore OnPlayerDeath;
 
-        public void Init()
+        /// <summary>
+        /// Init player. 'PlayerVehicle' depends
+        /// on 'IBackgroundController'
+        /// </summary>
+        public void Init(IBackgroundController background)
         {
             MainCamera = GetComponentInChildren<Camera>();
 
             playerVehicle = GetComponentInChildren<PlayerVehicle>(true);
             Debug.Assert(playerVehicle != null, "There must be a 'PlayerVehicle' as child object", this);
 
-            playerVehicle.Init(this);
+            playerVehicle.Init(this, background);
             steeringWheel = playerVehicle.SteeringWheel;
 
             // reset score

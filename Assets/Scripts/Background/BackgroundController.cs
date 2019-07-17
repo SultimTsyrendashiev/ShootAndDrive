@@ -19,24 +19,17 @@ namespace SD.Background
         
         // holds all active blocks in current scene
         LinkedList<IBackgroundBlock> blocks;
+
         // length of all blocks
         // must be >= 'distance'
-        float currentLength;
+        public float CurrentLength { get; private set; }
 
-        public static IBackgroundController Instance { get; private set; }
-
-        void Awake()
-        {
-            Debug.Assert(Instance == null, "Several singletons", this);
-            Instance = this;
-        }
-
-        void Start()
+        public void Init()
         {
             Debug.Assert(blockPrefabs.Length > 0, "Not enough block prefabs", this);
 
             blocks = new LinkedList<IBackgroundBlock>();
-            currentLength = 0.0f;
+            CurrentLength = 0.0f;
 
             // delete all child block objects in this scene
             BackgroundBlock[] inScene = GetComponentsInChildren<BackgroundBlock>();
@@ -74,7 +67,7 @@ namespace SD.Background
                 newBlockObj.transform.position = Vector3.zero;
             }
 
-            currentLength += newBlock.Length;
+            CurrentLength += newBlock.Length;
             blocks.AddLast(newBlock);
         }
 
@@ -85,7 +78,7 @@ namespace SD.Background
 
             // return to pool
             first.CurrentObject.SetActive(false);
-            currentLength -= first.Length;
+            CurrentLength -= first.Length;
             
             blocks.RemoveFirst();
         }
@@ -99,7 +92,7 @@ namespace SD.Background
             return Random.Range(0, blockPrefabs.Length);
         }
 
-        public Vector2 GetCurrentBounds(Vector3 position)
+        public Vector2 GetBlockBounds(Vector3 position)
         {
             // 'position' is often player's position,
             // so  it's more possible that
@@ -130,7 +123,7 @@ namespace SD.Background
         public void UpdateCameraPosition(Vector3 cameraPosition)
         {
             // create if needed
-            while (currentLength < distance)
+            while (CurrentLength < distance)
             {
                 CreateBlock();
             }

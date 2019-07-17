@@ -15,8 +15,8 @@ namespace SD.PlayerLogic
 
         void Start()
         {
-            playerInventory = GetComponentInParent<Player>().Inventory;
-            Debug.Assert(playerInventory != null, "PlayerPickupReceiver must be a child object of Player", this);
+            playerInventory = GetComponentInParent<PlayerVehicle>().Player.Inventory;
+            Debug.Assert(playerInventory != null, "PlayerPickupReceiver must be a child object of PlayerVehicle", this);
         }
 
         public bool ReceivePickup(AmmunitionType type, int amount)
