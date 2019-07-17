@@ -220,14 +220,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4362801774745768357}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63d0fb64dda57664d95da2019f5606e1, type: 3}
+  m_Script: {fileID: 11500000, guid: d6bc601ccb91c024497083ee61152d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   explosionMask:
     serializedVersion: 2
-    m_Bits: 769
+    m_Bits: 256
   ExplosionName: Explosion
-  lifetime: 1.5
+  lifetime: 5
 --- !u!135 &7266049236625450908
 SphereCollider:
   m_ObjectHideFlags: 0

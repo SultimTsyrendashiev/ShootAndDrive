@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SD
 {
@@ -84,6 +79,11 @@ namespace SD
         public static Damage CreateExpolosionDamage(float value, float radius, Vector3 point, GameObject initiator)
         {
             return new Damage(value, radius, DamageType.Explosion, Vector3.zero, point, Vector3.zero, initiator);
+        }
+
+        public static Damage CreateFireDamage(float value, GameObject initiator)
+        {
+            return new Damage(value, 0, DamageType.Fire, Vector3.zero, Vector3.zero, Vector3.zero, initiator);
         }
 
         /// <summary>

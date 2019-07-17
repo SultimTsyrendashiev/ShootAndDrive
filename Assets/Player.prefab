@@ -5496,8 +5496,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 395d09aca1610ad42abed71716b552a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 20
+  DefaultSpeed: 20
   SideSpeed: 10
+  currentSpeed: 0
   HitParticlesName: Sparks
   SmokeParticlesName: VehicleSmoke
   EngineSmokeTransform: {fileID: 1459245672}
@@ -7867,7 +7868,7 @@ MonoBehaviour:
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
   MissileName: MissileGrenade
-  damageRadius: 5
+  damageRadius: 1
   launchSpeed: 50
 --- !u!1 &3779693181320821852
 GameObject:
@@ -8554,7 +8555,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8464676373268641916
 Transform:
   m_ObjectHideFlags: 0
@@ -8562,7 +8563,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4407018091467902034}
-  m_LocalRotation: {x: -0.026783846, y: 0.0004441341, z: 0.016573934, w: 0.9995038}
+  m_LocalRotation: {x: -0.05229113, y: 0.0021642204, z: 0.04129583, w: 0.9977753}
   m_LocalPosition: {x: 0.193, y: 0.562, z: 0.094}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -8571,7 +8572,7 @@ Transform:
   - {fileID: 3432881944193386731}
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 17
-  m_LocalEulerAnglesHint: {x: -3.07, y: 0, z: 1.9}
+  m_LocalEulerAnglesHint: {x: -6, y: 0, z: 4.74}
 --- !u!114 &2032386653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13735,7 +13736,7 @@ MonoBehaviour:
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
   MissileName: MissileCannonball
-  damageRadius: 5
+  damageRadius: 0
   launchSpeed: 50
 --- !u!1 &7644785297359964928
 GameObject:
@@ -13891,7 +13892,7 @@ MeshCollider:
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: -1
-  m_Mesh: {fileID: 1460225762249027222, guid: 9297e5a5d70faa94aa9be1f6a77334ee, type: 3}
+  m_Mesh: {fileID: -8475351043336400458, guid: 9297e5a5d70faa94aa9be1f6a77334ee, type: 3}
 --- !u!114 &1076983895
 MonoBehaviour:
   m_ObjectHideFlags: 0

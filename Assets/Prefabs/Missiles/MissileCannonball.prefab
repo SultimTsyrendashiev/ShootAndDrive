@@ -220,12 +220,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7325141481679814676}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63d0fb64dda57664d95da2019f5606e1, type: 3}
+  m_Script: {fileID: 11500000, guid: e02e2e3716d9d4a43bfceb9cb55077d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   explosionMask:
     serializedVersion: 2
-    m_Bits: 769
+    m_Bits: 256
   ExplosionName: Explosion
   lifetime: 5
 --- !u!135 &4464713267371423277

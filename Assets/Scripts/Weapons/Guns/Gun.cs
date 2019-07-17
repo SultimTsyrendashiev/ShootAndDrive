@@ -4,7 +4,7 @@ namespace SD.Weapons
 {
     class Gun : HitscanWeapon
     {
-        const float AccuracyMultiplier = 4;
+        const float AccuracyMultiplier= 1;
 
         protected override void Hitscan()
         {

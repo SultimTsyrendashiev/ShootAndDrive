@@ -19,6 +19,9 @@ namespace SD.Weapons
         [SerializeField]
         private float launchSpeed;
 
+        [SerializeField]
+        private bool needsAutoaim = false;
+
         private Transform missileSpawn;
 
         protected float AutoaimRadius = 3;
@@ -27,7 +30,7 @@ namespace SD.Weapons
         void Start()
         {
             missileSpawn = FindChildByName("MissileSpawn");
-            Debug.Assert(damageRadius > 0.0f, "Radius > 0", this);
+            Debug.Assert(damageRadius >= 0.0f, "Radius must be >= 0", this);
         }
 
         protected override void PrimaryAttack()
@@ -60,10 +63,17 @@ namespace SD.Weapons
                 // target found
                 targetPos = target.position;
 
-                // rotate spawn transform to aim,
-
-                Autoaim.AimMissile(missileSpawn, targetPos, launchSpeed, out speed);
-
+                if (needsAutoaim)
+                {
+                    // rotate spawn transform to aim,
+                    // and get speed
+                    Autoaim.AimMissile(missileSpawn, targetPos, launchSpeed, out speed);
+                }
+                else
+                {
+                    // just rotate
+                    missileSpawn.forward = targetPos - missileSpawn.position;
+                }
             }
             // if cant find target, so launch at max speed
             // in default direction

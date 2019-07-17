@@ -21,4 +21,4 @@ MonoBehaviour:
   durability: 650
   damage: 20
   reloadingTime: 0.6
-  accuracy: 0.1
+  accuracy: 0.02

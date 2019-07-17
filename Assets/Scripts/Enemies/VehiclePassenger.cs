@@ -78,6 +78,7 @@ namespace SD.Enemies
             if (State == PassengerState.Nothing)
             {
                 Debug.Log("Wrong damageable state", this);
+                return;
             }
 
             // always play blood particle system

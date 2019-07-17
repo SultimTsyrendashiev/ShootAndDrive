@@ -16,9 +16,9 @@ MonoBehaviour:
   vehicleMark: 
   vehicleModel: 
   vehicleType: Sedan
-  speed: 25
+  speed: 10
   brakingTime: 7
-  startHealth: 500
+  startHealth: 130
   score: 570
   explosionName: Explosion
   hitParticlesName: Sparks

@@ -115,7 +115,7 @@ namespace SD.Enemies
             {
                 if (c.gameObject.layer == LayerMask.NameToLayer(LayerNames.AutoaimTargets))
                 {
-                    c.enabled = false;
+                    c.enabled = true;
                 }
             }
 

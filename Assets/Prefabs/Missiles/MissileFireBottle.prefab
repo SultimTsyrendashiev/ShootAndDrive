@@ -4877,13 +4877,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8330642420343945473}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63d0fb64dda57664d95da2019f5606e1, type: 3}
+  m_Script: {fileID: 11500000, guid: d9282f3b696237440a32b1f4047fb5d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   explosionMask:
     serializedVersion: 2
-    m_Bits: 769
-  ExplosionName: Explosion
+    m_Bits: 256
+  ExplosionName: Fire
   lifetime: 5
 --- !u!136 &5195874575366381248
 CapsuleCollider:

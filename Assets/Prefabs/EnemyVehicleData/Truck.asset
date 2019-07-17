@@ -16,9 +16,9 @@ MonoBehaviour:
   vehicleMark: 
   vehicleModel: 
   vehicleType: Truck
-  speed: 45
+  speed: 20
   brakingTime: 30
-  startHealth: 900
+  startHealth: 290
   score: 990
   explosionName: Explosion
   hitParticlesName: Sparks

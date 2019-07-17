@@ -18,7 +18,7 @@ MonoBehaviour:
   vehicleType: Van
   speed: -5
   brakingTime: 2
-  startHealth: 700
+  startHealth: 180
   score: 760
   explosionName: Explosion
   hitParticlesName: Sparks

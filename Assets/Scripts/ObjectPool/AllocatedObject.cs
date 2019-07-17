@@ -28,7 +28,7 @@ namespace SD.ObjectPooling
 
             for (int i = 0; i < prefab.AmountInPool; i++)
             {
-                AllocateNew(false);
+                AllocateNew(false, false);
             }
         }
 
@@ -38,7 +38,8 @@ namespace SD.ObjectPooling
             next = next < allocated.Count ? next : 0;
 
             // check only next
-            var nextObj = allocated[next].ThisObject;
+            var nextPooled = allocated[next];
+            var nextObj = nextPooled.ThisObject;
 
             // if next not active, return it
             if (!nextObj.activeSelf)
@@ -50,16 +51,19 @@ namespace SD.ObjectPooling
             else if (type == PooledObjectType.Important)
             {
                 prevReturnedIndex = allocated.Count;
-                return AllocateNew(true);
+                return AllocateNew(true, true); // create active and reinit
             }
             // if not available and not important,
             // just return some object
 
             prevReturnedIndex = next;
+
+            // reinit when get object from pool
+            nextPooled.Reinit();
             return nextObj;
         }
 
-        GameObject AllocateNew(bool active)
+        GameObject AllocateNew(bool active, bool toReinit)
         {
             GameObject result = GameObject.Instantiate(prefab.ThisObject);
 
@@ -69,6 +73,11 @@ namespace SD.ObjectPooling
             result.name = prefab.ThisObject.name;
             result.SetActive(active);
             result.transform.parent = pool;
+
+            if (toReinit)
+            {
+                pooled.Reinit();
+            }
 
             allocated.Add(pooled);
 

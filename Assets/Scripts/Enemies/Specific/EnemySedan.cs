@@ -21,7 +21,10 @@ namespace SD.Enemies
 
         void FixedUpdate()
         {
-            vehicleRigidbody.position += velocity * Time.fixedDeltaTime;
+            if (State == EnemyVehicleState.Active)
+            {
+                vehicleRigidbody.position += velocity * Time.fixedDeltaTime;
+            }
         }
 
         protected override void DoDriverDeath()
@@ -33,7 +36,7 @@ namespace SD.Enemies
         {
             const float stopEpsilon = 0.1f;
 
-            float brakeTime = 1;
+            float brakeTime = Data.BrakingTime;
             Vector3 velocity = vehicleRigidbody.velocity;
 
             while (velocity.sqrMagnitude > stopEpsilon)
