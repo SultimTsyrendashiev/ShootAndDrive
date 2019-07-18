@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SD.Enemies
 {
@@ -15,10 +14,12 @@ namespace SD.Enemies
     /// There must be vehicle damage receiver as a child object,
     /// also passengers, if needed
     /// </summary>
+    [RequireComponent(typeof(Rigidbody))]
     abstract class EnemyVehicle : MonoBehaviour, IVehicle, IEnemy, IPooledObject
     {
         [SerializeField]
         EnemyVehicleData data;
+        public EnemyVehicleData Data => data;
 
         EnemyVehicleDamageReceiver damageReceiver;
         int alivePassengersAmount;
@@ -26,15 +27,18 @@ namespace SD.Enemies
         public EnemyVehicleState        State       { get; private set; }
         protected VehiclePassenger[]    Passengers  { get; private set; }
         public bool                     AliveDriver => State != EnemyVehicleState.DeadDriver && alivePassengersAmount > 0;
-        public EnemyVehicleData         Data        => data;
+        public Rigidbody                VehicleRigidbody { get; private set; }
 
+        // for object pool
         GameObject          IPooledObject.ThisObject    => gameObject;
         PooledObjectType    IPooledObject.Type          => PooledObjectType.Important;
         int                 IPooledObject.AmountInPool  => 8;
 
+        // events
         public static event EnemyDied           OnEnemyDeath;
         public static event VehicleDestroyed    OnVehicleDestroy;
 
+        #region virtual
         /// <summary>
         /// Called on initializing
         /// </summary>
@@ -58,9 +62,12 @@ namespace SD.Enemies
         /// Called on death of driver
         /// </summary>
         protected abstract void DoDriverDeath();
+        #endregion
 
         public void Init()
         {
+            VehicleRigidbody = GetComponent<Rigidbody>();
+
             // get all passengers and init them
             Passengers = GetComponentsInChildren<VehiclePassenger>(true);
             foreach (var p in Passengers)
@@ -192,6 +199,10 @@ namespace SD.Enemies
             // call event
             OnEnemyDeath(passengerData);
 
+            // disable non-convex mesh collider
+            // as rigidbody doesnt work with them
+            damageReceiver.DisableMeshCollider();
+
             // if there are passengers, but driver died
             if (alivePassengersAmount > 0 && passengerData.IsDriver)
             {
@@ -226,6 +237,29 @@ namespace SD.Enemies
             {
                 p.SetTarget(target);
             }
+        }
+
+        void OnCollisionEnter(Collision col)
+        {
+            print("OnCollisionEnter");
+
+            var other = col.collider.GetComponent<IVehicle>();
+
+            VehicleCollisionInfo info = new VehicleCollisionInfo();
+            
+            // if still alive send full damage,
+            // otherwise nothing
+            info.Damage = damageReceiver.Health > 0 ? data.CollisionDamage : 0;
+
+            other?.Collide(this, info);
+        }
+
+        void IVehicle.Collide(IVehicle other, VehicleCollisionInfo info)
+        {
+            print("EnemyVehicle Collide");
+
+            damageReceiver.ReceiveDamage(Damage.CreateBulletDamage(
+                info.Damage, Vector3.forward, transform.position, Vector3.up, null));
         }
     }
 }

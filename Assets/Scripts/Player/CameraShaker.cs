@@ -6,37 +6,66 @@ namespace SD.PlayerLogic
 {
     public class CameraShaker : MonoBehaviour
     {
+        public enum CameraAnimation
+        {
+            //SmallCollision,
+            Collision,
+            Explosion,
+            Damage,
+            Death
+        }
+
+
         const float MagnitudeEpsilon = 0.01f;
 
-        [SerializeField]
-        private Transform cameraParent;
-        [SerializeField]
-        private float maxAngle = 2;
-        [SerializeField]
-        private bool smooth;
-        [SerializeField]
-        private float smoothness;
 
-        private int axis = 0;
+        [SerializeField]
+        Transform cameraParent;
+        [SerializeField]
+        float maxAngle = 2;
+        [SerializeField]
+        bool smooth;
+        [SerializeField]
+        float smoothness;
+        [SerializeField]
+        int axis = 0;
 
-        private bool isShaking;
 
-        private float shakeMagnitude;
-        private float shakeDuration;
-        private float shakePercentage;
+        Animation cameraAnimation;
+        //[SerializeField]
+        //string smallCollisionAnimationName;
+        [SerializeField]
+        string collisionAnimationName;
+        [SerializeField]
+        string damageAnimationName;
+        [SerializeField]
+        string explosionAnimationName;
+        [SerializeField]
+        string deathAnimationName;
 
-        private float initMagnitude;
-        private float initDuration;
+        bool isShaking;
+
+        float shakeMagnitude;
+        float shakeDuration;
+        float shakePercentage;
+
+        float initMagnitude;
+        float initDuration;
+
 
         public static CameraShaker Instance { get; private set; }
+
 
         void Start()
         {
             Instance = this;
 
-            Debug.Assert(cameraParent != null);
-            Debug.Assert(cameraParent.localEulerAngles.sqrMagnitude < 0.01f);
-            Debug.Assert(axis >= 0 && axis < 3);
+            Debug.Assert(cameraParent != null, "Camera's parent is not set", this);
+            Debug.Assert(cameraParent.localEulerAngles.sqrMagnitude < 0.01f, "Camera's parent must have default rotation", cameraParent);
+            Debug.Assert(axis >= 0 && axis < 3, "Shaking axis must be in [0..2]", this);
+
+            cameraAnimation = GetComponentInChildren<Animation>(true);
+            Debug.Assert(cameraAnimation != null, "There must be a camera animation", this);
 
             isShaking = false;
             shakeMagnitude = 0.0f;
@@ -94,6 +123,57 @@ namespace SD.PlayerLogic
                 shakeDuration = 0.0f;
                 isShaking = false;
             }
+        }
+
+        public void PlayAnimation(CameraAnimation type)
+        {
+            string animName = null;
+
+            switch (type)
+            {
+                //case CameraAnimation.SmallCollision:
+                //    animName = smallCollisionAnimationName;
+                //    break;
+                case CameraAnimation.Collision:
+                    animName = collisionAnimationName;
+                    break;
+
+                case CameraAnimation.Damage:
+                    // ignore if some other animation is playing
+                    if (cameraAnimation.isPlaying)
+                    {
+                        return;
+                    }
+
+                    animName = damageAnimationName;
+                    break;
+
+                case CameraAnimation.Explosion:
+                    // ignore if some other animation is playing
+                    if (cameraAnimation.isPlaying)
+                    {
+                        return;
+                    }
+
+                    animName = explosionAnimationName;
+                    break;
+
+                case CameraAnimation.Death:
+                    animName = deathAnimationName;
+                    break;
+
+                default:
+                    Debug.Log("Wrong camera animation enum", this);
+                    return;
+            }
+
+            // reset to start
+            if (cameraAnimation.isPlaying)
+            {
+                cameraAnimation[animName].time = 0;
+            }
+
+            cameraAnimation.Play(animName);
         }
     }
 }

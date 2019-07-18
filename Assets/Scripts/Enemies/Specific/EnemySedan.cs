@@ -5,17 +5,11 @@ namespace SD.Enemies
 {
     class EnemySedan : EnemyVehicle
     {
-        Rigidbody vehicleRigidbody;
         Vector3 velocity;
-
-        protected override void InitEnemy()
-        {
-            vehicleRigidbody = GetComponent<Rigidbody>();
-        }
 
         protected override void Activate()
         {
-            vehicleRigidbody.isKinematic = true;
+            VehicleRigidbody.isKinematic = true;
             velocity = transform.forward * Data.Speed;
         }
 
@@ -23,29 +17,49 @@ namespace SD.Enemies
         {
             if (State == EnemyVehicleState.Active)
             {
-                vehicleRigidbody.position += velocity * Time.fixedDeltaTime;
+                VehicleRigidbody.position += velocity * Time.fixedDeltaTime;
             }
         }
 
         protected override void DoDriverDeath()
         {
-            StartCoroutine(StopVehicle());
-        }
+            print("Driver died");
 
-        IEnumerator StopVehicle()
-        {
-            const float stopEpsilon = 0.1f;
+            //StartCoroutine(StopVehicle());
 
-            float brakeTime = Data.BrakingTime;
-            Vector3 velocity = vehicleRigidbody.velocity;
+            // just enable physics for this vehicle
+            VehicleRigidbody.isKinematic = false;
 
-            while (velocity.sqrMagnitude > stopEpsilon)
+            // and add random torque
+            const float maxTorque = 80;
+
+            float t = Random.Range(-maxTorque, maxTorque);
+            if (t < -maxTorque / 2)
             {
-                velocity = Vector3.Lerp(velocity, Vector3.zero, Time.fixedDeltaTime / brakeTime);
-                vehicleRigidbody.velocity = velocity;
-
-                yield return new WaitForFixedUpdate();
+                t = -maxTorque / 2;
             }
+            else if (t > maxTorque / 2)
+            {
+                t = maxTorque / 2;
+            }
+
+            VehicleRigidbody.AddTorque(transform.up, ForceMode.Impulse);
         }
+
+        //IEnumerator StopVehicle()
+        //{
+        //    const float stopEpsilon = 0.1f;
+
+        //    float brakeTime = Data.BrakingTime;
+        //    Vector3 velocity = VehicleRigidbody.velocity;
+
+        //    while (velocity.sqrMagnitude > stopEpsilon)
+        //    {
+        //        velocity = Vector3.Lerp(velocity, Vector3.zero, Time.fixedDeltaTime / brakeTime);
+        //        VehicleRigidbody.velocity = velocity;
+
+        //        yield return new WaitForFixedUpdate();
+        //    }
+        //}
     }
 }

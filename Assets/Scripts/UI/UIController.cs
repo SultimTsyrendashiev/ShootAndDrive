@@ -52,6 +52,7 @@ namespace SD.UI
 
             // sign to events
             player.OnHealthChange += SetHealth;
+            player.OnScoreChange += SetScore;
             player.Vehicle.OnDistanceChange += SetDistance;
             player.Vehicle.OnVehicleHealthChange += SetVehicleHealth;
             Weapons.Weapon.OnAmmoChange += SetAmmoAmount;
@@ -59,6 +60,7 @@ namespace SD.UI
             // set start stats
             SetHealth(player.Health);
             SetVehicleHealth(player.Vehicle.Health);
+            SetAmmoAmount(-1);
         }
 
         void UnsignFromEvents()
@@ -66,6 +68,7 @@ namespace SD.UI
             Weapons.Weapon.OnAmmoChange -= SetAmmoAmount;
 
             player.OnHealthChange -= SetHealth;
+            player.OnScoreChange -= SetScore;
             player.Vehicle.OnDistanceChange -= SetDistance;
             player.Vehicle.OnVehicleHealthChange -= SetVehicleHealth;
         }
@@ -132,9 +135,15 @@ namespace SD.UI
             distanceText.text = meters.ToString("N1");
         }
 
+        // TODO: delete
         public void SetKillsAmount(int amount)
         {
             killsAmountText.text = amount.ToString();
+        }
+
+        void SetScore(PlayerLogic.GameScore score)
+        {
+            killsAmountText.text = score.KillsAmount.ToString();
         }
 
         /// <summary>

@@ -91,11 +91,6 @@ namespace SD.Weapons
 
             // set parameters for weapons particles
             InitParticles();
-
-            // for testing
-            currentWeapon.Value = WeaponIndex.Pistol;
-            currentWeapon.Exist = true;
-            TakeOutWeapon();
         }
 
         void OnDestroy()

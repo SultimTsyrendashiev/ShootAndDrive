@@ -20,14 +20,14 @@ namespace SD.PlayerLogic
             this.vehicle = vehicle;
         }
 
-        public void OnCollisionEnter(Collision col)
-        {
-            IVehicle otherVehicle = col.gameObject.GetComponent<IVehicle>();
+        //public void OnCollisionEnter(Collision col)
+        //{
+        //    IVehicle otherVehicle = col.gameObject.GetComponent<IVehicle>();
 
-            if (otherVehicle != null)
-            {
-                vehicle.Collide(otherVehicle);
-            }
-        }
+        //    if (otherVehicle != null)
+        //    {
+        //        vehicle.Collide(otherVehicle);
+        //    }
+        //}
     }
 }

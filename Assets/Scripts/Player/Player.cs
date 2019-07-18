@@ -5,7 +5,8 @@ using SD.Weapons;
 namespace SD.PlayerLogic
 {
     delegate void FloatChange(float f);
-    delegate void PlayerScore(GameScore score);
+    delegate void ScoreChange(GameScore score);
+    delegate void PlayerDeath(GameScore score);
 
     /// <summary>
     /// Player class. There must be 
@@ -45,8 +46,9 @@ namespace SD.PlayerLogic
         public GameScore        CurrentScore => currentScore;
         public PlayerVehicle    Vehicle => playerVehicle;
 
-        public event FloatChange OnHealthChange;
-        public event PlayerScore OnPlayerDeath;
+        public event FloatChange    OnHealthChange;
+        public event ScoreChange    OnScoreChange;
+        public event PlayerDeath    OnPlayerDeath;
 
         /// <summary>
         /// Init player. 'PlayerVehicle' depends
@@ -62,6 +64,8 @@ namespace SD.PlayerLogic
             playerVehicle.Init(this, background);
             steeringWheel = playerVehicle.SteeringWheel;
 
+            GetComponentInChildren<HandsController>(true).Init();
+
             // reset score
             currentScore = new GameScore(PlayerVehicle.MaxHealth);
 
@@ -69,8 +73,36 @@ namespace SD.PlayerLogic
             Enemies.EnemyVehicle.OnEnemyDeath += AddEnemyScore;
             Enemies.EnemyVehicle.OnVehicleDestroy += AddEnemyVehicleScore;
             UI.InputController.OnHealthRegenerate += RegenerateHealth;
+            playerVehicle.OnVehicleCollision += CollideVehicle;
 
             State = PlayerState.Ready;
+        }
+
+        private void CollideVehicle(IVehicle other, float damage)
+        {
+            // reduce full damage
+            const float damageMultiplier = 0.5f;
+
+            damage *= damageMultiplier;
+
+            if (damage > 0)
+            {
+                // receive damage
+                ReceiveDamage(Damage.CreateBulletDamage(
+                    damage, -transform.forward, transform.position, transform.up, null));
+
+                if (Health > 0)
+                {
+                    // if still alive, play default animation
+                    CameraShaker.Instance.PlayAnimation(CameraShaker.CameraAnimation.Collision);
+                }
+                // otherwise death animation will be played (in receive damage)
+            }
+            else
+            {
+                // just play animation
+                CameraShaker.Instance.PlayAnimation(CameraShaker.CameraAnimation.Collision);
+            }
         }
 
         /// <summary>
@@ -110,12 +142,16 @@ namespace SD.PlayerLogic
         {
             currentScore.KillsAmount++;
             currentScore.KillsScore += data.Score;
+
+            OnScoreChange(currentScore);
         }
 
         void AddEnemyVehicleScore(Enemies.EnemyVehicleData data)
         {
             currentScore.DestroyedVehiclesAmount++;
             currentScore.KillsScore += data.Score;
+
+            OnScoreChange(currentScore);
         }
 
         #region health management
@@ -129,6 +165,7 @@ namespace SD.PlayerLogic
 
             // TODO:
             // play anim, sound
+            CameraShaker.Instance.PlayAnimation(CameraShaker.CameraAnimation.Death);
 
             // hide weapon
             weaponsController.HideWeapon();
@@ -209,26 +246,28 @@ namespace SD.PlayerLogic
         /// </summary>
         public void ReceiveDamage(Damage damage)
         {
-            float damageValue = damage.Value;
+            float damageValue = damage.CalculateDamageValue(transform.position);
 
-            if (damage.Type == DamageType.Explosion)
+            if (damageValue > 0)
             {
-                float length = (transform.position - damage.Point).magnitude;
-                
-                if (length < 1.0f)
+                Health -= damageValue;
+                OnHealthChange(Health);
+
+                if (Health <= 0)
                 {
-                    length = 1.0f;
+                    Die();
                 }
-
-                damageValue /= length;
-            }
-
-            Health -= damageValue;
-            OnHealthChange(Health);
-
-            if (Health <= 0)
-            {
-                Die();
+                else
+                {
+                    if (damage.Type == DamageType.Explosion)
+                    {
+                        CameraShaker.Instance.PlayAnimation(CameraShaker.CameraAnimation.Explosion);
+                    }
+                    else
+                    {
+                        CameraShaker.Instance.PlayAnimation(CameraShaker.CameraAnimation.Damage);
+                    }
+                }
             }
         }
 #endregion

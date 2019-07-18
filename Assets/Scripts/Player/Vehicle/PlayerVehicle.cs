@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SD.PlayerLogic
 {
-    delegate void CollideVehicle(IVehicle player, IVehicle other);
+    delegate void CollideVehicle(IVehicle other, float damage);
 
     class PlayerVehicle : MonoBehaviour, IVehicle, IDamageable
     {
@@ -21,7 +21,8 @@ namespace SD.PlayerLogic
         public float    DefaultSpeed = 20;
         public float    SideSpeed = 10;
 
-        List<PlayerVehicleDamageReceiver> damageReceivers;
+        //List<PlayerVehicleDamageReceiver> damageReceivers;
+        PlayerVehicleDamageReceiver damageReceiver;
         public event CollideVehicle OnVehicleCollision;
 
         // to check horizontal bounds
@@ -62,28 +63,33 @@ namespace SD.PlayerLogic
             currentSideSpeed = SideSpeed;
             travelledDistance = 0;
 
+            // init damage receiver
+            damageReceiver = GetComponentInChildren<PlayerVehicleDamageReceiver>(true);
+            damageReceiver.Init(this);
+
+
             // init damage receivers
-            var cs = GetComponentsInChildren<Collider>(true);
-            damageReceivers = new List<PlayerVehicleDamageReceiver>();
+            //var cs = GetComponentsInChildren<Collider>(true);
+            //damageReceivers = new List<PlayerVehicleDamageReceiver>();
 
-            foreach (var c in cs)
-            {
-                var dr = c.GetComponent<PlayerVehicleDamageReceiver>();
+            //foreach (var c in cs)
+            //{
+            //    var dr = c.GetComponent<PlayerVehicleDamageReceiver>();
 
-                if (dr == null)
-                {
-                    // if it's pickup receiver then ignore it
-                    if (c.GetComponent<PlayerPickupReceiver>())
-                    {
-                        continue;
-                    }
+            //    if (dr == null)
+            //    {
+            //        // if it's pickup receiver then ignore it
+            //        if (c.GetComponent<PlayerPickupReceiver>())
+            //        {
+            //            continue;
+            //        }
 
-                    Debug.Assert(dr != null, "This collider must contain PlayerVehicleDamageReceiver component", c);
-                }
+            //        Debug.Assert(dr != null, "This collider must contain PlayerVehicleDamageReceiver component", c);
+            //    }
 
-                dr.Init(this);
-                damageReceivers.Add(dr);
-            }
+            //    dr.Init(this);
+            //    damageReceivers.Add(dr);
+            //}
         }
 
         public void ReceiveDamage(Damage damage)
@@ -108,9 +114,23 @@ namespace SD.PlayerLogic
             OnVehicleHealthChange(Health);
         }
 
-        public void Collide(IVehicle otherVehicle)
+        void IVehicle.Collide(IVehicle otherVehicle, VehicleCollisionInfo info)
         {
-            OnVehicleCollision(this, otherVehicle);
+            print("PlayerVehicle Collide");
+
+            float damage = info.Damage;
+
+            // receive damage
+            if (damage > 0)
+            {
+                // receive damage
+                ReceiveDamage(Damage.CreateBulletDamage(
+                    damage, -transform.forward, transform.position, transform.up, null));
+
+            }
+
+            // call event even if damage == 0
+            OnVehicleCollision(otherVehicle, damage);
         }
 
         IEnumerator BreakVehicle()

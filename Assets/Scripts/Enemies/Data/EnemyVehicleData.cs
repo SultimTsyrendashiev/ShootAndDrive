@@ -12,6 +12,7 @@ namespace SD.Enemies
         [SerializeField] float      speed;
         [SerializeField] float      brakingTime = 2.0f;
         [SerializeField] int        startHealth;
+        [SerializeField] int        collisionDamage;
         [SerializeField] int        score;
         [SerializeField] string     explosionName = "Explosion";
         [SerializeField] string     hitParticlesName = "Sparks";
@@ -23,6 +24,7 @@ namespace SD.Enemies
         public float        BrakingTime => brakingTime;
         public float        Speed => speed;
         public int          StartHealth => startHealth;
+        public int          CollisionDamage => collisionDamage;
         /// <summary>
         /// How many score points will be given to player
         /// after destroying this vehicle

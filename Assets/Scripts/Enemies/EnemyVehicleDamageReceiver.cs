@@ -10,6 +10,7 @@ namespace SD.Enemies
         EnemyVehicle vehicle;
         string hitParticlesName;
         float startHealth;
+        MeshCollider meshCollider;
 
         public event VehicleDeath OnVechicleDeath;
         public float Health { get; private set; }
@@ -20,6 +21,8 @@ namespace SD.Enemies
 
             startHealth = vehicle.Data.StartHealth;
             hitParticlesName = vehicle.Data.HitParticlesName;
+
+            meshCollider = GetComponent<MeshCollider>();
         }
 
         /// <summary>
@@ -28,6 +31,11 @@ namespace SD.Enemies
         public void Reinit()
         {
             Health = startHealth;
+
+            if (meshCollider != null)
+            {
+                meshCollider.enabled = true;
+            }
         }
 
         public void ReceiveDamage(Damage damage)
@@ -45,7 +53,19 @@ namespace SD.Enemies
 
             if (Health <= 0)
             {
+                DisableMeshCollider();
+
                 OnVechicleDeath();
+            }
+        }
+
+        public void DisableMeshCollider()
+        {
+            // disable mesh collider 
+            // as rigidbody can work only with convex colliders
+            if (meshCollider != null)
+            {
+                meshCollider.enabled = false;
             }
         }
     }

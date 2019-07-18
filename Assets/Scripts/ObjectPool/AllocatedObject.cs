@@ -16,6 +16,8 @@ namespace SD.ObjectPooling
         List<IPooledObject>     allocated;
         int                     prevReturnedIndex;
 
+        public IPooledObject Prefab { get => prefab; }
+
         public AllocatedPrefab(Transform pool, IPooledObject prefab)
         {
             Debug.Assert(prefab.AmountInPool > 0, "Start amount is 0: " + prefab.ThisObject.name);

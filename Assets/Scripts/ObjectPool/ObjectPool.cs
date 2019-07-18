@@ -55,6 +55,9 @@ namespace SD
             GameObject result = GetObject(name);
             result.transform.position = position;
 
+            // get rotation from prefab
+            result.transform.rotation = allocated[name].Prefab.ThisObject.transform.rotation;
+
             return result;
         }
 
