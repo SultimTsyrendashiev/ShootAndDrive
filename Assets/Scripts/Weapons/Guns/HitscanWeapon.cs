@@ -9,10 +9,24 @@ namespace SD.Weapons
     /// </summary>
     abstract class HitscanWeapon : Weapon
     {
-        const string CasingsTransformName = "Casings";
-        const string MuzzleTransformName = "Muzzle";
-        const string MuzzleParticlesName = "MuzzleFlash";
+        /// <summary>
+        /// Max not accurate angle
+        /// </summary>
+        protected const float MaxAngleX = 6;
+        protected const float MaxAngleY = 3;
 
+        /// <summary>
+        /// Casings spawn transform must have this name
+        /// </summary>
+        const string CasingsTransformName = "Casings";
+        /// <summary>
+        /// Muzzle spawn
+        /// </summary>
+        const string MuzzleTransformName = "Muzzle";
+
+        // What particles to use for muzzle flash
+        const string MuzzleParticlesName = "MuzzleFlash";
+        // What paarticles to use when hit background
         const string DefaultHitParticleName = "DefaultParticles";
 
         protected Transform AimTransform;
@@ -21,8 +35,8 @@ namespace SD.Weapons
         [SerializeField]
         protected bool ShowMuzzleFlash = true;
 
-        protected const float AimRadius = 1.3f;
-        protected const float Range = 150.0f;
+        protected const float AimRadius = 1.9f;
+        protected const float Range = 300.0f;
 
         void Start()
         {
@@ -31,6 +45,10 @@ namespace SD.Weapons
             MuzzleFlash = FindChildByName(MuzzleTransformName);
         }
 
+        /// <summary>
+        /// Override this method for special hitscan.
+        /// 'CheckRay' should be used
+        /// </summary>
         protected abstract void Hitscan();
 
         /// <summary>
@@ -65,6 +83,7 @@ namespace SD.Weapons
         {
             // main
             Hitscan();
+            ReduceAmmo();
 
             // effects
             PlayPrimaryAnimation();

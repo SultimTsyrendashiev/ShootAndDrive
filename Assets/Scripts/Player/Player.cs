@@ -7,6 +7,7 @@ namespace SD.PlayerLogic
     delegate void FloatChange(float f);
     delegate void ScoreChange(GameScore score);
     delegate void PlayerDeath(GameScore score);
+    delegate void PlayerStateChange(PlayerState state);
 
     /// <summary>
     /// Player class. There must be 
@@ -49,7 +50,9 @@ namespace SD.PlayerLogic
         public event FloatChange    OnHealthChange;
         public event ScoreChange    OnScoreChange;
         public event PlayerDeath    OnPlayerDeath;
+        public event PlayerStateChange OnPlayerStateChange;
 
+        #region init
         /// <summary>
         /// Init player. 'PlayerVehicle' depends
         /// on 'IBackgroundController'
@@ -61,7 +64,7 @@ namespace SD.PlayerLogic
             playerVehicle = GetComponentInChildren<PlayerVehicle>(true);
             Debug.Assert(playerVehicle != null, "There must be a 'PlayerVehicle' as child object", this);
 
-            playerVehicle.Init(this, background);
+            playerVehicle.Init(this);
             steeringWheel = playerVehicle.SteeringWheel;
 
             GetComponentInChildren<HandsController>(true).Init();
@@ -78,32 +81,6 @@ namespace SD.PlayerLogic
             State = PlayerState.Ready;
         }
 
-        private void CollideVehicle(IVehicle other, float damage)
-        {
-            // reduce full damage
-            const float damageMultiplier = 0.5f;
-
-            damage *= damageMultiplier;
-
-            if (damage > 0)
-            {
-                // receive damage
-                ReceiveDamage(Damage.CreateBulletDamage(
-                    damage, -transform.forward, transform.position, transform.up, null));
-
-                if (Health > 0)
-                {
-                    // if still alive, play default animation
-                    CameraShaker.Instance.PlayAnimation(CameraShaker.CameraAnimation.Collision);
-                }
-                // otherwise death animation will be played (in receive damage)
-            }
-            else
-            {
-                // just play animation
-                CameraShaker.Instance.PlayAnimation(CameraShaker.CameraAnimation.Collision);
-            }
-        }
 
         /// <summary>
         /// Inits inventory and weapons
@@ -115,6 +92,7 @@ namespace SD.PlayerLogic
             weaponsController = GetComponentInChildren<WeaponsController>();
             weaponsController.Init(this);
         }
+        #endregion
 
         /// <summary>
         /// To enable GC
@@ -124,6 +102,7 @@ namespace SD.PlayerLogic
             Enemies.EnemyVehicle.OnEnemyDeath -= AddEnemyScore;
             Enemies.EnemyVehicle.OnVehicleDestroy -= AddEnemyVehicleScore;
             UI.InputController.OnHealthRegenerate -= RegenerateHealth;
+            playerVehicle.OnVehicleCollision -= CollideVehicle;
         }
 
         void OnDestroy()
@@ -157,7 +136,14 @@ namespace SD.PlayerLogic
         #region health management
         void Die()
         {
+            // ignore if already died
+            if (State == PlayerState.Dead)
+            {
+                return;
+            }
+
             State = PlayerState.Dead;
+            OnPlayerStateChange(State);
 
             // send player's score
             currentScore.VehicleHealth = (int)playerVehicle.Health;
@@ -166,9 +152,6 @@ namespace SD.PlayerLogic
             // TODO:
             // play anim, sound
             CameraShaker.Instance.PlayAnimation(CameraShaker.CameraAnimation.Death);
-
-            // hide weapon
-            weaponsController.HideWeapon();
         }
 
         public void RegenerateHealth()
@@ -196,8 +179,8 @@ namespace SD.PlayerLogic
         {
             State = PlayerState.Regenerating;
 
-            // hide weapon and wait
-            weaponsController.HideWeapon();
+            // weapons must be hidden,
+            // so wait
             while (weaponsController.IsBusy())
             {
                 yield return null;
@@ -205,6 +188,10 @@ namespace SD.PlayerLogic
 
             // TODO:
             // anim, sound
+            Debug.Log("Regenerating health");
+
+            float animLength = 1.0f;
+            yield return new WaitForSeconds(animLength);
 
             do
             {
@@ -233,19 +220,20 @@ namespace SD.PlayerLogic
                 Health = HealthAfterMedkit;
             }
 
-            // finally, take out weapon
-            weaponsController.TakeOutWeapon();
-
             State = PlayerState.Ready;
         }
-#endregion
 
-#region inherited
+
         /// <summary>
         /// Note: must be called only by 'PlayerDamageReceiver'
         /// </summary>
         public void ReceiveDamage(Damage damage)
         {
+            if (Health <= 0)
+            {
+                return;
+            }
+
             float damageValue = damage.CalculateDamageValue(transform.position);
 
             if (damageValue > 0)
@@ -255,6 +243,9 @@ namespace SD.PlayerLogic
 
                 if (Health <= 0)
                 {
+                    // normalize
+                    Health = 0;
+
                     Die();
                 }
                 else
@@ -270,6 +261,33 @@ namespace SD.PlayerLogic
                 }
             }
         }
-#endregion
+        #endregion
+
+        void CollideVehicle(IVehicle other, float damage)
+        {
+            // reduce full damage
+            const float damageMultiplier = 0.5f * (float)MaxHealth / PlayerVehicle.MaxHealth;
+
+            damage *= damageMultiplier;
+
+            if (damage > 0)
+            {
+                // receive damage
+                ReceiveDamage(Damage.CreateBulletDamage(
+                    damage, -transform.forward, transform.position, transform.up, null));
+
+                if (Health > 0)
+                {
+                    // if still alive, play default animation
+                    CameraShaker.Instance.PlayAnimation(CameraShaker.CameraAnimation.Collision);
+                }
+                // otherwise death animation will be played (in receive damage)
+            }
+            else
+            {
+                // just play animation
+                CameraShaker.Instance.PlayAnimation(CameraShaker.CameraAnimation.Collision);
+            }
+        }
     }
 }

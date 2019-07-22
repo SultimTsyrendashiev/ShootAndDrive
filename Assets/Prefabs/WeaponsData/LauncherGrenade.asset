@@ -22,3 +22,4 @@ MonoBehaviour:
   damage: 200
   reloadingTime: 1
   accuracy: 0
+  missileName: MissileGrenadeLauncher

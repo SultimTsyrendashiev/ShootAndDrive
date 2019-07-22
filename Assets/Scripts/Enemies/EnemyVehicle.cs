@@ -14,8 +14,8 @@ namespace SD.Enemies
     /// There must be vehicle damage receiver as a child object,
     /// also passengers, if needed
     /// </summary>
-    [RequireComponent(typeof(Rigidbody))]
-    abstract class EnemyVehicle : MonoBehaviour, IVehicle, IEnemy, IPooledObject
+    [RequireComponent(typeof(Rigidbody), typeof(Collider))]
+    abstract class EnemyVehicle : MonoBehaviour, IVehicle, IEnemy
     {
         [SerializeField]
         EnemyVehicleData data;
@@ -23,6 +23,9 @@ namespace SD.Enemies
 
         EnemyVehicleDamageReceiver damageReceiver;
         int alivePassengersAmount;
+
+        // approximate vechicle collider
+        Collider apxVehicleCollider;
 
         public EnemyVehicleState        State       { get; private set; }
         protected VehiclePassenger[]    Passengers  { get; private set; }
@@ -40,7 +43,8 @@ namespace SD.Enemies
 
         #region virtual
         /// <summary>
-        /// Called on initializing
+        /// Called on initializing.
+        /// Override this method for special enemy init
         /// </summary>
         protected virtual void InitEnemy() { }
         /// <summary>
@@ -53,15 +57,19 @@ namespace SD.Enemies
         protected virtual void Deactivate() { }
 
         /// <summary>
-        /// Called on death of all passengers.
-        /// Virtual, as it's only impprtant when driver dies
+        /// Called on death of all passengers
         /// </summary>
         protected virtual void DoPassengerDeath() { }
         
         /// <summary>
         /// Called on death of driver
         /// </summary>
-        protected abstract void DoDriverDeath();
+        protected virtual void DoDriverDeath() { }
+
+        /// <summary>
+        /// Called on vehicle collision
+        /// </summary>
+        protected virtual void DoVehicleCollision() { }
         #endregion
 
         public void Init()
@@ -81,6 +89,8 @@ namespace SD.Enemies
             damageReceiver.Init(this);
 
             damageReceiver.OnVechicleDeath += Explode;
+
+            apxVehicleCollider = GetComponent<Collider>();
 
             // specific init
             InitEnemy();
@@ -179,6 +189,18 @@ namespace SD.Enemies
         }
 
         /// <summary>
+        /// Set rigidbody kinematic.
+        /// Also, disables mesh collider
+        /// </summary>
+        protected void SetKinematic(bool kinematic)
+        {
+            // disable non-convex mesh collider
+            // as rigidbody doesnt work with them
+            damageReceiver.ActivateMeshCollider(kinematic);
+            VehicleRigidbody.isKinematic = kinematic;
+        }
+
+        /// <summary>
         /// Called on death of one of passengers
         /// </summary>
         void PassengerDied(EnemyData passengerData)
@@ -198,10 +220,6 @@ namespace SD.Enemies
 
             // call event
             OnEnemyDeath(passengerData);
-
-            // disable non-convex mesh collider
-            // as rigidbody doesnt work with them
-            damageReceiver.DisableMeshCollider();
 
             // if there are passengers, but driver died
             if (alivePassengersAmount > 0 && passengerData.IsDriver)
@@ -241,8 +259,6 @@ namespace SD.Enemies
 
         void OnCollisionEnter(Collision col)
         {
-            print("OnCollisionEnter");
-
             var other = col.collider.GetComponent<IVehicle>();
 
             VehicleCollisionInfo info = new VehicleCollisionInfo();
@@ -256,10 +272,18 @@ namespace SD.Enemies
 
         void IVehicle.Collide(IVehicle other, VehicleCollisionInfo info)
         {
-            print("EnemyVehicle Collide");
-
             damageReceiver.ReceiveDamage(Damage.CreateBulletDamage(
                 info.Damage, Vector3.forward, transform.position, Vector3.up, null));
+
+            DoVehicleCollision();
         }
+
+        void ISpawnable.GetExtents(out Vector3 min, out Vector3 max)
+        {
+            min = apxVehicleCollider.bounds.min;
+            max = apxVehicleCollider.bounds.max;
+        }
+
+        Vector3 ISpawnable.Position => transform.position;
     }
 }

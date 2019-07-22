@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 7266049236625450908}
   - component: {fileID: 189514815294878549}
   m_Layer: 0
-  m_Name: MissileRocketLauncher
+  m_Name: MissileRocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,6 +228,8 @@ MonoBehaviour:
     m_Bits: 256
   ExplosionName: Explosion
   lifetime: 5
+  damageRadius: 7
+  maxAngularSpeed: 0
 --- !u!135 &7266049236625450908
 SphereCollider:
   m_ObjectHideFlags: 0

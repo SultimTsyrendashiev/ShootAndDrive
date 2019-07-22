@@ -9,7 +9,7 @@ namespace SD.Background
         /// Blocks must be to this distance
         /// </summary>
         [SerializeField]
-        float distance = 150.0f;
+        float distance = 300.0f;
 
         /// <summary>
         /// Names of block prefabs in object pool
@@ -129,12 +129,19 @@ namespace SD.Background
             }
 
             // delete invisible blocks for camera;
-            // first is oldest;
+            // first is the oldest;
             // assume, that all blocks are created along z axis
             while (!blocks.First.Value.Contains(cameraPosition))
             {
                 DeleteOldestBlock();
             }
+        }
+
+        public bool IsOut(Vector3 min, Vector3 max)
+        {
+            // as blocks are aligned to z axis,
+            // then just check it
+            return max.z < blocks.First.Value.GetMinZ();
         }
     }
 }

@@ -48,24 +48,22 @@ namespace SD.Enemies
             }
             else if (damage.Type == DamageType.Explosion && Health > 0)
             {
-                // TODO: change mesh to wreck
+                // TODO: change mesh parts to wreck
             }
 
             if (Health <= 0)
             {
-                DisableMeshCollider();
-
                 OnVechicleDeath();
             }
         }
 
-        public void DisableMeshCollider()
+        public void ActivateMeshCollider(bool active)
         {
             // disable mesh collider 
             // as rigidbody can work only with convex colliders
             if (meshCollider != null)
             {
-                meshCollider.enabled = false;
+                meshCollider.enabled = active;
             }
         }
     }

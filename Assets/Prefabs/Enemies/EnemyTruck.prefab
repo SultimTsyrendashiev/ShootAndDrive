@@ -552,6 +552,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4746456916120335955}
   - component: {fileID: 4746456916120335954}
+  - component: {fileID: 2103814642519527433}
   m_Layer: 8
   m_Name: CarCollider
   m_TagString: Untagged
@@ -587,6 +588,18 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: -1
   m_Mesh: {fileID: 7673246021391805175, guid: 026e1f9a9bcee534397215e91b2bf111, type: 3}
+--- !u!114 &2103814642519527433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4746456916120335980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 835931103d63c624aa5029132b3d7f3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4746456916614808020
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,13 +611,14 @@ GameObject:
   - component: {fileID: 4746456916614808027}
   - component: {fileID: 4746456916614808026}
   - component: {fileID: 4746456916614808025}
+  - component: {fileID: 5847304852863218820}
   m_Layer: 11
   m_Name: EnemyTruck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4746456916614808027
 Transform:
   m_ObjectHideFlags: 0
@@ -651,6 +665,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5847304852863218820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4746456916614808020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd7a1c03bea49243a29bc8b822e805c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 30bd9202f8723a24b887ab1f4e9af949, type: 2}
 --- !u!1 &4746456916713806318
 GameObject:
   m_ObjectHideFlags: 0

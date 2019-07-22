@@ -1,7 +1,5 @@
 ﻿namespace SD
 {
-    interface IEnemy
-    {
-        // void Spawn();
-    }
+    interface IEnemy : ISpawnable
+    { }
 }

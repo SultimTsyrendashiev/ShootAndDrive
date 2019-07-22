@@ -7,9 +7,12 @@ namespace SD.PlayerLogic
 {
     delegate void CollideVehicle(IVehicle other, float damage);
 
+    [RequireComponent(typeof(Collider))]
     class PlayerVehicle : MonoBehaviour, IVehicle, IDamageable
     {
-        public const int MaxHealth = 1000;
+        public const int MaxHealth = 900;
+        // percentage of health when to start playing smoke particle system
+        const float PlaySmokeHealthPercentage = 0.2f;
         const float SteeringEpsilon = 0.01f;
 
         public event FloatChange OnVehicleHealthChange;
@@ -36,21 +39,24 @@ namespace SD.PlayerLogic
         #region particles
         [SerializeField]
         string HitParticlesName = "Sparks";
+        //[SerializeField]
+        //string SmokeParticlesName = "VehicleSmoke";
+
         [SerializeField]
-        string SmokeParticlesName = "VehicleSmoke";
-        [SerializeField]
-        Transform EngineSmokeTransform;
+        ParticleSystem engineSmoke;
         #endregion
 
-        public float Health { get; private set; } = MaxHealth;
+        // approximate vechicle collider
+        Collider apxVehicleCollider;
+
+        public float Health { get; private set; }
         public ISteeringWheel SteeringWheel { get; private set; }
 
         public Player Player { get; private set; }
 
-        public void Init(Player player, IBackgroundController background)
+        public void Init(Player player)
         {
             Player = player;
-            this.background = background;
 
             playerTransform = Player.transform;
             playerRigidbody = Player.GetComponent<Rigidbody>();
@@ -64,32 +70,14 @@ namespace SD.PlayerLogic
             travelledDistance = 0;
 
             // init damage receiver
+            Health = MaxHealth;
             damageReceiver = GetComponentInChildren<PlayerVehicleDamageReceiver>(true);
             damageReceiver.Init(this);
+        }
 
-
-            // init damage receivers
-            //var cs = GetComponentsInChildren<Collider>(true);
-            //damageReceivers = new List<PlayerVehicleDamageReceiver>();
-
-            //foreach (var c in cs)
-            //{
-            //    var dr = c.GetComponent<PlayerVehicleDamageReceiver>();
-
-            //    if (dr == null)
-            //    {
-            //        // if it's pickup receiver then ignore it
-            //        if (c.GetComponent<PlayerPickupReceiver>())
-            //        {
-            //            continue;
-            //        }
-
-            //        Debug.Assert(dr != null, "This collider must contain PlayerVehicleDamageReceiver component", c);
-            //    }
-
-            //    dr.Init(this);
-            //    damageReceivers.Add(dr);
-            //}
+        void Start()
+        {
+            background = FindObjectOfType<BackgroundController>();
         }
 
         public void ReceiveDamage(Damage damage)
@@ -102,22 +90,23 @@ namespace SD.PlayerLogic
                 ParticlesPool.Instance.Play(HitParticlesName, damage.Point, Quaternion.LookRotation(damage.Normal));
             }
 
+            if (Health <= PlaySmokeHealthPercentage)
+            {
+                engineSmoke.Play();
+            }
+
             if (Health <= 0)
             {
                 Health = 0;
                 StartCoroutine(BreakVehicle());
-
-                // play smoke particle system
-                ParticlesPool.Instance.Play(SmokeParticlesName, EngineSmokeTransform.position, EngineSmokeTransform.rotation);
             }
 
             OnVehicleHealthChange(Health);
         }
 
+        // this should be called only from other vehicles
         void IVehicle.Collide(IVehicle otherVehicle, VehicleCollisionInfo info)
         {
-            print("PlayerVehicle Collide");
-
             float damage = info.Damage;
 
             // receive damage
@@ -132,6 +121,15 @@ namespace SD.PlayerLogic
             // call event even if damage == 0
             OnVehicleCollision(otherVehicle, damage);
         }
+
+        //public void GetGlobalExtents(out Vector3 globalMin, out Vector3 globalMax)
+        //{
+        //    globalMin = apxVehicleCollider.bounds.min;
+        //    globalMax = apxVehicleCollider.bounds.max;
+
+        //    globalMin += transform.position;
+        //    globalMin += transform.position;
+        //}
 
         IEnumerator BreakVehicle()
         {

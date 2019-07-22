@@ -5,6 +5,7 @@ namespace SD.Weapons
     [CreateAssetMenu(menuName = "Weapon Data", order = 51)]
     class WeaponData : ScriptableObject
     {
+        // common
         [SerializeField] WeaponIndex        weaponIndex;
         [SerializeField] string             weaponEditorName;
         [SerializeField] string             weaponName;
@@ -17,18 +18,29 @@ namespace SD.Weapons
 
         [SerializeField] float              damage;        // in health points
         [SerializeField] float              reloadingTime; // in seconds
-        [SerializeField] float              accuracy;      // accuracy in percents
 
-        public WeaponIndex Index => weaponIndex;
-        //public string EditorName => weaponEditorName;
-        public string Name => weaponName;
-        public Sprite Icon => icon;
-        public AmmunitionType AmmoType => ammoType;
-        public int Cost => cost;
-        public int Durability => durability;
-        public float Damage => damage;
-        public float ReloadingTime => reloadingTime;
-        public float Accuracy => accuracy;
+        // for hitscan
+        [SerializeField] float              accuracy;      // accuracy in [0..1]
+
+        // for missiles
+        [SerializeField] string             missileName;
+        
+
+        public WeaponIndex      Index => weaponIndex;
+        //public string         EditorName => weaponEditorName;
+        public string           Name => weaponName;
+        public Sprite           Icon => icon;
+        public AmmunitionType   AmmoType => ammoType;
+        public int              Cost => cost;
+        public int              Durability => durability;
+        public float            Damage => damage;
+        public float            ReloadingTime => reloadingTime;
+        /// <summary>
+        /// Accuracy in [0..1].
+        /// '1' means perfect accuracy.
+        /// </summary>
+        public float            Accuracy => accuracy;
+        public string           MissileName => missileName;
 
         public float GetFireRate()
         {

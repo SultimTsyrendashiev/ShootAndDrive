@@ -40,5 +40,12 @@ namespace SD.Background
 
             return new Vector2(left, right);
         }
+
+        public float GetMinZ()
+        {
+            float center = transform.position.z;
+
+            return center - length / 2;
+        }
     }
 }

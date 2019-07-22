@@ -22,3 +22,4 @@ MonoBehaviour:
   damage: 400
   reloadingTime: 1.25
   accuracy: 0
+  missileName: MissileRocket

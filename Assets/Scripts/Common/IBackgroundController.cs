@@ -25,5 +25,11 @@ namespace SD
         /// </summary>
         /// <param name="camera position"></param>
         void UpdateCameraPosition(Vector3 cameraPosition);
+
+        /// <summary>
+        /// Is this box is out of bounds?
+        /// Note: checks only oldest block
+        /// </summary>
+        bool IsOut(Vector3 min, Vector3 max);
     }
 }

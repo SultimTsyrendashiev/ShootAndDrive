@@ -6,20 +6,20 @@ namespace SD.UI
     class UIController : MonoBehaviour
     {
         [SerializeField]
-        private GameObject hud;
+        GameObject hud;
         [SerializeField]
-        private GameObject interactive;
+        GameObject interactive;
         [SerializeField]
-        private GameObject weaponSelection;
+        GameObject weaponSelection;
         [SerializeField]
-        private GameObject pauseMenu;
+        GameObject pauseMenu;
 
         MovementInputType movementInputType;
 
         [SerializeField]
-        private GameObject movementField;
+        GameObject movementField;
         [SerializeField]
-        private GameObject movementButtons;
+        GameObject movementButtons;
 
         [SerializeField]
         Text currentAmmoText;

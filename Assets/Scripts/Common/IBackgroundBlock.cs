@@ -7,13 +7,13 @@ namespace SD
     /// </summary>
     interface IBackgroundBlock
     {
-        float       Length { get; }
-        Vector3     Center { get; }
+        float Length { get; }
+        Vector3 Center { get; }
 
         /// <summary>
         /// For block allocating
         /// </summary>
-        GameObject  CurrentObject { get; }
+        GameObject CurrentObject { get; }
 
         /// <summary>
         /// Get block's horizontal bounds in world space
@@ -22,11 +22,16 @@ namespace SD
         /// x is a left bound,
         /// y is a right bound
         /// </returns>
-        Vector2     GetHorizontalBounds();
+        Vector2 GetHorizontalBounds();
 
         /// <summary>
         /// Does this block contain a point?
         /// </summary>
-        bool        Contains(Vector3 position);
-}
+        bool Contains(Vector3 position);
+
+        /// <summary>
+        /// Get min on z axis
+        /// </summary>
+        float GetMinZ();
+    }
 }

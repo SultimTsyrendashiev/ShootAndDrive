@@ -16,9 +16,10 @@ MonoBehaviour:
   vehicleMark: 
   vehicleModel: 
   vehicleType: Coupe
-  speed: 10
+  speed: 20
   brakingTime: 10
-  startHealth: 110
+  startHealth: 80
+  collisionDamage: 0
   score: 630
   explosionName: Explosion
   hitParticlesName: Sparks

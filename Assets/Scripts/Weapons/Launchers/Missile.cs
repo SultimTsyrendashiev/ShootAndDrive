@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
@@ -13,13 +13,18 @@ namespace SD.Weapons
         public string               ExplosionName = "Explosion";
 
         [SerializeField]
-        float               lifetime = 5;
+        float                       lifetime = 5;
 
-        // Entity that launched this missile
-        GameObject          owner;
-        Rigidbody           rb;
-        float               damageValue;
-        float               damageRadius;
+        // entity that launched this missile
+        GameObject                  owner;
+        // damage value, set by owner
+        float                       damageValue;
+
+        [SerializeField]
+        float                       damageRadius;
+
+        [SerializeField]
+        float                       maxAngularSpeed = 100;
 
         public GameObject           ThisObject => gameObject;
         public PooledObjectType     Type => PooledObjectType.Important;
@@ -29,12 +34,21 @@ namespace SD.Weapons
 
         float IDamageable.Health => 1;
 
+        protected Rigidbody PhysicsModel { get; private set; }
+
         public void Init()
         {
-            rb = GetComponent<Rigidbody>();
+            PhysicsModel = GetComponent<Rigidbody>();
+            MissileInit();
         }
 
-        public void Reinit() { }
+        public void Reinit()
+        {
+            MissileReinit();
+        }
+
+        protected virtual void MissileReinit() { }
+        protected virtual void MissileInit() { }
 
         /// <summary>
         /// Set parameters of this missile.
@@ -43,30 +57,44 @@ namespace SD.Weapons
         /// detection with owner object
         /// </summary>
         /// <param name="owner">owner object (player, enemy, etc)</param>
-        public void Set(float damageValue, float damageRadius, GameObject owner)
+        public void Set(float damageValue, GameObject owner)
         {
             this.damageValue = damageValue;
-            this.damageRadius = damageRadius;
             this.owner = owner;
 
             // ignore collision with owner to prevent instant explosion
             IgnoreCollisionWithOwner(true);
         }
 
-        public void Launch(float missileSpeed)
+        public virtual void Launch(float missileSpeed)
         {
-            rb.velocity = transform.forward * missileSpeed;
+            PhysicsModel.velocity = transform.forward * missileSpeed;
             StartCoroutine(WaitToDisable());
+
+            if (maxAngularSpeed > 0)
+            {
+                PhysicsModel.angularVelocity = Random.onUnitSphere * Random.Range(-maxAngularSpeed, maxAngularSpeed);
+            }
         }
 
-        void FixedUpdate()
-        {
-            // just make sure that missile's rotation is correct
-            transform.forward = rb.velocity;
-        }
+        //void FixedUpdate()
+        //{
+        //    // just make sure that missile's rotation is correct
+        //    transform.forward = PhysicsModel.velocity;
+        //}
 
-        protected void Explode(Vector3 position, Collider ignore)
+
+        /// <summary>
+        /// Explode this missile
+        /// </summary>
+        /// <param name="position">position of explosion</param>
+        /// <param name="ignore">what collider to ignore</param>
+        /// <param name="disableAfterExplosion">should game object be deactivated after explosion?</param>
+        /// <param name="list"> list of all IDamageables that were wounded. Note: it will be cleared</param>
+        /// <returns>damage that was sended</returns>
+        protected Damage Explode(Vector3 position, Collider ignore, bool disableAfterExplosion = true, List<IDamageable> list = null)
         {
+            // stop waiting for lifetime explosion
             StopAllCoroutines();
 
             // disable, as there can be different owners after explosion
@@ -74,6 +102,8 @@ namespace SD.Weapons
 
             // foreach collider apply damage
             Collider[] cs = Physics.OverlapSphere(position, damageRadius, explosionMask.value);
+
+            list?.Clear();
 
             Damage dmg;
             Debug.Assert(DamageType == DamageType.Explosion || DamageType == DamageType.Fire, "Wrong damage type", this);
@@ -99,20 +129,38 @@ namespace SD.Weapons
                     continue;
                 }
 
-                IDamageable d = c.gameObject.GetComponent<IDamageable>();
-                
+                IDamageable d = c.GetComponent<IDamageable>();
+
                 if (d != null)
                 {
+                    print(d);
+
                     d.ReceiveDamage(dmg);
+
+                    // add to list if exist
+                    list?.Add(d);
                 }
             }
+
+            //if (list != null)
+            //{
+            //    foreach (var d in list)
+            //    {
+            //        d.ReceiveDamage(dmg);
+            //    }
+            //}
 
             if (ExplosionName.Length > 0)
             {
                 ParticlesPool.Instance.Play(ExplosionName, position, Quaternion.identity);
             }
 
-            gameObject.SetActive(false);
+            if (disableAfterExplosion)
+            {
+                gameObject.SetActive(false);
+            }
+
+            return dmg;
         }
 
         /// <summary>

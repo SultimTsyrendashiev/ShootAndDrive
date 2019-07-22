@@ -18,7 +18,8 @@ MonoBehaviour:
   icon: {fileID: 0}
   ammoType: 2
   cost: 13000
-  durability: 4200
-  damage: 20
+  durability: 5400
+  damage: 18
   reloadingTime: 0.08
-  accuracy: 0.2
+  accuracy: 0.83
+  missileName: 

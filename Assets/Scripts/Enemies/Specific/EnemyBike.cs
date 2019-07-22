@@ -3,11 +3,8 @@ using UnityEngine;
 
 namespace SD.Enemies
 {
-    class EnemySedan : EnemyVehicle
+    class EnemyBike : EnemyVehicle
     {
-        [SerializeField]
-        float deathTorque;
-
         Vector3 velocity;
 
         protected override void Activate()
@@ -33,31 +30,22 @@ namespace SD.Enemies
             VehicleRigidbody.velocity = velocity;
 
             // and add random torque
-            float maxTorque = deathTorque;
-            float t = Random.Range(-maxTorque, maxTorque);
+            const float maxTorqueX = 5;
 
-            VehicleRigidbody.AddTorque(t * VehicleRigidbody.mass * transform.up, ForceMode.Impulse);
+            const float minTorqueY = -20;
+            const float maxTorqueY = 14;
+
+            float horizontal = Random.Range(-maxTorqueX, maxTorqueX);
+            float vertical = -Random.Range(minTorqueY, maxTorqueY);
+
+            float mass = VehicleRigidbody.mass;
+            VehicleRigidbody.AddTorque(horizontal * mass * transform.up, ForceMode.Impulse);
+            VehicleRigidbody.AddTorque(vertical * mass * transform.right, ForceMode.Impulse);
         }
 
         protected override void DoVehicleCollision()
         {
             KillAllPassengers();
         }
-
-        //IEnumerator StopVehicle()
-        //{
-        //    const float stopEpsilon = 0.1f;
-
-        //    float brakeTime = Data.BrakingTime;
-        //    Vector3 velocity = VehicleRigidbody.velocity;
-
-        //    while (velocity.sqrMagnitude > stopEpsilon)
-        //    {
-        //        velocity = Vector3.Lerp(velocity, Vector3.zero, Time.fixedDeltaTime / brakeTime);
-        //        VehicleRigidbody.velocity = velocity;
-
-        //        yield return new WaitForFixedUpdate();
-        //    }
-        //}
     }
 }

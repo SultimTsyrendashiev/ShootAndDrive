@@ -16,7 +16,7 @@ namespace SD
 
         public static IObjectPool Instance { get; private set; }
 
-        void Awake()
+        public void Init()
         {
             Debug.Assert(Instance == null, "Several object pools", this);
             Instance = this;
@@ -35,7 +35,7 @@ namespace SD
         public void Register(GameObject prefab)
         {
             var pooled = prefab.GetComponent<IPooledObject>();
-            Debug.Assert(pooled != null, "Prefab must contain 'IPooledObject' component", this);
+            Debug.Assert(pooled != null, "Prefab must contain 'IPooledObject' component", prefab);
 
             AllocatedPrefab ap = new AllocatedPrefab(transform, pooled);
             allocated.Add(prefab.name, ap);
@@ -54,9 +54,6 @@ namespace SD
         {
             GameObject result = GetObject(name);
             result.transform.position = position;
-
-            // get rotation from prefab
-            result.transform.rotation = allocated[name].Prefab.ThisObject.transform.rotation;
 
             return result;
         }

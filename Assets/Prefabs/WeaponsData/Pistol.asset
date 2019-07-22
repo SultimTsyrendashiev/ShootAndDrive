@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5026c6e53765a4692e8c121ecab09e, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: 
+  weaponIndex: 0
   weaponEditorName: Pistol
   weaponName: Pistol
   icon: {fileID: 0}
@@ -20,4 +21,5 @@ MonoBehaviour:
   durability: 1500
   damage: 10
   reloadingTime: 0.2
-  accuracy: 0.2
+  accuracy: 0.92
+  missileName: 

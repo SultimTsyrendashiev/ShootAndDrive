@@ -13,10 +13,6 @@ namespace SD.Weapons
     class MissileLauncher : Weapon
     {
         [SerializeField]
-        protected string MissileName;
-        [SerializeField]
-        private float damageRadius;
-        [SerializeField]
         private float launchSpeed;
 
         [SerializeField]
@@ -30,13 +26,13 @@ namespace SD.Weapons
         void Start()
         {
             missileSpawn = FindChildByName("MissileSpawn");
-            Debug.Assert(damageRadius >= 0.0f, "Radius must be >= 0", this);
         }
 
         protected override void PrimaryAttack()
         {
             // main
             SpawnMissile();
+            ReduceAmmo();
 
             // effects
             PlayPrimaryAnimation();
@@ -52,6 +48,8 @@ namespace SD.Weapons
             // reset spawn transform's rotation,
             // set max speed
             missileSpawn.rotation = Owner.transform.rotation;
+            missileSpawn.localEulerAngles += new Vector3(-30,0,0);
+
             float speed = launchSpeed;
 
             // find target
@@ -78,10 +76,10 @@ namespace SD.Weapons
             // if cant find target, so launch at max speed
             // in default direction
 
-            GameObject missileObj = ObjectPool.Instance.GetObject(MissileName, missileSpawn.position, missileSpawn.rotation);
+            GameObject missileObj = ObjectPool.Instance.GetObject(Data.MissileName, missileSpawn.position, missileSpawn.rotation);
 
             Missile missile = missileObj.GetComponent<Missile>();
-            missile.Set(DamageValue, damageRadius, Owner);
+            missile.Set(DamageValue, Owner);
             missile.Launch(speed);
         }
     }

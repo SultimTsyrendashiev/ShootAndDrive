@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace SD
@@ -17,9 +17,9 @@ namespace SD
         /// </summary>
         /// <param name="names">enemies' names in object pool</param>
         /// <param name="position">where to start</param>
-        /// <param name="playerDir">player's direction</param>
+        /// <param name="player">player's transform, used for forward and right vectors</param>
         /// <param name="bounds">bounds of background block; enemies must be spawned in this bounds</param>
         /// <returns></returns>
-        void Spawn(Vector3 position, Vector3 playerDir, Vector2 bounds);
+        void Spawn(Vector3 position, Transform player, Vector2 bounds, ICollection<ISpawnable> allSpawned);
     }
 }

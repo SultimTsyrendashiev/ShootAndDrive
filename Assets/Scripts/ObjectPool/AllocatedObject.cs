@@ -34,6 +34,10 @@ namespace SD.ObjectPooling
             }
         }
 
+        /// <summary>
+        /// Get object with default position and rotation
+        /// </summary>
+        /// <returns></returns>
         public GameObject GetObject()
         {
             int next = prevReturnedIndex + 1;
@@ -59,6 +63,10 @@ namespace SD.ObjectPooling
             // just return some object
 
             prevReturnedIndex = next;
+
+            // set default rotation and position
+            nextObj.transform.position = prefab.ThisObject.transform.position;
+            nextObj.transform.rotation = prefab.ThisObject.transform.rotation;
 
             // reinit when get object from pool
             nextPooled.Reinit();

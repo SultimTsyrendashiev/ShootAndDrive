@@ -11,13 +11,14 @@ GameObject:
   - component: {fileID: 2799155023791814180}
   - component: {fileID: 1190007417896338484}
   - component: {fileID: 1190007417896338485}
+  - component: {fileID: 9090424262129550061}
   m_Layer: 0
   m_Name: EnemyVan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2799155023791814180
 Transform:
   m_ObjectHideFlags: 0
@@ -67,6 +68,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &9090424262129550061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190007417896338487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a78792a6dde2d4446a73dc4aeb28fe1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: f8c6cc18b1d4a3447bc2ad04f804e394, type: 2}
 --- !u!1 &4319389426916017283
 GameObject:
   m_ObjectHideFlags: 0
@@ -1344,7 +1358,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7179349578381798083}
-  - component: {fileID: 7179349578381798081}
+  - component: {fileID: 2993470779388575982}
   - component: {fileID: 7179349578381798080}
   m_Layer: 8
   m_Name: CarCollider
@@ -1367,7 +1381,7 @@ Transform:
   m_Father: {fileID: 2799155023791814180}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!114 &7179349578381798081
+--- !u!114 &2993470779388575982
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1376,7 +1390,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7179349578381798082}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e61dbd59da30d24f90291c95e33ea3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 835931103d63c624aa5029132b3d7f3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!64 &7179349578381798080

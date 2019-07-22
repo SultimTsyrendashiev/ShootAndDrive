@@ -4885,6 +4885,10 @@ MonoBehaviour:
     m_Bits: 256
   ExplosionName: Fire
   lifetime: 5
+  damageRadius: 5
+  fireDamageTime: 2
+  fireDamageRate: 0.075
+  fireParticlesName: Fire
 --- !u!136 &5195874575366381248
 CapsuleCollider:
   m_ObjectHideFlags: 0

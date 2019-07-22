@@ -22,3 +22,4 @@ MonoBehaviour:
   damage: 50
   reloadingTime: 1
   accuracy: 0
+  missileName: MissileFireBottle

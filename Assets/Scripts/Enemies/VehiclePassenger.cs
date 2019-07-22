@@ -13,7 +13,7 @@ namespace SD.Enemies
     }
 
     [RequireComponent(typeof(Collider))]
-    class VehiclePassenger : MonoBehaviour, IDamageable
+    class VehiclePassenger : MonoBehaviour, IDamageable, IAttackable
     {
         [SerializeField]
         EnemyData               data;
@@ -31,8 +31,8 @@ namespace SD.Enemies
         // Current target of this passenger
         Transform target;
 
-        public PassengerState   State { get; private set; }
-        public float            Health { get; private set; }
+        public PassengerState State { get; private set; }
+        public float Health { get; private set; }
 
         /// <summary>
         /// Called on death, sends info about this enemy
@@ -57,10 +57,7 @@ namespace SD.Enemies
             Health = data.StartHealth;
             State = PassengerState.Active;
 
-            if (target != null)
-            {
-                StartAttack();
-            }
+            TryToStartAttack();
         }
 
         /// <summary>
@@ -115,7 +112,7 @@ namespace SD.Enemies
                 // return state and start attacking 
                 // after receiving damage
                 State = PassengerState.Active;
-                StartAttack();
+                TryToStartAttack();
             }
             else // death
             {
@@ -139,21 +136,23 @@ namespace SD.Enemies
             }
         }
 
-        void StartAttack()
+        bool TryToStartAttack()
         {
             if (!data.CanAttack)
             {
-                return;
+                return false;
             }
 
             if (target == null)
             {
-                return;
+                return false;
             }
 
             // this coroutine will be disabled when
             // passenger will receive damage
             attackCoroutine = StartCoroutine(WaitForAttack());
+
+            return true;
         }
 
         IEnumerator WaitForAttack()
@@ -168,7 +167,7 @@ namespace SD.Enemies
                 yield return new WaitForSeconds(Random.Range(timeBetweenRounds[0], timeBetweenRounds[1]));
              
                 // must be active
-                if (State != PassengerState.Active)
+                if (State != PassengerState.Active && target != null)
                 {
                     yield break;
                 }
@@ -178,8 +177,13 @@ namespace SD.Enemies
 
                 for (int i = 0; i < shotsAmount; i++)
                 {
-                    Vector3 direction = target.position - projectileSpawn.position;
-                    direction.Normalize();
+                    // always check for state and target
+                    if (State != PassengerState.Attacking && target != null)
+                    {
+                        yield break;
+                    }
+
+                    Vector3 direction = AimToTarget(i);
 
                     ObjectPool.Instance.GetObject(projectileName, projectileSpawn.position, direction);
 
@@ -191,22 +195,58 @@ namespace SD.Enemies
             }
         }
 
+        Vector3 AimToTarget(int shotIndex)
+        {
+            Debug.Assert(target != null, "This method must not be called when target is null", this);
+
+            //Vector3 direction = target.position - projectileSpawn.position;
+
+            Vector3 direction = target.position - projectileSpawn.position;
+            direction.Normalize();
+
+            const float angleBetweenShots = 2.5f;
+            int amount = data.ShotsAmount - 1;
+
+            // [0..1]
+            float anglex = (float)shotIndex / amount;
+            // [-1..1]
+            anglex = anglex * 2 - 1;
+
+            anglex *= angleBetweenShots;
+
+            // apply angle
+            direction = Quaternion.AngleAxis(anglex, transform.up)
+                * direction;
+
+            return direction;
+        }
+
         public void Kill()
         {
+            if (Health <= 0)
+            {
+                return;
+            }
+
             Damage fatalDamage = Damage.CreateBulletDamage(Health,
                     transform.forward, transform.position, transform.forward, gameObject);
 
             ReceiveDamage(fatalDamage);
         }
 
-        internal void SetTarget(Transform target)
+        /// <summary>
+        /// Set target for this passenger.
+        /// If target is null, 
+        /// </summary>
+        public void SetTarget(Transform target)
         {
             this.target = target;
 
-            // start if object is enabled and ready
+            // start if object is enabled and ready,
+            // try to start attack
             if (State == PassengerState.Active)
             {
-                StartAttack();
+                TryToStartAttack();
             }
         }
     }

@@ -3,6 +3,7 @@ using SD.PlayerLogic;
 using SD.Weapons;
 using SD.Enemies.Spawner;
 using SD.Background;
+using System;
 
 namespace SD
 {
@@ -23,15 +24,42 @@ namespace SD
         {
             Application.targetFrameRate = 60;
 
+            Init();
+            SignToEvents();
+        }
+
+        void SignToEvents()
+        {
+            CurrentPlayer.OnPlayerDeath += ProcessPlayerDeath;
+        }
+
+        void ProcessPlayerDeath(GameScore score)
+        {
+            // TODO: 
+            // 1) death screen, wait 1 sec;
+            // on tap - skip waiting;
+            // 2) show menu: score, menu, restart
+        }
+
+
+        /// <summary>
+        /// Init all systems
+        /// </summary>
+        void Init()
+        {
+            // TODO:
+            // in 'Init' method of each IPooledObject must not be references to next systems
+            InitPools();
+
             // independent
             InitWeaponsStats();
-            // independent
+            // independent (depends on ObjectPool)
             InitBackground();
             // independent
             InitEnemySpawners();
-
-            // depends on background (for vehicle)
+            // independent
             InitPlayer();
+            
             // depends on player and weapons
             InitUI();
 
@@ -39,9 +67,18 @@ namespace SD
             InitPlayerInventory();
         }
 
+        void InitPools()
+        {
+            ObjectPool objectPool = FindObjectOfType<ObjectPool>();
+            ParticlesPool particlesPool = FindObjectOfType<ParticlesPool>();
+
+            objectPool.Init();
+            particlesPool.Init();
+        }
+
         void Start()
         {
-            const float startSpawnerDistance = 50;
+            const float startSpawnerDistance = 100;
 
             spawnersController.StartCoroutine(spawnersController.StartSpawn(
                 CurrentPlayer.transform.position + CurrentPlayer.transform.forward * startSpawnerDistance,

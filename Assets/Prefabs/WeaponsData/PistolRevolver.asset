@@ -19,6 +19,6 @@ MonoBehaviour:
   ammoType: 1
   cost: 5000
   durability: 650
-  damage: 20
+  damage: 25
   reloadingTime: 0.6
-  accuracy: 0.02
+  accuracy: 0.98

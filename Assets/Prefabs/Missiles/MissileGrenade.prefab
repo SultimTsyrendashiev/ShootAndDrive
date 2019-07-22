@@ -51,6 +51,7 @@ MonoBehaviour:
     m_Bits: 256
   ExplosionName: Explosion
   lifetime: 5
+  damageRadius: 5
 --- !u!135 &672987870569055847
 SphereCollider:
   m_ObjectHideFlags: 0

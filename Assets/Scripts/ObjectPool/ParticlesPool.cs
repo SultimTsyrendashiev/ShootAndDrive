@@ -16,7 +16,7 @@ namespace SD
 
         public static IParticlesPool Instance { get; private set; }
 
-        void Awake()
+        public void Init()
         {
             Debug.Assert(Instance == null, "Several particle pools", this);
             Instance = this;

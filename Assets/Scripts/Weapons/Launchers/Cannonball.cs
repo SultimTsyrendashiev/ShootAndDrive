@@ -7,11 +7,18 @@ namespace SD.Weapons
     /// </summary>
     class Cannonball : Missile
     {
+        const float speedEpsilon = 1;
+
         [SerializeField]
         string sparksName = "Sparks";
      
         void OnTriggerEnter(Collider col)
         {
+            if (PhysicsModel.velocity.sqrMagnitude < speedEpsilon * speedEpsilon)
+            {
+                return;
+            }
+
             // on contact damageable take full damage
             ApplyFullDamage(col);
         }

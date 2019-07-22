@@ -5,7 +5,7 @@ namespace SD
     interface IObjectPool
     {
         /// <summary>
-        /// Get object with undefined position and rotation
+        /// Get object with default rotation and position
         /// </summary>
         GameObject GetObject(string name);
 

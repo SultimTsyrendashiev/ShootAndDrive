@@ -14,6 +14,8 @@ namespace SD.Weapons
     /// </summary>
     class WeaponsController : MonoBehaviour
     {
+        bool                playerIsActive;
+
         WeaponsHolder       inventoryWeapons;   // weapons in player's inventory
         Dictionary<WeaponIndex, Weapon> weapons; // actual weapons in a scene
 
@@ -38,7 +40,8 @@ namespace SD.Weapons
         public Player CurrentPlayer { get; private set; }
         public AllWeaponsStats Stats { get; private set; }
         public static WeaponsController Instance { get; private set; }
-
+     
+        #region init
         void Awake()
         {
             Instance = this;
@@ -46,6 +49,7 @@ namespace SD.Weapons
 
         public void Init(Player player)
         {
+            playerIsActive = true;
             CurrentPlayer = player;
 
             // init weapons
@@ -88,19 +92,43 @@ namespace SD.Weapons
 
             // events
             Weapon.OnWeaponBreak += ProcessWeaponBreak;
+            CurrentPlayer.OnPlayerStateChange += ProcessPlayerStateChange;
 
             // set parameters for weapons particles
             InitParticles();
+        }
+        #endregion
+
+        private void ProcessPlayerStateChange(PlayerState state)
+        {
+            switch(state)
+            {
+                case PlayerState.Dead:
+                case PlayerState.Regenerating:
+                    HideWeapon();
+                    playerIsActive = false;
+                    break;
+                case PlayerState.Ready:
+                    playerIsActive = true;
+                    TakeOutWeapon();
+                    break;
+            }
         }
 
         void OnDestroy()
         {
             // unsign from events to enable GC
             Weapon.OnWeaponBreak -= ProcessWeaponBreak;
+            CurrentPlayer.OnPlayerStateChange -= ProcessPlayerStateChange;
         }
 
         public void Fire()
         {
+            if (!playerIsActive)
+            {
+                return;
+            }
+
             if (!currentWeapon.Exist)
             {
                 return;
@@ -134,7 +162,7 @@ namespace SD.Weapons
         IEnumerator WaitForFire(Weapon w)
         {
             // while player is holding fire button
-            while (InputController.FireButton)
+            while (InputController.FireButton && playerIsActive)
             {
                 // if ready, then shoot
                 if (w.State == WeaponState.Ready)
@@ -164,6 +192,11 @@ namespace SD.Weapons
         /// </summary>
         public void TakeOutWeapon()
         {
+            if (!playerIsActive)
+            {
+                return;
+            }
+
             // ignore if current weapon will change
             if (isSwitching)
             {
@@ -232,6 +265,11 @@ namespace SD.Weapons
 
         public void SwitchTo(WeaponIndex w)
         {
+            if (!playerIsActive)
+            {
+                return;
+            }
+
             // if there is current weapon,
             // don't switch to same weapon
             if (currentWeapon.Exist && currentWeapon.Value == w)

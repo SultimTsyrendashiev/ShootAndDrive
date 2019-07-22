@@ -12,18 +12,31 @@ namespace SD.Enemies.Spawner
         public const string EnemyTruck  = "EnemyTruck";
         public const string EnemyVan    = "EnemyVan";
 
-        const float DistanceBetweenSpawners = 40;
+        const float DistanceBetweenSpawners = 50;
 
-        List<ISpawner>  spawners;
-        //Queue<int>      spawnersQueue; // holds indices to the list
-        Vector3         lastPosition;
+        // all spawned enemies by this class,
+        // used for checking out of bounds of background
+        LinkedList<ISpawnable>  spawnedObjects;
+
+        List<ISpawner>          spawners;
+        //Queue<int>            spawnersQueue; // holds indices to the list
+        Vector3                 lastPosition;
+
+        IBackgroundController background;
 
         public void Init()
         {
             spawners = new List<ISpawner>();
             //spawnersQueue = new Queue<int>();
 
+            spawnedObjects = new LinkedList<ISpawnable>();
+
             AddSpawners();
+        }
+
+        void Start()
+        {
+            background = FindObjectOfType<Background.BackgroundController>();
         }
 
         /// <summary>
@@ -31,7 +44,7 @@ namespace SD.Enemies.Spawner
         /// </summary>
         void AddSpawners()
         {
-            spawners.Add(new RandomSpawner());
+            spawners.Add(new RandomSpawner(background));
         }
 
         ///// <summary>
@@ -51,9 +64,7 @@ namespace SD.Enemies.Spawner
         /// <returns></returns>
         public IEnumerator StartSpawn(Vector3 position, Transform player)
         {
-            var background = FindObjectOfType<Background.BackgroundController>();
             Vector3 currentPos = position;
-            Vector3 playerForward = player.forward;
 
             while (true)
             {
@@ -70,13 +81,16 @@ namespace SD.Enemies.Spawner
                     // TODO: delete
                     Vector2 bounds = new Vector2(-7, 7);
 
-                    spawner.Spawn(currentPos, playerForward, bounds);
+                    spawner.Spawn(currentPos, player, bounds, spawnedObjects);
 
                     // to the next spawner point
                     float d = spawner.Distance + DistanceBetweenSpawners;
 
-                    currentPos += playerForward * d;
+                    currentPos += player.forward * d;
                 }
+
+                // return to pool, if out of background
+                DisableUnused();
 
                 // wait and then check again
                 yield return null;
@@ -86,6 +100,41 @@ namespace SD.Enemies.Spawner
         public void Stop()
         {
             StopAllCoroutines();
+        }
+
+        /// <summary>
+        /// Disable objects if they are out of background
+        /// </summary>
+        public void DisableUnused()
+        {
+            if (spawnedObjects.Count == 0)
+            {
+                return;
+            }
+
+            LinkedListNode<ISpawnable> node = spawnedObjects.First;
+
+            // backward as items are removed while iterating over list
+            do
+            {
+                LinkedListNode<ISpawnable> next = node.Next;
+                ISpawnable s = node.Value;
+
+                s.GetExtents(out Vector3 min, out Vector3 max);
+
+                // check, if out of background
+                if (background.IsOut(s.Position + min, s.Position + max))
+                {
+                    // return to object pool
+                    s.Return();
+
+                    // remove from active
+                    spawnedObjects.Remove(node);
+                }
+
+                node = next;
+
+            } while (node != null);
         }
     }
 }

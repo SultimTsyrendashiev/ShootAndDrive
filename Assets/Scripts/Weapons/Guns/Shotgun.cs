@@ -4,8 +4,6 @@ namespace SD.Weapons
 {
     class Shotgun : HitscanWeapon
     {
-        const float AccuracyMultiplier = 8;
-
         [SerializeField]
         private int pelletCount = 7;
         [SerializeField]
@@ -17,14 +15,14 @@ namespace SD.Weapons
             Vector3 aimedDir;
             Autoaim.Aim(AimTransform.position, AimTransform.forward, AimRadius, out aimedDir, Range, AutoaimLayerMask);
 
-            float rangey = 0.3f * Accuracy;
+            float rangey = 1 - Accuracy;
+            rangey *= MaxAngleY;
 
             float deltax = 2 * Accuracy / pelletCount;
             float basex = -Accuracy;
 
-            rangey *= AccuracyMultiplier;
-            deltax *= AccuracyMultiplier;
-            basex *= AccuracyMultiplier;
+            deltax *= MaxAngleX;
+            basex *= MaxAngleX;
 
             for (int i = 0; i < pelletCount; i++)
             {

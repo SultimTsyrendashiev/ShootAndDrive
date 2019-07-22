@@ -69,17 +69,20 @@ namespace SD.Weapons
         #endregion
 
         #region weapon item properties
+        public WeaponData       Data { get; private set; }
+
         public WeaponIndex      WeaponIndex { get; private set; }
         public string           Name { get; private set; }
         public float            DamageValue { get; private set; }
         public AmmunitionType   AmmoType { get; private set; }
         public float            ReloadingTime { get; private set; }
         /// <summary>
-        /// Health in percents: [0,1]
+        /// Health in [0..1]
         /// </summary>
         public float            Health => (float)refHealth.Value / Durability;
         /// <summary>
-        /// Accuracy in percents
+        /// Accuracy in [0..1].
+        /// '1' means perfect accuracy.
         /// </summary>
         public float            Accuracy { get; private set; }
         public bool             IsBroken => refHealth.Value <= 0;
@@ -109,6 +112,8 @@ namespace SD.Weapons
             item = playerItem;
 
             // load info
+            Data = item.Stats;
+
             Name = item.Stats.Name;
             WeaponIndex = item.This;
 
@@ -409,7 +414,6 @@ namespace SD.Weapons
             //   everything else is same as primary
 
             PrimaryAttack();
-            ReduceAmmo();
 
             // wait for reload
             StartCoroutine(Wait(ReloadingTime, nextState));

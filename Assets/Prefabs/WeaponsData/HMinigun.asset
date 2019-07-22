@@ -21,4 +21,5 @@ MonoBehaviour:
   durability: 16000
   damage: 20
   reloadingTime: 0.04
-  accuracy: 0.4
+  accuracy: 0.6
+  missileName: 
