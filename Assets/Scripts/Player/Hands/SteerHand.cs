@@ -11,7 +11,7 @@ namespace SD.PlayerLogic
         /// Transform for finding steering wheel
         /// </summary>
         [SerializeField]
-        Transform player;
+        Player player;
 
         ISteeringWheel steeringWheel;
         Animation steerHandAnimation;
@@ -26,13 +26,18 @@ namespace SD.PlayerLogic
 
         void LateUpdate()
         {
-            // get steering from steering wheel
-            // and then sample hand animation
-            steerState.enabled = true;
-            steerState.weight = 1.0f;
-            steerState.normalizedTime = steeringWheel.SteeringNormalized;
+            // only if ready, otherwise dont sample animation,
+            // as steering hand is used
+            if (player.State == PlayerState.Ready)
+            {
+                // get steering from steering wheel
+                // and then sample hand animation
+                steerState.enabled = true;
+                steerState.weight = 1.0f;
+                steerState.normalizedTime = steeringWheel.SteeringNormalized;
 
-            steerHandAnimation.Sample();
+                steerHandAnimation.Sample();
+            }
         }
     }
 }

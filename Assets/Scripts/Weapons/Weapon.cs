@@ -5,9 +5,6 @@ using System.Collections.Generic;
 
 namespace SD.Weapons
 {
-    delegate void WeaponBreak(WeaponIndex brokenWeapon);
-    delegate void WeaponAmmoChange(int currentAmount);
-
     abstract class Weapon : MonoBehaviour
     {
         #region fields

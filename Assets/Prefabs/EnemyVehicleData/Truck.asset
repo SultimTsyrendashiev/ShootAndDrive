@@ -23,3 +23,4 @@ MonoBehaviour:
   score: 990
   explosionName: Explosion
   hitParticlesName: Sparks
+  wreckName: WreckTruck

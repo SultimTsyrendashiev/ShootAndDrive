@@ -5,18 +5,16 @@ using UnityEngine;
 
 namespace SD.PlayerLogic
 {
-    delegate void CollideVehicle(IVehicle other, float damage);
-
     [RequireComponent(typeof(Collider))]
     class PlayerVehicle : MonoBehaviour, IVehicle, IDamageable
     {
-        public const int MaxHealth = 1000;
+        public int      MaxHealth = 1000;
         // percentage of health when to start playing smoke particle system
-        const float PlaySmokeHealthPercentage = 0.2f;
-        const float SteeringEpsilon = 0.01f;
+        const float     PlaySmokeHealthPercentage = 0.2f;
+        const float     SteeringEpsilon = 0.01f;
 
-        public event FloatChange OnVehicleHealthChange;
-        public event FloatChange OnDistanceChange;
+        public event    FloatChange OnVehicleHealthChange;
+        public event    FloatChange OnDistanceChange;
 
         Transform       playerTransform;
         Rigidbody       playerRigidbody;

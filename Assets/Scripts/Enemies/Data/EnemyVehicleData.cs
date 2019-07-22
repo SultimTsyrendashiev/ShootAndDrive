@@ -16,6 +16,7 @@ namespace SD.Enemies
         [SerializeField] int        score;
         [SerializeField] string     explosionName = "Explosion";
         [SerializeField] string     hitParticlesName = "Sparks";
+        [SerializeField] string     wreckName;
 
         public string       CommonName => vehicleCommonName;
         public string       Mark => vehicleMark;
@@ -36,5 +37,6 @@ namespace SD.Enemies
         /// </summary>
         public string       ExplosionName => explosionName;
         public string       HitParticlesName => hitParticlesName;
+        public string       WreckName => wreckName;
     }
 }

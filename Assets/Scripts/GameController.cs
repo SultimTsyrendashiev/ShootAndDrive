@@ -3,18 +3,19 @@ using SD.PlayerLogic;
 using SD.Weapons;
 using SD.Enemies.Spawner;
 using SD.Background;
-using System;
+using SD.UI;
 
 namespace SD
 {
     class GameController : MonoBehaviour
     {
-        readonly Vector3 PlayerStartPoint = new Vector3(0,0,0);
+        readonly Vector3    PlayerStartPoint = new Vector3(0,0,0);
 
         [SerializeField]
-        GameObject playerPrefab;
+        GameObject          playerPrefab;
 
-        SpawnersController spawnersController;
+        SpawnersController  spawnersController;
+        UIController        ui;
 
         public Player               CurrentPlayer { get; private set; }
         public AllWeaponsStats      WeaponsStats { get; private set; }
@@ -31,6 +32,11 @@ namespace SD
         void SignToEvents()
         {
             CurrentPlayer.OnPlayerDeath += ProcessPlayerDeath;
+        }
+
+        void UnsignFromEvents()
+        {
+            CurrentPlayer.OnPlayerDeath -= ProcessPlayerDeath;
         }
 
         void ProcessPlayerDeath(GameScore score)
@@ -118,7 +124,7 @@ namespace SD
 
         void InitUI()
         {
-            var ui = FindObjectOfType<UI.UIController>();
+            ui = FindObjectOfType<UIController>();
             Debug.Assert(ui != null, "Can't find UIController", this);
 
             // depends on player and weapons
@@ -184,6 +190,8 @@ namespace SD
         {
             // save data from player's inventory
             CurrentPlayer.Inventory.Save();
+
+            UnsignFromEvents();
         }
     }
 }

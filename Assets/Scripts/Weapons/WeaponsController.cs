@@ -20,7 +20,7 @@ namespace SD.Weapons
         Dictionary<WeaponIndex, Weapon> weapons; // actual weapons in a scene
 
         Maybe<WeaponIndex>  currentWeapon;      // current player's weapon (if exist)
-        WeaponIndex         nextWeapon;         // weapon to switch on
+        Maybe<WeaponIndex>  nextWeapon;         // weapon to switch on
 
         AmmoHolder          inventoryAmmo;      // weapons in player's inventory
 
@@ -39,14 +39,8 @@ namespace SD.Weapons
         /// </summary>
         public Player CurrentPlayer { get; private set; }
         public AllWeaponsStats Stats { get; private set; }
-        public static WeaponsController Instance { get; private set; }
      
         #region init
-        void Awake()
-        {
-            Instance = this;
-        }
-
         public void Init(Player player)
         {
             playerIsActive = true;
@@ -89,13 +83,30 @@ namespace SD.Weapons
             isSwitching = false;
             canSwitchToAnotherNext = false;
             currentWeapon = new Maybe<WeaponIndex>();
+            nextWeapon = new Maybe<WeaponIndex>();
 
             // events
-            Weapon.OnWeaponBreak += ProcessWeaponBreak;
-            CurrentPlayer.OnPlayerStateChange += ProcessPlayerStateChange;
+            SignToEvents();
 
             // set parameters for weapons particles
             InitParticles();
+        }
+
+        void SignToEvents()
+        {
+            Weapon.OnWeaponBreak += ProcessWeaponBreak;
+            CurrentPlayer.OnPlayerStateChange += ProcessPlayerStateChange;
+            InputController.OnFireButton += Fire;
+            InputController.OnWeaponSwitch += SwitchTo;
+        }
+
+        void UnsignFromEvents()
+        {            
+            // unsign from events to enable GC
+            Weapon.OnWeaponBreak -= ProcessWeaponBreak;
+            CurrentPlayer.OnPlayerStateChange -= ProcessPlayerStateChange;
+            InputController.OnFireButton -= Fire;
+            InputController.OnWeaponSwitch -= SwitchTo;
         }
         #endregion
 
@@ -104,10 +115,22 @@ namespace SD.Weapons
             switch(state)
             {
                 case PlayerState.Dead:
+
+                    // just deactivate object
+                    if (currentWeapon.Exist)
+                    {
+                        Weapon current = weapons[currentWeapon.Value];
+                        current.gameObject.SetActive(false);
+                    }
+
+                    playerIsActive = false;
+                    break;
+
                 case PlayerState.Regenerating:
                     HideWeapon();
                     playerIsActive = false;
                     break;
+
                 case PlayerState.Ready:
                     playerIsActive = true;
                     TakeOutWeapon();
@@ -117,9 +140,7 @@ namespace SD.Weapons
 
         void OnDestroy()
         {
-            // unsign from events to enable GC
-            Weapon.OnWeaponBreak -= ProcessWeaponBreak;
-            CurrentPlayer.OnPlayerStateChange -= ProcessPlayerStateChange;
+            UnsignFromEvents();
         }
 
         public void Fire()
@@ -278,7 +299,7 @@ namespace SD.Weapons
             }
 
             // if next is already processing
-            if (nextWeapon == w)
+            if (nextWeapon.Exist && nextWeapon.Value == w)
             {
                 return;
             }
@@ -298,7 +319,8 @@ namespace SD.Weapons
             {
                 // just reassign next weapon
                 // and don't call WaitForSwitch()
-                nextWeapon = w;
+                nextWeapon.Exist = true;
+                nextWeapon.Value = w;
                 return;
             }
             else if (isSwitching && !canSwitchToAnotherNext)
@@ -315,7 +337,8 @@ namespace SD.Weapons
             // and 'canSwitchToAnotherNext' = 1
 
             // default
-            nextWeapon = w;
+            nextWeapon.Exist = true;
+            nextWeapon.Value = w;
             StartCoroutine(WaitForSwitch());
         }
 
@@ -356,12 +379,15 @@ namespace SD.Weapons
             canSwitchToAnotherNext = false;
 
             // enable next
-            weapons[nextWeapon].Enable();
+            weapons[nextWeapon.Value].Enable();
             commonAnimation.Play(animTakeOut);
 
             // set new current
             currentWeapon.Exist = true;
-            currentWeapon.Value = nextWeapon;
+            currentWeapon.Value = nextWeapon.Value;
+
+            // set next to default
+            nextWeapon.Exist = false;
 
             isSwitching = false;
         }
@@ -375,7 +401,8 @@ namespace SD.Weapons
             }
 
             // now it's safe to reassign 'nextWeapon'
-            nextWeapon = newNext;
+            nextWeapon.Exist = true;
+            nextWeapon.Value = newNext;
             StartCoroutine(WaitForSwitch());
         }
         

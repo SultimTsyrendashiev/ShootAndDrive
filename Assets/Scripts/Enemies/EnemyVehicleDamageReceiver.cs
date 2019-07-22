@@ -2,8 +2,6 @@
 
 namespace SD.Enemies
 {
-    delegate void VehicleDeath();
-
     [RequireComponent(typeof(Collider))]
     class EnemyVehicleDamageReceiver : MonoBehaviour, IDamageable
     {

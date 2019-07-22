@@ -2,13 +2,6 @@
 
 namespace SD.Enemies
 {
-    // common delegates
-    delegate void EnemyDied(EnemyData data);
-    delegate void VehicleDestroyed(EnemyVehicleData data);
-
-    // from passengers of vehicles
-    delegate void PassengerDied(EnemyData data);
-
     /// <summary>
     /// Represents enemy as vehicle with passengers.
     /// There must be vehicle damage receiver as a child object,
@@ -178,7 +171,13 @@ namespace SD.Enemies
 
             KillAllPassengers();
 
-            // generate explosiion
+            // generate wreck
+            if (!string.IsNullOrEmpty(data.WreckName))
+            {
+                ObjectPool.Instance.GetObject(data.WreckName, transform.position, transform.rotation);
+            }
+
+            // and explosion
             ParticlesPool.Instance.Play(data.ExplosionName, transform.position, transform.rotation);
 
             // call event

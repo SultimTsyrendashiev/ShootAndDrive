@@ -14,12 +14,14 @@ namespace SD.UI
 
     class InputController : MonoBehaviour
     {
-        UIController uiController;
+        UIController            uiController;
 
-        public static bool FireButton { get; private set; } = false;
-        public static float MovementHorizontal { get; private set; } = 0.0f;
+        public static bool      FireButton { get; private set; } = false;
+        public static float     MovementHorizontal { get; private set; } = 0.0f;
 
-        public delegate void RegenerateHealth();
+        public static event Void OnFireButton;
+        public static event WeaponSwitch OnWeaponSwitch;
+
         public static event RegenerateHealth OnHealthRegenerate;
 
         #region input in the editor
@@ -52,11 +54,13 @@ namespace SD.UI
 
             if (pressedLeft || pressedRight)
             {
-                if (!WeaponsController.Instance.IsBusy())
+                var w = FindObjectOfType<WeaponsController>();
+
+                if (!w.IsBusy())
                 {
-                    if (WeaponsController.Instance.GetCurrentWeapon(out WeaponIndex current))
+                    if (w.GetCurrentWeapon(out WeaponIndex current))
                     {
-                        if (WeaponsController.Instance.GetNextAvailable(current, out WeaponIndex available, pressedRight))
+                        if (w.GetNextAvailable(current, out WeaponIndex available, pressedRight))
                         {
                             SelectWeapon(available);
                         }
@@ -82,7 +86,7 @@ namespace SD.UI
             FireButton = true;
 
             // also call weapon controller
-            WeaponsController.Instance.Fire();
+            OnFireButton();
         }
 
         /// <summary>
@@ -170,7 +174,7 @@ namespace SD.UI
         /// </summary>
         public void SelectWeapon(WeaponIndex w)
         {
-            WeaponsController.Instance.SwitchTo(w);
+            OnWeaponSwitch(w);
         }
 #endregion
     }

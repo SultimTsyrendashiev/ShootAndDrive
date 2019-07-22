@@ -4,11 +4,6 @@ using SD.Weapons;
 
 namespace SD.PlayerLogic
 {
-    delegate void FloatChange(float f);
-    delegate void ScoreChange(GameScore score);
-    delegate void PlayerDeath(GameScore score);
-    delegate void PlayerStateChange(PlayerState state);
-
     /// <summary>
     /// Player class. There must be 
     /// 'PlayerVehicle' and 'PlayerDamageReceiver'
@@ -35,24 +30,23 @@ namespace SD.PlayerLogic
         public const float          MaxHealth = 100;
         #endregion
 
-        PlayerVehicle           playerVehicle;
-        ISteeringWheel          steeringWheel;
-        WeaponsController       weaponsController;
-        GameScore               currentScore;
+        ISteeringWheel              steeringWheel;
+        WeaponsController           weaponsController;
+        GameScore                   currentScore;
 
-        public Camera           MainCamera { get; private set; }
-        public PlayerInventory  Inventory { get; private set; }
-        public PlayerState      State { get; private set; }
-        public float            Health { get; private set; } = MaxHealth;
-        public GameScore        CurrentScore => currentScore;
-        public PlayerVehicle    Vehicle => playerVehicle;
+        public Camera               MainCamera { get; private set; }
+        public PlayerInventory      Inventory { get; private set; }
+        public PlayerState          State { get; private set; }
+        public float                Health { get; private set; } = MaxHealth;
+        public GameScore            CurrentScore => currentScore;
+        public PlayerVehicle        Vehicle { get; private set; }
 
         public event FloatChange    OnHealthChange;
         public event ScoreChange    OnScoreChange;
         public event PlayerDeath    OnPlayerDeath;
         public event PlayerStateChange OnPlayerStateChange;
 
-        #region init
+        #region init / destroy
         /// <summary>
         /// Init player. 'PlayerVehicle' depends
         /// on 'IBackgroundController'
@@ -61,26 +55,25 @@ namespace SD.PlayerLogic
         {
             MainCamera = GetComponentInChildren<Camera>();
 
-            playerVehicle = GetComponentInChildren<PlayerVehicle>(true);
-            Debug.Assert(playerVehicle != null, "There must be a 'PlayerVehicle' as child object", this);
+            Vehicle = GetComponentInChildren<PlayerVehicle>(true);
+            Debug.Assert(Vehicle != null, "There must be a 'PlayerVehicle' as child object", this);
 
-            playerVehicle.Init(this);
-            steeringWheel = playerVehicle.SteeringWheel;
+            Vehicle.Init(this);
+            steeringWheel = Vehicle.SteeringWheel;
 
             GetComponentInChildren<HandsController>(true).Init();
 
             // reset score
-            currentScore = new GameScore(PlayerVehicle.MaxHealth);
+            currentScore = new GameScore(Vehicle.MaxHealth);
 
             // sign to events
             Enemies.EnemyVehicle.OnEnemyDeath += AddEnemyScore;
             Enemies.EnemyVehicle.OnVehicleDestroy += AddEnemyVehicleScore;
             UI.InputController.OnHealthRegenerate += RegenerateHealth;
-            playerVehicle.OnVehicleCollision += CollideVehicle;
+            Vehicle.OnVehicleCollision += CollideVehicle;
 
             State = PlayerState.Ready;
         }
-
 
         /// <summary>
         /// Inits inventory and weapons
@@ -92,7 +85,6 @@ namespace SD.PlayerLogic
             weaponsController = GetComponentInChildren<WeaponsController>();
             weaponsController.Init(this);
         }
-        #endregion
 
         /// <summary>
         /// To enable GC
@@ -102,16 +94,23 @@ namespace SD.PlayerLogic
             Enemies.EnemyVehicle.OnEnemyDeath -= AddEnemyScore;
             Enemies.EnemyVehicle.OnVehicleDestroy -= AddEnemyVehicleScore;
             UI.InputController.OnHealthRegenerate -= RegenerateHealth;
-            playerVehicle.OnVehicleCollision -= CollideVehicle;
+            Vehicle.OnVehicleCollision -= CollideVehicle;
         }
 
         void OnDestroy()
         {
             UnsignFromEvents();
         }
+        #endregion
 
         public void UpdateInput(float horizonalAxis)
         {
+            // if regenerating, still can steer
+            if (State == PlayerState.Dead || State == PlayerState.Nothing)
+            {
+                return;
+            }
+
             // player must call steering wheel methods
             // to control vehicle
             steeringWheel.Steer(horizonalAxis);
@@ -146,11 +145,11 @@ namespace SD.PlayerLogic
             OnPlayerStateChange(State);
 
             // send player's score
-            currentScore.VehicleHealth = (int)playerVehicle.Health;
+            currentScore.VehicleHealth = (int)Vehicle.Health;
             OnPlayerDeath(CurrentScore);
 
             // TODO:
-            // play anim, sound
+            // sound
             CameraShaker.Instance.PlayAnimation(CameraShaker.CameraAnimation.Death);
         }
 
@@ -187,15 +186,17 @@ namespace SD.PlayerLogic
             }
 
             // TODO:
-            // anim, sound
+            // start anim and sound
+
             Debug.Log("Regenerating health");
 
             float animLength = 1.0f;
-            yield return new WaitForSeconds(animLength);
+            float waited = 0.0f;
 
             do
             {
                 yield return null;
+                waited += Time.deltaTime;
 
                 // if died while regenerating
                 if (State == PlayerState.Dead || State == PlayerState.Nothing)
@@ -203,7 +204,7 @@ namespace SD.PlayerLogic
                     yield break;
                 }
 
-            } while (State != PlayerState.Ready);
+            } while (waited < animLength);
 
             // add health
             if (Health < MinHealthForRegeneration)
@@ -266,7 +267,7 @@ namespace SD.PlayerLogic
         void CollideVehicle(IVehicle other, float damage)
         {
             // reduce full damage
-            const float damageMultiplier = 0.5f * (float)MaxHealth / PlayerVehicle.MaxHealth;
+            float damageMultiplier = 0.5f * MaxHealth / Vehicle.MaxHealth;
 
             damage *= damageMultiplier;
 
