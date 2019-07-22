@@ -151,11 +151,18 @@ namespace SD.Weapons
 
             // set state
             State = WeaponState.Nothing;
+
+            InitWeapon();
         }
         #endregion
 
         #region overridable
         protected abstract void PrimaryAttack();
+
+        /// <summary>
+        /// Called on init
+        /// </summary>
+        protected virtual void InitWeapon() { }
 
         /// <summary>
         /// Called on weapon disable
@@ -166,12 +173,6 @@ namespace SD.Weapons
         /// Called on weapon enable
         /// </summary>
         protected virtual void Activate() { }
-
-        protected void ReduceAmmo()
-        {
-            ammo.Add(AmmoType, -AmmoConsumption);
-            OnAmmoChange(ammo[AmmoType]);
-        }
         #endregion
 
         #region weapons
@@ -204,6 +205,12 @@ namespace SD.Weapons
             }
 
             weaponAnimation.Play();
+        }
+
+        protected void ReduceAmmo()
+        {
+            ammo.Add(AmmoType, -AmmoConsumption);
+            OnAmmoChange(ammo[AmmoType]);
         }
 
         void PlayJammingAnimation()

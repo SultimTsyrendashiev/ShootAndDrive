@@ -262,10 +262,11 @@ namespace SD.Enemies
             var other = col.collider.GetComponent<IVehicle>();
 
             VehicleCollisionInfo info = new VehicleCollisionInfo();
-            
-            // if still alive send full damage,
+
+            // if driver is still alive, 
+            // then send full damage,
             // otherwise nothing
-            info.Damage = damageReceiver.Health > 0 ? data.CollisionDamage : 0;
+            info.Damage = State == EnemyVehicleState.Active ? data.CollisionDamage : 0;
 
             other?.Collide(this, info);
         }

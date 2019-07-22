@@ -133,8 +133,6 @@ namespace SD.Weapons
 
                 if (d != null)
                 {
-                    print(d);
-
                     d.ReceiveDamage(dmg);
 
                     // add to list if exist

@@ -10,7 +10,7 @@ namespace SD.PlayerLogic
     [RequireComponent(typeof(Collider))]
     class PlayerVehicle : MonoBehaviour, IVehicle, IDamageable
     {
-        public const int MaxHealth = 900;
+        public const int MaxHealth = 1000;
         // percentage of health when to start playing smoke particle system
         const float PlaySmokeHealthPercentage = 0.2f;
         const float SteeringEpsilon = 0.01f;

@@ -13,12 +13,13 @@ namespace SD.Weapons
     class MissileLauncher : Weapon
     {
         [SerializeField]
-        private float launchSpeed;
+        float launchSpeed;
 
         [SerializeField]
-        private bool needsAutoaim = false;
+        bool needsAutoaim = false;
 
-        private Transform missileSpawn;
+        Transform missileSpawn;
+        Vector3 spawnStartEuler;
 
         protected float AutoaimRadius = 3;
         protected float AutoaimRange = 150;
@@ -26,6 +27,9 @@ namespace SD.Weapons
         void Start()
         {
             missileSpawn = FindChildByName("MissileSpawn");
+            Debug.Assert(missileSpawn != null, "Launcher must contain child with name: " + "MissileSpawn");
+
+            spawnStartEuler = missileSpawn.localEulerAngles;
         }
 
         protected override void PrimaryAttack()
@@ -48,7 +52,7 @@ namespace SD.Weapons
             // reset spawn transform's rotation,
             // set max speed
             missileSpawn.rotation = Owner.transform.rotation;
-            missileSpawn.localEulerAngles += new Vector3(-30,0,0);
+            missileSpawn.localEulerAngles += spawnStartEuler;
 
             float speed = launchSpeed;
 

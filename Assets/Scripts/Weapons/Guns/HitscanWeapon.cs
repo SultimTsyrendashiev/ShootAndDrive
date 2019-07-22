@@ -25,7 +25,7 @@ namespace SD.Weapons
         const string MuzzleTransformName = "Muzzle";
 
         // What particles to use for muzzle flash
-        const string MuzzleParticlesName = "MuzzleFlash";
+        protected const string MuzzleParticlesName = "MuzzleFlash";
         // What paarticles to use when hit background
         const string DefaultHitParticleName = "DefaultParticles";
 

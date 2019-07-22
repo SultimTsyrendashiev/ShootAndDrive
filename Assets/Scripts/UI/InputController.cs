@@ -47,8 +47,8 @@ namespace SD.UI
                 MovementHorizontal = x;
             }
 
-            bool pressedRight = Input.GetKey(KeyCode.E);
-            bool pressedLeft = Input.GetKey(KeyCode.Q);
+            bool pressedRight = Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.UpArrow);
+            bool pressedLeft = Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.DownArrow);
 
             if (pressedLeft || pressedRight)
             {
