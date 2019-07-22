@@ -19,6 +19,8 @@ namespace SD.UI
         public static bool      FireButton { get; private set; } = false;
         public static float     MovementHorizontal { get; private set; } = 0.0f;
 
+        public static event FloatChange OnMovementHorizontal;
+
         public static event Void OnFireButton;
         public static event WeaponSwitch OnWeaponSwitch;
 
@@ -47,6 +49,7 @@ namespace SD.UI
             {
                 float x = Input.GetAxis("Horizontal");
                 MovementHorizontal = x;
+                OnMovementHorizontal(MovementHorizontal);
             }
 
             bool pressedRight = Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.UpArrow);
@@ -75,6 +78,7 @@ namespace SD.UI
         public void UpdateMovementInput(float x)
         {
             MovementHorizontal = x;
+            OnMovementHorizontal(MovementHorizontal);
         }
 
         #region event subscribers
@@ -100,19 +104,23 @@ namespace SD.UI
         public void OnRightDown()
         {
             MovementHorizontal = 1.0f;
+            OnMovementHorizontal(MovementHorizontal);
         }
         public void OnRightUp()
         {
             MovementHorizontal = 0.0f;
+            OnMovementHorizontal(MovementHorizontal);
         }
 
         public void OnLeftDown()
         {
             MovementHorizontal = -1.0f;
+            OnMovementHorizontal(MovementHorizontal);
         }
         public void OnLeftUp()
         {
             MovementHorizontal = 0.0f;
+            OnMovementHorizontal(MovementHorizontal);
         }
 
         /// <summary>

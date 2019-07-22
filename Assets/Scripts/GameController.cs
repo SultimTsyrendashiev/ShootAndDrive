@@ -171,14 +171,7 @@ namespace SD
 
         void Update()
         {
-            UpdatePlayerControls();
             UpdateBackground();
-        }
-
-        void UpdatePlayerControls()
-        {
-            float x = UI.InputController.MovementHorizontal;
-            CurrentPlayer.UpdateInput(x);
         }
 
         void UpdateBackground()

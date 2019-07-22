@@ -31,6 +31,9 @@ namespace SD.UI
         const float MaxHealthImageWidth = 160;
         [SerializeField]
         Image healthImage;
+        Animation healthImageAnim;
+        Color healthDefaultColor;
+
         [SerializeField]
         Image vehicleHealthImage;
 
@@ -41,7 +44,7 @@ namespace SD.UI
 
         float maxPlayerHealth;
         float maxVehicleHealth;
-
+        float minHealthForRegeneration;
 
         public void Start()
         {
@@ -63,6 +66,10 @@ namespace SD.UI
 
             maxPlayerHealth = PlayerLogic.Player.MaxHealth; // player.MaxHealth;
             maxVehicleHealth = player.Vehicle.MaxHealth;
+            minHealthForRegeneration = PlayerLogic.Player.MinHealthForRegeneration;
+
+            healthImageAnim = healthImage.GetComponent<Animation>();
+            healthDefaultColor = healthImage.color;
 
             // set start stats
             SetHealth(player.Health);
@@ -163,6 +170,16 @@ namespace SD.UI
             d.x = health / maxPlayerHealth * MaxHealthImageWidth;
 
             healthImage.rectTransform.sizeDelta = d;
+
+            if (health <= minHealthForRegeneration)
+            {
+                healthImageAnim?.Play();
+            }
+            else
+            {
+                healthImageAnim?.Stop();
+                healthImage.color = healthDefaultColor;
+            }
         }
 
         /// <summary>

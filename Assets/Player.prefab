@@ -11006,7 +11006,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4340765200685247539}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 60, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9845727536292524
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -12264,13 +12264,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3497472969225288828}
-  m_LocalRotation: {x: -0.42261827, y: 0, z: 0, w: 0.9063079}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.01479235, z: 0.03867919}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4340765200685247539}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -50, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8586384902054072070
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -15165,7 +15165,7 @@ Transform:
   - {fileID: 7691407045915713184}
   m_Father: {fileID: 7581316839599281312}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0.014763117, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7007518183435449354
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -16534,7 +16534,7 @@ Transform:
   - {fileID: 2251346857646020934}
   m_Father: {fileID: 7581316839824631181}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 1.6007442, y: 2.917778, z: 0}
+  m_LocalEulerAnglesHint: {x: 21.61, y: 39.39, z: 0}
 --- !u!82 &2032386641
 AudioSource:
   m_ObjectHideFlags: 0
@@ -17676,14 +17676,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7581316841032657784}
-  - component: {fileID: 2032386668}
+  - component: {fileID: 5726678414137294731}
   m_Layer: 11
   m_Name: PistolRevolver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7581316841032657784
 Transform:
   m_ObjectHideFlags: 0
@@ -17700,7 +17700,7 @@ Transform:
   m_Father: {fileID: 7581316840442807284}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3.33}
---- !u!114 &2032386668
+--- !u!114 &5726678414137294731
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17709,7 +17709,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7581316841032657785}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a1a4526ceb090049abb27a5e8094c10, type: 3}
+  m_Script: {fileID: 11500000, guid: a86466aeae4f97f46a1746e4958cea8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TakingOutTime: 0.2
@@ -17720,6 +17720,7 @@ MonoBehaviour:
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
   ShowMuzzleFlash: 1
+  triggerTime: 0.083
 --- !u!1 &7581316841082096802
 GameObject:
   m_ObjectHideFlags: 0

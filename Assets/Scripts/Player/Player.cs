@@ -16,17 +16,17 @@ namespace SD.PlayerLogic
         /// <summary>
         /// Min health when regeneration without medkit can be applied 
         /// </summary>
-        const float                 MinHealthForRegeneration = 20;
+        public const float          MinHealthForRegeneration = 25;
 
         /// <summary>
         /// Min health there must be after regeneration
         /// </summary>
-        const float                 MinRegeneratedHealth = 20;
+        const float                 MinRegeneratedHealth = MinHealthForRegeneration;
         /// <summary>
         /// How many health points will be regenerated without medkit
         /// </summary>
-        const float                 HealthToRegenerate = 10;
-        const float                 HealthAfterMedkit = 100;
+        const float                 HealthToRegenerate = 20;
+        const float                 HealthAfterMedkit = MaxHealth;
         public const float          MaxHealth = 100;
         #endregion
 
@@ -70,6 +70,7 @@ namespace SD.PlayerLogic
             Enemies.EnemyVehicle.OnEnemyDeath += AddEnemyScore;
             Enemies.EnemyVehicle.OnVehicleDestroy += AddEnemyVehicleScore;
             UI.InputController.OnHealthRegenerate += RegenerateHealth;
+            UI.InputController.OnMovementHorizontal += UpdateInput;
             Vehicle.OnVehicleCollision += CollideVehicle;
 
             State = PlayerState.Ready;
@@ -94,6 +95,7 @@ namespace SD.PlayerLogic
             Enemies.EnemyVehicle.OnEnemyDeath -= AddEnemyScore;
             Enemies.EnemyVehicle.OnVehicleDestroy -= AddEnemyVehicleScore;
             UI.InputController.OnHealthRegenerate -= RegenerateHealth;
+            UI.InputController.OnMovementHorizontal -= UpdateInput;
             Vehicle.OnVehicleCollision -= CollideVehicle;
         }
 
@@ -220,6 +222,8 @@ namespace SD.PlayerLogic
             {
                 Health = HealthAfterMedkit;
             }
+
+            OnHealthChange(Health);
 
             State = PlayerState.Ready;
         }

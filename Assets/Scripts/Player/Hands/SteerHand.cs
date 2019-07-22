@@ -38,6 +38,10 @@ namespace SD.PlayerLogic
 
                 steerHandAnimation.Sample();
             }
+            else if (steerHandAnimation.isPlaying)
+            {
+                steerHandAnimation.Stop();
+            }
         }
     }
 }

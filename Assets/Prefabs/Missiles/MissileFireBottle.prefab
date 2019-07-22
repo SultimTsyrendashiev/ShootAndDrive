@@ -4886,6 +4886,7 @@ MonoBehaviour:
   ExplosionName: Fire
   lifetime: 5
   damageRadius: 5
+  maxAngularSpeed: 180
   fireDamageTime: 2
   fireDamageRate: 0.075
   fireParticlesName: Fire
