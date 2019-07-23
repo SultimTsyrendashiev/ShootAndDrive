@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2675283539900361464
 Transform:
   m_ObjectHideFlags: 0
@@ -463,6 +463,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: dcc42247cf4f5bb4abfa010d72493dd7, type: 2}
   projectileSpawn: {fileID: 2675283540923879038}
   passengerAnimator: {fileID: 0}
+  autoaimTarget: {fileID: 2675283540450667431}
 --- !u!136 &2675283540639302328
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1095,6 +1096,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: c2f5a1e33fc1a5f42bb91a41a40f9257, type: 2}
   projectileSpawn: {fileID: 2675283540586086331}
   passengerAnimator: {fileID: 0}
+  autoaimTarget: {fileID: 2675283541715434942}
 --- !u!136 &2675283541581102992
 CapsuleCollider:
   m_ObjectHideFlags: 0

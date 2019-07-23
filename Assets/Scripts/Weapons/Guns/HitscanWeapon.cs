@@ -65,7 +65,11 @@ namespace SD.Weapons
                 if (hit.collider.gameObject.layer == DamageableLayer)
                 {
                     Damage dmg = Damage.CreateBulletDamage(DamageValue, direction, hit.point, hit.normal, Owner);
-                    hit.collider.GetComponent<IDamageable>().ReceiveDamage(dmg);
+
+                    var damageable = hit.collider.GetComponent<IDamageable>();
+                    Debug.Assert(damageable != null, "Each object on Damageable layer must contain IDamageable script", hit.collider);
+
+                    damageable.ReceiveDamage(dmg);
                 }
                 else
                 {

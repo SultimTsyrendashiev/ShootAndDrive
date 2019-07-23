@@ -78,8 +78,7 @@ namespace SD.Enemies.Spawner
                     int index = Random.Range(0, spawners.Count);
                     ISpawner spawner = spawners[index];
 
-                    // TODO: delete
-                    Vector2 bounds = new Vector2(-7, 7);
+                    Vector2 bounds = background.GetBlockBounds(currentPos);
 
                     spawner.Spawn(currentPos, player, bounds, spawnedObjects);
 

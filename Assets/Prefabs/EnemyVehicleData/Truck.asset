@@ -18,7 +18,7 @@ MonoBehaviour:
   vehicleType: Truck
   speed: 35
   brakingTime: 30
-  startHealth: 170
+  startHealth: 250
   collisionDamage: 500
   score: 990
   explosionName: Explosion

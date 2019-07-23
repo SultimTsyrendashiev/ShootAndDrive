@@ -18,8 +18,9 @@ MonoBehaviour:
   vehicleType: Motorcycle
   speed: 20
   brakingTime: 15
-  startHealth: 60
+  startHealth: 100
   collisionDamage: 50
   score: 490
   explosionName: Explosion
   hitParticlesName: Sparks
+  wreckName: 

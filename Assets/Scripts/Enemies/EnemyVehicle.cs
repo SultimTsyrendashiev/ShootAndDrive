@@ -8,22 +8,25 @@ namespace SD.Enemies
     /// also passengers, if needed
     /// </summary>
     [RequireComponent(typeof(Rigidbody), typeof(Collider))]
-    abstract class EnemyVehicle : MonoBehaviour, IVehicle, IEnemy
+    abstract class EnemyVehicle : MonoBehaviour, IVehicle, IEnemy, IDamageable
     {
         [SerializeField]
         EnemyVehicleData data;
         public EnemyVehicleData Data => data;
 
-        EnemyVehicleDamageReceiver damageReceiver;
+        EnemyVehicleDamageReceiver[] damageReceivers;
         int alivePassengersAmount;
 
         // approximate vechicle collider
         Collider apxVehicleCollider;
 
+        Transform target;
+
         public EnemyVehicleState        State       { get; private set; }
         protected VehiclePassenger[]    Passengers  { get; private set; }
         public bool                     AliveDriver => State != EnemyVehicleState.DeadDriver && alivePassengersAmount > 0;
         public Rigidbody                VehicleRigidbody { get; private set; }
+        public float                    Health { get; private set; }
 
         // for object pool
         GameObject          IPooledObject.ThisObject    => gameObject;
@@ -78,12 +81,15 @@ namespace SD.Enemies
             }
 
             // get vehicle collision model and init it
-            damageReceiver = GetComponentInChildren<EnemyVehicleDamageReceiver>(true);
-            damageReceiver.Init(this);
-
-            damageReceiver.OnVechicleDeath += Explode;
+            damageReceivers = GetComponentsInChildren<EnemyVehicleDamageReceiver>(true);
+            foreach (var d in damageReceivers)
+            {
+                d.Init(this);
+            }
 
             apxVehicleCollider = GetComponent<Collider>();
+
+            target = FindObjectOfType<PlayerLogic.Player>().transform;
 
             // specific init
             InitEnemy();
@@ -119,21 +125,36 @@ namespace SD.Enemies
                 p.Reinit();
             }
 
-            // enable autoaim targets
-            Collider[] cs = GetComponentsInChildren<Collider>(true);
-            foreach (var c in cs)
+            // restore health
+            Health = data.StartHealth;
+            foreach (var d in damageReceivers)
             {
-                if (c.gameObject.layer == LayerMask.NameToLayer(LayerNames.AutoaimTargets))
-                {
-                    c.enabled = true;
-                }
+                d.ActivateMeshCollider(true);
             }
 
-            // restore health
-            damageReceiver.Reinit();
+            SetTarget(target);
 
             // specific activate
             Activate();
+        }
+
+        public void ReceiveDamage(Damage damage)
+        {
+            Health -= damage.CalculateDamageValue(transform.position);
+
+            if (damage.Type == DamageType.Bullet)
+            {
+                ParticlesPool.Instance.Play(data.HitParticlesName, damage.Point, Quaternion.LookRotation(damage.Normal));
+            }
+            else if (damage.Type == DamageType.Explosion && Health > 0)
+            {
+                // TODO: change mesh parts to wreck
+            }
+
+            if (Health <= 0)
+            {
+                Explode();
+            }
         }
 
         /// <summary>
@@ -195,7 +216,11 @@ namespace SD.Enemies
         {
             // disable non-convex mesh collider
             // as rigidbody doesnt work with them
-            damageReceiver.ActivateMeshCollider(kinematic);
+            foreach (var d in damageReceivers)
+            {
+                d.ActivateMeshCollider(kinematic);
+            }
+
             VehicleRigidbody.isKinematic = kinematic;
         }
 
@@ -272,7 +297,7 @@ namespace SD.Enemies
 
         void IVehicle.Collide(IVehicle other, VehicleCollisionInfo info)
         {
-            damageReceiver.ReceiveDamage(Damage.CreateBulletDamage(
+            ReceiveDamage(Damage.CreateBulletDamage(
                 info.Damage, Vector3.forward, transform.position, Vector3.up, null));
 
             DoVehicleCollision();

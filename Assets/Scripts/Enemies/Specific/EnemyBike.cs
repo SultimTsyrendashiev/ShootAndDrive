@@ -23,6 +23,8 @@ namespace SD.Enemies
 
         protected override void DoDriverDeath()
         {
+            print("Bike drived died");
+
             // just enable physics for this vehicle
             SetKinematic(false);
 

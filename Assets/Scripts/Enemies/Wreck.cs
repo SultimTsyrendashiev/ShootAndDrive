@@ -16,7 +16,7 @@ namespace SD.Enemies
         public int AmountInPool => 4;
 
         Transform[] transforms;
-        Rigidbody rb;
+        Rigidbody[] rigidbodies;
 
         // default local positions and rotations;
         // used for resetting to default
@@ -25,7 +25,7 @@ namespace SD.Enemies
 
         public void Init()
         {
-            transforms = GetComponentsInChildren<Transform>();
+            transforms = GetComponentsInChildren<Transform>(true);
             defaultPositions = new Vector3[transforms.Length];
             defaultRotations = new Quaternion[transforms.Length];
 
@@ -35,7 +35,7 @@ namespace SD.Enemies
                 defaultRotations[i] = transforms[i].localRotation;
             }
 
-            rb = GetComponent<Rigidbody>();
+            rigidbodies = GetComponentsInChildren<Rigidbody>(true);
         }
 
         public void Reinit()
@@ -52,9 +52,12 @@ namespace SD.Enemies
                 }
             }
 
-            // set init velocities
-            rb.velocity = Random.onUnitSphere * Random.Range(0, maxVelocity);
-            rb.angularVelocity = Random.onUnitSphere * Random.Range(0, maxAngularVelocity);
+            foreach (var rb in rigidbodies)
+            {
+                // set init velocities
+                rb.velocity = Random.onUnitSphere * Random.Range(0, maxVelocity);
+                rb.angularVelocity = Random.onUnitSphere * Random.Range(0, maxAngularVelocity);
+            }
         }
     }
 }

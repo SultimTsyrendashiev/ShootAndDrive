@@ -23,6 +23,9 @@ namespace SD.Enemies
         [SerializeField]
         Animator                passengerAnimator;
 
+        [SerializeField]
+        Collider                autoaimTarget;
+
         Coroutine               attackCoroutine;
 
         // Current vehicle of this passenger
@@ -56,6 +59,11 @@ namespace SD.Enemies
         {
             Health = data.StartHealth;
             State = PassengerState.Active;
+
+            if (autoaimTarget != null)
+            {
+                autoaimTarget.enabled = true;
+            }
 
             TryToStartAttack();
         }
@@ -91,6 +99,7 @@ namespace SD.Enemies
             if (attackCoroutine != null)
             {
                 StopCoroutine(attackCoroutine);
+                attackCoroutine = null;
                 //passengerAnimator.ResetTrigger("Attack");
             }
 
@@ -105,35 +114,42 @@ namespace SD.Enemies
                     return;
                 }
 
-                //passengerAnimator.SetTrigger("Damage");
-
-                // TODO: wait
-
-                // return state and start attacking 
-                // after receiving damage
-                State = PassengerState.Active;
-                TryToStartAttack();
+                StartCoroutine(WaitForDamage());
             }
             else // death
             {
-                Health = 0;
-                State = PassengerState.Dead;
-
-                // disable autoaim target
-                Collider[] cs = GetComponentsInChildren<Collider>(false);
-                foreach(var c in cs)
-                {
-                    if (c.gameObject.layer == LayerMask.NameToLayer(LayerNames.AutoaimTargets))
-                    {
-                        c.enabled = false;
-                    }
-                }
-
-                //passengerAnimator.ResetTrigger("Damage");
-                //passengerAnimator.SetTrigger("Die");
-
-                OnPassengerDeath(data);
+                Die();
             }
+        }
+
+        IEnumerator WaitForDamage()
+        {
+            //passengerAnimator.SetTrigger("Damage");
+
+            // TODO: wait
+            yield return new WaitForSeconds(1);
+
+            // return state and start attacking 
+            // after receiving damage
+            State = PassengerState.Active;
+            TryToStartAttack();
+        }
+
+        void Die()
+        {
+            Health = 0;
+            State = PassengerState.Dead;
+
+            // disable autoaim target
+            if (autoaimTarget != null)
+            {
+                autoaimTarget.enabled = false;
+            }
+
+            //passengerAnimator.ResetTrigger("Damage");
+            //passengerAnimator.SetTrigger("Die");
+
+            OnPassengerDeath(data);
         }
 
         bool TryToStartAttack()
@@ -148,6 +164,12 @@ namespace SD.Enemies
                 return false;
             }
 
+            // if already attacking
+            if (attackCoroutine != null)
+            {
+                return false;
+            }
+
             // this coroutine will be disabled when
             // passenger will receive damage
             attackCoroutine = StartCoroutine(WaitForAttack());
@@ -157,18 +179,19 @@ namespace SD.Enemies
 
         IEnumerator WaitForAttack()
         {
-            Vector2   timeBetweenRounds = data.TimeBetweenRounds;
-            int     shotsAmount = data.ShotsAmount;
-            string  projectileName = data.ProjectileName;
-            float   fireRate = data.FireRate;
+            Vector2     timeBetweenRounds = data.TimeBetweenRounds;
+            int         shotsAmount = data.ShotsAmount;
+            string      projectileName = data.ProjectileName;
+            float       fireRate = data.FireRate;
 
             while (isActiveAndEnabled)
             {
                 yield return new WaitForSeconds(Random.Range(timeBetweenRounds[0], timeBetweenRounds[1]));
-             
+
                 // must be active
-                if (State != PassengerState.Active && target != null)
+                if (State != PassengerState.Active || target == null)
                 {
+                    attackCoroutine = null;
                     yield break;
                 }
 
@@ -178,28 +201,38 @@ namespace SD.Enemies
                 for (int i = 0; i < shotsAmount; i++)
                 {
                     // always check for state and target
-                    if (State != PassengerState.Attacking && target != null)
+                    if (State != PassengerState.Attacking || target == null)
                     {
+                        attackCoroutine = null;
                         yield break;
                     }
 
                     Vector3 direction = AimToTarget(i);
 
-                    ObjectPool.Instance.GetObject(projectileName, projectileSpawn.position, direction);
+                    var missileObj = ObjectPool.Instance.GetObject(projectileName, projectileSpawn.position, direction);
+                    var missile = missileObj.GetComponent<Weapons.Missile>();
+                    missile.Set(7, vehicle.gameObject);
+                    missile.Launch(5);
 
                     yield return new WaitForSeconds(fireRate);
                 }
 
-                // return to previous state
-                State = PassengerState.Active;
+                if (State == PassengerState.Attacking)
+                {
+                    // return to previous state
+                    State = PassengerState.Active;
+                }
             }
+
+            attackCoroutine = null;
         }
 
         Vector3 AimToTarget(int shotIndex)
         {
-            Debug.Assert(target != null, "This method must not be called when target is null", this);
-
-            //Vector3 direction = target.position - projectileSpawn.position;
+            if (target == null)
+            {
+                return transform.forward;
+            }
 
             Vector3 direction = target.position - projectileSpawn.position;
             direction.Normalize();
