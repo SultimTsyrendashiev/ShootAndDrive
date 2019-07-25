@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2675283539900361464
 Transform:
   m_ObjectHideFlags: 0
@@ -92,6 +92,8 @@ GameObject:
   - component: {fileID: 2675283540138784135}
   - component: {fileID: 2675283540138784134}
   - component: {fileID: 2675283540138784121}
+  - component: {fileID: 4765520250910737525}
+  - component: {fileID: 1611426990}
   m_Layer: 11
   m_Name: EnemyMesh
   m_TagString: Untagged
@@ -179,6 +181,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!111 &4765520250910737525
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2675283540138784123}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &1611426990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2675283540138784123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15741001df7470344b14bb15440b94ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2675283540254858221
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,8 +491,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: dcc42247cf4f5bb4abfa010d72493dd7, type: 2}
   projectileSpawn: {fileID: 2675283540923879038}
-  passengerAnimator: {fileID: 0}
   autoaimTarget: {fileID: 2675283540450667431}
+  passengerAnimation: {fileID: 1611426990}
 --- !u!136 &2675283540639302328
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -962,6 +991,8 @@ GameObject:
   - component: {fileID: 2675283541550661700}
   - component: {fileID: 2675283541550661703}
   - component: {fileID: 2675283541550661702}
+  - component: {fileID: 3494658178068664041}
+  - component: {fileID: 1045630497}
   m_Layer: 11
   m_Name: EnemyMesh
   m_TagString: Untagged
@@ -1049,6 +1080,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!111 &3494658178068664041
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2675283541550661688}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &1045630497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2675283541550661688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15741001df7470344b14bb15440b94ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2675283541581102997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1095,8 +1153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: c2f5a1e33fc1a5f42bb91a41a40f9257, type: 2}
   projectileSpawn: {fileID: 2675283540586086331}
-  passengerAnimator: {fileID: 0}
   autoaimTarget: {fileID: 2675283541715434942}
+  passengerAnimation: {fileID: 1045630497}
 --- !u!136 &2675283541581102992
 CapsuleCollider:
   m_ObjectHideFlags: 0

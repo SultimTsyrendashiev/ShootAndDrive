@@ -3,25 +3,25 @@ using System.Collections;
 
 namespace SD.Enemies
 {
-    enum PassengerState
-    {
-        Nothing,
-        Active,
-        Attacking,
-        Dead,
-        Damaging
-    }
-
     [RequireComponent(typeof(Collider))]
     class VehiclePassenger : MonoBehaviour, IDamageable, IAttackable
     {
+        enum PassengerState
+        {
+            Nothing,
+            Active,
+            Dead,
+            Damaging
+        }
+
+        // How long to wait for damage
+        const float TimeForDamage = 1.0f;
+
         [SerializeField]
         EnemyData               data;
 
         [SerializeField]
         Transform               projectileSpawn;
-        [SerializeField]
-        Animator                passengerAnimator;
 
         [SerializeField]
         Collider                autoaimTarget;
@@ -30,18 +30,25 @@ namespace SD.Enemies
 
         // Current vehicle of this passenger
         EnemyVehicle            vehicle;
-
         // Current target of this passenger
-        Transform target;
+        Transform               target;
 
-        public PassengerState State { get; private set; }
-        public float Health { get; private set; }
+        [SerializeField]
+        // Animation for this passenger
+        EnemyPassengerAnimation passengerAnimation;
+        
+        // When to end damaging
+        float                   damageEndTime;
+
+        PassengerState          State { get; set; }
+        public float            Health { get; private set; }
 
         /// <summary>
         /// Called on death, sends info about this enemy
         /// </summary>
         public event PassengerDied OnPassengerDeath;
 
+        #region init
         /// <summary>
         /// Called from vehicle class to init
         /// </summary>
@@ -50,6 +57,9 @@ namespace SD.Enemies
             this.vehicle = vehicle;
             this.target = null;
             State = PassengerState.Nothing;
+
+            Debug.Assert(passengerAnimation != null, "Passenger animation is not set", this);
+            passengerAnimation.Init(this);
         }
 
         /// <summary>
@@ -65,6 +75,9 @@ namespace SD.Enemies
                 autoaimTarget.enabled = true;
             }
 
+            // reset animation
+            passengerAnimation.Reset();
+
             TryToStartAttack();
         }
 
@@ -77,7 +90,20 @@ namespace SD.Enemies
             StopAllCoroutines();
             State = PassengerState.Nothing;
         }
+        #endregion
 
+        void Update()
+        {
+            // if time for damage passed and was damaging
+            if (damageEndTime <= 0 && State == PassengerState.Damaging)
+            {
+                // return to normal state
+                damageEndTime = 0;
+                State = PassengerState.Active;
+            }
+        }
+
+        #region health
         public void ReceiveDamage(Damage damage)
         {
             if (State == PassengerState.Nothing)
@@ -100,7 +126,6 @@ namespace SD.Enemies
             {
                 StopCoroutine(attackCoroutine);
                 attackCoroutine = null;
-                //passengerAnimator.ResetTrigger("Attack");
             }
 
             State = PassengerState.Damaging;
@@ -108,31 +133,13 @@ namespace SD.Enemies
             
             if (Health > 0)
             {
-                // don't play damaging animation more than once
-                if (State == PassengerState.Damaging)
-                {
-                    return;
-                }
-
-                StartCoroutine(WaitForDamage());
+                passengerAnimation.Damage();
+                damageEndTime += TimeForDamage;
             }
             else // death
             {
                 Die();
             }
-        }
-
-        IEnumerator WaitForDamage()
-        {
-            //passengerAnimator.SetTrigger("Damage");
-
-            // TODO: wait
-            yield return new WaitForSeconds(1);
-
-            // return state and start attacking 
-            // after receiving damage
-            State = PassengerState.Active;
-            TryToStartAttack();
         }
 
         void Die()
@@ -146,10 +153,44 @@ namespace SD.Enemies
                 autoaimTarget.enabled = false;
             }
 
-            //passengerAnimator.ResetTrigger("Damage");
-            //passengerAnimator.SetTrigger("Die");
+            // play animation
+            passengerAnimation.Die();
 
             OnPassengerDeath(data);
+        }
+
+        /// <summary>
+        /// Kill this passenger
+        /// </summary>
+        public void Kill()
+        {
+            if (Health <= 0)
+            {
+                return;
+            }
+
+            Damage fatalDamage = Damage.CreateBulletDamage(Health,
+                    transform.forward, transform.position, transform.forward, gameObject);
+
+            ReceiveDamage(fatalDamage);
+        }
+        #endregion
+
+        #region attack
+        /// <summary>
+        /// Set target for this passenger.
+        /// If target is null, passenger will stop attacking
+        /// </summary>
+        public void SetTarget(Transform target)
+        {
+            this.target = target;
+
+            // start if object is enabled and ready,
+            // try to start attack
+            if (State == PassengerState.Active)
+            {
+                TryToStartAttack();
+            }
         }
 
         bool TryToStartAttack()
@@ -195,13 +236,13 @@ namespace SD.Enemies
                     yield break;
                 }
 
-                State = PassengerState.Attacking;
-                //passengerAnimator.SetTrigger("Attack");
+                // play animation
+                passengerAnimation.Attack();
 
                 for (int i = 0; i < shotsAmount; i++)
                 {
                     // always check for state and target
-                    if (State != PassengerState.Attacking || target == null)
+                    if (State != PassengerState.Active || target == null)
                     {
                         attackCoroutine = null;
                         yield break;
@@ -214,13 +255,11 @@ namespace SD.Enemies
                     missile.Set(7, vehicle.gameObject);
                     missile.Launch(5);
 
-                    yield return new WaitForSeconds(fireRate);
-                }
-
-                if (State == PassengerState.Attacking)
-                {
-                    // return to previous state
-                    State = PassengerState.Active;
+                    // don't wait for last
+                    if (i < shotsAmount - 1)
+                    {
+                        yield return new WaitForSeconds(fireRate);
+                    }
                 }
             }
 
@@ -253,34 +292,6 @@ namespace SD.Enemies
 
             return direction;
         }
-
-        public void Kill()
-        {
-            if (Health <= 0)
-            {
-                return;
-            }
-
-            Damage fatalDamage = Damage.CreateBulletDamage(Health,
-                    transform.forward, transform.position, transform.forward, gameObject);
-
-            ReceiveDamage(fatalDamage);
-        }
-
-        /// <summary>
-        /// Set target for this passenger.
-        /// If target is null, 
-        /// </summary>
-        public void SetTarget(Transform target)
-        {
-            this.target = target;
-
-            // start if object is enabled and ready,
-            // try to start attack
-            if (State == PassengerState.Active)
-            {
-                TryToStartAttack();
-            }
-        }
+        #endregion
     }
 }

@@ -23,8 +23,6 @@ namespace SD.Enemies
 
         protected override void DoDriverDeath()
         {
-            print("Bike drived died");
-
             // just enable physics for this vehicle
             SetKinematic(false);
 
@@ -32,17 +30,20 @@ namespace SD.Enemies
             VehicleRigidbody.velocity = velocity;
 
             // and add random torque
-            const float maxTorqueX = 5;
+            const float maxTorqueZ = 70;
 
-            const float minTorqueY = -20;
-            const float maxTorqueY = 14;
+            const float minTorqueY = -30;
+            const float maxTorqueY = 50;
 
-            float horizontal = Random.Range(-maxTorqueX, maxTorqueX);
-            float vertical = -Random.Range(minTorqueY, maxTorqueY);
+            float z = Random.Range(-maxTorqueZ, maxTorqueZ);
+            float y = -Random.Range(minTorqueY, maxTorqueY);
 
             float mass = VehicleRigidbody.mass;
-            VehicleRigidbody.AddTorque(horizontal * mass * transform.up, ForceMode.Impulse);
-            VehicleRigidbody.AddTorque(vertical * mass * transform.right, ForceMode.Impulse);
+            Vector3 torque = 
+                z * mass * transform.forward +
+                y * mass * transform.right;
+
+            VehicleRigidbody.AddTorque(torque, ForceMode.Impulse);
         }
 
         protected override void DoVehicleCollision()

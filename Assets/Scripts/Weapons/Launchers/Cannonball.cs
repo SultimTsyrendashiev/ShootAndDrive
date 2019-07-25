@@ -14,11 +14,6 @@ namespace SD.Weapons
      
         void OnTriggerEnter(Collider col)
         {
-            if (PhysicsModel.velocity.sqrMagnitude < speedEpsilon * speedEpsilon)
-            {
-                return;
-            }
-
             // on contact damageable take full damage
             ApplyFullDamage(col);
         }

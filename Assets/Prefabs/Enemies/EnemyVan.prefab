@@ -570,8 +570,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: bac2f95b858ed8e4ab77209a07214718, type: 2}
   projectileSpawn: {fileID: 7179349578268812085}
-  passengerAnimator: {fileID: 0}
   autoaimTarget: {fileID: 7179349577891404036}
+  passengerAnimation: {fileID: 1386281924}
 --- !u!1 &7179349577577445208
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,6 +658,8 @@ GameObject:
   - component: {fileID: 7179349577809385589}
   - component: {fileID: 7179349577809385588}
   - component: {fileID: 7179349577809385591}
+  - component: {fileID: 3553146375862168499}
+  - component: {fileID: 977860236}
   m_Layer: 11
   m_Name: EnemyMesh
   m_TagString: Untagged
@@ -745,6 +747,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!111 &3553146375862168499
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179349577809385585}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &977860236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179349577809385585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15741001df7470344b14bb15440b94ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7179349577863884178
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,6 +943,8 @@ GameObject:
   - component: {fileID: 7179349578007726114}
   - component: {fileID: 7179349578007726109}
   - component: {fileID: 7179349578007726108}
+  - component: {fileID: 6665933258289711998}
+  - component: {fileID: 1112950088}
   m_Layer: 11
   m_Name: EnemyMesh
   m_TagString: Untagged
@@ -1001,6 +1032,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!111 &6665933258289711998
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179349578007726110}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &1112950088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179349578007726110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15741001df7470344b14bb15440b94ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7179349578042581709
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,6 +1071,8 @@ GameObject:
   - component: {fileID: 7179349578042581713}
   - component: {fileID: 7179349578042581712}
   - component: {fileID: 7179349578042581715}
+  - component: {fileID: 7518605871775530046}
+  - component: {fileID: 1386281924}
   m_Layer: 11
   m_Name: EnemyMesh
   m_TagString: Untagged
@@ -1100,6 +1160,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!111 &7518605871775530046
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179349578042581709}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &1386281924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179349578042581709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15741001df7470344b14bb15440b94ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7179349578073310398
 GameObject:
   m_ObjectHideFlags: 0
@@ -1391,8 +1478,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: bac2f95b858ed8e4ab77209a07214718, type: 2}
   projectileSpawn: {fileID: 7179349577365203543}
-  passengerAnimator: {fileID: 0}
   autoaimTarget: {fileID: 7179349576938682621}
+  passengerAnimation: {fileID: 977860236}
 --- !u!1 &7179349578381798082
 GameObject:
   m_ObjectHideFlags: 0
@@ -1541,8 +1628,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: bac2f95b858ed8e4ab77209a07214718, type: 2}
   projectileSpawn: {fileID: 7179349577705040861}
-  passengerAnimator: {fileID: 0}
   autoaimTarget: {fileID: 7179349577280532711}
+  passengerAnimation: {fileID: 1112950088}
 --- !u!1 &7179349578500180368
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,6 +1642,8 @@ GameObject:
   - component: {fileID: 7179349578500180372}
   - component: {fileID: 7179349578500180375}
   - component: {fileID: 7179349578500180374}
+  - component: {fileID: 2100953293607761595}
+  - component: {fileID: 1657956723}
   m_Layer: 11
   m_Name: EnemyMesh
   m_TagString: Untagged
@@ -1642,6 +1731,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!111 &2100953293607761595
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179349578500180368}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &1657956723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179349578500180368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15741001df7470344b14bb15440b94ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7179349578660060858
 GameObject:
   m_ObjectHideFlags: 0
@@ -1781,8 +1897,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: bac2f95b858ed8e4ab77209a07214718, type: 2}
   projectileSpawn: {fileID: 7179349578472522711}
-  passengerAnimator: {fileID: 0}
   autoaimTarget: {fileID: 7179349577577445214}
+  passengerAnimation: {fileID: 1657956723}
 --- !u!1 &8534678005719926243
 GameObject:
   m_ObjectHideFlags: 0

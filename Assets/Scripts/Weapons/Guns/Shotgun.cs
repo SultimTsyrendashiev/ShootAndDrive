@@ -18,8 +18,8 @@ namespace SD.Weapons
             float rangey = 1 - Accuracy;
             rangey *= MaxAngleY;
 
-            float deltax = 2 * Accuracy / pelletCount;
-            float basex = -Accuracy;
+            float deltax = 2 * (1 - Accuracy) / pelletCount;
+            float basex = -(1 - Accuracy);
 
             deltax *= MaxAngleX;
             basex *= MaxAngleX;

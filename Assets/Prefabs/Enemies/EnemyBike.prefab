@@ -206,8 +206,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: c6061d56cd876ed4fbebf9d9799da17b, type: 2}
   projectileSpawn: {fileID: 6300100320799474906}
-  passengerAnimator: {fileID: 0}
   autoaimTarget: {fileID: 6300100319781275359}
+  passengerAnimation: {fileID: 1366594910}
 --- !u!136 &6300100319647171825
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -367,6 +367,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6300100320136887128}
+  - component: {fileID: 5767209354200771284}
+  - component: {fileID: 1366594910}
   m_Layer: 11
   m_Name: EnemyMesh
   m_TagString: Untagged
@@ -389,6 +391,33 @@ Transform:
   m_Father: {fileID: 6300100319939766134}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &5767209354200771284
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6300100320136887129}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &1366594910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6300100320136887129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15741001df7470344b14bb15440b94ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6300100320799474907
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,13 +460,14 @@ GameObject:
   - component: {fileID: 4263219060150080260}
   - component: {fileID: 6300100321724272743}
   - component: {fileID: 6300100321724272742}
+  - component: {fileID: 6225972725403344278}
   m_Layer: 11
   m_Name: EnemyBike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6300100321724273049
 Transform:
   m_ObjectHideFlags: 0
@@ -479,8 +509,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.4, y: 1.3, z: 2.1}
-  m_Center: {x: 0, y: 0.65, z: -0.05}
+  m_Size: {x: 0.4, y: 0.8, z: 1.25}
+  m_Center: {x: 0, y: 0.7, z: -0.05}
 --- !u!54 &6300100321724272742
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -497,6 +527,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &6225972725403344278
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6300100321724273050}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.35
+  m_Height: 2.1
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.35, z: -0.05}
 --- !u!1 &7147252910060374852
 GameObject:
   m_ObjectHideFlags: 0

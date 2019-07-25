@@ -20,6 +20,6 @@ MonoBehaviour:
   cost: 5000
   durability: 650
   damage: 25
-  reloadingTime: 0.683
+  reloadingTime: 0.766
   accuracy: 0.98
   missileName: 

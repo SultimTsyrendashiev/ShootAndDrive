@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SD.Enemies
 {
-    // TODO: doors opening
     class EnemyVan : EnemyVehicle
     {
         /// <summary>

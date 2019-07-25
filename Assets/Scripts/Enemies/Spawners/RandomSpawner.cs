@@ -11,7 +11,7 @@ namespace SD.Enemies.Spawner
         const float     SafeDistance = 1.0f;
 
         // what enemies to spawn
-        readonly string[] names = { SpawnersController.EnemySedan, /*SpawnersController.EnemyTruck,*/ SpawnersController.EnemyBike, SpawnersController.EnemyVan };
+        readonly string[] names = { SpawnersController.EnemySedan, /*SpawnersController.EnemyTruck,*/ SpawnersController.EnemyBike/*, SpawnersController.EnemyVan*/ };
         readonly IBackgroundController background;
 
         // objects that spawned at one call of 'Spawn';

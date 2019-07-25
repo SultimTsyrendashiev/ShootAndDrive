@@ -21,6 +21,7 @@ namespace SD
     delegate void VehicleDeath();                           // from damage receiver
     delegate void VehicleDestroyed(EnemyVehicleData data);  // for player's score
     delegate void PassengerDied(EnemyData data);            // from passengers of vehicles
+    // delegate void PassengerStateChacnge(PassengerState passengerState); // for animations, sounds etc
 
     // weapons
     delegate void WeaponBreak(WeaponIndex brokenWeapon);    // to weapons controller

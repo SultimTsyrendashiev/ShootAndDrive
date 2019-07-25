@@ -48,7 +48,7 @@ namespace SD.UI
             Transform weaponIcons = itemsPosition.transform;
             for (int i = 0; i < count; i++)
             {
-                Image weaponImage = weaponIcons.GetChild(i).GetComponent<Image>();
+                Image weaponImage = weaponIcons.GetChild(i).GetComponentInChildren<Image>();
                 weaponImage.sprite = icon;
             }
 
@@ -73,7 +73,7 @@ namespace SD.UI
                     index = i;
                 }
 
-                itemsPosition.transform.GetChild(i).GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+                itemsPosition.transform.GetChild(i).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0.5f);
             }
 
             if (index == -1)
@@ -82,7 +82,7 @@ namespace SD.UI
                 return;
             }
 
-            itemsPosition.transform.GetChild(index).GetComponent<Image>().color = Color.white;
+            itemsPosition.transform.GetChild(index).GetComponentInChildren<Image>().color = Color.white;
 
             // temp
             wasSelected = true;

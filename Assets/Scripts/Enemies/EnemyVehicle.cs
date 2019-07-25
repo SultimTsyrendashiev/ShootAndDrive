@@ -246,14 +246,15 @@ namespace SD.Enemies
             OnEnemyDeath(passengerData);
 
             // if there are passengers, but driver died
-            if (alivePassengersAmount > 0 && passengerData.IsDriver)
+            if (passengerData.IsDriver)
             {
                 State = EnemyVehicleState.DeadDriver;
                 
                 DoDriverDeath();
             }
+            
             // if there are no alive passengers
-            else if (alivePassengersAmount <= 0)
+            if (alivePassengersAmount <= 0)
             {
                 alivePassengersAmount = 0;
                 State = EnemyVehicleState.DeadPassengers;

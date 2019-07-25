@@ -17720,7 +17720,7 @@ MonoBehaviour:
   UnjamSound: {fileID: 0}
   BreakSound: {fileID: 0}
   ShowMuzzleFlash: 1
-  triggerTime: 0.083
+  triggerTime: 0.166
 --- !u!1 &7581316841082096802
 GameObject:
   m_ObjectHideFlags: 0
