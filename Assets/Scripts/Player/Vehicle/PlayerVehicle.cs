@@ -32,7 +32,6 @@ namespace SD.PlayerLogic
         [SerializeField]
         float currentSpeed;
         float currentSideSpeed;
-        float travelledDistance;
 
         #region particles
         [SerializeField]
@@ -48,6 +47,7 @@ namespace SD.PlayerLogic
         Collider apxVehicleCollider;
 
         public float Health { get; private set; }
+        public float TravelledDistance { get; private set; }
         public ISteeringWheel SteeringWheel { get; private set; }
 
         public Player Player { get; private set; }
@@ -65,7 +65,7 @@ namespace SD.PlayerLogic
             // default values
             currentSpeed = DefaultSpeed;
             currentSideSpeed = SideSpeed;
-            travelledDistance = 0;
+            TravelledDistance = 0;
 
             // init damage receiver
             Health = MaxHealth;
@@ -185,8 +185,8 @@ namespace SD.PlayerLogic
 
             playerRigidbody.MovePosition(newPosition);
 
-            travelledDistance += forwardDistance;
-            OnDistanceChange(travelledDistance);
+            TravelledDistance += forwardDistance;
+            OnDistanceChange(TravelledDistance);
         }
     }
 }

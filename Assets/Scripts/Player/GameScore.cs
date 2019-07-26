@@ -4,7 +4,7 @@
     {
         public float TravelledDistance;
         public int KillsAmount;
-        public int KillsScore;
+        public int ScorePoints;
         public int DestroyedVehiclesAmount;
         public int VehicleHealth;
 
@@ -13,7 +13,7 @@
         /// </summary>
         public GameScore(int maxVehicleHealth)
         {
-            TravelledDistance = KillsAmount = KillsScore  = DestroyedVehiclesAmount = 0;
+            TravelledDistance = KillsAmount = ScorePoints  = DestroyedVehiclesAmount = 0;
             VehicleHealth = maxVehicleHealth;
         }
     }

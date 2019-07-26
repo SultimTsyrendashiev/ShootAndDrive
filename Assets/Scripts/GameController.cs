@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using SD.PlayerLogic;
 using SD.Weapons;
 using SD.Enemies.Spawner;
@@ -16,7 +17,6 @@ namespace SD
         GameObject                  playerPrefab;
 
         SpawnersController          spawnersController;
-        UIController                ui;
 
         public Player               CurrentPlayer { get; private set; }
         public AllWeaponsStats      WeaponsStats { get; private set; }
@@ -55,12 +55,37 @@ namespace SD
 
         void ProcessPlayerDeath(GameScore score)
         {
-            // TODO: 
-            // 1) death screen, wait 1 sec;
-            // on tap - skip waiting;
-            // 2) show menu: score, menu, restart
+            // (no) death screen, wait 1 sec;
+            // (no) on tap - skip waiting;
+
+            // scale down time
+            StartCoroutine(WaitForScaleTime());
         }
 
+        IEnumerator WaitForScaleTime()
+        {
+            const float timeToWait = 2.0f;
+            float waited = 0;
+
+            float startTimeScale = Time.timeScale;
+            float startFixedDelta = Time.fixedDeltaTime;
+
+            while (waited < timeToWait)
+            {
+                yield return null;
+                waited += Time.deltaTime;
+
+                if (waited > timeToWait)
+                {
+                    waited = timeToWait;
+                }
+
+                float scale = 1 - waited / timeToWait;
+
+                Time.timeScale = scale * startTimeScale;
+                Time.fixedDeltaTime = scale * startFixedDelta;
+            }
+        }
 
         /// <summary>
         /// Init all systems

@@ -37,7 +37,7 @@ namespace SD.PlayerLogic
         public Camera               MainCamera { get; private set; }
         public PlayerInventory      Inventory { get; private set; }
         public PlayerState          State { get; private set; }
-        public float                Health { get; private set; } = MaxHealth;
+        public float                Health { get; private set; } = 10;
         public GameScore            CurrentScore => currentScore;
         public PlayerVehicle        Vehicle { get; private set; }
 
@@ -134,7 +134,7 @@ namespace SD.PlayerLogic
         void AddEnemyScore(Enemies.EnemyData data)
         {
             currentScore.KillsAmount++;
-            currentScore.KillsScore += data.Score;
+            currentScore.ScorePoints += data.Score;
 
             OnScoreChange(currentScore);
         }
@@ -142,7 +142,7 @@ namespace SD.PlayerLogic
         void AddEnemyVehicleScore(Enemies.EnemyVehicleData data)
         {
             currentScore.DestroyedVehiclesAmount++;
-            currentScore.KillsScore += data.Score;
+            currentScore.ScorePoints += data.Score;
 
             OnScoreChange(currentScore);
         }
