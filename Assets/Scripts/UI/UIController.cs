@@ -28,12 +28,6 @@ namespace SD.UI
         [SerializeField]
         Text killsAmountText;
 
-        const float MaxHealthImageWidth = 160;
-        [SerializeField]
-        Image healthImage;
-        Animation healthImageAnim;
-        Color healthDefaultColor;
-
         [SerializeField]
         Image vehicleHealthImage;
 
@@ -42,9 +36,7 @@ namespace SD.UI
         /// </summary>
         PlayerLogic.Player player;
 
-        float maxPlayerHealth;
         float maxVehicleHealth;
-        float minHealthForRegeneration;
 
         #region init / destroy
         void Awake()
@@ -64,22 +56,9 @@ namespace SD.UI
             this.player = player;
 
             // sign to events
-            player.OnHealthChange += SetHealth;
-            player.OnScoreChange += SetScore;
-            player.Vehicle.OnDistanceChange += SetDistance;
-            player.Vehicle.OnVehicleHealthChange += SetVehicleHealth;
             Weapons.Weapon.OnAmmoChange += SetAmmoAmount;
+            player.Vehicle.OnDistanceChange += SetDistance;
 
-            maxPlayerHealth = PlayerLogic.Player.MaxHealth; // player.MaxHealth;
-            maxVehicleHealth = player.Vehicle.MaxHealth;
-            minHealthForRegeneration = PlayerLogic.Player.MinHealthForRegeneration;
-
-            healthImageAnim = healthImage.GetComponent<Animation>();
-            healthDefaultColor = healthImage.color;
-
-            // set start stats
-            SetHealth(player.Health);
-            SetVehicleHealth(player.Vehicle.Health);
             SetAmmoAmount(-1);
         }
 
@@ -87,10 +66,7 @@ namespace SD.UI
         {
             Weapons.Weapon.OnAmmoChange -= SetAmmoAmount;
 
-            player.OnHealthChange -= SetHealth;
-            player.OnScoreChange -= SetScore;
             player.Vehicle.OnDistanceChange -= SetDistance;
-            player.Vehicle.OnVehicleHealthChange -= SetVehicleHealth;
         }
 
         void OnDestroy()
@@ -160,45 +136,6 @@ namespace SD.UI
         public void SetKillsAmount(int amount)
         {
             killsAmountText.text = amount.ToString();
-        }
-
-        void SetScore(PlayerLogic.GameScore score)
-        {
-            killsAmountText.text = score.KillsAmount.ToString();
-        }
-
-        /// <summary>
-        /// Set health in HUD
-        /// </summary>
-        /// <param name="health">health in [0..100]</param>
-        public void SetHealth(float health)
-        {
-            Vector2 d = healthImage.rectTransform.sizeDelta;
-            d.x = health / maxPlayerHealth * MaxHealthImageWidth;
-
-            healthImage.rectTransform.sizeDelta = d;
-
-            if (health <= minHealthForRegeneration)
-            {
-                healthImageAnim?.Play();
-            }
-            else
-            {
-                healthImageAnim?.Stop();
-                healthImage.color = healthDefaultColor;
-            }
-        }
-
-        /// <summary>
-        /// Set health in HUD
-        /// </summary>
-        /// <param name="health">health in [0..100]</param>
-        public void SetVehicleHealth(float health)
-        {
-            Vector2 d = vehicleHealthImage.rectTransform.sizeDelta;
-            d.x = health / maxVehicleHealth * MaxHealthImageWidth;
-
-            vehicleHealthImage.rectTransform.sizeDelta = d;
         }
     }
 }

@@ -3,15 +3,16 @@ guid: 23028083cd826044c8af0a8b19e56a19
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
-  fontSize: 32
-  forceTextureCase: -1
+  fontSize: 16
+  forceTextureCase: -2
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
   fontName: Manrope3
   fontNames:
   - Manrope3
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 98df7156bbb34cb46b9ffb88c9c32542, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

@@ -49,13 +49,13 @@ namespace SD.PlayerLogic
 
         #region init / destroy
         /// <summary>
-        /// Init player. 'PlayerVehicle' depends
-        /// on 'IBackgroundController'
+        /// Init player, must be called before 'Start'
         /// </summary>
         public void Init(IBackgroundController background)
         {
             MainCamera = GetComponentInChildren<Camera>();
 
+            // init vehicle
             Vehicle = GetComponentInChildren<PlayerVehicle>(true);
             Debug.Assert(Vehicle != null, "There must be a 'PlayerVehicle' as child object", this);
 
@@ -67,15 +67,13 @@ namespace SD.PlayerLogic
             // reset score
             currentScore = new GameScore(Vehicle.MaxHealth);
 
-            // sign to events
-            Enemies.EnemyVehicle.OnEnemyDeath += AddEnemyScore;
-            Enemies.EnemyVehicle.OnVehicleDestroy += AddEnemyVehicleScore;
-            UI.InputController.OnHealthRegenerate += RegenerateHealth;
-            UI.InputController.OnMovementHorizontal += UpdateInput;
-            Vehicle.OnVehicleCollision += CollideVehicle;
+            SignToEvents();
 
             State = PlayerState.Ready;
+        }
 
+        void Start()
+        {
             OnPlayerSpawn(this);
         }
 
@@ -90,6 +88,16 @@ namespace SD.PlayerLogic
             weaponsController.Init(this);
         }
 
+        void SignToEvents()
+        {
+            Enemies.EnemyVehicle.OnEnemyDeath += AddEnemyScore;
+            Enemies.EnemyVehicle.OnVehicleDestroy += AddEnemyVehicleScore;
+            UI.InputController.OnHealthRegenerate += RegenerateHealth;
+            UI.InputController.OnMovementHorizontal += UpdateInput;
+            Vehicle.OnVehicleCollision += CollideVehicle;
+            GameController.OnGamePause += Pause;
+        }
+
         /// <summary>
         /// To enable GC
         /// </summary>
@@ -100,6 +108,7 @@ namespace SD.PlayerLogic
             UI.InputController.OnHealthRegenerate -= RegenerateHealth;
             UI.InputController.OnMovementHorizontal -= UpdateInput;
             Vehicle.OnVehicleCollision -= CollideVehicle;
+            GameController.OnGamePause -= Pause;
         }
 
         void OnDestroy()
@@ -121,6 +130,7 @@ namespace SD.PlayerLogic
             steeringWheel.Steer(horizonalAxis);
         }
 
+        #region score
         void AddEnemyScore(Enemies.EnemyData data)
         {
             currentScore.KillsAmount++;
@@ -136,6 +146,7 @@ namespace SD.PlayerLogic
 
             OnScoreChange(currentScore);
         }
+        #endregion
 
         #region health management
         void Die()
@@ -271,6 +282,10 @@ namespace SD.PlayerLogic
         }
         #endregion
 
+        /// <summary>
+        /// This method must be called when there is 
+        /// collision between player vehicle and some other one
+        /// </summary>
         void CollideVehicle(IVehicle other, float damage)
         {
             // reduce full damage
@@ -296,6 +311,16 @@ namespace SD.PlayerLogic
                 // just play animation
                 CameraShaker.Instance.PlayAnimation(CameraShaker.CameraAnimation.Collision);
             }
+        }
+
+        /// <summary>
+        /// This method must be called on game pause
+        /// </summary>
+        void Pause()
+        {
+            /// send event that score is changed, 
+            /// so it may be presented in pause menu, for example
+            OnScoreChange(currentScore);
         }
     }
 }

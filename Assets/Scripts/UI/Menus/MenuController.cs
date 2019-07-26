@@ -38,6 +38,10 @@ namespace SD.UI
             foreach (var g in menuList)
             {
                 menus.Add(g.name, g);
+
+                // small hack to call Awake on all objects, even on deactivated
+                g.SetActive(true);
+
                 g.SetActive(g.name == startMenu);
             }
         }

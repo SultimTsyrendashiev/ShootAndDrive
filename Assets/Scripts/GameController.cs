@@ -9,17 +9,21 @@ namespace SD
 {
     class GameController : MonoBehaviour
     {
-        readonly Vector3    PlayerStartPoint = new Vector3(0,0,0);
+        // position of player's spawn
+        readonly Vector3            PlayerStartPoint = new Vector3(0,0,0);
 
         [SerializeField]
-        GameObject          playerPrefab;
+        GameObject                  playerPrefab;
 
-        SpawnersController  spawnersController;
-        UIController        ui;
+        SpawnersController          spawnersController;
+        UIController                ui;
 
         public Player               CurrentPlayer { get; private set; }
         public AllWeaponsStats      WeaponsStats { get; private set; }
         public BackgroundController Background { get; private set; }
+
+        // events
+        public static event Void    OnGamePause;
 
         void Awake()
         {
@@ -192,6 +196,7 @@ namespace SD
         void PauseGame()
         {
             Time.timeScale = 0;
+            OnGamePause();
         }
     }
 }
