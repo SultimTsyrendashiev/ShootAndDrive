@@ -128,7 +128,7 @@ MonoBehaviour:
   explosionMask:
     serializedVersion: 2
     m_Bits: 0
-  ExplosionName: Explosion
+  ExplosionName: 
   lifetime: 3
   damageRadius: 0
   maxAngularSpeed: 0

@@ -13,6 +13,8 @@ namespace SD.UI
         const float Threshold = 100;
 
         [SerializeField]
+        Canvas              canvas;
+        [SerializeField]
         InputController     inputController;
         [SerializeField]
         ItemsPosition       itemsPosition;
@@ -60,7 +62,7 @@ namespace SD.UI
         public void OnDrag(PointerEventData eventData)
         {
             int index = -1;
-            float minLength = Threshold * inputController.GetComponent<Canvas>().scaleFactor;
+            float minLength = Threshold * canvas.scaleFactor;
 
             for (int i = 0; i < count; i++)
             {

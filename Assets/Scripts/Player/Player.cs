@@ -41,10 +41,11 @@ namespace SD.PlayerLogic
         public GameScore            CurrentScore => currentScore;
         public PlayerVehicle        Vehicle { get; private set; }
 
-        public event FloatChange    OnHealthChange;
-        public event ScoreChange    OnScoreChange;
-        public event PlayerDeath    OnPlayerDeath;
-        public event PlayerStateChange OnPlayerStateChange;
+        public event FloatChange            OnHealthChange;
+        public event ScoreChange            OnScoreChange;
+        public event PlayerDeath            OnPlayerDeath;
+        public event PlayerStateChange      OnPlayerStateChange;
+        public static event PlayerSpawn     OnPlayerSpawn;
 
         #region init / destroy
         /// <summary>
@@ -74,6 +75,8 @@ namespace SD.PlayerLogic
             Vehicle.OnVehicleCollision += CollideVehicle;
 
             State = PlayerState.Ready;
+
+            OnPlayerSpawn(this);
         }
 
         /// <summary>

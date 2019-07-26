@@ -38,7 +38,7 @@ namespace SD.UI
         Image vehicleHealthImage;
 
         /// <summary>
-        /// Current player
+        /// Current player, use this field only for events
         /// </summary>
         PlayerLogic.Player player;
 
@@ -46,14 +46,20 @@ namespace SD.UI
         float maxVehicleHealth;
         float minHealthForRegeneration;
 
-        public void Start()
+        #region init / destroy
+        void Awake()
+        {
+            PlayerLogic.Player.OnPlayerSpawn += Init;
+        }
+
+        void Start()
         {
             SetActiveHUD(true);
             SetActivePauseMenu(false);
             SetActiveWeaponSelectionMenu(false);
         }
 
-        public void Init(PlayerLogic.Player player)
+        void Init(PlayerLogic.Player player)
         {
             this.player = player;
 
@@ -91,6 +97,7 @@ namespace SD.UI
         {
             UnsignFromEvents();
         }
+        #endregion
 
         public MovementInputType MovementInputType
         {

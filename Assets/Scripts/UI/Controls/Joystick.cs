@@ -3,16 +3,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace SD.UI
+namespace SD.UI.Controls
 {
-    // TODO: this class must be attached to movement field
+    // This class must be attached to movement field
     // joystick circle and dot are just images 
     // that appears on startPostion and tracks position from OnDrag()
     public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
         [SerializeField]
         Canvas canvas;
-
         [SerializeField]
         InputController inputController;
 
@@ -37,6 +36,16 @@ namespace SD.UI
 
             baseImage.enabled = false;
             dotImage.enabled = false;
+
+            if (!canvas)
+            {
+                canvas = GetComponentInParent<Canvas>();
+            }
+
+            if (!inputController)
+            {
+                inputController = GetComponentInParent<InputController>();
+            }
         }
 
         void UpdateAxis(float delta)

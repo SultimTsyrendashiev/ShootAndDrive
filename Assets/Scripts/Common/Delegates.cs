@@ -12,6 +12,7 @@ namespace SD
     delegate void ScoreChange(GameScore score);
     delegate void PlayerDeath(GameScore score);
     delegate void PlayerStateChange(PlayerState state);
+    delegate void PlayerSpawn(Player player);
 
     // vehicles
     delegate void CollideVehicle(IVehicle other, float damage);

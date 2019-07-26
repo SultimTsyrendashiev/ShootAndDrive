@@ -29,14 +29,24 @@ namespace SD
             SignToEvents();
         }
 
+        void OnDestroy()
+        {
+            // save data from player's inventory
+            CurrentPlayer.Inventory.Save();
+
+            UnsignFromEvents();
+        }
+
         void SignToEvents()
         {
             CurrentPlayer.OnPlayerDeath += ProcessPlayerDeath;
+            InputController.OnPause += PauseGame;
         }
 
         void UnsignFromEvents()
         {
             CurrentPlayer.OnPlayerDeath -= ProcessPlayerDeath;
+            InputController.OnPause -= PauseGame;
         }
 
         void ProcessPlayerDeath(GameScore score)
@@ -67,7 +77,7 @@ namespace SD
             InitPlayer();
             
             // depends on player and weapons
-            InitUI();
+            //InitUI();
 
             // depends on player, weapons and its stats
             InitPlayerInventory();
@@ -122,14 +132,14 @@ namespace SD
 #endif
         }
 
-        void InitUI()
-        {
-            ui = FindObjectOfType<UIController>();
-            Debug.Assert(ui != null, "Can't find UIController", this);
+        //void InitUI()
+        //{
+        //    ui = FindObjectOfType<UIController>();
+        //    Debug.Assert(ui != null, "Can't find UIController", this);
 
-            // depends on player and weapons
-            ui.Init(CurrentPlayer);
-        }
+        //    // depends on player and weapons
+        //    ui.Init(CurrentPlayer);
+        //}
 
         void InitPlayer()
         {
@@ -179,12 +189,9 @@ namespace SD
             Background.UpdateCameraPosition(CurrentPlayer.MainCamera.transform.position);
         }
 
-        void OnDestroy()
+        void PauseGame()
         {
-            // save data from player's inventory
-            CurrentPlayer.Inventory.Save();
-
-            UnsignFromEvents();
+            Time.timeScale = 0;
         }
     }
 }
