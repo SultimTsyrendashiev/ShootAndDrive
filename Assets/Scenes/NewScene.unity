@@ -9412,7 +9412,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &561777380
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11183,7 +11183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   killsAmountText: {fileID: 834258160}
-  updateOnlyOnEnable: 0
+  updateOnlyOnEnable: 1
 --- !u!1 &639268527
 GameObject:
   m_ObjectHideFlags: 0
@@ -17068,7 +17068,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &957997265
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17213,7 +17213,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &964217074
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23546,7 +23546,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1306296147
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24604,7 +24604,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 279956690}
+  m_TargetGraphic: {fileID: 1389850034}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -25575,7 +25575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceText: {fileID: 1725933274}
-  updateOnlyOnEnable: 0
+  updateOnlyOnEnable: 1
 --- !u!1 &1447399046
 GameObject:
   m_ObjectHideFlags: 0
@@ -30311,7 +30311,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 279956690}
+  m_TargetGraphic: {fileID: 1702908347}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -31163,7 +31163,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1755979964
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35670,6 +35670,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581316839824631170, guid: 1fb7ac223cb085f4bb25359fccb3dfa8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7581316839824631181, guid: 1fb7ac223cb085f4bb25359fccb3dfa8,
         type: 3}
