@@ -14,11 +14,24 @@ namespace SD.PlayerLogic
         public AmmoHolder()
         {
             ammo = new Dictionary<AmmunitionType, RefInt>();
+        }
 
-            // set default values
+        public void Init()
+        {
             foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
             {
                 ammo.Add(a, new RefInt());
+            }
+        }
+
+        /// <summary>
+        /// Sets default values
+        /// </summary>
+        public void SetDefault()
+        {
+            foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
+            {
+                ammo[a].Value = 0;
             }
         }
 

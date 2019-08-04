@@ -148,7 +148,8 @@ namespace SD.Enemies
             }
             else if (damage.Type == DamageType.Explosion && Health > 0)
             {
-                // TODO: change mesh parts to wreck
+                // TODO: change mesh parts to wrecked ones
+                ParticlesPool.Instance.Play(data.HitParticlesName, transform.position, Quaternion.LookRotation(damage.Point - transform.position));
             }
 
             if (Health <= 0)

@@ -10,45 +10,55 @@ namespace SD.Enemies
         [SerializeField] int        startHealth;
         [SerializeField] int        score;
         
-        public string       Name => enemyName;
-        public int          StartHealth => startHealth;
+        public string               Name => enemyName;
+        public int                  StartHealth => startHealth;
         /// <summary>
         /// How many score points will be given to player
         /// after defeating this enemy
         /// </summary>
-        public int          Score => score;
+        public int                  Score => score;
 
 
         // special, if needed
         [SerializeField] bool       isDriver = false;
         [SerializeField] bool       canAttack = false;
         [SerializeField] string     projectileName;
+        [SerializeField] int        projectileDamage = 7;
+        [SerializeField] float      projectileSpeed = 5.0f;
         [SerializeField] Vector2    timeBetweenRounds = new Vector2(1.0f, 1.0f);
         [SerializeField] float      fireRate = 0.1f;
         [SerializeField] int        shotsAmount = 1;
         [SerializeField] string     bloodParticlesName = "Blood";
+        [SerializeField] string     corpseName;
 
-        public bool         IsDriver => isDriver;
-        public bool         CanAttack => canAttack;
+
+        public bool                 IsDriver => isDriver;
+        public bool                 CanAttack => canAttack;
         /// <summary>
         /// Projectile name in object pool
         /// </summary>
-        public string       ProjectileName => projectileName;
+        public string               ProjectileName => projectileName;
         /// <summary>
         /// Time between fire rounds
         /// </summary>
-        public Vector2      TimeBetweenRounds => timeBetweenRounds;
+        public Vector2              TimeBetweenRounds => timeBetweenRounds;
         /// <summary>
         /// Time between shots in seconds
         /// </summary>
-        public float        FireRate => fireRate;
+        public float                FireRate => fireRate;
         /// <summary>
         /// Amount of shots for one round
         /// </summary>
-        public int          ShotsAmount => shotsAmount;
+        public int                  ShotsAmount => shotsAmount;
         /// <summary>
         /// Blood particles name in particles pool
         /// </summary>
-        public string       BloodParticlesName => bloodParticlesName;
+        public string               BloodParticlesName => bloodParticlesName;
+
+        public string               CorpseName => corpseName;
+
+        public float                ProjectileSpeed => projectileSpeed;
+
+        public int                  ProjectileDamage => projectileDamage;
     }
 }

@@ -18,7 +18,10 @@ MonoBehaviour:
   isDriver: 1
   canAttack: 1
   projectileName: Bullet
-  timeBetweenRounds: {x: 1, y: 2}
+  projectileDamage: 5
+  projectileSpeed: 31
+  timeBetweenRounds: {x: 0.5, y: 0.7}
   fireRate: 0.1
-  shotsAmount: 7
+  shotsAmount: 5
   bloodParticlesName: Blood
+  corpseName: HumanRagdoll

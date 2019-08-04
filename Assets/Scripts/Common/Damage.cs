@@ -39,7 +39,8 @@ namespace SD
 
         /// <summary>
         /// Normal of damage.
-        /// Note: used only in bullet damage
+        /// Note: used only in bullet damage,
+        /// otherwise is up vector
         /// </summary>
         public Vector3 Normal => normal;
 
@@ -78,12 +79,12 @@ namespace SD
         /// </summary>
         public static Damage CreateExpolosionDamage(float value, float radius, Vector3 point, GameObject initiator)
         {
-            return new Damage(value, radius, DamageType.Explosion, Vector3.zero, point, Vector3.zero, initiator);
+            return new Damage(value, radius, DamageType.Explosion, Vector3.up, point, Vector3.up, initiator);
         }
 
         public static Damage CreateFireDamage(float value, GameObject initiator)
         {
-            return new Damage(value, 0, DamageType.Fire, Vector3.zero, Vector3.zero, Vector3.zero, initiator);
+            return new Damage(value, 0, DamageType.Fire, Vector3.up, Vector3.zero, Vector3.up, initiator);
         }
 
         /// <summary>

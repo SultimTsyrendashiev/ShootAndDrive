@@ -18,12 +18,16 @@ namespace SD
 
         SpawnersController          spawnersController;
 
-        public Player               CurrentPlayer { get; private set; }
-        public AllWeaponsStats      WeaponsStats { get; private set; }
+        float defaultTimeScale;
+        float defaultFixedDelta;
+
+        public Player CurrentPlayer { get; private set; }
+        public AllWeaponsStats WeaponsStats { get; private set; }
         public BackgroundController Background { get; private set; }
 
         // events
         public static event Void    OnGamePause;
+        public static event Void    OnGameUnpause;
 
         void Awake()
         {
@@ -45,46 +49,14 @@ namespace SD
         {
             CurrentPlayer.OnPlayerDeath += ProcessPlayerDeath;
             InputController.OnPause += PauseGame;
+            InputController.OnUnpause += UnpauseGame;
         }
 
         void UnsignFromEvents()
         {
             CurrentPlayer.OnPlayerDeath -= ProcessPlayerDeath;
             InputController.OnPause -= PauseGame;
-        }
-
-        void ProcessPlayerDeath(GameScore score)
-        {
-            // (no) death screen, wait 1 sec;
-            // (no) on tap - skip waiting;
-
-            // scale down time
-            StartCoroutine(WaitForScaleTime());
-        }
-
-        IEnumerator WaitForScaleTime()
-        {
-            const float timeToWait = 2.0f;
-            float waited = 0;
-
-            float startTimeScale = Time.timeScale;
-            float startFixedDelta = Time.fixedDeltaTime;
-
-            while (waited < timeToWait)
-            {
-                yield return null;
-                waited += Time.deltaTime;
-
-                if (waited > timeToWait)
-                {
-                    waited = timeToWait;
-                }
-
-                float scale = 1 - waited / timeToWait;
-
-                Time.timeScale = scale * startTimeScale;
-                Time.fixedDeltaTime = scale * startFixedDelta;
-            }
+            InputController.OnUnpause -= UnpauseGame;
         }
 
         /// <summary>
@@ -92,6 +64,9 @@ namespace SD
         /// </summary>
         void Init()
         {
+            defaultTimeScale = Time.timeScale;
+            defaultFixedDelta = Time.fixedDeltaTime;
+
             // TODO:
             // in 'Init' method of each IPooledObject must not be references to next systems
             InitPools();
@@ -104,7 +79,7 @@ namespace SD
             InitEnemySpawners();
             // independent
             InitPlayer();
-            
+
             // depends on player and weapons
             //InitUI();
 
@@ -125,9 +100,9 @@ namespace SD
         {
             const float startSpawnerDistance = 100;
 
-            spawnersController.StartCoroutine(spawnersController.StartSpawn(
+            spawnersController.StartSpawn(
                 CurrentPlayer.transform.position + CurrentPlayer.transform.forward * startSpawnerDistance,
-                CurrentPlayer.transform));
+                CurrentPlayer.transform);
         }
 
         private void InitBackground()
@@ -152,13 +127,9 @@ namespace SD
         {
             // depends on player and weapons stats
             CurrentPlayer.InitInventory();
-
-            // load items from player prefs
             CurrentPlayer.Inventory.Load();
 
-#if UNITY_EDITOR
             CurrentPlayer.Inventory.GiveAll();
-#endif
         }
 
         //void InitUI()
@@ -218,10 +189,77 @@ namespace SD
             Background.UpdateCameraPosition(CurrentPlayer.MainCamera.transform.position);
         }
 
-        void PauseGame()
+        public void PauseGame()
         {
             Time.timeScale = 0;
             OnGamePause();
+        }
+
+        public void UnpauseGame()
+        {
+            Time.timeScale = 1;
+            // OnGameUnpause();
+        }
+
+        void ProcessPlayerDeath(GameScore score)
+        {
+            // (no) death screen, wait 1 sec;
+            // (no) on tap - skip waiting;
+
+            // add money
+            CurrentPlayer.Inventory.Money += score.Money;
+            // and save inventory
+            CurrentPlayer.Inventory.Save();
+
+            // scale down time
+            StartCoroutine(WaitForScaleTime());
+        }
+
+        /// <summary>
+        /// Scales down time scale and then reverts it
+        /// </summary>
+        IEnumerator WaitForScaleTime()
+        {
+            const float scale = 0.2f;
+            const float toWait = 0.3f;
+
+            Time.timeScale = defaultTimeScale * scale;
+            Time.fixedDeltaTime = defaultFixedDelta * scale;
+
+            yield return new WaitForSeconds(toWait);
+
+            Time.timeScale = defaultTimeScale;
+            Time.fixedDeltaTime = defaultFixedDelta;
+
+            //    float startScale = 0.15f;
+            //    Time.timeScale = defaultTimeScale * startScale;
+            //    Time.fixedDeltaTime = defaultFixedDelta * startScale;
+
+            //    yield return new WaitForSeconds(1.0f);
+
+            //    const float timeToWait = 0.25f;
+            //    float waited = 0;
+
+            //    while (waited < timeToWait)
+            //    {
+            //        yield return null;
+            //        waited += Time.unscaledDeltaTime;
+
+            //        if (waited > timeToWait)
+            //        {
+            //            waited = timeToWait;
+            //        }
+
+            //        float scale = 1 - waited / timeToWait;
+            //        scale *= startScale;
+
+            //        Time.timeScale = scale * defaultTimeScale;
+            //        Time.fixedDeltaTime = scale * defaultFixedDelta;
+            //    }
+
+            //    Time.timeScale = 0;
+            //    Time.fixedDeltaTime = 0;
+            //}
         }
     }
 }

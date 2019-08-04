@@ -27,6 +27,7 @@ namespace SD.UI
         public static event Void                OnFireButton;
         public static event WeaponSwitch        OnWeaponSwitch;
         public static event Void                OnPause;
+        public static event Void                OnUnpause;
 
         public static event RegenerateHealth    OnHealthRegenerate;
 
@@ -125,6 +126,14 @@ namespace SD.UI
         public void Pause()
         {
             OnPause();
+        }
+
+        /// <summary>
+        /// Called on click on continue button
+        /// </summary>
+        public void Unpause()
+        {
+            OnUnpause();
         }
 
         /// <summary>

@@ -18,7 +18,7 @@ MonoBehaviour:
   vehicleType: Sedan
   speed: 20
   brakingTime: 7
-  startHealth: 150
+  startHealth: 160
   collisionDamage: 110
   score: 570
   explosionName: Explosion

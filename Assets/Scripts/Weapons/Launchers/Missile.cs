@@ -165,7 +165,8 @@ namespace SD.Weapons
         /// Apply full damage to the collider
         /// (if it's 'IDamageable' and not owner)
         /// </summary>
-        protected void ApplyFullDamage(Collider c)
+        /// <param name="explosion">should damage type be an explosion?</param>
+        protected void ApplyFullDamage(Collider c, bool explosion = true)
         {
             // ignore if it's owner
             if (IsOwner(c))
@@ -178,7 +179,9 @@ namespace SD.Weapons
             if (d != null)
             {
                 // damage in collider's position
-                Damage dmg = Damage.CreateExpolosionDamage(damageValue, damageRadius, c.transform.position, owner);
+                Damage dmg = explosion ?
+                    Damage.CreateExpolosionDamage(damageValue, damageRadius, c.transform.position, owner) :
+                    Damage.CreateBulletDamage(damageValue, transform.forward, transform.position, -transform.forward, owner);
                 d.ReceiveDamage(dmg);
             }
         }

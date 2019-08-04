@@ -14,8 +14,11 @@ namespace SD.Enemies
             Damaging
         }
 
-        // How long to wait for damage
+        // how long to wait for damage
         const float TimeForDamage = 1.0f;
+        // when can attack
+        const float AttackDistance = 75.0f;
+        const float AttackDistanceSqr = AttackDistance * AttackDistance;
 
         [SerializeField]
         EnemyData               data;
@@ -28,6 +31,7 @@ namespace SD.Enemies
 
         Coroutine               attackCoroutine;
 
+        Collider                damageable;
         // Current vehicle of this passenger
         EnemyVehicle            vehicle;
         // Current target of this passenger
@@ -56,6 +60,7 @@ namespace SD.Enemies
         {
             this.vehicle = vehicle;
             this.target = null;
+            damageable = GetComponent<Collider>();
             State = PassengerState.Nothing;
 
             Debug.Assert(passengerAnimation != null, "Passenger animation is not set", this);
@@ -76,7 +81,11 @@ namespace SD.Enemies
             }
 
             // reset animation
+            passengerAnimation.gameObject.SetActive(true);
             passengerAnimation.Reset();
+
+            // reset collider
+            damageable.enabled = true;
 
             TryToStartAttack();
         }
@@ -113,8 +122,9 @@ namespace SD.Enemies
             }
 
             // always play blood particle system
-            ParticlesPool.Instance.Play(data.BloodParticlesName, damage.Point,
-               Quaternion.LookRotation(damage.Type == DamageType.Bullet ? damage.Normal : Vector3.up));
+            ParticlesPool.Instance.Play(data.BloodParticlesName,
+                damage.Type == DamageType.Bullet ? damage.Point : transform.position, Quaternion.LookRotation(
+                damage.Type == DamageType.Bullet ? damage.Normal : damage.Point - transform.position));
 
             if (State == PassengerState.Dead)
             {
@@ -142,6 +152,9 @@ namespace SD.Enemies
             }
         }
 
+        /// <summary>
+        /// Must be called only from 'ReceiveDamage'
+        /// </summary>
         void Die()
         {
             Health = 0;
@@ -153,8 +166,27 @@ namespace SD.Enemies
                 autoaimTarget.enabled = false;
             }
 
-            // play animation
-            passengerAnimation.Die();
+            if (string.IsNullOrEmpty(data.CorpseName))
+            {
+                // play animation if there is no corpse
+                passengerAnimation.Die();
+            }
+            else
+            {
+                // hide animated passenger
+                passengerAnimation.gameObject.SetActive(false);
+                // deactivate damageable
+                damageable.enabled = false;
+
+                // get corpse from object pool
+                var co = ObjectPool.Instance.GetObject(data.CorpseName, transform.position, transform.rotation);
+
+                var c = co.GetComponent<Corpse>();
+                Debug.Assert(c != null, "Corpse object must contain corpse component", co);
+
+                Vector3 av = Random.onUnitSphere * Random.Range(10, 40);
+                c.Launch(vehicle.VehicleRigidbody.velocity, av);
+            }
 
             OnPassengerDeath(data);
         }
@@ -195,7 +227,7 @@ namespace SD.Enemies
 
         bool TryToStartAttack()
         {
-            if (!data.CanAttack)
+            if (!data.CanAttack || data.ShotsAmount == 0)
             {
                 return false;
             }
@@ -236,8 +268,14 @@ namespace SD.Enemies
                     yield break;
                 }
 
+                // don't atack if target is far away
+                if ((target.position - transform.position).sqrMagnitude > AttackDistanceSqr)
+                {
+                    continue;
+                }
+
                 // play animation
-                passengerAnimation.Attack();
+                    passengerAnimation.Attack();
 
                 for (int i = 0; i < shotsAmount; i++)
                 {
@@ -252,14 +290,10 @@ namespace SD.Enemies
 
                     var missileObj = ObjectPool.Instance.GetObject(projectileName, projectileSpawn.position, direction);
                     var missile = missileObj.GetComponent<Weapons.Missile>();
-                    missile.Set(7, vehicle.gameObject);
-                    missile.Launch(5);
+                    missile.Set(data.ProjectileDamage, vehicle.gameObject);
+                    missile.Launch(data.ProjectileSpeed);
 
-                    // don't wait for last
-                    if (i < shotsAmount - 1)
-                    {
-                        yield return new WaitForSeconds(fireRate);
-                    }
+                    yield return new WaitForSeconds(fireRate);
                 }
             }
 
@@ -276,15 +310,21 @@ namespace SD.Enemies
             Vector3 direction = target.position - projectileSpawn.position;
             direction.Normalize();
 
-            const float angleBetweenShots = 2.5f;
-            int amount = data.ShotsAmount - 1;
+            const float maxAngle = 5.0f;
+            int amount = data.ShotsAmount; // >= 1
 
+            if (amount == 1)
+            {
+                return direction;
+            }
+
+            float delta = 1.0f / (amount - 1);
             // [0..1]
-            float anglex = (float)shotIndex / amount;
+            float anglex = shotIndex * delta;
             // [-1..1]
-            anglex = anglex * 2 - 1;
+            anglex = -1 + anglex * 2;
 
-            anglex *= angleBetweenShots;
+            anglex *= maxAngle;
 
             // apply angle
             direction = Quaternion.AngleAxis(anglex, transform.up)

@@ -20,8 +20,9 @@ namespace SD.Enemies
         /// </summary>
         float           driveAwaySpeed;
 
+        Vector3         targetVelocity;
         Vector3         velocity;
-        Transform       target;
+        Transform       currentTarget;
         bool            doorsOpened;
 
         VanDoor[]       doors;
@@ -45,12 +46,15 @@ namespace SD.Enemies
 
             // find target
             var player = FindObjectOfType<PlayerLogic.Player>();
-            target = player.transform;
+            currentTarget = player.transform;
 
             if (player.Vehicle != null)
             {
-                const float diff = 0.5f;
-                driveAwaySpeed = player.Vehicle.DefaultSpeed - diff;
+                float targetSpeed = player.Vehicle.DefaultSpeed;
+                targetVelocity = transform.forward * targetSpeed;
+
+                const float diff = 0.0f;
+                driveAwaySpeed = targetSpeed - diff;
             }
 
             CloseDoors();
@@ -71,7 +75,7 @@ namespace SD.Enemies
             if (State == EnemyVehicleState.Active)
             {
                 // distance between van and target along target forward vector
-                float projLength = Vector3.Dot(VehicleRigidbody.position - target.position, target.forward);
+                float projLength = Vector3.Dot(VehicleRigidbody.position - currentTarget.position, currentTarget.forward);
 
                 // if nobody follows or this van follows
                 bool canFollow = !AlreadyFollowing || isFollowing;
@@ -79,9 +83,9 @@ namespace SD.Enemies
                 // clamp position, if close to target
                 if (Mathf.Abs(projLength) <= AttackDistance && canFollow)
                 {
-                    float x = Mathf.Lerp(VehicleRigidbody.position.x,  target.position.x, SideSpeed * Time.fixedDeltaTime);
+                    float x = Mathf.Lerp(VehicleRigidbody.position.x, currentTarget.position.x, SideSpeed * Time.fixedDeltaTime);
 
-                    Vector3 pos = target.position + target.forward * AttackDistance;
+                    Vector3 pos = currentTarget.position + currentTarget.forward * AttackDistance;
                     pos.x = x;
 
                     VehicleRigidbody.position = pos;
@@ -98,9 +102,18 @@ namespace SD.Enemies
                     return;
                 }
 
-                VehicleRigidbody.position += velocity * Time.fixedDeltaTime;
+                if (!AlreadyFollowing)
+                {
+                    // if not nobody follows, move with default speed
+                    VehicleRigidbody.position += velocity * Time.fixedDeltaTime;
+                }
+                else
+                {
+                    // if somebody already follows, move with speed of player
+                    VehicleRigidbody.position += targetVelocity * Time.fixedDeltaTime;
+                }
 
-                // if exactly this van followed
+                // if exactly this van followed, but at this moment stopped
                 if (AlreadyFollowing && isFollowing)
                 {
                     isFollowing = false;
@@ -164,7 +177,7 @@ namespace SD.Enemies
             // activate passengers
             foreach (var p in Passengers)
             {
-                p.SetTarget(target);
+                p.SetTarget(currentTarget);
             }
         }
     }

@@ -5,14 +5,19 @@ namespace SD.Enemies.Spawner
 {
     class RandomSpawner : ISpawner
     {
-        const int       Count = 4;
-        const float     DistanceBetween = 5;
+        const int       Count = 3;
+        const float     DistanceBetween = 10;
         // safe distance between spawned enemies
         const float     SafeDistance = 1.0f;
+        const float     Safe = 30;
 
         // what enemies to spawn
-        readonly string[] names = { SpawnersController.EnemySedan, /*SpawnersController.EnemyTruck,*/ SpawnersController.EnemyBike/*, SpawnersController.EnemyVan*/ };
-        readonly IBackgroundController background;
+        readonly string[] names = { 
+            SpawnersController.EnemySedan, 
+            SpawnersController.EnemyTruck, 
+            SpawnersController.EnemyBike,
+            //SpawnersController.EnemyVan
+        };
 
         // objects that spawned at one call of 'Spawn';
         // temporary collection for checking intersections
@@ -20,11 +25,10 @@ namespace SD.Enemies.Spawner
         // using list, as amount in list in very small
         List<ISpawnable> batch;
 
-        public float Distance => Count * DistanceBetween;
+        public float Distance => Count * DistanceBetween + Safe;
 
-        public RandomSpawner(IBackgroundController background)
+        public RandomSpawner()
         {
-            this.background = background;
             batch = new List<ISpawnable>(Count);
         }
 

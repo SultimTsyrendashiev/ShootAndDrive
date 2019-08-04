@@ -8,7 +8,7 @@ namespace SD
     delegate void FloatChange(float f);
 
     // player
-    delegate void RegenerateHealth();
+    delegate bool RegenerateHealth();
     delegate void ScoreChange(GameScore score);
     delegate void PlayerDeath(GameScore score);
     delegate void PlayerStateChange(PlayerState state);
@@ -28,4 +28,7 @@ namespace SD
     delegate void WeaponBreak(WeaponIndex brokenWeapon);    // to weapons controller
     delegate void WeaponAmmoChange(int currentAmount);      // for UI (ammo amount)
     delegate void WeaponSwitch(WeaponIndex switchTo);
+
+    // spawners
+    //delegate void SpawnerRegister(ISpawner s);
 }

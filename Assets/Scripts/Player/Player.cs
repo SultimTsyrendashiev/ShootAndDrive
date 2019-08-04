@@ -16,30 +16,33 @@ namespace SD.PlayerLogic
         /// <summary>
         /// Min health when regeneration without medkit can be applied 
         /// </summary>
-        public const float          MinHealthForRegeneration = 25;
+        public const float                  MinHealthForRegeneration = 25;
 
         /// <summary>
         /// Min health there must be after regeneration
         /// </summary>
-        const float                 MinRegeneratedHealth = MinHealthForRegeneration;
+        const float                         MinRegeneratedHealth = MinHealthForRegeneration;
         /// <summary>
         /// How many health points will be regenerated without medkit
         /// </summary>
-        const float                 HealthToRegenerate = 20;
-        const float                 HealthAfterMedkit = MaxHealth;
-        public const float          MaxHealth = 100;
+        const float                         HealthToRegenerate = 20;
+        const float                         HealthAfterMedkit = MaxHealth;
+        public const float                  MaxHealth = 100;
         #endregion
 
-        ISteeringWheel              steeringWheel;
-        WeaponsController           weaponsController;
-        GameScore                   currentScore;
+        [SerializeField]
+        string                              bloodParticlesName = "Blood";
 
-        public Camera               MainCamera { get; private set; }
-        public PlayerInventory      Inventory { get; private set; }
-        public PlayerState          State { get; private set; }
-        public float                Health { get; private set; } = 10;
-        public GameScore            CurrentScore => currentScore;
-        public PlayerVehicle        Vehicle { get; private set; }
+        ISteeringWheel                      steeringWheel;
+        WeaponsController                   weaponsController;
+        GameScore                           currentScore;
+
+        public Camera                       MainCamera { get; private set; }
+        public PlayerInventory              Inventory { get; private set; }
+        public PlayerState                  State { get; private set; }
+        public float                        Health { get; private set; } = MaxHealth;
+        public GameScore                    CurrentScore => currentScore;
+        public PlayerVehicle                Vehicle { get; private set; }
 
         public event FloatChange            OnHealthChange;
         public event ScoreChange            OnScoreChange;
@@ -162,92 +165,121 @@ namespace SD.PlayerLogic
 
             // send player's score
             currentScore.VehicleHealth = (int)Vehicle.Health;
-            OnPlayerDeath(CurrentScore);
+
+            currentScore.Calculate();
+            OnPlayerDeath(currentScore);
 
             // TODO:
             // sound
             CameraShaker.Instance.PlayAnimation(CameraShaker.CameraAnimation.Death);
         }
 
-        public void RegenerateHealth()
-        {            
-            // if player is busy
-            if (State != PlayerState.Ready)
-            {
-                return;
-            }
-
-            // if weapons controller is busy
-            if (weaponsController.IsBusy())
-            {
-                return;
-            }
-
-            // regenerate if health is not max
-            if (Health < MaxHealth)
-            {
-                StartCoroutine(WaitForRegeneration());
-            }
-        }
-
-        IEnumerator WaitForRegeneration()
+        public bool RegenerateHealth(int healthPoints)
         {
-            State = PlayerState.Regenerating;
+            int maxHealth = (int)MaxHealth;
 
-            // weapons must be hidden,
-            // so wait
-            while (weaponsController.IsBusy())
+            if (Health < maxHealth)
             {
-                yield return null;
+                int newHealth = (int)Health + healthPoints;
+                newHealth = newHealth < maxHealth ? newHealth : maxHealth;
+
+                Health = newHealth;
+                return true;
             }
 
-            // TODO:
-            // start anim and sound
-
-            Debug.Log("Regenerating health");
-
-            float animLength = 1.0f;
-            float waited = 0.0f;
-
-            do
-            {
-                yield return null;
-                waited += Time.deltaTime;
-
-                // if died while regenerating
-                if (State == PlayerState.Dead || State == PlayerState.Nothing)
-                {
-                    yield break;
-                }
-
-            } while (waited < animLength);
-
-            // add health
-            if (Health < MinHealthForRegeneration)
-            {
-                Health += HealthToRegenerate;
-
-                if (Health < MinRegeneratedHealth)
-                {
-                    Health = MinRegeneratedHealth;
-                }
-            }
-            else
-            {
-                Health = HealthAfterMedkit;
-            }
-
-            OnHealthChange(Health);
-
-            State = PlayerState.Ready;
+            return false;
         }
 
+        #region self health regeneration
+        public bool RegenerateHealth()
+        {
+            Debug.Log("Self health regeneration is not supported");
+            return false;
+
+            //// if player is busy
+            //if (State != PlayerState.Ready)
+            //{
+            //    return false;
+            //}
+
+            //// if weapons controller is busy
+            //if (weaponsController.IsBusy())
+            //{
+            //    return false;
+            //}
+
+            //// regenerate if health is not max
+            //if (Health < MaxHealth)
+            //{
+            //    StartCoroutine(WaitForRegeneration());
+            //}
+
+            //return true;
+        }
+        
+        //IEnumerator WaitForRegeneration()
+        //{
+        //    State = PlayerState.Regenerating;
+
+        //    // weapons must be hidden,
+        //    // so wait
+        //    while (weaponsController.IsBusy())
+        //    {
+        //        yield return null;
+        //    }
+
+        //    // TODO:
+        //    // start anim and sound
+
+        //    Debug.Log("Regenerating health");
+
+        //    float animLength = 1.0f;
+        //    float waited = 0.0f;
+
+        //    do
+        //    {
+        //        yield return null;
+        //        waited += Time.deltaTime;
+
+        //        // if died while regenerating
+        //        if (State == PlayerState.Dead || State == PlayerState.Nothing)
+        //        {
+        //            yield break;
+        //        }
+
+        //    } while (waited < animLength);
+
+        //    // add health
+        //    if (Health < MinHealthForRegeneration)
+        //    {
+        //        Health += HealthToRegenerate;
+
+        //        if (Health < MinRegeneratedHealth)
+        //        {
+        //            Health = MinRegeneratedHealth;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Health = HealthAfterMedkit;
+        //    }
+
+        //    OnHealthChange(Health);
+
+        //    State = PlayerState.Ready;
+        //}
+        #endregion
 
         /// <summary>
         /// Note: must be called only by 'PlayerDamageReceiver'
         /// </summary>
         public void ReceiveDamage(Damage damage)
         {
+            // always play blood particle system
+            ParticlesPool.Instance.Play(bloodParticlesName,
+                damage.Type == DamageType.Bullet ? damage.Point : transform.position, Quaternion.LookRotation(
+                damage.Type == DamageType.Bullet ? damage.Normal : damage.Point - transform.position));
+
             if (Health <= 0)
             {
                 return;
@@ -297,7 +329,7 @@ namespace SD.PlayerLogic
             {
                 // receive damage
                 ReceiveDamage(Damage.CreateBulletDamage(
-                    damage, -transform.forward, transform.position, transform.up, null));
+                    damage, -transform.forward, transform.position, transform.forward, null));
 
                 if (Health > 0)
                 {
@@ -311,6 +343,27 @@ namespace SD.PlayerLogic
                 // just play animation
                 CameraShaker.Instance.PlayAnimation(CameraShaker.CameraAnimation.Collision);
             }
+        }
+
+        /// <summary>
+        /// Kill the player
+        /// </summary>
+        public void Kill()
+        {
+            if (State == PlayerState.Nothing)
+            {
+                return;
+            }
+
+            if (Health <= 0)
+            {
+                return;
+            }
+
+            Damage fatalDamage = Damage.CreateBulletDamage(Health,
+                    transform.forward, transform.position, transform.forward, gameObject);
+
+            ReceiveDamage(fatalDamage);
         }
 
         /// <summary>

@@ -2,6 +2,12 @@
 
 namespace SD.Enemies
 {
+    /// <summary>
+    /// Passenger's animations.
+    /// Attack animation name must contain "Attack".
+    /// Damage animation name must contain "Damage".
+    /// Death animation name must contain "Death".
+    /// </summary>
     [RequireComponent(typeof(Animation))]
     class EnemyPassengerAnimation : MonoBehaviour
     {

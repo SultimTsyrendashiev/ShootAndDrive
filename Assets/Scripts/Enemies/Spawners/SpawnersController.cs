@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
     
 namespace SD.Enemies.Spawner
@@ -12,31 +11,32 @@ namespace SD.Enemies.Spawner
         public const string EnemyTruck  = "EnemyTruck";
         public const string EnemyVan    = "EnemyVan";
 
-        const float DistanceBetweenSpawners = 50;
-
-        // all spawned enemies by this class,
+        // all registered spawners
+        List<ISpawner>          spawners;
+        // all spawned enemies,
         // used for checking out of bounds of background
         LinkedList<ISpawnable>  spawnedObjects;
-
-        List<ISpawner>          spawners;
         //Queue<int>            spawnersQueue; // holds indices to the list
-        Vector3                 lastPosition;
 
-        IBackgroundController background;
+        Transform               player;
+        Vector3                 currentPos;
+        bool                    shouldSpawn;
+
+        IBackgroundController   background;
 
         public void Init()
         {
+            shouldSpawn = false;
+
             spawners = new List<ISpawner>();
             //spawnersQueue = new Queue<int>();
-
             spawnedObjects = new LinkedList<ISpawnable>();
-
-            AddSpawners();
         }
 
         void Start()
         {
             background = FindObjectOfType<Background.BackgroundController>();
+            AddSpawners();
         }
 
         /// <summary>
@@ -44,7 +44,12 @@ namespace SD.Enemies.Spawner
         /// </summary>
         void AddSpawners()
         {
-            spawners.Add(new RandomSpawner(background));
+            //spawners.Add(new RandomSpawner());
+            spawners.Add(new ArrowSpawner());
+            spawners.Add(new SixSpawner());
+            spawners.Add(new WSpawner());
+            spawners.Add(new CircleSpawner());
+            spawners.Add(new VanSpawner());
         }
 
         ///// <summary>
@@ -56,49 +61,53 @@ namespace SD.Enemies.Spawner
         //    spawnersQueue.Enqueue(index);
         //}
 
+        public void StartSpawn(Vector3 startPosition, Transform player)
+        {
+            shouldSpawn = true;
+            currentPos = startPosition;
+            this.player = player;
+        }
+
         /// <summary>
         /// Start enemy spawning
         /// </summary>
         /// <param name="position">start point</param>
         /// <param name="vehicle"></param>
         /// <returns></returns>
-        public IEnumerator StartSpawn(Vector3 position, Transform player)
+        public void Update()
         {
-            Vector3 currentPos = position;
-
-            while (true)
+            if (!shouldSpawn)
             {
-                // spawn to the limit of background blocks
-                while ((currentPos - player.position).sqrMagnitude < Mathf.Pow(background.CurrentLength, 2))
-                {
-                    // add to the queue new spawner indices
-                    //SetNextSpawner();
-                    //int index = spawnersQueue.Dequeue();
-
-                    int index = Random.Range(0, spawners.Count);
-                    ISpawner spawner = spawners[index];
-
-                    Vector2 bounds = background.GetBlockBounds(currentPos);
-
-                    spawner.Spawn(currentPos, player, bounds, spawnedObjects);
-
-                    // to the next spawner point
-                    float d = spawner.Distance + DistanceBetweenSpawners;
-
-                    currentPos += player.forward * d;
-                }
-
-                // return to pool, if out of background
-                DisableUnused();
-
-                // wait and then check again
-                yield return null;
+                return;
             }
+
+            // spawn to the limit of background blocks
+            while ((currentPos - player.position).sqrMagnitude < Mathf.Pow(background.CurrentLength, 2))
+            {
+                // add to the queue new spawner indices
+                //SetNextSpawner();
+                //int index = spawnersQueue.Dequeue();
+
+                int index = Random.Range(0, spawners.Count);
+                ISpawner spawner = spawners[index];
+
+                Vector2 bounds = background.GetBlockBounds(currentPos);
+
+                spawner.Spawn(currentPos, player, bounds, spawnedObjects);
+
+                // to the next spawner point
+                float d = spawner.Distance;
+
+                currentPos += player.forward * d;
+            }
+
+            // return to pool, if out of background
+            DisableUnused();
         }
 
         public void Stop()
         {
-            StopAllCoroutines();
+            shouldSpawn = false;
         }
 
         /// <summary>

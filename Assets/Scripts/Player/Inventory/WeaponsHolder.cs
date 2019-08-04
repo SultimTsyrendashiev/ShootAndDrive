@@ -13,11 +13,25 @@ namespace SD.PlayerLogic
         public WeaponsHolder()
         {
             playerWeapons = new Dictionary<WeaponIndex, WeaponItem>();
+        }
 
-            // set default values
+        public void Init()
+        {
             foreach (WeaponIndex a in Enum.GetValues(typeof(WeaponIndex)))
             {
                 playerWeapons.Add(a, new WeaponItem(a, 0, false));
+            }
+        }
+
+        /// <summary>
+        /// Sets default values
+        /// </summary>
+        public void SetDefault()
+        {
+            foreach (WeaponIndex a in Enum.GetValues(typeof(WeaponIndex)))
+            {
+                playerWeapons[a].HealthRef.Value = 0;
+                playerWeapons[a].IsBought = false;
             }
         }
 
@@ -47,16 +61,6 @@ namespace SD.PlayerLogic
         public WeaponItem Get(WeaponIndex w)
         {
             return playerWeapons[w];
-        }
-
-        public void SetHealth(WeaponIndex w, int health)
-        {
-            playerWeapons[w].HealthRef.Value = health;
-        }
-
-        public void SetBought(WeaponIndex w, bool isBought)
-        {
-            playerWeapons[w].IsBought = isBought;
         }
 
         /// <summary>

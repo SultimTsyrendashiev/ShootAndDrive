@@ -16,9 +16,9 @@ MonoBehaviour:
   vehicleMark: 
   vehicleModel: 
   vehicleType: Van
-  speed: 5
+  speed: -10
   brakingTime: 2
-  startHealth: 200
+  startHealth: 250
   collisionDamage: 200
   score: 760
   explosionName: Explosion

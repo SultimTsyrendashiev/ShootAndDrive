@@ -18,7 +18,10 @@ MonoBehaviour:
   isDriver: 0
   canAttack: 1
   projectileName: Bullet
-  timeBetweenRounds: {x: 1, y: 1.5}
+  projectileDamage: 7
+  projectileSpeed: 31
+  timeBetweenRounds: {x: 0.5, y: 0.7}
   fireRate: 0.2
   shotsAmount: 3
   bloodParticlesName: Blood
+  corpseName: 

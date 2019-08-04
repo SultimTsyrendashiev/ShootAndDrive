@@ -15,122 +15,38 @@ namespace SD.PlayerLogic
         public WeaponsHolder Weapons { get; private set; }
         public AmmoHolder Ammo { get; private set; }
         public ItemsHolder Items { get; private set; }
+        public int Money { get; set; }
 
+        /// <summary>
+        /// Sets default values
+        /// </summary>
         public PlayerInventory()
         {
             Weapons = new WeaponsHolder();
             Ammo = new AmmoHolder();
             Items = new ItemsHolder();
+
+            // init
+            Weapons.Init();
+            Ammo.Init();
+            Items.Init();
+            Money = 0;
         }
 
-        #region saving / loading
         /// <summary>
         /// Save inventory
         /// </summary>
         public void Save()
         {
-            foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
-            {
-                SaveWeapon(w);
-            }
-
-            foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
-            {
-                SaveAmmo(a);
-            }
-
-            foreach (ItemType i in Enum.GetValues(typeof(ItemType)))
-            {
-                SaveItem(i);
-            }
+            Game.Data.DataSystem.SaveInventory(this);
         }
         /// <summary>
         /// Load inventory to this class
         /// </summary>
         public void Load()
         {
-            foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
-            {
-                LoadWeapon(w);
-            }
-
-            foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
-            {
-                LoadAmmo(a);
-            }
-
-            foreach (ItemType i in Enum.GetValues(typeof(ItemType)))
-            {
-                LoadItem(i);
-            }
+            Game.Data.DataSystem.LoadInventory(this);
         }
-
-        void SaveWeapon(WeaponIndex w)
-        {
-            WeaponItem weapon = Weapons.Get(w);
-
-            int bought = weapon.IsBought ? 1 : 0;
-            PlayerPrefs.SetInt(GetNameB(weapon), bought);
-
-            int health = weapon.HealthRef.Value;
-            PlayerPrefs.SetInt(GetNameH(weapon), health);
-        }
-
-        void LoadWeapon(WeaponIndex w)
-        {
-            WeaponItem weapon = Weapons.Get(w);
-
-            int bought = PlayerPrefs.GetInt(GetNameB(weapon), 0);
-            int health = PlayerPrefs.GetInt(GetNameH(weapon), 0);
-
-            Weapons.Set(w, health, bought == 1);
-        }
-
-        void SaveAmmo(AmmunitionType a)
-        {
-            int amount = Ammo.Get(a);
-            PlayerPrefs.SetInt(GetAmmoName(a), amount);
-        }
-        
-        void LoadAmmo(AmmunitionType a)
-        {
-            int amount = PlayerPrefs.GetInt(GetAmmoName(a), 0);
-            Ammo.Set(a, amount);
-        }
-
-        void SaveItem(ItemType a)
-        {
-            int amount = Items.Get(a);
-            PlayerPrefs.SetInt(GetItemName(a), amount);
-        }
-
-        void LoadItem(ItemType a)
-        {
-            int amount = PlayerPrefs.GetInt(GetItemName(a), 0);
-            Items.Set(a, amount);
-        }
-        #endregion
-
-        #region names
-        string GetNameB(WeaponItem w)
-        {
-            return w.Stats.Name + "Bought";
-        }
-
-        string GetNameH(WeaponItem w)
-        {
-            return w.Stats.Name + "Health";
-        }
-
-        string GetAmmoName(AmmunitionType a)
-        {
-            return a.ToString();
-        }
-        string GetItemName(ItemType a)
-        {
-            return a.ToString();
-        }
-        #endregion
 
         public List<WeaponIndex> GetAvailableWeapons()
         {
@@ -171,9 +87,7 @@ namespace SD.PlayerLogic
 
             foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
             {
-                // TODO: remove, 1 is for test
-                Weapons.SetHealth(w, stats[w].Durability);
-                Weapons.SetBought(w, true);
+                Weapons.Set(w, stats[w].Durability, true);
             }
         }
 
@@ -186,6 +100,13 @@ namespace SD.PlayerLogic
             {
                 Ammo.Set(a, AllAmmoStats.Instance.Get(a).MaxAmount);
             }
+        }
+
+        public void SetDefault()
+        {
+            Weapons.SetDefault();
+            Ammo.SetDefault();
+            Items.SetDefault();
         }
         #endregion
     }

@@ -6,6 +6,12 @@
         /// Receive pickup
         /// </summary>
         /// <returns>true, if pickup is received</returns>
-        bool ReceivePickup(AmmunitionType type, int amount);
+        bool ReceiveAmmoPickup(AmmunitionType type, int amount);
+
+        /// <summary>
+        /// Receive pickup
+        /// </summary>
+        /// <returns>true, if pickup is received</returns>
+        bool ReceiveHealthPickup(int healthPoints);
     }
 }

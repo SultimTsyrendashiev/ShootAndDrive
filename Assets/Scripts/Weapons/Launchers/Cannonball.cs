@@ -20,11 +20,9 @@ namespace SD.Weapons
 
         public override void ReceiveDamage(Damage damage)
         {
-            if (damage.Type == DamageType.Bullet)
-            {
-                // just generate particles
-                ParticlesPool.Instance.Play(sparksName, damage.Point, Quaternion.LookRotation(damage.Normal));
-            }
+            ParticlesPool.Instance.Play(sparksName,
+                damage.Type == DamageType.Bullet ? damage.Point : transform.position, Quaternion.LookRotation(
+                damage.Type == DamageType.Bullet ? damage.Normal : damage.Point - transform.position));
         }
     }
 }

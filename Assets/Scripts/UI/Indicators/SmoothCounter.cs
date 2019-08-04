@@ -23,6 +23,10 @@ namespace SD.UI.Indicators
         {
             this.target = target;
             current = 0;
+        }
+
+        public void StartCounting()
+        {
             toCount = true;
         }
 

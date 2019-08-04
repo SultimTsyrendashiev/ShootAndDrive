@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: VanPassenger
   m_EditorClassIdentifier: 
   enemyName: Van Shooter
-  startHealth: 25
+  startHealth: 35
   score: 180
   isDriver: 0
   canAttack: 1
   projectileName: Bullet
-  timeBetweenRounds: {x: 1, y: 2}
+  projectileDamage: 6
+  projectileSpeed: 3
+  timeBetweenRounds: {x: 0.6, y: 1}
   fireRate: 0.15
   shotsAmount: 3
   bloodParticlesName: Blood
+  corpseName: HumanRagdoll

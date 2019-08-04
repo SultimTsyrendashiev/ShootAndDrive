@@ -15,49 +15,24 @@ namespace SD.Enemies
         public PooledObjectType Type => PooledObjectType.NotImportant;
         public int AmountInPool => 4;
 
-        Transform[] transforms;
-        Rigidbody[] rigidbodies;
-
-        // default local positions and rotations;
-        // used for resetting to default
-        Vector3[] defaultPositions;
-        Quaternion[] defaultRotations;
+        ReinittableTR reinittable;
 
         public void Init()
         {
-            transforms = GetComponentsInChildren<Transform>(true);
-            defaultPositions = new Vector3[transforms.Length];
-            defaultRotations = new Quaternion[transforms.Length];
+            var transforms = GetComponentsInChildren<Transform>(true);
+            var rigidbodies = GetComponentsInChildren<Rigidbody>(true);
 
-            for (int i = 0; i < transforms.Length; i++)
-            {
-                defaultPositions[i] = transforms[i].localPosition;
-                defaultRotations[i] = transforms[i].localRotation;
-            }
-
-            rigidbodies = GetComponentsInChildren<Rigidbody>(true);
+            reinittable = new ReinittableTR(transform, transforms, rigidbodies);
+            reinittable.Load();
         }
 
         public void Reinit()
         {
-            // reset to default, except this transform
-            for (int i = 0; i < transforms.Length; i++)
-            {
-                var t = transforms[i];
+            reinittable.ReinitTransforms();
 
-                if (t != transform)
-                {
-                    t.localPosition = defaultPositions[i];
-                    t.localRotation = defaultRotations[i];
-                }
-            }
-
-            foreach (var rb in rigidbodies)
-            {
-                // set init velocities
-                rb.velocity = Random.onUnitSphere * Random.Range(0, maxVelocity);
-                rb.angularVelocity = Random.onUnitSphere * Random.Range(0, maxAngularVelocity);
-            }
+            Vector3 v = Random.onUnitSphere * Random.Range(0, maxVelocity);
+            Vector3 av = Random.onUnitSphere * Random.Range(0, maxAngularVelocity);
+            reinittable.ReinitRigidbodies(v, av);
         }
     }
 }

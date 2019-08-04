@@ -9,17 +9,17 @@ namespace SD.PlayerLogic
     [RequireComponent(typeof(Collider))]
     class PlayerPickupReceiver : MonoBehaviour, IPickupReceiver
     {
-        // Note: pickup class already contains OnTriggerEnter
-
-        PlayerInventory playerInventory;
+        Player              player;
+        PlayerInventory     playerInventory;
 
         void Start()
         {
-            playerInventory = GetComponentInParent<PlayerVehicle>().Player.Inventory;
+            player = GetComponentInParent<Player>();
+            playerInventory = player.Inventory;
             Debug.Assert(playerInventory != null, "PlayerPickupReceiver must be a child object of PlayerVehicle", this);
         }
 
-        public bool ReceivePickup(AmmunitionType type, int amount)
+        public bool ReceiveAmmoPickup(AmmunitionType type, int amount)
         {
             // if ammo is not max
             if (playerInventory.Ammo.Get(type) < AllAmmoStats.Instance.Get(type).MaxAmount)
@@ -30,6 +30,21 @@ namespace SD.PlayerLogic
             }
 
             return false;
+        }
+
+        public bool ReceiveHealthPickup(int healthPoints)
+        {
+            return player.RegenerateHealth(healthPoints);
+        }
+
+        void OnTriggerEnter(Collider col)
+        {
+            // if layers are same
+            if (col.gameObject.layer == gameObject.layer)
+            {
+                // try to pick up
+                col.GetComponent<IPickupable>()?.Pickup(this);
+            }
         }
     }
 }

@@ -13,10 +13,24 @@ namespace SD.PlayerLogic
         public ItemsHolder()
         {
             playerItems = new Dictionary<ItemType, RefInt>();
+        }
 
+        public void Init()
+        {
             foreach (ItemType a in Enum.GetValues(typeof(ItemType)))
             {
                 playerItems.Add(a, new RefInt());
+            }
+        }
+
+        /// <summary>
+        /// Sets default values
+        /// </summary>
+        public void SetDefault()
+        {
+            foreach (ItemType a in Enum.GetValues(typeof(ItemType)))
+            {
+                playerItems[a].Value = 0;
             }
         }
 

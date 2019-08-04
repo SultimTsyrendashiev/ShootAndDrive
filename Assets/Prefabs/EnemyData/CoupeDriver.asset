@@ -18,7 +18,10 @@ MonoBehaviour:
   isDriver: 1
   canAttack: 1
   projectileName: Bomb
-  timeBetweenRounds: {x: 1.5, y: 2.5}
+  projectileDamage: 7
+  projectileSpeed: 35
+  timeBetweenRounds: {x: 0.5, y: 0.7}
   fireRate: 0
   shotsAmount: 1
   bloodParticlesName: Blood
+  corpseName: 

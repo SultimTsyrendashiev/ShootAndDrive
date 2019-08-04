@@ -8,39 +8,47 @@ namespace SD.PlayerLogic
     [RequireComponent(typeof(Collider))]
     class PlayerVehicle : MonoBehaviour, IVehicle, IDamageable
     {
-        public int      MaxHealth = 1000;
+        public int                  MaxHealth = 1000;
+
         // percentage of health when to start playing smoke particle system
-        const float     PlaySmokeHealthPercentage = 0.2f;
-        const float     SteeringEpsilon = 0.01f;
+        const float                 SmokeHealthPercentage = 0.2f;
+        const float                 FireHealthPercentage = 0.02f;
 
-        public event    FloatChange OnVehicleHealthChange;
-        public event    FloatChange OnDistanceChange;
+        const float                 SteeringEpsilon = 0.01f;
 
-        Transform       playerTransform;
-        Rigidbody       playerRigidbody;
+        // how long to wait for explosion when health < 0
+        const float                 TimeToExplode = 1.0f;
 
-        public float    DefaultSpeed = 20;
-        public float    SideSpeed = 10;
+        public event                FloatChange OnVehicleHealthChange;
+        public event                FloatChange OnDistanceChange;
+
+        Transform                   playerTransform;
+        Rigidbody                   playerRigidbody;
+
+        public float                DefaultSpeed = 20;
+        public float                SideSpeed = 10;
 
         //List<PlayerVehicleDamageReceiver> damageReceivers;
         PlayerVehicleDamageReceiver damageReceiver;
         public event CollideVehicle OnVehicleCollision;
 
         // to check horizontal bounds
-        IBackgroundController background;
+        IBackgroundController       background;
 
         [SerializeField]
-        float currentSpeed;
-        float currentSideSpeed;
+        float                       currentSpeed;
+        float                       currentSideSpeed;
 
         #region particles
         [SerializeField]
-        string HitParticlesName = "Sparks";
+        string                      HitParticlesName = "Sparks";
         //[SerializeField]
         //string SmokeParticlesName = "VehicleSmoke";
 
         [SerializeField]
-        ParticleSystem engineSmoke;
+        ParticleSystem              engineSmoke;
+        [SerializeField]
+        ParticleSystem              engineFire;
         #endregion
 
         // approximate vechicle collider
@@ -80,23 +88,35 @@ namespace SD.PlayerLogic
 
         public void ReceiveDamage(Damage damage)
         {
-            Health -= damage.CalculateDamageValue(playerTransform.position);
-
-            // play particle system
-            if (damage.Type == DamageType.Bullet)
+            if (Health == 0)
             {
-                ParticlesPool.Instance.Play(HitParticlesName, damage.Point, Quaternion.LookRotation(damage.Normal));
+                return;
             }
 
-            if (Health <= PlaySmokeHealthPercentage)
+            Health -= damage.CalculateDamageValue(playerTransform.position);
+
+            // play damage particle system
+            ParticlesPool.Instance.Play(HitParticlesName,
+                damage.Type == DamageType.Bullet ? damage.Point : transform.position, Quaternion.LookRotation(
+                damage.Type == DamageType.Bullet ? damage.Normal : damage.Point - transform.position));
+
+            if (Health <= SmokeHealthPercentage * MaxHealth)
             {
                 engineSmoke.Play();
+            }
+
+            if (Health <= FireHealthPercentage * MaxHealth)
+            {
+                engineFire.Play();
             }
 
             if (Health <= 0)
             {
                 Health = 0;
-                StartCoroutine(BreakVehicle());
+
+                // slow down and explode
+                StartCoroutine(SlowDownVehicle());
+                StartCoroutine(WaitToExplode(TimeToExplode));
             }
 
             OnVehicleHealthChange(Health);
@@ -105,6 +125,11 @@ namespace SD.PlayerLogic
         // this should be called only from other vehicles
         void IVehicle.Collide(IVehicle otherVehicle, VehicleCollisionInfo info)
         {
+            if (Health == 0)
+            {
+                return;
+            }
+
             float damage = info.Damage;
 
             // receive damage
@@ -129,10 +154,13 @@ namespace SD.PlayerLogic
         //    globalMin += transform.position;
         //}
 
-        IEnumerator BreakVehicle()
+        /// <summary>
+        /// Slows down this vehicle and after some time explodes
+        /// </summary>
+        IEnumerator SlowDownVehicle()
         {
             const float speedEpsilon = 0.1f;
-            const float lerpMultiplier = 2;
+            const float lerpMultiplier = 2.0f;
 
             while (true)
             {
@@ -141,7 +169,7 @@ namespace SD.PlayerLogic
                     currentSpeed = 0;
                     currentSideSpeed = 0;
 
-                    yield break;
+                    break;
                 }
 
                 currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.deltaTime * lerpMultiplier);
@@ -149,6 +177,37 @@ namespace SD.PlayerLogic
 
                 yield return null;
             }
+        }
+
+        /// <summary>
+        /// Wait some time and then explode this vehicle
+        /// </summary>
+        IEnumerator WaitToExplode(float timeToWait)
+        {
+            yield return new WaitForSeconds(timeToWait);
+            Explode();
+        }
+
+        /// <summary>
+        /// Explode this vehicle
+        /// </summary>
+        public void Explode()
+        {
+            // explosion particle system
+            ParticlesPool.Instance.Play("Explosion", transform.position, Quaternion.identity);
+
+            // TODO:
+            // add rotation to vehicle, 
+            // but camera shouldn't see
+
+            // kill player, but not instantly
+            StartCoroutine(WaitForExplosion());
+        }
+
+        IEnumerator WaitForExplosion()
+        {
+            yield return new WaitForSeconds(0.2f);
+            Player.Kill();
         }
 
         public void FixedUpdate()
