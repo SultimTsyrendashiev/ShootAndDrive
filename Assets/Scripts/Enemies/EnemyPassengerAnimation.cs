@@ -45,13 +45,19 @@ namespace SD.Enemies
             }
         }
 
+        void Start()
+        {
+            // pose to default
+            passengerAnimation.Play();
+        }
+
         /// <summary>
         /// Play attack animation
         /// </summary>
         public void Attack()
         {
-            if (!string.IsNullOrEmpty( attackAnimationName))
-            passengerAnimation.Play(attackAnimationName, PlayMode.StopAll);
+            if (!string.IsNullOrEmpty(attackAnimationName))
+                passengerAnimation.Play(attackAnimationName, PlayMode.StopAll);
         }
 
         /// <summary>
@@ -60,7 +66,7 @@ namespace SD.Enemies
         /// </summary>
         public void Damage()
         {
-            if (!string.IsNullOrEmpty(attackAnimationName))
+            if (!string.IsNullOrEmpty(damageAnimationName))
                 passengerAnimation.Play(damageAnimationName, PlayMode.StopAll);
         }
 
@@ -69,7 +75,7 @@ namespace SD.Enemies
         /// </summary>
         public void Die()
         {
-            if (!string.IsNullOrEmpty(attackAnimationName))
+            if (!string.IsNullOrEmpty(dieAnimationName))
                 passengerAnimation.Play(dieAnimationName, PlayMode.StopAll);
         }
 

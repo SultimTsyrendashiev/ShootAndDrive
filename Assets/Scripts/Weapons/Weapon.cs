@@ -24,6 +24,7 @@ namespace SD.Weapons
         const float     HealthToJam = 0.15f;    // if below this number then weapon can jam
         #endregion
 
+        #region events
         /// <summary>
         /// Common event, called on waepon breaking
         /// </summary>
@@ -35,6 +36,11 @@ namespace SD.Weapons
         /// </summary>
         public static event WeaponAmmoChange    OnAmmoChange;
 
+        /// <summary>
+        /// Calles when weapon finish shooting
+        /// </summary>
+        public static event WeaponShootFinish   OnShootFinish;
+        #endregion
         // Items in player's inventory
         WeaponItem      item;
         AmmoHolder      ammo;
@@ -420,7 +426,7 @@ namespace SD.Weapons
             PrimaryAttack();
 
             // wait for reload
-            StartCoroutine(Wait(ReloadingTime, nextState));
+            StartCoroutine(WaitForShoot(nextState));
         }
 
         void Jam()
@@ -483,6 +489,22 @@ namespace SD.Weapons
         {
             yield return new WaitForSeconds(time);
             State = newState;
+        }
+
+        /// <summary>
+        /// Wait reloading time, then switch to next state
+        /// and call OnShootFinish event, if next state is 'Ready'
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator WaitForShoot(WeaponState nextState)
+        {
+            yield return new WaitForSeconds(ReloadingTime);
+            State = nextState;
+
+            if (nextState == WeaponState.Ready)
+            {
+                OnShootFinish(WeaponIndex);
+            }
         }
         #endregion
 

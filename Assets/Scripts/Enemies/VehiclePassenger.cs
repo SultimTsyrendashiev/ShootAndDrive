@@ -35,7 +35,7 @@ namespace SD.Enemies
         // Current vehicle of this passenger
         EnemyVehicle            vehicle;
         // Current target of this passenger
-        Transform               target;
+        IEnemyTarget            target;
 
         [SerializeField]
         // Animation for this passenger
@@ -97,6 +97,8 @@ namespace SD.Enemies
         public void Deactivate()
         {
             StopAllCoroutines();
+            attackCoroutine = null;
+
             State = PassengerState.Nothing;
         }
         #endregion
@@ -213,9 +215,14 @@ namespace SD.Enemies
         /// Set target for this passenger.
         /// If target is null, passenger will stop attacking
         /// </summary>
-        public void SetTarget(Transform target)
+        public void SetTarget(IEnemyTarget target)
         {
             this.target = target;
+
+            if (target == null && attackCoroutine != null)
+            {
+                StopCoroutine(attackCoroutine);
+            }
 
             // start if object is enabled and ready,
             // try to start attack
@@ -268,14 +275,22 @@ namespace SD.Enemies
                     yield break;
                 }
 
-                // don't atack if target is far away
-                if ((target.position - transform.position).sqrMagnitude > AttackDistanceSqr)
+                Vector3 fromTarget = transform.position - target.Target.position;
+
+                // don't attack if target is far away
+                if (fromTarget.sqrMagnitude > AttackDistanceSqr)
+                {
+                    continue;
+                }
+
+                // don't attack, if behind
+                if (Vector3.Dot(fromTarget, target.Target.forward) < 0)
                 {
                     continue;
                 }
 
                 // play animation
-                    passengerAnimation.Attack();
+                passengerAnimation.Attack();
 
                 for (int i = 0; i < shotsAmount; i++)
                 {
@@ -296,8 +311,6 @@ namespace SD.Enemies
                     yield return new WaitForSeconds(fireRate);
                 }
             }
-
-            attackCoroutine = null;
         }
 
         Vector3 AimToTarget(int shotIndex)
@@ -307,7 +320,9 @@ namespace SD.Enemies
                 return transform.forward;
             }
 
-            Vector3 direction = target.position - projectileSpawn.position;
+            Vector3 direction = target.Target.position - projectileSpawn.position;
+            direction.x = 0;
+
             direction.Normalize();
 
             const float maxAngle = 5.0f;

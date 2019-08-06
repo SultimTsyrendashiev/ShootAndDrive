@@ -22,6 +22,10 @@ namespace SD.PlayerLogic
             steeringWheel = player.GetComponentInChildren<ISteeringWheel>();
             steerHandAnimation = GetComponent<Animation>();
             steerState = steerHandAnimation[SteerAnimationName];
+
+            // set this hand as a child for the vehicle;
+            // used for proper vehicle rotation (i.e. with steering hand)
+            transform.SetParent(player.Vehicle.RotatingTransform, true);
         }
 
         void LateUpdate()

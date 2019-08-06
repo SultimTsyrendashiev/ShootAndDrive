@@ -31,7 +31,7 @@ namespace SD.PlayerLogic
         #endregion
 
         [SerializeField]
-        string                              bloodParticlesName = "Blood";
+        ParticleSystem                      bloodParticles;
 
         ISteeringWheel                      steeringWheel;
         WeaponsController                   weaponsController;
@@ -274,11 +274,9 @@ namespace SD.PlayerLogic
         /// Note: must be called only by 'PlayerDamageReceiver'
         /// </summary>
         public void ReceiveDamage(Damage damage)
-        {
+        {           
             // always play blood particle system
-            ParticlesPool.Instance.Play(bloodParticlesName,
-                damage.Type == DamageType.Bullet ? damage.Point : transform.position, Quaternion.LookRotation(
-                damage.Type == DamageType.Bullet ? damage.Normal : damage.Point - transform.position));
+            bloodParticles.Play();
 
             if (Health <= 0)
             {

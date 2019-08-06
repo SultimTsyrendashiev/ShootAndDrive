@@ -772,6 +772,7 @@ GameObject:
   - component: {fileID: 4746456916614808026}
   - component: {fileID: 4746456916614808025}
   - component: {fileID: 5847304852863218820}
+  - component: {fileID: 6834321209910814742}
   m_Layer: 11
   m_Name: EnemyTruck
   m_TagString: Untagged
@@ -838,6 +839,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 30bd9202f8723a24b887ab1f4e9af949, type: 2}
+--- !u!205 &6834321209910814742
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4746456916614808020}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.00000035762787, y: 0.45957085, z: -0.25212777}
+  m_Size: 5.648628
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.07936607
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 5906174702034053293}
+    - renderer: {fileID: 4746456915973960928}
+    - renderer: {fileID: 796541423371195598}
+    - renderer: {fileID: 4746456915031777240}
+    - renderer: {fileID: 4746456915590845201}
+    - renderer: {fileID: 4746456914614157237}
+  - screenRelativeHeight: 0.024242379
+    fadeTransitionWidth: 0
+    renderers: []
+  - screenRelativeHeight: 0.0014844477
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1
 --- !u!1 &4746456916713806318
 GameObject:
   m_ObjectHideFlags: 0

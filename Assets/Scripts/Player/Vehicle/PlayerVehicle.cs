@@ -14,6 +14,9 @@ namespace SD.PlayerLogic
         const float                 SmokeHealthPercentage = 0.2f;
         const float                 FireHealthPercentage = 0.02f;
 
+        // when to call distance change event
+        const float                 DistanceUpdateEpsilon = 0.1f;
+
         const float                 SteeringEpsilon = 0.01f;
 
         // how long to wait for explosion when health < 0
@@ -51,11 +54,21 @@ namespace SD.PlayerLogic
         ParticleSystem              engineFire;
         #endregion
 
+        [SerializeField]
+        Transform                   rotatingTransform;
+        /// <summary>
+        /// Will be rotated when vehicle is steering
+        /// </summary>
+        public Transform            RotatingTransform => rotatingTransform;
+
         // approximate vechicle collider
-        Collider apxVehicleCollider;
+        Collider                    apxVehicleCollider;
 
         public float Health { get; private set; }
+
+        float prevUpdatedDistance = -1;
         public float TravelledDistance { get; private set; }
+
         public ISteeringWheel SteeringWheel { get; private set; }
 
         public Player Player { get; private set; }
@@ -194,7 +207,7 @@ namespace SD.PlayerLogic
         public void Explode()
         {
             // explosion particle system
-            ParticlesPool.Instance.Play("Explosion", transform.position, Quaternion.identity);
+            ParticlesPool.Instance.Play("Explosion", engineFire.transform.position, Quaternion.identity);
 
             // TODO:
             // add rotation to vehicle, 
@@ -210,7 +223,7 @@ namespace SD.PlayerLogic
             Player.Kill();
         }
 
-        public void FixedUpdate()
+        void FixedUpdate()
         {
             if (currentSpeed == 0 && currentSideSpeed == 0)
             {
@@ -226,7 +239,7 @@ namespace SD.PlayerLogic
             float forwardDistance = currentSpeed * Time.fixedDeltaTime;
             newPosition += playerTransform.forward * forwardDistance;
 
-            if (Mathf.Abs(steering) > SteeringEpsilon)
+            if (steering > SteeringEpsilon || steering < -SteeringEpsilon)
             {
                 newPosition += playerTransform.right * steering * currentSideSpeed * Time.fixedDeltaTime;
 
@@ -245,7 +258,26 @@ namespace SD.PlayerLogic
             playerRigidbody.MovePosition(newPosition);
 
             TravelledDistance += forwardDistance;
-            OnDistanceChange(TravelledDistance);
+
+            if (TravelledDistance - prevUpdatedDistance > DistanceUpdateEpsilon)
+            {
+                OnDistanceChange(TravelledDistance);
+                prevUpdatedDistance = TravelledDistance;
+            }
+        }
+
+        void Update()
+        {
+            if (rotatingTransform != null)
+            {
+                float steering = SteeringWheel.Steering;
+
+                Vector3 euler = rotatingTransform.localEulerAngles;
+                euler.y = Mathf.LerpAngle(euler.y, steering * 2.5f, Time.fixedDeltaTime * 5);
+                euler.z = Mathf.LerpAngle(euler.z, steering * 1.0f, Time.fixedDeltaTime * 9);
+
+                rotatingTransform.localEulerAngles = euler;
+            }
         }
     }
 }

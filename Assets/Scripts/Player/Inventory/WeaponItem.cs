@@ -7,10 +7,7 @@ namespace SD.PlayerLogic
     class WeaponItem
     {
         public bool         IsBought;
-        /// <summary>
-        /// Health in percents [0,1]
-        /// </summary>
-        public RefInt HealthRef { get; }
+        public RefInt       HealthRef { get; }
         public WeaponIndex  This { get; }
 
 

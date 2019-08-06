@@ -11,7 +11,7 @@ namespace SD.PlayerLogic
     [RequireComponent(typeof(Collider))]
     class PlayerDamageReceiver : MonoBehaviour, IDamageable
     {
-        private Player player;
+        Player player;
         public float Health => player.Health;
 
         void Start()

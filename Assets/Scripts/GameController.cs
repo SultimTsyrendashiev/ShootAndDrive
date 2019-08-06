@@ -11,19 +11,20 @@ namespace SD
     class GameController : MonoBehaviour
     {
         // position of player's spawn
-        readonly Vector3            PlayerStartPoint = new Vector3(0,0,0);
+        readonly Vector3                PlayerStartPoint = new Vector3(0,0,0);
 
         [SerializeField]
-        GameObject                  playerPrefab;
+        GameObject                      playerPrefab;
 
-        SpawnersController          spawnersController;
+        SpawnersController              spawnersController;
 
         float defaultTimeScale;
         float defaultFixedDelta;
 
-        public Player CurrentPlayer { get; private set; }
-        public AllWeaponsStats WeaponsStats { get; private set; }
-        public BackgroundController Background { get; private set; }
+        public Player                   CurrentPlayer { get; private set; }
+        public AllWeaponsStats          WeaponsStats { get; private set; }
+        public BackgroundController     Background { get; private set; }
+        public IEnemyTarget             EnemyTarget { get; private set; }
 
         // events
         public static event Void    OnGamePause;
@@ -98,7 +99,7 @@ namespace SD
 
         void Start()
         {
-            const float startSpawnerDistance = 100;
+            const float startSpawnerDistance = 200;
 
             spawnersController.StartSpawn(
                 CurrentPlayer.transform.position + CurrentPlayer.transform.forward * startSpawnerDistance,
@@ -260,6 +261,11 @@ namespace SD
             //    Time.timeScale = 0;
             //    Time.fixedDeltaTime = 0;
             //}
+        }
+
+        public void AddEnemyTarget(IEnemyTarget target)
+        {
+            EnemyTarget = target;
         }
     }
 }

@@ -54,12 +54,16 @@ namespace SD.PlayerLogic
 
         public void Set(AmmunitionType type, int amount)
         {
-            ammo[type].Value = amount;
+            int max = AllAmmoStats.Instance.Get(type).MaxAmount;
+            ammo[type].Value = amount < max ? amount : max;
         }
 
         public void Add(AmmunitionType type, int toAdd)
         {
-            ammo[type].Value += toAdd;
+            int max = AllAmmoStats.Instance.Get(type).MaxAmount;
+            int newAmount = ammo[type].Value + toAdd;
+
+            ammo[type].Value = newAmount < max ? newAmount : max;
         }
     }
 }

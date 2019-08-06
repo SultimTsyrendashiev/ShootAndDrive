@@ -20,7 +20,7 @@ namespace SD.Enemies
         // approximate vechicle collider
         Collider apxVehicleCollider;
 
-        Transform target;
+        IEnemyTarget target;
 
         public EnemyVehicleState        State       { get; private set; }
         protected VehiclePassenger[]    Passengers  { get; private set; }
@@ -89,7 +89,7 @@ namespace SD.Enemies
 
             apxVehicleCollider = GetComponent<Collider>();
 
-            target = FindObjectOfType<PlayerLogic.Player>().transform;
+            target = FindObjectOfType<GameController>().EnemyTarget;
 
             // specific init
             InitEnemy();
@@ -275,7 +275,11 @@ namespace SD.Enemies
             }
         }
 
-        public void SetTarget(Transform target)
+        /// <summary>
+        /// Set target to passengers
+        /// </summary>
+        /// <param name="target"></param>
+        public void SetTarget(IEnemyTarget target)
         {
             foreach (var p in Passengers)
             {

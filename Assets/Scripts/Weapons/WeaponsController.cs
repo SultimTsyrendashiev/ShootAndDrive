@@ -95,6 +95,7 @@ namespace SD.Weapons
         void SignToEvents()
         {
             Weapon.OnWeaponBreak += ProcessWeaponBreak;
+            Weapon.OnShootFinish += FinishShootingWeapon;
             CurrentPlayer.OnPlayerStateChange += ProcessPlayerStateChange;
             InputController.OnFireButton += Fire;
             InputController.OnWeaponSwitch += SwitchTo;
@@ -104,6 +105,7 @@ namespace SD.Weapons
         {            
             // unsign from events to enable GC
             Weapon.OnWeaponBreak -= ProcessWeaponBreak;
+            Weapon.OnShootFinish -= FinishShootingWeapon;
             CurrentPlayer.OnPlayerStateChange -= ProcessPlayerStateChange;
             InputController.OnFireButton -= Fire;
             InputController.OnWeaponSwitch -= SwitchTo;
@@ -178,6 +180,24 @@ namespace SD.Weapons
             }
 
             StartCoroutine(WaitForFire(current));
+        }
+
+        void FinishShootingWeapon(WeaponIndex finishedWeapon)
+        {
+            // if there is no current weapon, do nothing
+            if (!currentWeapon.Exist)
+            {
+                return;
+            }
+
+            // if finished is current 
+            // and player still holds fire button,
+            // then continue shooting
+            if (finishedWeapon == currentWeapon.Value
+                && InputController.FireButton && playerIsActive)
+            {
+                weapons[finishedWeapon].Fire();
+            }
         }
 
         IEnumerator WaitForFire(Weapon w)

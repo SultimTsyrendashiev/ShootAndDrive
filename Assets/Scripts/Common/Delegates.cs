@@ -22,9 +22,10 @@ namespace SD
     delegate void VehicleDeath();                           // from damage receiver
     delegate void VehicleDestroyed(EnemyVehicleData data);  // for player's score
     delegate void PassengerDied(EnemyData data);            // from passengers of vehicles
-    // delegate void PassengerStateChacnge(PassengerState passengerState); // for animations, sounds etc
+                                                            // delegate void PassengerStateChacnge(PassengerState passengerState); // for animations, sounds etc
 
     // weapons
+    delegate void WeaponShootFinish(WeaponIndex finishedWeapon);    // to weapons controller
     delegate void WeaponBreak(WeaponIndex brokenWeapon);    // to weapons controller
     delegate void WeaponAmmoChange(int currentAmount);      // for UI (ammo amount)
     delegate void WeaponSwitch(WeaponIndex switchTo);

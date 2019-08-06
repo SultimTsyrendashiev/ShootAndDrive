@@ -50,6 +50,7 @@ namespace SD.Enemies.Spawner
             spawners.Add(new WSpawner());
             spawners.Add(new CircleSpawner());
             spawners.Add(new VanSpawner());
+            spawners.Add(new TruckSpawner());
         }
 
         ///// <summary>

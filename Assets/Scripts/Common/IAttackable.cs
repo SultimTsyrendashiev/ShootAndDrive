@@ -11,6 +11,6 @@ namespace SD
         /// <summary>
         /// Set target for this entity
         /// </summary>
-        void SetTarget(Transform target);
+        void SetTarget(IEnemyTarget target);
     }
 }

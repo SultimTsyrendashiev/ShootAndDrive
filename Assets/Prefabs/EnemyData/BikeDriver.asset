@@ -22,6 +22,6 @@ MonoBehaviour:
   projectileSpeed: 31
   timeBetweenRounds: {x: 0.5, y: 0.7}
   fireRate: 0.1
-  shotsAmount: 5
+  shotsAmount: 4
   bloodParticlesName: Blood
   corpseName: HumanRagdoll
