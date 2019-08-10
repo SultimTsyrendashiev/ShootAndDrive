@@ -16,9 +16,15 @@ MonoBehaviour:
   weaponEditorName: LauncherCannon
   weaponName: Cannon
   icon: {fileID: 0}
+  shotSound: {fileID: 0}
+  unjamSound: {fileID: 0}
+  breakSound: {fileID: 0}
   ammoType: 7
+  ammoConsumption: 1
   cost: 60000
   durability: 3000
+  percentageForJam: 0.17
+  jamProbability: 0.03
   damage: 1000
   reloadingTime: 2
   accuracy: 0

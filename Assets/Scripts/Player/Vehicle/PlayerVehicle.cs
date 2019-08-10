@@ -20,7 +20,7 @@ namespace SD.PlayerLogic
         const float                 SteeringEpsilon = 0.01f;
 
         // how long to wait for explosion when health < 0
-        const float                 TimeToExplode = 1.0f;
+        const float                 TimeToExplode = 1.8f;
 
         public event                FloatChange OnVehicleHealthChange;
         public event                FloatChange OnDistanceChange;
@@ -209,10 +209,6 @@ namespace SD.PlayerLogic
             // explosion particle system
             ParticlesPool.Instance.Play("Explosion", engineFire.transform.position, Quaternion.identity);
 
-            // TODO:
-            // add rotation to vehicle, 
-            // but camera shouldn't see
-
             // kill player, but not instantly
             StartCoroutine(WaitForExplosion());
         }
@@ -273,7 +269,7 @@ namespace SD.PlayerLogic
                 float steering = SteeringWheel.Steering;
 
                 Vector3 euler = rotatingTransform.localEulerAngles;
-                euler.y = Mathf.LerpAngle(euler.y, steering * 2.5f, Time.fixedDeltaTime * 5);
+                euler.y = Mathf.LerpAngle(euler.y, steering * 3.0f, Time.fixedDeltaTime * 8);
                 euler.z = Mathf.LerpAngle(euler.z, steering * 1.0f, Time.fixedDeltaTime * 9);
 
                 rotatingTransform.localEulerAngles = euler;

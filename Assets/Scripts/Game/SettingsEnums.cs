@@ -1,5 +1,11 @@
 ﻿namespace SD
 {
+    enum PerformancePreset
+    {
+        Low,
+        Default
+    }
+
     enum ShaderQuality
     {
         Performance,

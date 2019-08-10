@@ -12,31 +12,31 @@ namespace SD.Weapons
         /// <summary>
         /// Max not accurate angle
         /// </summary>
-        protected const float MaxAngleX = 6;
-        protected const float MaxAngleY = 3;
+        protected const float   MaxAngleX = 6;
+        protected const float   MaxAngleY = 3;
 
         /// <summary>
         /// Casings spawn transform must have this name
         /// </summary>
-        const string CasingsTransformName = "Casings";
+        const string            CasingsTransformName = "Casings";
         /// <summary>
         /// Muzzle spawn
         /// </summary>
-        const string MuzzleTransformName = "Muzzle";
+        const string            MuzzleTransformName = "Muzzle";
 
         // What particles to use for muzzle flash
-        protected const string MuzzleParticlesName = "MuzzleFlash";
+        protected string        MuzzleParticlesName = WeaponsController.MuzzleFlash;
         // What paarticles to use when hit background
-        const string DefaultHitParticleName = "DefaultParticles";
+        const string            DefaultHitParticleName = "DefaultParticles";
 
-        protected Transform AimTransform;
-        protected Transform Casings;
-        protected Transform MuzzleFlash;
+        protected Transform     AimTransform;
+        protected Transform     Casings;
+        protected Transform     MuzzleFlash;
         [SerializeField]
-        protected bool ShowMuzzleFlash = true;
+        protected bool          ShowMuzzleFlash = true;
 
-        protected const float AimRadius = 1.9f;
-        protected const float Range = 300.0f;
+        protected const float   AimRadius = 1.9f;
+        protected const float   Range = 300.0f;
 
         void Start()
         {

@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e27f5a76fd34c7a49a1c7eac38f3fcf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  languageList: {fileID: 11400000, guid: 57bd1d7f73821a54babeede5762395f4, type: 2}
   playerPrefab: {fileID: 7581316839824631170, guid: 1fb7ac223cb085f4bb25359fccb3dfa8,
     type: 3}
 --- !u!114 &5956508222028086637

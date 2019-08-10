@@ -11,28 +11,45 @@ namespace SD.Weapons
         [SerializeField] string             weaponName;
         [SerializeField] Sprite             icon;
 
-        [SerializeField] AmmunitionType     ammoType;      // what ammo type this weapon uses
+        [SerializeField] AudioClip          shotSound;
+        [SerializeField] AudioClip          unjamSound;
+        [SerializeField] AudioClip          breakSound;
 
-        [SerializeField] int                cost;          // cost in a shop
-        [SerializeField] int                durability;    // how many shots is needed to destroy weapon
 
-        [SerializeField] float              damage;        // in health points
-        [SerializeField] float              reloadingTime; // in seconds
+        [SerializeField] AmmunitionType     ammoType;           // what ammo type this weapon uses
+        [SerializeField] int                ammoConsumption;
+
+        [SerializeField] int                cost;               // cost in a shop
+        [SerializeField] int                durability;         // how many shots is needed to destroy weapon
+
+        [SerializeField] float              percentageForJam = 0.17f;   // if (health/durabiltity) below this number, 
+                                                                        // weapon can jam
+        [SerializeField] float              jamProbability = 0.03f;
+
+        [SerializeField] float              damage;             // in health points
+        [SerializeField] float              reloadingTime;      // in seconds
 
         // for hitscan
-        [SerializeField] float              accuracy;      // accuracy in [0..1]
+        [SerializeField] float              accuracy;           // accuracy in [0..1]
 
         // for missiles
         [SerializeField] string             missileName;
         
+
 
         public WeaponIndex      Index => weaponIndex;
         //public string         EditorName => weaponEditorName;
         public string           Name => weaponName;
         public Sprite           Icon => icon;
         public AmmunitionType   AmmoType => ammoType;
+        public int              AmmoConsumption => ammoConsumption;
         public int              Cost => cost;
         public int              Durability => durability;
+        public float            PercentageForJam => percentageForJam;
+        /// <summary>
+        /// Probability of jamming
+        /// </summary>
+        public float            JamProbability => jamProbability; 
         public float            Damage => damage;
         public float            ReloadingTime => reloadingTime;
         /// <summary>
@@ -41,6 +58,10 @@ namespace SD.Weapons
         /// </summary>
         public float            Accuracy => accuracy;
         public string           MissileName => missileName;
+
+        public AudioClip        ShotSound => shotSound;
+        public AudioClip        UnjamSound => unjamSound; 
+        public AudioClip        BreakSound => breakSound;
 
         public float GetFireRate()
         {

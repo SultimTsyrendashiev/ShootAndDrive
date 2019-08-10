@@ -14,33 +14,35 @@ namespace SD.Weapons
     /// </summary>
     class WeaponsController : MonoBehaviour
     {
-        bool                playerIsActive;
+        WeaponsHolder               inventoryWeapons;   // weapons in player's inventory
+        Dictionary<WeaponIndex, Weapon> weapons;        // actual weapons in a scene
 
-        WeaponsHolder       inventoryWeapons;   // weapons in player's inventory
-        Dictionary<WeaponIndex, Weapon> weapons; // actual weapons in a scene
+        Maybe<WeaponIndex>          currentWeapon;      // current player's weapon (if exist)
+        Maybe<WeaponIndex>          nextWeapon;         // weapon to switch on
 
-        Maybe<WeaponIndex>  currentWeapon;      // current player's weapon (if exist)
-        Maybe<WeaponIndex>  nextWeapon;         // weapon to switch on
+        AmmoHolder                  inventoryAmmo;      // weapons in player's inventory
 
-        AmmoHolder          inventoryAmmo;      // weapons in player's inventory
+        AudioSource[]               audioSources;       // audio sources for weapons
+        int                         audioSourceIndex;   // last audio source  
 
-        AudioSource[]       audioSources;       // audio sources for weapons
-        int                 audioSourceIndex;   // last audio source  
+        bool                        toFire;
 
-        bool                isSwitching;
-        bool                canSwitchToAnotherNext;
+        bool                        isSwitching;
+        bool                        canSwitchToAnotherNext;
 
-        Animation           commonAnimation;
-        const string        animHide    = "WeaponHide";
-        const string        animTakeOut = "WeaponTake";
+        Animation                   commonAnimation;
+        const string                animHide    = "WeaponHide";
+        const string                animTakeOut = "WeaponTake";
 
         /// <summary>
         /// Player which holds this weapons
         /// </summary>
-        public Player CurrentPlayer { get; private set; }
-        public AllWeaponsStats Stats { get; private set; }
+        public Player               CurrentPlayer { get; private set; }
+        bool                        playerIsActive;
+
+        public AllWeaponsStats      Stats { get; private set; }
      
-        #region init
+        #region init / destroy
         public void Init(Player player)
         {
             playerIsActive = true;
@@ -110,11 +112,16 @@ namespace SD.Weapons
             InputController.OnFireButton -= Fire;
             InputController.OnWeaponSwitch -= SwitchTo;
         }
+
+        void OnDestroy()
+        {
+            UnsignFromEvents();
+        }
         #endregion
 
-        private void ProcessPlayerStateChange(PlayerState state)
+        void ProcessPlayerStateChange(PlayerState state)
         {
-            switch(state)
+            switch (state)
             {
                 case PlayerState.Dead:
 
@@ -140,12 +147,7 @@ namespace SD.Weapons
             }
         }
 
-        void OnDestroy()
-        {
-            UnsignFromEvents();
-        }
-
-        public void Fire()
+        void Fire()
         {
             if (!playerIsActive)
             {
@@ -153,6 +155,12 @@ namespace SD.Weapons
             }
 
             if (!currentWeapon.Exist)
+            {
+                return;
+            }
+
+            // if already
+            if (toFire)
             {
                 return;
             }
@@ -179,54 +187,92 @@ namespace SD.Weapons
                 return;
             }
 
-            StartCoroutine(WaitForFire(current));
+            toFire = true;
+            // StartCoroutine(WaitForFire(current));
         }
 
         void FinishShootingWeapon(WeaponIndex finishedWeapon)
         {
-            // if there is no current weapon, do nothing
-            if (!currentWeapon.Exist)
+            //// if there is no current weapon, do nothing
+            //if (!currentWeapon.Exist)
+            //{
+            //    return;
+            //}
+
+            //// if finished is current 
+            //// and player still holds fire button,
+            //// then continue shooting
+            //if (finishedWeapon == currentWeapon.Value
+            //    && InputController.FireButton && playerIsActive)
+            //{
+            //    weapons[finishedWeapon].Fire();
+            //}
+        }
+
+        //IEnumerator WaitForFire(Weapon w)
+        //{
+        //    // while player is holding fire button
+        //    while (InputController.FireButton && playerIsActive)
+        //    {
+        //        // if ready, then shoot
+        //        if (w.State == WeaponState.Ready)
+        //        {
+        //            w.Fire();
+        //            yield return new WaitForSeconds(w.ReloadingTime);
+        //        }
+        //        else if (w.State == WeaponState.Unjamming 
+        //                || w.State == WeaponState.Reloading
+        //                || w.State == WeaponState.Enabling)
+        //        {
+        //            // in this states, player holds button
+        //            // and wants weapon to shoot
+        //            // but he must wait until state Ready
+        //            yield return null;
+        //        }
+        //        else
+        //        {
+        //            yield break;
+        //        }
+        //    }
+        //}
+
+        void Update()
+        {
+            // if 'Fire' method wasn't called, then ignore
+            if (!toFire)
             {
                 return;
             }
 
-            // if finished is current 
-            // and player still holds fire button,
-            // then continue shooting
-            if (finishedWeapon == currentWeapon.Value
-                && InputController.FireButton && playerIsActive)
-            {
-                weapons[finishedWeapon].Fire();
-            }
-        }
-
-        IEnumerator WaitForFire(Weapon w)
-        {
             // while player is holding fire button
-            while (InputController.FireButton && playerIsActive)
+            if (InputController.FireButton && playerIsActive)
             {
+                Weapon w = weapons[currentWeapon.Value];
+
                 // if ready, then shoot
                 if (w.State == WeaponState.Ready)
                 {
                     w.Fire();
-                    yield return new WaitForSeconds(w.ReloadingTime);
                 }
-                else if (w.State == WeaponState.Unjamming 
+                else if (w.State == WeaponState.Unjamming
                         || w.State == WeaponState.Reloading
                         || w.State == WeaponState.Enabling)
                 {
                     // in this states, player holds button
                     // and wants weapon to shoot
                     // but he must wait until state Ready
-                    yield return null;
+                    return;
                 }
                 else
                 {
-                    yield break;
+                    // stop fire, now 'Fire' method can be called again
+                    toFire = false;
+                    return;
                 }
             }
         }
 
+        #region weapon switch
         /// <summary>
         /// Take out current weapon.
         /// Note: only current
@@ -389,7 +435,7 @@ namespace SD.Weapons
                     commonAnimation.Play(animHide);
 
                     // wait for hiding
-                    yield return new WaitForSeconds(weapons[currentWeapon.Value].HidingTime);
+                    yield return new WaitForSeconds(Weapon.HidingTime);
                 }
             }
 
@@ -520,14 +566,17 @@ namespace SD.Weapons
             weapon = currentWeapon.Value;
             return currentWeapon.Exist;
         }
+#endregion
 
         #region weapons effects
-        const string CasingsPistol = "CasingsPistol";
-        const string CasingsRifle = "CasingsRifle";
-        const string CasingsHeavyPart = "CasingsHeavyPart";
-        const string CasingsShells = "CasingsShells";
-        const string CasingsGrenade = "CasingsGrenade";
-        const string MuzzleFlash = "MuzzleFlash";
+        public const string CasingsPistol = "CasingsPistol";
+        public const string CasingsRifle = "CasingsRifle";
+        public const string CasingsHeavyPart = "CasingsHeavyPart";
+        public const string CasingsShells = "CasingsShells";
+        public const string CasingsGrenade = "CasingsGrenade";
+
+        public const string MuzzleFlash = "MuzzleFlash";
+        public const string MuzzleFlashShotgun = "MuzzleFlashShotgun";
 
         /// <summary>
         /// Set new simulation space for weapon particles
@@ -535,13 +584,19 @@ namespace SD.Weapons
         void InitParticles()
         {
             string[] particles = { CasingsPistol, CasingsRifle, CasingsHeavyPart,
-                CasingsShells, CasingsGrenade, MuzzleFlash };
+                CasingsShells, CasingsGrenade, MuzzleFlash, MuzzleFlashShotgun };
 
             foreach (string s in particles)
             {
-                var main = ParticlesPool.Instance.GetParticleSystem(s).main;
-                main.simulationSpace = ParticleSystemSimulationSpace.Custom;
-                main.customSimulationSpace = transform;
+                // set simulaton space for each child particle system
+                var ps = ParticlesPool.Instance.GetParticleSystem(s).GetComponentsInChildren<ParticleSystem>();
+
+                foreach (var p in ps)
+                {
+                    var main = p.main;
+                    main.simulationSpace = ParticleSystemSimulationSpace.Custom;
+                    main.customSimulationSpace = CurrentPlayer.transform;
+                }
             }
         }
 

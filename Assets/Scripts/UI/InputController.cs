@@ -88,8 +88,6 @@ namespace SD.UI
         public void FireDown()
         {
             FireButton = true;
-
-            // also call weapon controller
             OnFireButton();
         }
 

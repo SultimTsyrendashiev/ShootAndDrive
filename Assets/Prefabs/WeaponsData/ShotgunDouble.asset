@@ -16,9 +16,15 @@ MonoBehaviour:
   weaponEditorName: ShotgunDouble
   weaponName: Double Barrel Shotgun
   icon: {fileID: 0}
+  shotSound: {fileID: 0}
+  unjamSound: {fileID: 0}
+  breakSound: {fileID: 0}
   ammoType: 0
+  ammoConsumption: 2
   cost: 9000
   durability: 2200
+  percentageForJam: 0.17
+  jamProbability: 0.03
   damage: 13
   reloadingTime: 1
   accuracy: 0.65

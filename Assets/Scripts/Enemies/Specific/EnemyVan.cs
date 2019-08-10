@@ -8,29 +8,34 @@ namespace SD.Enemies
         /// <summary>
         /// When passengers must start attack
         /// </summary>
-        const float     AttackDistance = 15;
-        const float     SideSpeed = 2;
+        const float             AttackDistance = 15;
+        const float             SideSpeed = 2;
+        const float             DriveAwayBoundEpsilon = 2;
 
         // static variable, true if there is already one van taht follow player
-        static bool     AlreadyFollowing = false;
-        bool            isFollowing;
+        static bool             AlreadyFollowing = false;
+        bool                    isFollowing;
 
         /// <summary>
         /// Speed when all passengers died
         /// </summary>
-        float           driveAwaySpeed;
+        // float                   driveAwaySpeed;
 
-        Vector3         targetVelocity;
-        Vector3         velocity;
-        IEnemyTarget    currentTarget;
-        bool            doorsOpened;
+        Vector3                 targetVelocity;
+        Vector3                 velocity;
+        IEnemyTarget            currentTarget;
+        bool                    doorsOpened;
 
-        VanDoor[]       doors;
+        VanDoor[]               doors;
 
-        PlayerLogic.PlayerVehicle   playerVehicle;
+        PlayerLogic.PlayerVehicle       playerVehicle;
+        IBackgroundController           background;
+
+        float                   xBound;
 
         protected override void InitEnemy()
         {
+            background = FindObjectOfType<Background.BackgroundController>();
             doors = GetComponentsInChildren<VanDoor>(true);
 
             foreach (var d in doors)
@@ -47,8 +52,7 @@ namespace SD.Enemies
                 float targetSpeed = playerVehicle.DefaultSpeed;
                 targetVelocity = transform.forward * targetSpeed;
 
-                const float diff = 0.0f;
-                driveAwaySpeed = targetSpeed - diff;
+                // driveAwaySpeed = 0;
             }
         }
 
@@ -142,8 +146,13 @@ namespace SD.Enemies
             }
             else if (State == EnemyVehicleState.DeadPassengers)
             {
-                // drive away
-                VehicleRigidbody.position += velocity * Time.fixedDeltaTime;
+                // drive away:
+                // move to bound, if far from it,
+                // otherwise stop
+                if (Mathf.Abs(VehicleRigidbody.position.x - xBound) > DriveAwayBoundEpsilon)
+                {
+                    VehicleRigidbody.position += velocity * Time.fixedDeltaTime;
+                }
             }
         }
 
@@ -152,7 +161,20 @@ namespace SD.Enemies
         // just drive away;
         protected override void DoPassengerDeath()
         {
-            velocity = transform.forward * driveAwaySpeed;
+            Vector3 pos = VehicleRigidbody.position;
+            Vector2 b = background.GetBlockBounds(pos);
+
+            // find nearest bound
+            if ( Mathf.Abs(b[0] - pos.x) < Mathf.Abs(b[1] - pos.x))
+            {
+                xBound = b[0];
+                velocity = -transform.right * SideSpeed;
+            }
+            else
+            {
+                xBound = b[1];
+                velocity = transform.right * SideSpeed;
+            }
 
             // if exactly this van followed
             if (AlreadyFollowing && isFollowing)

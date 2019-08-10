@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using SD.PlayerLogic;
 using SD.Weapons;
 using SD.Enemies.Spawner;
 using SD.Background;
 using SD.UI;
+using SD.Game.Data;
+using SD.Game;
 
 namespace SD
 {
@@ -14,24 +17,37 @@ namespace SD
         readonly Vector3                PlayerStartPoint = new Vector3(0,0,0);
 
         [SerializeField]
-        GameObject                      playerPrefab;
+        LanguageList                    languageList;
 
-        SpawnersController              spawnersController;
+        [SerializeField]
+        GameObject                      playerPrefab;
 
         float defaultTimeScale;
         float defaultFixedDelta;
+
+        SpawnersController              spawnersController;
+
+        CSVLanguageTable                csvLanguageTable;
 
         public Player                   CurrentPlayer { get; private set; }
         public AllWeaponsStats          WeaponsStats { get; private set; }
         public BackgroundController     Background { get; private set; }
         public IEnemyTarget             EnemyTarget { get; private set; }
+        public GlobalSettings           Settings { get; private set; }
+        public LanguageTable            Languages => csvLanguageTable.Languages;
 
         // events
-        public static event Void    OnGamePause;
-        public static event Void    OnGameUnpause;
+        public static event Void        OnGamePause;
+        public static event Void        OnGameUnpause;
 
+        // this class is always alive
+        public static GameController    Instance { get; private set; }
+
+        #region init / destroy
         void Awake()
         {
+            Instance = this;
+
             Application.targetFrameRate = 60;
 
             Init();
@@ -40,9 +56,7 @@ namespace SD
 
         void OnDestroy()
         {
-            // save data from player's inventory
-            CurrentPlayer.Inventory.Save();
-
+            SaveData();
             UnsignFromEvents();
         }
 
@@ -58,6 +72,7 @@ namespace SD
             CurrentPlayer.OnPlayerDeath -= ProcessPlayerDeath;
             InputController.OnPause -= PauseGame;
             InputController.OnUnpause -= UnpauseGame;
+            GlobalSettings.OnLanguageChange -= Dummy;
         }
 
         /// <summary>
@@ -67,6 +82,10 @@ namespace SD
         {
             defaultTimeScale = Time.timeScale;
             defaultFixedDelta = Time.fixedDeltaTime;
+
+            // to sure that there is at least one listener
+            GlobalSettings.OnLanguageChange += Dummy;
+            Settings = DataSystem.LoadSettings();
 
             // TODO:
             // in 'Init' method of each IPooledObject must not be references to next systems
@@ -86,6 +105,14 @@ namespace SD
 
             // depends on player, weapons and its stats
             InitPlayerInventory();
+
+            InitLanguages();
+        }
+
+        void InitLanguages()
+        {
+            csvLanguageTable = new CSVLanguageTable();
+            csvLanguageTable.Parse(languageList.CSVLanguageTable);
         }
 
         void InitPools()
@@ -97,16 +124,7 @@ namespace SD
             particlesPool.Init();
         }
 
-        void Start()
-        {
-            const float startSpawnerDistance = 200;
-
-            spawnersController.StartSpawn(
-                CurrentPlayer.transform.position + CurrentPlayer.transform.forward * startSpawnerDistance,
-                CurrentPlayer.transform);
-        }
-
-        private void InitBackground()
+        void InitBackground()
         {
             Background = FindObjectOfType<BackgroundController>();
             Debug.Assert(Background != null, "Can't find BackgroundController", this);
@@ -115,7 +133,7 @@ namespace SD
             Background.Init();
         }
 
-        private void InitEnemySpawners()
+        void InitEnemySpawners()
         {
             spawnersController = FindObjectOfType<SpawnersController>();
             Debug.Assert(spawnersController != null, "Can't find SpawnersController", this);
@@ -124,11 +142,11 @@ namespace SD
             spawnersController.Init();
         }
 
-        private void InitPlayerInventory()
+        void InitPlayerInventory()
         {
             // depends on player and weapons stats
             CurrentPlayer.InitInventory();
-            CurrentPlayer.Inventory.Load();
+            DataSystem.LoadInventory(CurrentPlayer.Inventory);
 
             CurrentPlayer.Inventory.GiveAll();
         }
@@ -179,6 +197,22 @@ namespace SD
             // independent
             WeaponsStats.Init();
         }
+        #endregion
+
+        void SaveData()
+        {
+            DataSystem.SaveInventory(CurrentPlayer.Inventory);
+            DataSystem.SaveSettings(Settings);
+        }
+
+        void Start()
+        {
+            const float startSpawnerDistance = 200;
+
+            spawnersController.StartSpawn(
+                CurrentPlayer.transform.position + CurrentPlayer.transform.forward * startSpawnerDistance,
+                CurrentPlayer.transform);
+        }
 
         void Update()
         {
@@ -190,13 +224,13 @@ namespace SD
             Background.UpdateCameraPosition(CurrentPlayer.MainCamera.transform.position);
         }
 
-        public void PauseGame()
+        void PauseGame()
         {
             Time.timeScale = 0;
             OnGamePause();
         }
 
-        public void UnpauseGame()
+        void UnpauseGame()
         {
             Time.timeScale = 1;
             // OnGameUnpause();
@@ -209,8 +243,8 @@ namespace SD
 
             // add money
             CurrentPlayer.Inventory.Money += score.Money;
-            // and save inventory
-            CurrentPlayer.Inventory.Save();
+            // and save
+            SaveData();
 
             // scale down time
             StartCoroutine(WaitForScaleTime());
@@ -267,5 +301,8 @@ namespace SD
         {
             EnemyTarget = target;
         }
+
+        void Dummy(string c)
+        { }
     }
 }

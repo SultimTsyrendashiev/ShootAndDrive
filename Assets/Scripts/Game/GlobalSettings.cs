@@ -6,12 +6,36 @@
     [System.Serializable]
     class GlobalSettings
     {
-        public string               GameLanguage;
+        public const string DefaultLanguage = "English";
+
+        /// <summary>
+        /// This event is called, when new language is set.
+        /// New language's name is a parameter.
+        /// </summary>
+        public static event System.Action<string> OnLanguageChange;
+
+        string gameLanguage;
+        public string               GameLanguage
+        {
+            get
+            {
+                return gameLanguage;
+            }
+            set
+            {
+                if (value != gameLanguage)
+                {
+                    gameLanguage = value;
+                    OnLanguageChange(value);
+                }
+            }
+        }
         public bool                 GameEnableSubtitles;
         public bool                 GameShowCutscene;
         public bool                 GameShowTutorial;
 
         // performance
+        public PerformancePreset    PerfPreset;
         public int                  PerfMsaa;
         public float                PerfResolutionMult;
         public int                  PerfRagdollAmount;
@@ -37,7 +61,7 @@
         /// </summary>
         public void SetDefaults()
         {
-            GameLanguage = "English";
+            GameLanguage = DefaultLanguage;
             GameEnableSubtitles = false;
             GameShowCutscene = true;
             GameShowTutorial = true;
@@ -56,7 +80,8 @@
 
         public void SetPerformanceLow()
         {
-            PerfLODMultiplier = 0.7f;
+            PerfPreset = PerformancePreset.Low;
+            PerfLODMultiplier = 1;
             PerfMsaa = 0;
             PerfRagdollAmount = 1;
             PerfResolutionMult = 1;
@@ -67,9 +92,10 @@
 
         public void SetPerformanceDefault()
         {
+            PerfPreset = PerformancePreset.Default;
             PerfLODMultiplier = 1;
-            PerfMsaa = 4;
-            PerfRagdollAmount = 5;
+            PerfMsaa = 0;
+            PerfRagdollAmount = 3;
             PerfResolutionMult = 1;
             PerfShaderQuality = ShaderQuality.PhysicallyBased;
             PerfShadowQuality = ShadowQuality.Medium;

@@ -9,6 +9,12 @@ namespace SD.Weapons
         [SerializeField]
         private AudioClip reloadSound;
 
+        protected override void InitWeapon()
+        {
+            MuzzleParticlesName = WeaponsController.MuzzleFlashShotgun;
+            RecoilJumpMultiplier *= 5;
+        }
+
         protected override void Hitscan()
         {                
             // autoaim

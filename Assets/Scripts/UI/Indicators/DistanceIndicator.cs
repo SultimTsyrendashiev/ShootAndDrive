@@ -53,7 +53,9 @@ namespace SD.UI.Indicators
 
         void SetDistance(float meters)
         {
-            distanceText.text = meters.ToString("N1");
+            int a = (int)meters;
+            //int b = (int)(meters * 10) % 10;
+            distanceText.text = a.ToString(); // + "." + b;
         }
     }
 }

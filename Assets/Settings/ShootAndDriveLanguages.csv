@@ -1,0 +1,66 @@
+﻿Variable name,English,Russian
+Game.Name,Shoot And Drive,Shoot And Drive
+MainMenu.Start,Start,Играть
+MainMenu.Settings,Settings,Настройки
+Settings.Name,Settings,Настройки
+Settings.Game,Game,Общие
+Settings.Performance,Performance,Производительность
+Settings.Input,Input,Управление
+Settings.HUD,HUD,HUD
+Settings.Sound,Sound,Звук
+Settings.Credits,Credits,Авторы
+Settings.Game.Language,Language,Язык
+Settings.Game.Subtitles,Subtitles,Субтитры
+Settings.Game.ShowCutscene,Show cutscene,Показывать катсцену
+Settings.Game.ShowTutorial,ShowTutorial,Показывать обучение
+Settings.Performance.Preset,Preset,
+Settings.Performance.Msaa,MSAA,MSAA
+Settings.Performance.Resolution,Resolution scale,Масштаб разрешения
+Settings.Performance.Lod,LOD multiplier,Дальность прорисовки
+Settings.Performance.Shadowmap,Shadowmap resolution,Разрешение теней
+Settings.Performance.ShaderQuality,Shader quality,Качество шейдеров
+Settings.Sound.MusicVolume,Music volume,Громкость музыки
+Settings.Input.MovementType,Movement input type,Тип управления
+Settings.Input.LeftHanded,Left handed input,
+Settings.HUD.ShowPauseButton,Pause button,Кнопка паузы
+Settings.HUD.Hiding,HUD hiding,Скрывать HUD
+Settings.HUD.Diegetic,Diegetic UI,Diegetic UI
+Settings.Credits.Text,...,...
+Cutscene.HoldToSkip,Hold to skip,Удерживайте для пропуска
+Pause.KillsAmount,Kills,Убийств
+Pause.TravelledDistance,Distance,Пройдено
+Pause.Money,Money,Деньги
+Pause.Text,Paused,Пауза
+Score.KillsAmount,Kills,Убийств
+Score.VehiclesAmount,Vehicles,Транспорта
+Score.TravelledDistance,Distance,Пройдено
+Score.ScorePointsAmount,Score,Очки
+Score.AddedMoney,Money,Заработано
+Score.Text,Score,Результат
+Inventory.Text,Inventory,Инвентарь
+Inventory.WeaponsText,Weapons,Оружие
+Inventory.AmmoText,Ammo,Боеприпасы
+Inventory.ItemsText,Items,Другое
+Inventory.Weapons.Damage,Damage,Урон
+Inventory.Weapons.Durability,Durability,Прочность
+Inventory.Weapons.FireRate,Fire rate,Скорострельность
+Inventory.Weapons.Accuracy,Accuracy,Точность
+Inventory.Weapons.Health,Health,Состояние
+Inventory.Weapons.Buy,Buy,Купить
+Inventory.Weapons.Repair,Repair,Починить
+Inventory.Weapons.NotBought,Not bought,Не куплено
+Inventory.Ammo.BulletsPistol,Pistol bullets,Пистолетные патроны
+Inventory.Ammo.Bullets,Bullets,Патроны
+Inventory.Ammo.BulletsHeavy,Heavy bullets,Тяжёлые патроны
+Inventory.Ammo.Shells,Shotgun shells,Патроны для дробовиков
+Inventory.Ammo.Grenades,Grenades,Гранаты
+Inventory.Ammo.FireBottles,Fire bottles,Бутылки с зажигательной смесью
+Inventory.Ammo.Rockets,Rockets,Ракеты
+Inventory.Ammo.Cannonballs,Cannonballs,Пушечные ядра
+Inventory.Ammo.BuyAll,Buy all,Купить всё
+Inventory.Ammo.Buy,Buy x{0},Купить x{0}
+Inventory.Items.Medkit,Medkit,Аптечки
+Inventory.Items.BuyAll,Buy all,Купить всё
+Inventory.Items.Buy,Buy x{0},Купить x{0}
+Inventory.Weapons.Names.Pistol,Pistol,Пистолет
+Inventory.Weapons.Names.PistolHeavy,Heavy Pistol,Тяжёлый пистолет

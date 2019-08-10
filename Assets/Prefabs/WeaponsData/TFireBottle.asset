@@ -16,9 +16,15 @@ MonoBehaviour:
   weaponEditorName: TFireBottle
   weaponName: Fire Bottle
   icon: {fileID: 0}
+  shotSound: {fileID: 0}
+  unjamSound: {fileID: 0}
+  breakSound: {fileID: 0}
   ammoType: 5
+  ammoConsumption: 1
   cost: 150
   durability: 2147483647
+  percentageForJam: 0.17
+  jamProbability: 0.03
   damage: 7
   reloadingTime: 1
   accuracy: 0

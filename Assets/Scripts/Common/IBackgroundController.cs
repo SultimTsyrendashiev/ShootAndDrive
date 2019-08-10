@@ -7,7 +7,7 @@ namespace SD
         float CurrentLength { get; }
 
         /// <summary>
-        /// Get current block's bounds
+        /// Get containing block's bounds
         /// </summary>
         /// <returns>
         /// x is a left bound,

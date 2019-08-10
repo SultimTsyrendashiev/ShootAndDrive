@@ -9,19 +9,8 @@ namespace SD.Weapons
     {
         #region fields
         #region readonly
-        protected int   AutoaimLayerMask { get; private set; }   // Mask to find autoaim targets
-        protected int   WeaponLayerMask { get; private set; }    // Mask to be tested
-
-        protected int   DamageableLayer { get; private set; }    // Layer with damageable objects
-
-        private string  AnimShootName;
-        private string  AnimJamName;
-        private string  AnimUnjamName;
-        private string  AnimBreakName;
-
-        const float     RecoilJumpMultiplier = 0.25f;
-
-        const float     HealthToJam = 0.15f;    // if below this number then weapon can jam
+        public const float             TakingOutTime   = 0.2f;
+        public const float             HidingTime      = 0.2f;
         #endregion
 
         #region events
@@ -41,34 +30,40 @@ namespace SD.Weapons
         /// </summary>
         public static event WeaponShootFinish   OnShootFinish;
         #endregion
-        // Items in player's inventory
-        WeaponItem      item;
-        AmmoHolder      ammo;
 
+        // Items in player's inventory
+        WeaponItem              item;
+        AmmoHolder              ammo;
 
         // weapon's health must be synced with inventory
         // so use reference to that int
         RefInt                  refHealth;
 
-        #region this must be in weapon properties
-        public float            TakingOutTime = 0.2f;
-        public float            HidingTime = 0.2f;
+        #region animation fields
+        Animation               weaponAnimation;
+        string                  AnimShootName;
+        string                  AnimJamName;
+        string                  AnimUnjamName;
+        string                  AnimBreakName;
 
-        [SerializeField]
-        protected int           AmmoConsumption = 1;
-        [SerializeField]
-        public float            JamProbability = 0.03f; // probability of jamming
+        HandPivot               handPivot;    // script for attaching hand
         #endregion
 
-        Animation               weaponAnimation;
-        HandPivot               handPivot;    // script for attaching hand
+        protected float         RecoilJumpMultiplier = 0.25f;
 
-        [SerializeField]
-        protected AudioClip     ShotSound;
-        [SerializeField]
-        protected AudioClip     UnjamSound;
-        [SerializeField]
-        protected AudioClip     BreakSound;
+        #region layers
+        protected int AutoaimLayerMask { get; private set; }   // Mask to find autoaim targets
+        protected int WeaponLayerMask { get; private set; }    // Mask to be tested
+        protected int DamageableLayer { get; private set; }    // Layer with damageable objects
+        #endregion
+
+        public WeaponState      State { get; private set; }
+
+        /// <summary>
+        /// Current owner of this weapon
+        /// </summary>
+        public GameObject               Owner { get; private set; }
+        protected WeaponsController     WController { get; private set; }
         #endregion
 
         #region weapon item properties
@@ -78,11 +73,14 @@ namespace SD.Weapons
         public string           Name { get; private set; }
         public float            DamageValue { get; private set; }
         public AmmunitionType   AmmoType { get; private set; }
+        public int              AmmoConsumption { get; private set; }
         public float            ReloadingTime { get; private set; }
         /// <summary>
         /// Health in [0..1]
         /// </summary>
         public float            Health => (float)refHealth.Value / Durability;
+        public float            PercentageForJam { get; private set; }
+        public float            JamProbability { get; private set; }
         /// <summary>
         /// Accuracy in [0..1].
         /// '1' means perfect accuracy.
@@ -90,15 +88,12 @@ namespace SD.Weapons
         public float            Accuracy { get; private set; }
         public bool             IsBroken => refHealth.Value <= 0;
         public int              Durability { get; private set; }
-        #endregion
 
-        public WeaponState          State { get; private set; }
-        protected WeaponsController WController { get; private set; }
-        
-        /// <summary>
-        /// Current owner of this weapon
-        /// </summary>
-        public GameObject           Owner { get; private set; }
+        public AudioClip        ShotSound { get; private set; }
+        public AudioClip        UnjamSound { get; private set; }
+        public AudioClip        BreakSound { get; private set; }
+
+        #endregion
 
         #region initialization
         /// <summary>
@@ -106,27 +101,45 @@ namespace SD.Weapons
         /// </summary>
         public void Init(WeaponsController controller, WeaponItem playerItem, AmmoHolder playerAmmo)
         {
-            Debug.Assert(WController == null, "Several initialization of same weapon", controller);
+            Debug.Assert(WController == null, "Several initializations of the same weapon", controller);
+
 
             WController = controller;
             Owner = controller.CurrentPlayer.gameObject;
 
+
             ammo = playerAmmo;
             item = playerItem;
 
+
             // load info
-            Data = item.Stats;
+            Data                = item.Stats;
 
-            Name = item.Stats.Name;
-            WeaponIndex = item.This;
+            Name                = Data.Name;
+            WeaponIndex         = item.This;
 
-            DamageValue = item.Stats.Damage;
-            AmmoType = item.Stats.AmmoType;
-            ReloadingTime = item.Stats.ReloadingTime;
-            Accuracy = item.Stats.Accuracy;
+            DamageValue         = Data.Damage;
+            AmmoType            = Data.AmmoType;
+            AmmoConsumption     = Data.AmmoConsumption;
+            ReloadingTime       = Data.ReloadingTime;
+            Accuracy            = Data.Accuracy;
 
-            Durability = item.Stats.Durability;
-            refHealth = item.HealthRef;
+            Durability          = Data.Durability;
+            refHealth           = item.HealthRef;
+            JamProbability      = Data.JamProbability;
+
+            PercentageForJam    = Data.PercentageForJam;
+
+            ShotSound           = Data.ShotSound;
+            BreakSound          = Data.BreakSound;
+            UnjamSound          = Data.UnjamSound;
+
+
+            // layers
+            AutoaimLayerMask = LayerMask.GetMask(LayerNames.AutoaimTargets);
+            WeaponLayerMask = LayerMask.GetMask(LayerNames.Default, LayerNames.Damageable);
+            DamageableLayer = LayerMask.NameToLayer(LayerNames.Damageable);
+
 
             // get anim
             weaponAnimation = GetComponentInChildren<Animation>(true);
@@ -139,10 +152,6 @@ namespace SD.Weapons
             AnimUnjamName = "U" + tempName;
             AnimBreakName = "B" + tempName;
 
-            // layers
-            AutoaimLayerMask = LayerMask.GetMask(LayerNames.AutoaimTargets);
-            WeaponLayerMask = LayerMask.GetMask(LayerNames.Default, LayerNames.Damageable);
-            DamageableLayer = LayerMask.NameToLayer(LayerNames.Damageable);
 
             // set hand animation
             handPivot = GetComponentInChildren<HandPivot>(true);
@@ -261,7 +270,7 @@ namespace SD.Weapons
 
             float healthPercentage = (float)refHealth.Value / Durability;
 
-            return healthPercentage > HealthToJam ? false : Random.Range(0.0f, 1.0f) < JamProbability;
+            return healthPercentage > PercentageForJam ? false : Random.Range(0.0f, 1.0f) < JamProbability;
         }
 
         /// <summary>

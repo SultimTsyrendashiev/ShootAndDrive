@@ -16,9 +16,15 @@ MonoBehaviour:
   weaponEditorName: SmgTactic
   weaponName: Tactic SMG
   icon: {fileID: 0}
+  shotSound: {fileID: 0}
+  unjamSound: {fileID: 0}
+  breakSound: {fileID: 0}
   ammoType: 1
+  ammoConsumption: 1
   cost: 10000
   durability: 4500
+  percentageForJam: 0.17
+  jamProbability: 0.03
   damage: 7
   reloadingTime: 0.1
   accuracy: 0.95

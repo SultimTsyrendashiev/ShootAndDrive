@@ -33,21 +33,6 @@ namespace SD.PlayerLogic
             Money = 0;
         }
 
-        /// <summary>
-        /// Save inventory
-        /// </summary>
-        public void Save()
-        {
-            Game.Data.DataSystem.SaveInventory(this);
-        }
-        /// <summary>
-        /// Load inventory to this class
-        /// </summary>
-        public void Load()
-        {
-            Game.Data.DataSystem.LoadInventory(this);
-        }
-
         public List<WeaponIndex> GetAvailableWeapons()
         {
             List<WeaponIndex> available = new List<WeaponIndex>();

@@ -16,9 +16,15 @@ MonoBehaviour:
   weaponEditorName: HMachineGun
   weaponName: Machine Gun
   icon: {fileID: 0}
+  shotSound: {fileID: 0}
+  unjamSound: {fileID: 0}
+  breakSound: {fileID: 0}
   ammoType: 3
+  ammoConsumption: 1
   cost: 21000
   durability: 4500
+  percentageForJam: 0.17
+  jamProbability: 0.03
   damage: 40
   reloadingTime: 0.14
   accuracy: 0.76
