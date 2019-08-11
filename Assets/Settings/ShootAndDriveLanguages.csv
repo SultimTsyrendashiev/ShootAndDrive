@@ -1,4 +1,4 @@
-﻿Variable name,English,Russian
+﻿Variable name,English,Русский
 Game.Name,Shoot And Drive,Shoot And Drive
 MainMenu.Start,Start,Играть
 MainMenu.Settings,Settings,Настройки
@@ -13,29 +13,63 @@ Settings.Game.Language,Language,Язык
 Settings.Game.Subtitles,Subtitles,Субтитры
 Settings.Game.ShowCutscene,Show cutscene,Показывать катсцену
 Settings.Game.ShowTutorial,ShowTutorial,Показывать обучение
-Settings.Performance.Preset,Preset,
-Settings.Performance.Msaa,MSAA,MSAA
+Settings.Performance.Preset,Preset,Настройка
+Settings.Performance.Msaa,Antialiasing,Сглаживание
 Settings.Performance.Resolution,Resolution scale,Масштаб разрешения
-Settings.Performance.Lod,LOD multiplier,Дальность прорисовки
-Settings.Performance.Shadowmap,Shadowmap resolution,Разрешение теней
+Settings.Performance.Lod,Detail distance,Дальность прорисовки
+Settings.Performance.Shadowmap,Shadow Quality,Качество теней
+Settings.Performance.RagdollsAmount,Ragdolls amount,Количество рэгдоллов
 Settings.Performance.ShaderQuality,Shader quality,Качество шейдеров
 Settings.Sound.MusicVolume,Music volume,Громкость музыки
 Settings.Input.MovementType,Movement input type,Тип управления
-Settings.Input.LeftHanded,Left handed input,
+Settings.Input.LeftHanded,Left handed input,Для левшей
 Settings.HUD.ShowPauseButton,Pause button,Кнопка паузы
 Settings.HUD.Hiding,HUD hiding,Скрывать HUD
 Settings.HUD.Diegetic,Diegetic UI,Diegetic UI
 Settings.Credits.Text,...,...
+Settings.Key.Yes,Yes,Да
+Settings.Key.No,No,Нет
+Settings.Key.Enable,Enable,Включить
+Settings.Key.Disable,Disable,Выключить
+Settings.Key.Show,Show,Показывать
+Settings.Key.Hide,Hide,Скрыть
+Settings.Key.0.5x,0.50X,0.50X
+Settings.Key.0.75x,0.75X,0.75X
+Settings.Key.0.9x,0.90X,0.90X
+Settings.Key.1x,1X,1X
+Settings.Key.1.25x,1.25X,1.25X
+Settings.Key.1.5x,1.50X,1.50X
+Settings.Key.2x,2X,2X
+Settings.Key.4x,4X,4X
+Settings.Key.Amount.Zero,No,Нет
+Settings.Key.Amount.Min,Min,Минимум
+Settings.Key.Amount.Default,Default,По умолчанию
+Settings.Key.Amount.Max,Max,Максимум
+Settings.Key.Shader.Performance,Performance,Производительность
+Settings.Key.Shader.PB,Physically based,По физике
+Settings.Key.Shadow.No,No,Нет
+Settings.Key.Shadow.Low,Low,Низкое
+Settings.Key.Shadow.Medium,Medium,По умолчанию
+Settings.Key.Shadow.High,High,Высокое
+Settings.Key.Shadow.Ultra,Ultra,Ультра
+Settings.Key.Movement.Joystick,Joystick,Джойстик
+Settings.Key.Movement.Buttons,Buttons,Кнопки
+Settings.Key.Movement.Gyro,Gyroscope,Гироскоп
+Settings.Key.PerfPreset.Low,Max FPS,Производительность
+Settings.Key.PerfPreset.Default,Default,По умолчанию
 Cutscene.HoldToSkip,Hold to skip,Удерживайте для пропуска
-Pause.KillsAmount,Kills,Убийств
+Pause.KillsAmount,Kills,Убито
 Pause.TravelledDistance,Distance,Пройдено
 Pause.Money,Money,Деньги
 Pause.Text,Paused,Пауза
-Score.KillsAmount,Kills,Убийств
+Score.DeadText,Dead,Мертв
+Score.KillsAmount,Kills,Убито
 Score.VehiclesAmount,Vehicles,Транспорта
 Score.TravelledDistance,Distance,Пройдено
 Score.ScorePointsAmount,Score,Очки
 Score.AddedMoney,Money,Заработано
+Score.ScorePointsBest,Best score,Лучший счёт
+Score.CurrentBalance,Balance,Баланс
 Score.Text,Score,Результат
 Inventory.Text,Inventory,Инвентарь
 Inventory.WeaponsText,Weapons,Оружие
@@ -64,3 +98,20 @@ Inventory.Items.BuyAll,Buy all,Купить всё
 Inventory.Items.Buy,Buy x{0},Купить x{0}
 Inventory.Weapons.Names.Pistol,Pistol,Пистолет
 Inventory.Weapons.Names.PistolHeavy,Heavy Pistol,Тяжёлый пистолет
+Inventory.Weapons.Names.PistolRevolver,Revolver,Револьвер
+Inventory.Weapons.Names.SmgMicro,Micro SMG,Микро ПП
+Inventory.Weapons.Names.SmgTactic,Tactic SMG,Тактический ПП
+Inventory.Weapons.Names.SmgHeavy,Heavy SMG,Тяжелый ПП
+Inventory.Weapons.Names.SmgClassic,Classic SMG,Классический ПП
+Inventory.Weapons.Names.Shotgun,Shotgun,Дробовик
+Inventory.Weapons.Names.ShotgunAuto,Auto Shotgun,Автоматический дробовик
+Inventory.Weapons.Names.ShotgunDouble,Double-barreled Shogtun,Двуствольное ружьё
+Inventory.Weapons.Names.RifleAssault,Assault Rifle,Штурмовая винтовка
+Inventory.Weapons.Names.RifleCarbine,Carbine Rifle,Карабин
+Inventory.Weapons.Names.HMachineGun,Machine Gun,Пулемёт
+Inventory.Weapons.Names.HMinigun,Minigun,Миниган
+Inventory.Weapons.Names.TGrenade,Grenade,Граната
+Inventory.Weapons.Names.TFireBottle,Fire Bottle,Бутылка с зажигательной смесью
+Inventory.Weapons.Names.LauncherRocket,Rocket Launcher,Ракетная установка
+Inventory.Weapons.Names.LauncherGrenade,Grenade Launcher,Гранатомёт
+Inventory.Weapons.Names.LauncherCannon,Cannon,Пушка

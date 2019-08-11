@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using SD.Game;
+using UnityEngine.UI;
 
 namespace SD.UI
 {
@@ -15,11 +15,11 @@ namespace SD.UI
         [SerializeField]
         string key;
 
-        UnityEngine.UI.Text text;
+        Text text;
 
         void Start()
         {
-            text = GetComponent<UnityEngine.UI.Text>();
+            text = GetComponentInChildren<Text>();
 
             ChangeText(GameController.Instance.Settings.GameLanguage);
             GlobalSettings.OnLanguageChange += ChangeText;

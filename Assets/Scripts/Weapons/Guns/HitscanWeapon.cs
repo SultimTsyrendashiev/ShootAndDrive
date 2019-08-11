@@ -110,9 +110,9 @@ namespace SD.Weapons
             }
         }
 
-        protected void EmitTrail(Vector3 start, Vector3 end)
+        protected void EmitTrail(Vector3 start, Vector3 direction, Vector3 end)
         {
-            // TODO
+            WController.ShowLine(start, direction, end, 0.06f);
         }
     }
 }

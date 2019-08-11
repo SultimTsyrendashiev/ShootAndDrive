@@ -23,7 +23,7 @@ namespace SD.Weapons
             // emit trail, if muzzle flash transform exists
             if (MuzzleFlash != null)
             {
-                EmitTrail(MuzzleFlash.position, end);
+                EmitTrail(MuzzleFlash.position, distortedDir, end);
             }
         }
     }

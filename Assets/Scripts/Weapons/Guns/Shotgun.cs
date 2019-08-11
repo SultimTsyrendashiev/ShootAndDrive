@@ -41,13 +41,15 @@ namespace SD.Weapons
                     * Quaternion.AngleAxis(Random.Range(-rangey, rangey), AimTransform.right)
                     * aimedDir;
 
-                Vector3 end = CheckRay(AimTransform.position, distortedDir);
+                CheckRay(AimTransform.position, distortedDir);
 
-                // emit trail, if muzzle flash transform exists
-                if (MuzzleFlash != null)
-                {
-                    EmitTrail(MuzzleFlash.position, end);
-                }
+                //Vector3 end = CheckRay(AimTransform.position, distortedDir);
+
+                //// emit trail, if muzzle flash transform exists
+                //if (MuzzleFlash != null)
+                //{
+                //    EmitTrail(MuzzleFlash.position, end);
+                //}
             }
         }
 

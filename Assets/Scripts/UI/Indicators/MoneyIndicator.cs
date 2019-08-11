@@ -33,7 +33,7 @@ namespace SD.UI.Indicators
 
         void SetMoneyAmount(int amount)
         {
-            moneyAmountText.text = "$" + amount.ToString();
+            moneyAmountText.text = PlayerInventory.MoneySymbol + amount.ToString();
         }
     }
 }

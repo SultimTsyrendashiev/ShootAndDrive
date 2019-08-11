@@ -13,47 +13,52 @@ namespace SD.UI.Menus
     class SettingsMenu : MonoBehaviour
     {
         #region keys; TODO: must be from language packs
-        const string Key_Yes        = "Yes";
-        const string Key_No         = "No";
+        string Key_Yes                  => GetTranslatedName("Settings.Key.Yes");
+        string Key_No                   => GetTranslatedName("Settings.Key.No");
 
-        const string Key_Enable     = "Enable";
-        const string Key_Disable    = "Disable";
+        string Key_Enable               => GetTranslatedName("Settings.Key.Enable");
+        string Key_Disable              => GetTranslatedName("Settings.Key.Disable");
 
-        const string Key_Show       = "Show";
-        const string Key_Hide       = "Hide";
+        string Key_Show                 => GetTranslatedName("Settings.Key.Show");
+        string Key_Hide                 => GetTranslatedName("Settings.Key.Hide");
 
-        const string Key_05x        = "0.5X";
-        const string Key_075x       = "0.75X";
-        const string Key_09x        = "0.9X";
-        const string Key_1x         = "1X";
-        const string Key_125x       = "1.25X";
-        const string Key_15x        = "1.5X";
-        const string Key_2x         = "2X";
-        const string Key_4x         = "4X";
+        string Key_05x                  => GetTranslatedName("Settings.Key.0.5x");
+        string Key_075x                 => GetTranslatedName("Settings.Key.0.75x");
+        string Key_09x                  => GetTranslatedName("Settings.Key.0.9x");
+        string Key_1x                   => GetTranslatedName("Settings.Key.1x");
+        string Key_125x                 => GetTranslatedName("Settings.Key.1.25x");
+        string Key_15x                  => GetTranslatedName("Settings.Key.1.5x");
+        string Key_2x                   => GetTranslatedName("Settings.Key.2x");
+        string Key_4x                   => GetTranslatedName("Settings.Key.4x");
 
-        const string Key_Amount_Zero    = "No";
-        const string Key_Amount_Min     = "Min";
-        const string Key_Amount_Default = "Default";
-        const string Key_Amount_Max     = "Max";
+        string Key_Amount_Zero          => GetTranslatedName("Settings.Key.Amount.Zero");
+        string Key_Amount_Min           => GetTranslatedName("Settings.Key.Amount.Min");
+        string Key_Amount_Default       => GetTranslatedName("Settings.Key.Amount.Default");
+        string Key_Amount_Max           => GetTranslatedName("Settings.Key.Amount.Max");
 
-        const string Key_Shader_Perf    = "Performance";
-        const string Key_Shader_PB      = "Physically based";
+        string Key_Shader_Perf          => GetTranslatedName("Settings.Key.Shader.Performance");
+        string Key_Shader_PB            => GetTranslatedName("Settings.Key.Shader.PB");
 
-        const string Key_Shadow_No      = "No";
-        const string Key_Shadow_Low     = "Low";
-        const string Key_Shadow_Medium  = "Medium";
-        const string Key_Shadow_High    = "High";
-        const string Key_Shadow_Ultra   = "Ultra";
+        string Key_Shadow_No            => GetTranslatedName("Settings.Key.Shadow.No");
+        string Key_Shadow_Low           => GetTranslatedName("Settings.Key.Shadow.Low");
+        string Key_Shadow_Medium        => GetTranslatedName("Settings.Key.Shadow.Medium");
+        string Key_Shadow_High          => GetTranslatedName("Settings.Key.Shadow.High");
+        string Key_Shadow_Ultra         => GetTranslatedName("Settings.Key.Shadow.Ultra");
 
-        const string Key_Movement_Joystick      = "Joystick";
-        const string Key_Movement_Buttons       = "Buttons";
-        const string Key_Movement_Gyro          = "Gyroscope";
+        string Key_Movement_Joystick    => GetTranslatedName("Settings.Key.Movement.Joystick");
+        string Key_Movement_Buttons     => GetTranslatedName("Settings.Key.Movement.Buttons");
+        string Key_Movement_Gyro        => GetTranslatedName("Settings.Key.Movement.Gyro");
 
-        const string Key_PerfPreset_Low         = "Max FPS";
-        const string Key_PerfPreset_Default     = "Default";
+        string Key_PerfPreset_Low       => GetTranslatedName("Settings.Key.PerfPreset.Low");
+        string Key_PerfPreset_Default   => GetTranslatedName("Settings.Key.PerfPreset.Default");
+
+        string GetTranslatedName(string key)
+        {
+            return GameController.Instance.Languages.GetValue(settings.GameLanguage, key);
+        }
         #endregion
 
-        #region buttons names
+        #region button identifers; NOTE: it's not connected with language packs
         const string Btn_Game_Language          = "Game.Language";
         const string Btn_Game_EnableSubtitles   = "Game.EnableSubtitles";
         const string Btn_Game_ShowCutscene      = "Game.ShowCutscene";
@@ -157,7 +162,7 @@ namespace SD.UI.Menus
             }
 
             // default
-            settings.GameLanguage = GlobalSettings.DefaultLanguage;
+            settings.ResetLanguage();
         }
 
         void Change_Game_EnableSubtitles()

@@ -41,7 +41,7 @@ namespace SD.Weapons
         bool                        playerIsActive;
 
         public AllWeaponsStats      Stats { get; private set; }
-     
+
         #region init / destroy
         public void Init(Player player)
         {
@@ -239,37 +239,35 @@ namespace SD.Weapons
         void Update()
         {
             // if 'Fire' method wasn't called, then ignore
-            if (!toFire)
+            if (toFire)
             {
-                return;
+                // while player is holding fire button
+                if (InputController.FireButton && playerIsActive)
+                {
+                    Weapon w = weapons[currentWeapon.Value];
+
+                    // if ready, then shoot
+                    if (w.State == WeaponState.Ready)
+                    {
+                        w.Fire();
+                    }
+                    else if (w.State == WeaponState.Unjamming
+                            || w.State == WeaponState.Reloading
+                            || w.State == WeaponState.Enabling)
+                    {
+                        // in this states, player holds button
+                        // and wants weapon to shoot
+                        // but he must wait until state Ready
+                    }
+                    else
+                    {
+                        // stop fire, now 'Fire' method can be called again
+                        toFire = false;
+                    }
+                }
             }
 
-            // while player is holding fire button
-            if (InputController.FireButton && playerIsActive)
-            {
-                Weapon w = weapons[currentWeapon.Value];
-
-                // if ready, then shoot
-                if (w.State == WeaponState.Ready)
-                {
-                    w.Fire();
-                }
-                else if (w.State == WeaponState.Unjamming
-                        || w.State == WeaponState.Reloading
-                        || w.State == WeaponState.Enabling)
-                {
-                    // in this states, player holds button
-                    // and wants weapon to shoot
-                    // but he must wait until state Ready
-                    return;
-                }
-                else
-                {
-                    // stop fire, now 'Fire' method can be called again
-                    toFire = false;
-                    return;
-                }
-            }
+            UpdateLine();
         }
 
         #region weapon switch
@@ -644,6 +642,31 @@ namespace SD.Weapons
 
             audioSources[audioSourceIndex].PlayOneShot(clip);
             audioSourceIndex++;
+        }
+
+        /// <summary>
+        /// Bullet trace line
+        /// </summary>
+        [SerializeField]
+        LineRenderer line;
+        float lineDisableTime;
+
+        public void ShowLine(Vector3 start, Vector3 direction, Vector3 end, float lifetime)
+        {
+            line.enabled = true;
+            line.SetPosition(0, start);
+            line.SetPosition(1, start + direction);
+            line.SetPosition(2, end);
+
+            lineDisableTime = Time.time + lifetime;
+        }
+
+        void UpdateLine()
+        {
+            if (line.enabled && Time.time > lineDisableTime)
+            {
+                line.enabled = false;
+            }
         }
         #endregion
     }

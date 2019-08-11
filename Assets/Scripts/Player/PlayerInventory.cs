@@ -12,6 +12,8 @@ namespace SD.PlayerLogic
     /// </summary>
     class PlayerInventory
     {
+        public const char MoneySymbol = '⊙';
+
         public WeaponsHolder Weapons { get; private set; }
         public AmmoHolder Ammo { get; private set; }
         public ItemsHolder Items { get; private set; }

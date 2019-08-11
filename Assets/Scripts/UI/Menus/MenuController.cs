@@ -41,9 +41,9 @@ namespace SD.UI
 
                 // small hack to call Awake on all objects, even on deactivated
                 g.SetActive(true);
-
-                g.SetActive(g.name == startMenu);
             }
+
+            EnableMenu(startMenu);
         }
 
         /// <summary>

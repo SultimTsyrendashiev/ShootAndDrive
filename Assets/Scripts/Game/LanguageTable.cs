@@ -58,7 +58,7 @@ namespace SD
             return languages[key][languageName];
         }
 
-        public bool ExistLanguage(string languageName)
+        public bool Exist(string languageName)
         {
             return LanguageNames.Contains(languageName);
         }

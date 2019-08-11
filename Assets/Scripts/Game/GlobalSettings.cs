@@ -19,6 +19,13 @@
         {
             get
             {
+                // if language pack doesn't contain current languge
+                if (!GameController.Instance.Languages.Exist(gameLanguage))
+                {
+                    // reset it
+                    gameLanguage = DefaultLanguage;
+                }
+
                 return gameLanguage;
             }
             set
@@ -61,7 +68,7 @@
         /// </summary>
         public void SetDefaults()
         {
-            GameLanguage = DefaultLanguage;
+            ResetLanguage();
             GameEnableSubtitles = false;
             GameShowCutscene = true;
             GameShowTutorial = true;
@@ -99,6 +106,11 @@
             PerfResolutionMult = 1;
             PerfShaderQuality = ShaderQuality.PhysicallyBased;
             PerfShadowQuality = ShadowQuality.Medium;
+        }
+
+        public void ResetLanguage()
+        {
+            GameLanguage = DefaultLanguage;
         }
     }
 }
