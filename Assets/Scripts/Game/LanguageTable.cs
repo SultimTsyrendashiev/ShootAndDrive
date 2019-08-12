@@ -55,7 +55,20 @@ namespace SD
 
         public string GetValue(string languageName, string key)
         {
-            return languages[key][languageName];
+            if (!languages.ContainsKey(key))
+            {
+                Debug.Log("Language doesn't contain key: " + key);
+                return "";
+            }
+
+            var keys = languages[key];
+
+            if (!keys.ContainsKey(languageName))
+            {
+                Debug.Log("Can't find language: " + languageName + ". For key: " + key);
+            }
+
+            return keys[languageName];
         }
 
         public bool Exist(string languageName)
