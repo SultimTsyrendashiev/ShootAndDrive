@@ -20,7 +20,8 @@ namespace SD.ObjectPooling
 
         public AllocatedPrefab(Transform pool, IPooledObject prefab)
         {
-            Debug.Assert(prefab.AmountInPool > 0, "Start amount is 0: " + prefab.ThisObject.name);
+            Debug.Assert(!(prefab.AmountInPool == 0 && prefab.Type == PooledObjectType.NotImportant), 
+                "Start amount of not important is 0: " + prefab.ThisObject.name);
 
             this.prefab = prefab;
             this.type = prefab.Type;

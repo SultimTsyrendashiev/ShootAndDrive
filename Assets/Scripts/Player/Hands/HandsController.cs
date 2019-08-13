@@ -42,7 +42,7 @@ public class HandsController : MonoBehaviour
 
     public static HandsController Instance { get; private set; }
 
-    public void Init()
+    void Awake()
     {
         Debug.Assert(handLeft != null && handRight != null);
         Debug.Assert(handLeftMesh != null && handRightMesh != null);

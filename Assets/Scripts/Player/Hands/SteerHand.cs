@@ -23,6 +23,9 @@ namespace SD.PlayerLogic
             steerHandAnimation = GetComponent<Animation>();
             steerState = steerHandAnimation[SteerAnimationName];
 
+            Debug.Assert(player != null, "Player is not set", this);
+            Debug.Assert(player.Vehicle != null, "Player's vehicle is not set", this);
+
             // set this hand as a child for the vehicle;
             // used for proper vehicle rotation (i.e. with steering hand)
             transform.SetParent(player.Vehicle.RotatingTransform, true);

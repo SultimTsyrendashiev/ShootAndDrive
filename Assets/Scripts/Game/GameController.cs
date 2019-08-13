@@ -13,28 +13,28 @@ namespace SD
 {
     class GameController : MonoBehaviour
     {
-        // position of player's spawn
-        readonly Vector3                PlayerStartPoint = new Vector3(0,0,0);
-
         [SerializeField]
         LanguageList                    languageList;
 
         [SerializeField]
         GameObject                      playerPrefab;
 
-        float defaultTimeScale;
-        float defaultFixedDelta;
+        float                           defaultTimeScale;
+        float                           defaultFixedDelta;
 
-        SpawnersController              spawnersController;
 
-        CSVLanguageTable                csvLanguageTable;
-
+        // instances
         public Player                   CurrentPlayer { get; private set; }
-        public AllWeaponsStats          WeaponsStats { get; private set; }
-        public BackgroundController     Background { get; private set; }
+        public IBackgroundController    Background { get; private set; }
         public IEnemyTarget             EnemyTarget { get; private set; }
+        SpawnersController              spawnersController;
+        CutsceneManager                 cutsceneManager;
+
+        // settings, stats
+        public AllWeaponsStats          WeaponsStats { get; private set; }
         public GlobalSettings           Settings { get; private set; }
         public LanguageTable            Languages => csvLanguageTable.Languages;
+        CSVLanguageTable                csvLanguageTable;
 
         // events
         public static event Void        OnGamePause;
@@ -46,12 +46,19 @@ namespace SD
         #region init / destroy
         void Awake()
         {
+            if (Instance != null)
+            {
+                Debug.Log("Several game controllers. Destroying: ", this);
+
+                // deactivate
+                Destroy(this);
+            }
+
             Instance = this;
 
             Application.targetFrameRate = 60;
 
             Init();
-            SignToEvents();
         }
 
         void OnDestroy()
@@ -65,6 +72,9 @@ namespace SD
             CurrentPlayer.OnPlayerDeath += ProcessPlayerDeath;
             InputController.OnPause += PauseGame;
             InputController.OnUnpause += UnpauseGame;
+
+            // to sure that there is at least one listener
+            GlobalSettings.OnLanguageChange += Dummy;
         }
 
         void UnsignFromEvents()
@@ -72,6 +82,7 @@ namespace SD
             CurrentPlayer.OnPlayerDeath -= ProcessPlayerDeath;
             InputController.OnPause -= PauseGame;
             InputController.OnUnpause -= UnpauseGame;
+
             GlobalSettings.OnLanguageChange -= Dummy;
         }
 
@@ -83,30 +94,39 @@ namespace SD
             defaultTimeScale = Time.timeScale;
             defaultFixedDelta = Time.fixedDeltaTime;
 
-            // to sure that there is at least one listener
-            GlobalSettings.OnLanguageChange += Dummy;
-            Settings = DataSystem.LoadSettings();
+            // load data from previous sessions
+            LoadData();
 
-            // TODO:
-            // in 'Init' method of each IPooledObject must not be references to next systems
-            InitPools();
+            // init multilingual
+            InitLanguages();
 
-            // independent
-            InitWeaponsStats();
-            // independent (depends on ObjectPool)
-            InitBackground();
-            // independent
-            InitEnemySpawners();
-            // independent
+            // find object with stats
+            WeaponsStats            = FindObjectOfType<AllWeaponsStats>();
+            Background              = FindObjectOfType<BackgroundController>();
+            spawnersController      = FindObjectOfType<SpawnersController>();
+            cutsceneManager         = FindObjectOfType<CutsceneManager>();
+
+            // check all systems
+            Debug.Assert(WeaponsStats != null,                              "Can't find AllWeaponsStats", this);
+            Debug.Assert(Background != null,                                "Can't find BackgroundController", this);
+            Debug.Assert(spawnersController != null,                        "Can't find SpawnersController", this);
+            Debug.Assert(cutsceneManager != null,                           "Can't find CutsceneManager", this);
+            Debug.Assert(FindObjectOfType<ObjectPool>() != null,            "Can't find ObjectPool", this);
+            Debug.Assert(FindObjectOfType<ParticlesPool>() != null,         "Can't find ParticlesPool", this);
+
             InitPlayer();
 
-            // depends on player and weapons
-            //InitUI();
+            // all systems initialized, sign up to events
+            SignToEvents();
 
-            // depends on player, weapons and its stats
-            InitPlayerInventory();
+            // at last, init object and particle pools
+            InitPools();
+        }
 
-            InitLanguages();
+        void InitPools()
+        {
+            FindObjectOfType<ObjectPool>().Init();
+            FindObjectOfType<ParticlesPool>().Init();
         }
 
         void InitLanguages()
@@ -115,51 +135,9 @@ namespace SD
             csvLanguageTable.Parse(languageList.CSVLanguageTable);
         }
 
-        void InitPools()
-        {
-            ObjectPool objectPool = FindObjectOfType<ObjectPool>();
-            ParticlesPool particlesPool = FindObjectOfType<ParticlesPool>();
-
-            objectPool.Init();
-            particlesPool.Init();
-        }
-
-        void InitBackground()
-        {
-            Background = FindObjectOfType<BackgroundController>();
-            Debug.Assert(Background != null, "Can't find BackgroundController", this);
-
-            // independent
-            Background.Init();
-        }
-
-        void InitEnemySpawners()
-        {
-            spawnersController = FindObjectOfType<SpawnersController>();
-            Debug.Assert(spawnersController != null, "Can't find SpawnersController", this);
-
-            // independent
-            spawnersController.Init();
-        }
-
-        void InitPlayerInventory()
-        {
-            // depends on player and weapons stats
-            CurrentPlayer.InitInventory();
-            DataSystem.LoadInventory(CurrentPlayer.Inventory);
-
-            CurrentPlayer.Inventory.GiveAll();
-        }
-
-        //void InitUI()
-        //{
-        //    ui = FindObjectOfType<UIController>();
-        //    Debug.Assert(ui != null, "Can't find UIController", this);
-
-        //    // depends on player and weapons
-        //    ui.Init(CurrentPlayer);
-        //}
-
+        /// <summary>
+        /// Must be called after initialization 'AllWeaponsStats'
+        /// </summary>
         void InitPlayer()
         {
             var players = FindObjectsOfType<Player>();
@@ -176,26 +154,17 @@ namespace SD
                 CurrentPlayer = players[0];
             }
 
-            CurrentPlayer.transform.position = PlayerStartPoint;
+            // player must be faced to world forward
+            CurrentPlayer.transform.forward = Vector3.forward;
 
             // independent
             // init player, player's vehicle, weapons
-            CurrentPlayer.Init(Background);
-        }
+            CurrentPlayer.Init();
 
-        void InitWeaponsStats()
-        {
-            WeaponsStats = GetComponent<AllWeaponsStats>();
-
-            // don't assert as weapon system can be unused
-            if (WeaponsStats == null)
-            {
-                Debug.Log("Can't find AllWeaponsStats class", this);
-                return;
-            }
-
-            // independent
-            WeaponsStats.Init();
+            // inventory;
+            // depends on player and weapons stats
+            CurrentPlayer.InitInventory();
+            DataSystem.LoadInventory(CurrentPlayer.Inventory);
         }
         #endregion
 
@@ -205,23 +174,62 @@ namespace SD
             DataSystem.SaveSettings(Settings);
         }
 
+        void LoadData()
+        {
+            Settings = DataSystem.LoadSettings();
+        }
+
         void Start()
         {
+            Play();
+        }
+
+        void StartEnemySpawn()
+        {
             const float startSpawnerDistance = 200;
-
-            spawnersController.StartSpawn(
-                CurrentPlayer.transform.position + CurrentPlayer.transform.forward * startSpawnerDistance,
-                CurrentPlayer.transform);
+            spawnersController.StartSpawn(CurrentPlayer.transform.position + CurrentPlayer.transform.forward * startSpawnerDistance);
         }
 
-        void Update()
+        public void Play()
         {
-            UpdateBackground();
+            // temp
+            CurrentPlayer.Inventory.GiveAll();
+
+            if (Settings.GameShowCutscene)
+            {
+                // don't play cutscene next time
+                Settings.GameShowCutscene = false;
+
+                // cutscene and tutorial
+                PlayWithCutscene();
+            }
+            else if (Settings.GameShowTutorial)
+            {
+                ShowTutorial();
+            }
+
+            StartEnemySpawn();
         }
 
-        void UpdateBackground()
+        /// <summary>
+        /// Play cutscene and tutorial (if needed)
+        /// </summary>
+        void PlayWithCutscene()
         {
-            Background.UpdateCameraPosition(CurrentPlayer.MainCamera.transform.position);
+            // if tutorial must be shown, send tutorial method
+            if (Settings.GameShowTutorial)
+            {
+                cutsceneManager.Play(ShowTutorial);
+            }
+            else
+            {
+                cutsceneManager.Play(null);
+            }
+        }
+
+        void ShowTutorial()
+        {
+
         }
 
         void PauseGame()

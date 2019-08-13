@@ -87,7 +87,7 @@ namespace SD.UI.Menus
 
         void Start()
         {
-            settings = FindObjectOfType<GameController>().Settings;
+            settings = GameController.Instance.Settings;
             methodsList = new Dictionary<string, Void>();
             getNamesList = new Dictionary<string, Func<string>>();
 

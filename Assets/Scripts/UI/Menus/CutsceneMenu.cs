@@ -18,6 +18,7 @@ namespace SD.UI.Menus
 
         public void Activate()
         {
+            gameObject.SetActive(true);
             blackLinesAnimation.Play(enablingAnimation, PlayMode.StopAll);
         }
 

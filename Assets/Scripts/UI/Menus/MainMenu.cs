@@ -4,31 +4,26 @@ using UnityEngine;
 
 namespace SD.UI.Menus
 {
-    class MainMenu : MonoBehaviour
+    class MainMenu : MonoBehaviour, IMenu
     {
         public const string PlayerPrefs_FirstTimePlay = "FirstTimePlay";
 
-        [SerializeField]
-        GameObject playWithCutsceneBtn;
-        [SerializeField]
-        GameObject playBtn;
-
-        void Start()
-        {
-            bool firstTimePlay = PlayerPrefs.GetInt(PlayerPrefs_FirstTimePlay, 1) != 0;
-
-            playWithCutsceneBtn.SetActive(firstTimePlay);
-            playBtn.SetActive(!firstTimePlay);
-        }
-
         public void Play()
         {
-            // TODO: start the game
+            GameController.Instance.Play();
         }
 
-        public void PlayCutscene()
+        public void Init()
+        { }
+
+        public void Activate()
         {
-            // TODO: start playing cutscene
+            gameObject.SetActive(true);
+        }
+
+        public void Deactivate()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

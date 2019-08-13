@@ -11,20 +11,15 @@ namespace SD.PlayerLogic
         public WeaponIndex  This { get; }
 
 
-        AllWeaponsStats allStats;
-
         public bool         IsBroken => HealthRef.Value <= 0;
 
-        public WeaponData   Stats => allStats[This];
+        public WeaponData   Stats => GameController.Instance.WeaponsStats[This];
 
         public WeaponItem(WeaponIndex weapon, int health, bool isBought)
         {
             this.This = weapon;
             this.HealthRef = new RefInt(health);
             this.IsBought = isBought;
-
-            var gameController = Object.FindObjectOfType<GameController>();
-            allStats = gameController.WeaponsStats;
         }
     }
 }

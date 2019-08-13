@@ -3,45 +3,59 @@ using UnityEngine;
 
 namespace SD.Background
 {
+    /// <summary>
+    /// Creates and deletes background blocks, based on camera position.
+    /// Assume, that camera moves only in FORWARD direction (0,0,1)
+    /// </summary>
     class BackgroundController : MonoBehaviour, IBackgroundController
     {
         /// <summary>
         /// Blocks must be to this distance
         /// </summary>
         [SerializeField]
-        float distance = 300.0f;
+        float               distance = 300.0f;
 
         /// <summary>
         /// Names of block prefabs in object pool
         /// </summary>
         [SerializeField]
-        string[] blockPrefabs;
-        
-        // holds all active blocks in current scene
+        string[]            blockPrefabs;
+
+        /// <summary>
+        /// Holds all active blocks in current scene
+        /// </summary>
         LinkedList<IBackgroundBlock> blocks;
 
-        // length of all blocks
-        // must be >= 'distance'
-        public float CurrentLength { get; private set; }
+        /// <summary>
+        /// Camera to track
+        /// </summary>
+        Transform           target;
 
-        public void Init()
+        /// <summary>
+        /// Length of all active blocks
+        /// Must be >= 'distance'
+        /// </summary>
+        public float        CurrentLength { get; private set; }
+
+
+        public void Awake()
         {
             Debug.Assert(blockPrefabs.Length > 0, "Not enough block prefabs", this);
 
             blocks = new LinkedList<IBackgroundBlock>();
             CurrentLength = 0.0f;
 
-            // delete all child block objects in this scene
+            // delete all child block components in this scene
             BackgroundBlock[] inScene = GetComponentsInChildren<BackgroundBlock>();
             foreach (var b in inScene)
             {
                 Destroy(b.gameObject);
             }
 
-            // create one for init
-            CreateBlock();
+            //CreateBlock();
         }
 
+        #region creating blocks
         /// <summary>
         /// Creates block at the end of the last one
         /// </summary>
@@ -91,6 +105,7 @@ namespace SD.Background
             // temporary, random
             return Random.Range(0, blockPrefabs.Length);
         }
+        #endregion
 
         public Vector2 GetBlockBounds(Vector3 position)
         {
@@ -120,6 +135,27 @@ namespace SD.Background
             return current.Value.GetHorizontalBounds();
         }
 
+        public bool IsOut(Vector3 min, Vector3 max)
+        {
+            // as blocks are aligned to z axis,
+            // then just check it
+            return max.z < blocks.First.Value.GetMinZ();
+        }
+
+        #region updating camera
+        void Update()
+        {
+            if (target != null)
+            {
+                UpdateCameraPosition(target.position);
+            }
+        }
+
+        public void SetTarget(Transform target)
+        {
+            this.target = target;
+        }
+
         public void UpdateCameraPosition(Vector3 cameraPosition)
         {
             // create if needed
@@ -136,12 +172,6 @@ namespace SD.Background
                 DeleteOldestBlock();
             }
         }
-
-        public bool IsOut(Vector3 min, Vector3 max)
-        {
-            // as blocks are aligned to z axis,
-            // then just check it
-            return max.z < blocks.First.Value.GetMinZ();
-        }
+        #endregion
     }
 }

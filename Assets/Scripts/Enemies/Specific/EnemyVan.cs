@@ -9,7 +9,7 @@ namespace SD.Enemies
         /// When passengers must start attack
         /// </summary>
         const float             AttackDistance = 15;
-        const float             SideSpeed = 2;
+        const float             SideSpeed = 1;
         const float             DriveAwayBoundEpsilon = 2;
 
         // static variable, true if there is already one van taht follow player
@@ -35,7 +35,7 @@ namespace SD.Enemies
 
         protected override void InitEnemy()
         {
-            background = FindObjectOfType<Background.BackgroundController>();
+            background = GameController.Instance.Background;
             doors = GetComponentsInChildren<VanDoor>(true);
 
             foreach (var d in doors)
@@ -46,7 +46,7 @@ namespace SD.Enemies
 
         void FindPlayerVechicle()
         {
-            playerVehicle = FindObjectOfType<PlayerLogic.Player>().Vehicle;
+            playerVehicle = GameController.Instance.CurrentPlayer.Vehicle;
             if (playerVehicle != null)
             {
                 float targetSpeed = playerVehicle.DefaultSpeed;
@@ -58,8 +58,7 @@ namespace SD.Enemies
 
         void FindTarget()
         {
-            var gameController = FindObjectOfType<GameController>();
-            currentTarget = gameController.EnemyTarget;
+            currentTarget = GameController.Instance.EnemyTarget;
         }
 
         protected override void Activate()
@@ -152,6 +151,17 @@ namespace SD.Enemies
                 if (Mathf.Abs(VehicleRigidbody.position.x - xBound) > DriveAwayBoundEpsilon)
                 {
                     VehicleRigidbody.position += velocity * Time.fixedDeltaTime;
+                }
+                else
+                {
+                    var targetTransform = currentTarget.Target;
+
+                    float x = Mathf.Lerp(VehicleRigidbody.position.x, xBound, SideSpeed * Time.fixedDeltaTime);
+
+                    Vector3 pos = new Vector3(x, transform.position.y,
+                        targetTransform.position.z + AttackDistance);
+
+                    VehicleRigidbody.position = pos;
                 }
             }
         }

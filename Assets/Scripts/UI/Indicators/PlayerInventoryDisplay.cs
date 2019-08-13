@@ -46,7 +46,7 @@ namespace SD.UI
             ParseTextObjects(ammoTexts, ammoTextsParent);
             ParseTextObjects(itemTexts, itemTextsParent);
 
-            inventory = FindObjectOfType<GameController>().CurrentPlayer.Inventory;
+            inventory = GameController.Instance.CurrentPlayer.Inventory;
             Debug.Assert(inventory != null, "Can't find GameController", this);
         }
 

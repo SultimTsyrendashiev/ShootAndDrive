@@ -89,7 +89,7 @@ namespace SD.Enemies
 
             apxVehicleCollider = GetComponent<Collider>();
 
-            target = FindObjectOfType<GameController>().EnemyTarget;
+            target = GameController.Instance.EnemyTarget;
 
             // specific init
             InitEnemy();

@@ -6,6 +6,9 @@
     [System.Serializable]
     class GlobalSettings
     {
+        /// <summary>
+        /// This language must be in language packs
+        /// </summary>
         public const string DefaultLanguage = "English";
 
         /// <summary>
@@ -14,6 +17,7 @@
         /// </summary>
         public static event System.Action<string> OnLanguageChange;
 
+        #region game
         string gameLanguage;
         public string               GameLanguage
         {
@@ -37,11 +41,13 @@
                 }
             }
         }
+
         public bool                 GameEnableSubtitles;
         public bool                 GameShowCutscene;
         public bool                 GameShowTutorial;
+        #endregion
 
-        // performance
+        #region performance
         public PerformancePreset    PerfPreset;
         public int                  PerfMsaa;
         public float                PerfResolutionMult;
@@ -49,18 +55,22 @@
         public float                PerfLODMultiplier;
         public ShaderQuality        PerfShaderQuality;
         public ShadowQuality        PerfShadowQuality;
+        #endregion
 
-        // sound
+        #region sound
         public float                MusicVolume;
+        #endregion
 
-        // input
+        #region input
         public MovementInputType    InputMovementType;
         public bool                 InputLeftHanded;
+        #endregion
 
-        // hud
+        #region hud
         public bool                 HUDShowPauseButton;
         public bool                 HUDHiding;
         public bool                 HUDDiegetic;
+        #endregion
 
 
         /// <summary>

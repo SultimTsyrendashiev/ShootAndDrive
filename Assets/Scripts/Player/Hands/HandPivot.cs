@@ -29,7 +29,7 @@ public class HandPivot : MonoBehaviour
 
         foreach (AnimationState a in handAnim)
         {
-            if (a.name == animName)
+            if (a.name == poseAnimName)
             {
                 poseExist = true;
                 return;

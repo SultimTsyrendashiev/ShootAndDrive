@@ -54,7 +54,7 @@ namespace SD.PlayerLogic
         /// <summary>
         /// Init player, must be called before 'Start'
         /// </summary>
-        public void Init(IBackgroundController background)
+        public void Init()
         {
             MainCamera = GetComponentInChildren<Camera>();
 
@@ -65,14 +65,26 @@ namespace SD.PlayerLogic
             Vehicle.Init(this);
             steeringWheel = Vehicle.SteeringWheel;
 
-            GetComponentInChildren<HandsController>(true).Init();
+            weaponsController = GetComponentInChildren<WeaponsController>();
+            weaponsController.SetOwner(this);
+
+            SignToEvents();
+
+            // TODO: remove
+            Reinit(transform.position);
+
+            State = PlayerState.Ready;
+        }
+
+        public void Reinit(Vector3 position)
+        {
+            transform.position = position;
 
             // reset score
             currentScore = new GameScore(Vehicle.MaxHealth);
 
-            SignToEvents();
-
-            State = PlayerState.Ready;
+            // reset vehicle
+            Vehicle.Reinit(true);
         }
 
         void Start()
@@ -86,9 +98,7 @@ namespace SD.PlayerLogic
         public void InitInventory()
         {
             Inventory = new PlayerInventory();
-
-            weaponsController = GetComponentInChildren<WeaponsController>();
-            weaponsController.Init(this);
+            Inventory.Init(); // default values
         }
 
         void SignToEvents()

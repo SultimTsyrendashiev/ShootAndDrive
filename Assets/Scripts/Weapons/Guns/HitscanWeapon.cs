@@ -29,6 +29,7 @@ namespace SD.Weapons
         // What paarticles to use when hit background
         const string            DefaultHitParticleName = "DefaultParticles";
 
+        [SerializeField]
         protected Transform     AimTransform;
         protected Transform     Casings;
         protected Transform     MuzzleFlash;
@@ -40,7 +41,6 @@ namespace SD.Weapons
 
         void Start()
         {
-            AimTransform = CameraShaker.Instance.transform;
             Casings = FindChildByName(CasingsTransformName);
             MuzzleFlash = FindChildByName(MuzzleTransformName);
         }

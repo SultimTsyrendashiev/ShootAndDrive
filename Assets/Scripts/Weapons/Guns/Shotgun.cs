@@ -12,7 +12,7 @@ namespace SD.Weapons
         protected override void InitWeapon()
         {
             MuzzleParticlesName = WeaponsController.MuzzleFlashShotgun;
-            RecoilJumpMultiplier *= 5;
+            RecoilJumpMultiplier *= 2;
         }
 
         protected override void Hitscan()

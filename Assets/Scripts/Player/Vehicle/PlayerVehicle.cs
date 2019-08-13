@@ -10,6 +10,7 @@ namespace SD.PlayerLogic
     {
         public int                  MaxHealth = 1000;
 
+
         // percentage of health when to start playing smoke particle system
         const float                 SmokeHealthPercentage = 0.2f;
         const float                 FireHealthPercentage = 0.02f;
@@ -21,6 +22,10 @@ namespace SD.PlayerLogic
 
         // how long to wait for explosion when health < 0
         const float                 TimeToExplode = 1.8f;
+
+        // dont move vehicle, if speed is less than this value
+        const float                 SpeedEpsilon = 0.1f;
+
 
         public event                FloatChange OnVehicleHealthChange;
         public event                FloatChange OnDistanceChange;
@@ -79,24 +84,33 @@ namespace SD.PlayerLogic
 
             playerTransform = Player.transform;
             playerRigidbody = Player.GetComponent<Rigidbody>();
-            playerRigidbody.isKinematic = true;
 
             SteeringWheel = GetComponentInChildren<SteeringWheel>(true);
-      
-            // default values
-            currentSpeed = DefaultSpeed;
-            currentSideSpeed = SideSpeed;
-            TravelledDistance = 0;
 
             // init damage receiver
-            Health = MaxHealth;
             damageReceiver = GetComponentInChildren<PlayerVehicleDamageReceiver>(true);
-            damageReceiver.Init(this);
+            damageReceiver.SetVehicle(this);
+        }
+
+        public void Reinit(bool accelerate)
+        {
+            playerRigidbody.isKinematic = true;
+
+            // default values
+            currentSpeed = accelerate ? 0 : DefaultSpeed;
+            currentSideSpeed = accelerate ? 0 : SideSpeed;
+
+            TravelledDistance = 0;
+
+            Health = MaxHealth;
+
+            engineSmoke.Stop();
+            engineFire.Stop();
         }
 
         void Start()
         {
-            background = FindObjectOfType<BackgroundController>();
+            background = GameController.Instance.Background;
         }
 
         public void ReceiveDamage(Damage damage)
@@ -127,8 +141,7 @@ namespace SD.PlayerLogic
             {
                 Health = 0;
 
-                // slow down and explode
-                StartCoroutine(SlowDownVehicle());
+                // explode
                 StartCoroutine(WaitToExplode(TimeToExplode));
             }
 
@@ -168,31 +181,6 @@ namespace SD.PlayerLogic
         //}
 
         /// <summary>
-        /// Slows down this vehicle and after some time explodes
-        /// </summary>
-        IEnumerator SlowDownVehicle()
-        {
-            const float speedEpsilon = 0.1f;
-            const float lerpMultiplier = 2.0f;
-
-            while (true)
-            {
-                if (currentSpeed < speedEpsilon && currentSideSpeed < speedEpsilon)
-                {
-                    currentSpeed = 0;
-                    currentSideSpeed = 0;
-
-                    break;
-                }
-
-                currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.deltaTime * lerpMultiplier);
-                currentSideSpeed = Mathf.Lerp(currentSideSpeed, 0, Time.deltaTime * lerpMultiplier);
-
-                yield return null;
-            }
-        }
-
-        /// <summary>
         /// Wait some time and then explode this vehicle
         /// </summary>
         IEnumerator WaitToExplode(float timeToWait)
@@ -210,10 +198,10 @@ namespace SD.PlayerLogic
             ParticlesPool.Instance.Play("Explosion", engineFire.transform.position, Quaternion.identity);
 
             // kill player, but not instantly
-            StartCoroutine(WaitForExplosion());
+            StartCoroutine(KillPlayerByExplosion());
         }
 
-        IEnumerator WaitForExplosion()
+        IEnumerator KillPlayerByExplosion()
         {
             yield return new WaitForSeconds(0.2f);
             Player.Kill();
@@ -221,10 +209,40 @@ namespace SD.PlayerLogic
 
         void FixedUpdate()
         {
-            if (currentSpeed == 0 && currentSideSpeed == 0)
+            // if alive and speed isn't default, accelerate
+            if (Health > 0 && (currentSpeed < DefaultSpeed || currentSideSpeed < SideSpeed))
+            {
+                if (currentSpeed < DefaultSpeed - SpeedEpsilon || currentSideSpeed < SideSpeed - SpeedEpsilon)
+                {
+                    const float lerpMultiplier = 1.0f;
+
+                    currentSpeed = Mathf.Lerp(currentSpeed, DefaultSpeed, Time.fixedDeltaTime * lerpMultiplier);
+                    currentSideSpeed = Mathf.Lerp(currentSideSpeed, SideSpeed, Time.fixedDeltaTime * lerpMultiplier);
+                }
+                else
+                {
+                    currentSpeed = DefaultSpeed;
+                    currentSideSpeed = SideSpeed;
+                }
+            }
+
+
+            // ignore if too smale
+            if (currentSpeed < SpeedEpsilon && currentSideSpeed < SpeedEpsilon)
             {
                 return;
             }
+
+
+            // slow down this vehicle if vehicle is broken
+            if (Health <= 0)
+            {
+                const float lerpMultiplier = 2.0f;
+
+                currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.fixedDeltaTime * lerpMultiplier);
+                currentSideSpeed = Mathf.Lerp(currentSideSpeed, 0, Time.fixedDeltaTime * lerpMultiplier);
+            }
+
 
             // get data from steering wheel
             float steering = SteeringWheel.Steering;
@@ -239,15 +257,18 @@ namespace SD.PlayerLogic
             {
                 newPosition += playerTransform.right * steering * currentSideSpeed * Time.fixedDeltaTime;
 
-                Vector2 backgroundBounds = background.GetBlockBounds(newPosition);
+                if (background != null)
+                {
+                    Vector2 backgroundBounds = background.GetBlockBounds(newPosition);
 
-                if (newPosition.x > backgroundBounds[1])
-                {
-                    newPosition.x = backgroundBounds[1];
-                }
-                else if (newPosition.x < backgroundBounds[0])
-                {
-                    newPosition.x = backgroundBounds[0];
+                    if (newPosition.x > backgroundBounds[1])
+                    {
+                        newPosition.x = backgroundBounds[1];
+                    }
+                    else if (newPosition.x < backgroundBounds[0])
+                    {
+                        newPosition.x = backgroundBounds[0];
+                    }
                 }
             }
 

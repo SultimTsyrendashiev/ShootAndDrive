@@ -11,16 +11,38 @@ namespace SD
         /// </summary>
         [SerializeField]
         ParticlesPoolPrefabs prefabs;
+
         // Contains all particle systems in this pool
         Dictionary<string, ParticleSystem> systems;
 
+        bool isInitialized = false;
+
+
         public static IParticlesPool Instance { get; private set; }
+
+        void Awake()
+        {
+            if (isInitialized)
+            {
+                return;
+            }
+
+            if (Instance != null)
+            {
+                Debug.Log("Several object pools. Destroying: ", this);
+
+                // deactivate
+                Destroy(this);
+            }
+
+            Init();
+        }
 
         public void Init()
         {
-            Debug.Assert(Instance == null, "Several particle pools", this);
-            Instance = this;
+            isInitialized = true;
 
+            Instance = this;
             systems = new Dictionary<string, ParticleSystem>();
 
             foreach (var p in prefabs.Prefabs)

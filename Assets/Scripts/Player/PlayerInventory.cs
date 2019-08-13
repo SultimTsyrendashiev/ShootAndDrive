@@ -27,8 +27,10 @@ namespace SD.PlayerLogic
             Weapons = new WeaponsHolder();
             Ammo = new AmmoHolder();
             Items = new ItemsHolder();
+        }
 
-            // init
+        public void Init()
+        {
             Weapons.Init();
             Ammo.Init();
             Items.Init();
@@ -70,7 +72,7 @@ namespace SD.PlayerLogic
             //            return;
             //#endif
 
-            var stats = UnityEngine.Object.FindObjectOfType<GameController>().WeaponsStats;
+            var stats = GameController.Instance.WeaponsStats;
 
             foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
             {

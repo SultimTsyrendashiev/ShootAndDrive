@@ -31,7 +31,7 @@ namespace SD.UI
 
         void Start()
         {
-            var p = FindObjectOfType<GameController>().CurrentPlayer;
+            var p = GameController.Instance.CurrentPlayer;
             Debug.Assert(p != null, "Can't find player", this);
 
             inventory = p.Inventory;

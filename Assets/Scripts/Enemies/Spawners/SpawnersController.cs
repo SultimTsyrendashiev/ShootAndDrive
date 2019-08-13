@@ -18,24 +18,35 @@ namespace SD.Enemies.Spawner
         LinkedList<ISpawnable>  spawnedObjects;
         //Queue<int>            spawnersQueue; // holds indices to the list
 
-        Transform               player;
         Vector3                 currentPos;
         bool                    shouldSpawn;
 
-        IBackgroundController   background;
+        IEnemyTarget            target;
 
-        public void Init()
+        IBackgroundController   background;
+        IBackgroundController   Background
+        {
+            get
+            {
+                // if not set
+                if (background == null)
+                {
+                    // try to find
+                    background = GameController.Instance.Background;
+                }
+
+                return background;
+            }
+        }
+
+        void Awake()
         {
             shouldSpawn = false;
 
             spawners = new List<ISpawner>();
             //spawnersQueue = new Queue<int>();
             spawnedObjects = new LinkedList<ISpawnable>();
-        }
 
-        void Start()
-        {
-            background = FindObjectOfType<Background.BackgroundController>();
             AddSpawners();
         }
 
@@ -53,6 +64,11 @@ namespace SD.Enemies.Spawner
             spawners.Add(new TruckSpawner());
         }
 
+        void FindTarget()
+        {
+            target = GameController.Instance.EnemyTarget;
+        }
+
         ///// <summary>
         ///// Add spawners to the queue
         ///// </summary>
@@ -62,11 +78,10 @@ namespace SD.Enemies.Spawner
         //    spawnersQueue.Enqueue(index);
         //}
 
-        public void StartSpawn(Vector3 startPosition, Transform player)
+        public void StartSpawn(Vector3 startPosition)
         {
             shouldSpawn = true;
             currentPos = startPosition;
-            this.player = player;
         }
 
         /// <summary>
@@ -82,8 +97,17 @@ namespace SD.Enemies.Spawner
                 return;
             }
 
+            if (target == null)
+            {
+                // find target
+                FindTarget();
+
+                // and try next time
+                return;
+            }
+
             // spawn to the limit of background blocks
-            while ((currentPos - player.position).sqrMagnitude < Mathf.Pow(background.CurrentLength, 2))
+            while ((currentPos - target.Target.position).sqrMagnitude < Mathf.Pow(Background.CurrentLength, 2))
             {
                 // add to the queue new spawner indices
                 //SetNextSpawner();
@@ -92,14 +116,14 @@ namespace SD.Enemies.Spawner
                 int index = Random.Range(0, spawners.Count);
                 ISpawner spawner = spawners[index];
 
-                Vector2 bounds = background.GetBlockBounds(currentPos);
+                Vector2 bounds = Background.GetBlockBounds(currentPos);
 
-                spawner.Spawn(currentPos, player, bounds, spawnedObjects);
+                spawner.Spawn(currentPos, target.Target, bounds, spawnedObjects);
 
                 // to the next spawner point
                 float d = spawner.Distance;
 
-                currentPos += player.forward * d;
+                currentPos += target.Target.forward * d;
             }
 
             // return to pool, if out of background
@@ -132,7 +156,7 @@ namespace SD.Enemies.Spawner
                 s.GetExtents(out Vector3 min, out Vector3 max);
 
                 // check, if out of background
-                if (background.IsOut(s.Position + min, s.Position + max))
+                if (Background.IsOut(s.Position + min, s.Position + max))
                 {
                     // return to object pool
                     s.Return();

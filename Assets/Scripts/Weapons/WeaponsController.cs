@@ -43,10 +43,14 @@ namespace SD.Weapons
         public AllWeaponsStats      Stats { get; private set; }
 
         #region init / destroy
-        public void Init(Player player)
+        public void SetOwner(Player player)
+        {
+            CurrentPlayer = player;
+        }
+
+        void Start()
         {
             playerIsActive = true;
-            CurrentPlayer = player;
 
             // init weapons
             inventoryWeapons = CurrentPlayer.Inventory.Weapons;

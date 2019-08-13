@@ -11,7 +11,6 @@ namespace SD.Weapons
     /// For extending: add weapon in "WeaponIndex" enum 
     /// and add weapon stats to this list.
     /// </summary>
-    [RequireComponent(typeof(GameController))]
     class AllWeaponsStats : MonoBehaviour
     {
         [SerializeField]
@@ -19,7 +18,7 @@ namespace SD.Weapons
 
         Dictionary<WeaponIndex, WeaponData> weapons;
 
-        public void Init()
+        void Awake()
         {
             weapons = new Dictionary<WeaponIndex, WeaponData>();
             AddWeapons();

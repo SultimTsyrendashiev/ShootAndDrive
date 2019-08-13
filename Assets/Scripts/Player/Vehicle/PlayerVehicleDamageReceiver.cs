@@ -15,7 +15,7 @@ namespace SD.PlayerLogic
         }
         #endregion
 
-        public void Init(PlayerVehicle vehicle)
+        public void SetVehicle(PlayerVehicle vehicle)
         {
             this.vehicle = vehicle;
         }

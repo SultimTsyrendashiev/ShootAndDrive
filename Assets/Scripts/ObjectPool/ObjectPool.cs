@@ -11,16 +11,40 @@ namespace SD
         /// </summary>
         [SerializeField]
         ObjectPoolPrefabs prefabs;
+       
         // Contains all already allocated objects
         Dictionary<string, AllocatedPrefab> allocated;
 
+        bool isInitialized = false;
+
         public static IObjectPool Instance { get; private set; }
 
+        void Awake()
+        {
+            if (isInitialized)
+            {
+                return;
+            }
+
+            if (Instance != null)
+            {
+                Debug.Log("Several object pools. Destroying: ", this);
+
+                // deactivate
+                Destroy(this);
+            }
+
+            Init();
+        }
+
+        /// <summary>
+        /// Must be called after initialization of all other systems
+        /// </summary>
         public void Init()
         {
-            Debug.Assert(Instance == null, "Several object pools", this);
-            Instance = this;
+            isInitialized = true;
 
+            Instance = this;
             allocated = new Dictionary<string, AllocatedPrefab>();
 
             foreach (var o in prefabs.Prefabs)

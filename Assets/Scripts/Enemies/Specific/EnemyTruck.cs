@@ -16,9 +16,5 @@ namespace SD.Enemies
         {
             VehicleRigidbody.position += velocity * Time.fixedDeltaTime;
         }
-
-        // do nothing as there is no driver
-        protected override void DoDriverDeath()
-        { }
     }
 }
