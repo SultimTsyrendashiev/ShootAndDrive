@@ -51,8 +51,11 @@ namespace SD.Background
             {
                 Destroy(b.gameObject);
             }
+        }
 
-            //CreateBlock();
+        public void Reinit()
+        {
+
         }
 
         #region creating blocks

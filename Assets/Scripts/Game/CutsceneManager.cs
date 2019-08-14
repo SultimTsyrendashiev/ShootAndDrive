@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.Playables;
 using UnityEngine;
+using SD.UI.Controls;
 
 namespace SD.Game
 {
@@ -10,28 +11,58 @@ namespace SD.Game
     /// </summary>
     class CutsceneManager : MonoBehaviour
     {
-        [SerializeField]
-        PlayableDirector cutscene;
+        /// <summary>
+        /// Called when cutscene started
+        /// </summary>
+        public static event Void OnCutsceneStart;
 
-        Action onCutsceneEnd;
-        float endTime;
+        [SerializeField]
+        PlayableDirector    cutscene;
+
+        /// <summary>
+        /// Action after cutscene
+        /// </summary>
+        Action              onCutsceneEnd;
+
+        float               endTime = -1;
+        bool                isPlaying = false;
+
 
         public void Play(Action onCutsceneEnd)
         {
             ActivateCutsceneObjects(true);
 
             cutscene.Play();
+            isPlaying = true;
 
             endTime = Time.time + (float)cutscene.duration;
             this.onCutsceneEnd = onCutsceneEnd;
+
+            // sign to event to process forced skip
+            CutsceneSkipper.OnCutsceneSkip += Stop;
+
+            OnCutsceneStart();
+        }
+
+        void OnDestroy()
+        {
+            CutsceneSkipper.OnCutsceneSkip -= Stop;
         }
 
         void Update()
         {
-            if (Time.time < endTime)
+            // if not playing or ended
+            if (!isPlaying || Time.time < endTime)
             {
                 return;
             }
+
+            Stop();
+        }
+
+        void Stop()
+        {
+            isPlaying = false;
 
             // stop cutscene
             cutscene.Stop();

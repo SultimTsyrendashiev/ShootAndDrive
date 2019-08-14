@@ -11,6 +11,7 @@ namespace SD
     delegate bool RegenerateHealth();
     delegate void ScoreChange(GameScore score);
     delegate void PlayerDeath(GameScore score);
+    delegate void PlayerBalanceChange(int oldBalance, int newBalance);
     delegate void PlayerStateChange(PlayerState state);
     delegate void PlayerSpawn(Player player);
 

@@ -76,7 +76,7 @@ namespace SD.PlayerLogic
         {
             if (Mathf.Abs(shakeMagnitude + magnitude) > maxAngle)
             {
-                return;
+                magnitude = -magnitude;
             }
 
             isShaking = true;
@@ -88,6 +88,14 @@ namespace SD.PlayerLogic
             initDuration = shakeDuration;
         }
 
+        public void ResetAnimation()
+        {
+            cameraAnimation.Stop();
+
+            cameraAnimation.transform.localPosition = Vector3.zero;
+            cameraAnimation.transform.localEulerAngles = Vector3.zero;
+        }
+
         void Update()
         {
             if (!isShaking)
@@ -95,10 +103,7 @@ namespace SD.PlayerLogic
                 return;
             }
 
-            Vector3 newRotation = UnityEngine.Random.onUnitSphere;
-            newRotation.x = -shakeMagnitude;
-            newRotation.y = 0;
-            newRotation.z = 0;
+            Vector3 newRotation = new Vector3(-shakeMagnitude, 0, 0);
 
             shakePercentage = shakeDuration / initDuration;
 
@@ -127,7 +132,7 @@ namespace SD.PlayerLogic
 
         public void PlayAnimation(CameraAnimation type)
         {
-            string animName = null;
+            string animName;
 
             switch (type)
             {

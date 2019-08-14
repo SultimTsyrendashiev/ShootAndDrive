@@ -19,6 +19,8 @@ namespace SD
         [SerializeField]
         GameObject                      playerPrefab;
 
+        Vector3                         defaultPlayerPosition;
+
         float                           defaultTimeScale;
         float                           defaultFixedDelta;
 
@@ -29,6 +31,7 @@ namespace SD
         public IEnemyTarget             EnemyTarget { get; private set; }
         SpawnersController              spawnersController;
         CutsceneManager                 cutsceneManager;
+        TutorialManager                 tutorialManager;
 
         // settings, stats
         public AllWeaponsStats          WeaponsStats { get; private set; }
@@ -37,8 +40,12 @@ namespace SD
         CSVLanguageTable                csvLanguageTable;
 
         // events
+        public static event Void        OnGameplayActivate;
         public static event Void        OnGamePause;
         public static event Void        OnGameUnpause;
+        public static event Void        OnMainMenuActivate;
+        public static event PlayerDeath             OnPlayerDeath;
+        public static event PlayerBalanceChange     OnPlayerBalanceChange;
 
         // this class is always alive
         public static GameController    Instance { get; private set; }
@@ -72,9 +79,8 @@ namespace SD
             CurrentPlayer.OnPlayerDeath += ProcessPlayerDeath;
             InputController.OnPause += PauseGame;
             InputController.OnUnpause += UnpauseGame;
-
-            // to sure that there is at least one listener
-            GlobalSettings.OnLanguageChange += Dummy;
+            InputController.OnPlayButton += Play;
+            InputController.OnMainMenuButton += StopGame;
         }
 
         void UnsignFromEvents()
@@ -82,6 +88,8 @@ namespace SD
             CurrentPlayer.OnPlayerDeath -= ProcessPlayerDeath;
             InputController.OnPause -= PauseGame;
             InputController.OnUnpause -= UnpauseGame;
+            InputController.OnPlayButton -= Play;
+            InputController.OnMainMenuButton -= StopGame;
 
             GlobalSettings.OnLanguageChange -= Dummy;
         }
@@ -105,12 +113,14 @@ namespace SD
             Background              = FindObjectOfType<BackgroundController>();
             spawnersController      = FindObjectOfType<SpawnersController>();
             cutsceneManager         = FindObjectOfType<CutsceneManager>();
+            tutorialManager         = FindObjectOfType<TutorialManager>();
 
             // check all systems
             Debug.Assert(WeaponsStats != null,                              "Can't find AllWeaponsStats", this);
             Debug.Assert(Background != null,                                "Can't find BackgroundController", this);
             Debug.Assert(spawnersController != null,                        "Can't find SpawnersController", this);
             Debug.Assert(cutsceneManager != null,                           "Can't find CutsceneManager", this);
+            Debug.Assert(tutorialManager != null,                           "Can't find TutorialManager", this);
             Debug.Assert(FindObjectOfType<ObjectPool>() != null,            "Can't find ObjectPool", this);
             Debug.Assert(FindObjectOfType<ParticlesPool>() != null,         "Can't find ParticlesPool", this);
 
@@ -131,6 +141,9 @@ namespace SD
 
         void InitLanguages()
         {
+            // to sure that there is at least one listener
+            GlobalSettings.OnLanguageChange += Dummy;
+
             csvLanguageTable = new CSVLanguageTable();
             csvLanguageTable.Parse(languageList.CSVLanguageTable);
         }
@@ -139,6 +152,22 @@ namespace SD
         /// Must be called after initialization 'AllWeaponsStats'
         /// </summary>
         void InitPlayer()
+        {
+            FindPlayer();
+
+            // independent
+            // init player, player's vehicle, weapons
+            CurrentPlayer.Init();
+
+            // inventory;
+            // depends on player and weapons stats
+            CurrentPlayer.InitInventory();
+            DataSystem.LoadInventory(CurrentPlayer.Inventory);
+
+            defaultPlayerPosition = CurrentPlayer.transform.position;
+        }
+
+        void FindPlayer()
         {
             var players = FindObjectsOfType<Player>();
             Debug.Assert(players.Length <= 1, "Player class must be one on the scene", this);
@@ -153,18 +182,6 @@ namespace SD
             {
                 CurrentPlayer = players[0];
             }
-
-            // player must be faced to world forward
-            CurrentPlayer.transform.forward = Vector3.forward;
-
-            // independent
-            // init player, player's vehicle, weapons
-            CurrentPlayer.Init();
-
-            // inventory;
-            // depends on player and weapons stats
-            CurrentPlayer.InitInventory();
-            DataSystem.LoadInventory(CurrentPlayer.Inventory);
         }
         #endregion
 
@@ -179,17 +196,11 @@ namespace SD
             Settings = DataSystem.LoadSettings();
         }
 
-        void Start()
-        {
-            Play();
-        }
-
-        void StartEnemySpawn()
-        {
-            const float startSpawnerDistance = 200;
-            spawnersController.StartSpawn(CurrentPlayer.transform.position + CurrentPlayer.transform.forward * startSpawnerDistance);
-        }
-
+        #region game start: cutscene / tutorial / gameplay
+        /// <summary>
+        /// Starts / restarts gameplay. Processes cutscene and tutorial show,
+        /// as specified in game settings
+        /// </summary>
         public void Play()
         {
             // temp
@@ -197,40 +208,88 @@ namespace SD
 
             if (Settings.GameShowCutscene)
             {
-                // don't play cutscene next time
-                Settings.GameShowCutscene = false;
-
-                // cutscene and tutorial
-                PlayWithCutscene();
+                if (Settings.GameShowTutorial)
+                {
+                    // show cutscene after tutorial
+                    ShowCutscene(ShowTutorial);
+                }
+                else
+                {
+                    // after cutscene:
+                    // vehicle has zero speed,
+                    // player has default position
+                    ShowCutscene(() =>
+                        {
+                            ActivateGameplay(false, true);
+                            CurrentPlayer.Vehicle.Accelerate();
+                        });
+                }
             }
-            else if (Settings.GameShowTutorial)
+            else
             {
-                ShowTutorial();
+                if (Settings.GameShowTutorial)
+                {
+                    ShowTutorial();
+                }
+                else
+                {
+                    // otherwise:
+                    // default speed and default position
+                    ActivateGameplay(true, true);
+                }
             }
-
-            StartEnemySpawn();
         }
 
         /// <summary>
         /// Play cutscene and tutorial (if needed)
         /// </summary>
-        void PlayWithCutscene()
+        void ShowCutscene(Action onCutsceneEnd)
         {
-            // if tutorial must be shown, send tutorial method
-            if (Settings.GameShowTutorial)
-            {
-                cutsceneManager.Play(ShowTutorial);
-            }
-            else
-            {
-                cutsceneManager.Play(null);
-            }
+            // don't play cutscene next time
+            Settings.GameShowCutscene = false;
+
+            cutsceneManager.Play(onCutsceneEnd);
         }
 
         void ShowTutorial()
         {
+            // don't show tutorial next time
+            Settings.GameShowTutorial = false;
 
+            // at start of tutorial: player has zero speed and default position
+            // dont create 
+            ActivateGameplay(false, false, false);
+            CurrentPlayer.Vehicle.Accelerate();
+
+            // on the end of tutorial enable spawners
+            tutorialManager.StartTutorial(spawnersController.RestartSpawn);
         }
+
+        /// <summary>
+        /// Activate player object, start enemy spawn
+        /// </summary>
+        /// <param name="defaultPosition">use default player position</param>
+        /// <param name="defaultVehicleSpeed">if false, player's vehicle will accelerate from zero speed</param>
+        void ActivateGameplay(bool defaultVehicleSpeed, bool defaultPosition, bool activateSpawners = true)
+        {
+            // restart player
+            if (defaultPosition)
+            {
+                CurrentPlayer.Reinit(defaultPlayerPosition, defaultVehicleSpeed);
+            }
+            else
+            {
+                CurrentPlayer.Reinit(CurrentPlayer.transform.position, defaultVehicleSpeed);
+            }
+
+            if (activateSpawners)
+            {
+                spawnersController.RestartSpawn(CurrentPlayer.transform.position + Vector3.forward * 200);
+            }
+
+            OnGameplayActivate();
+        }
+        #endregion
 
         void PauseGame()
         {
@@ -241,18 +300,31 @@ namespace SD
         void UnpauseGame()
         {
             Time.timeScale = 1;
-            // OnGameUnpause();
+            OnGameUnpause();
+        }
+
+        /// <summary>
+        /// When main menu must be activated
+        /// </summary>
+        void StopGame()
+        {
+            OnMainMenuActivate();
         }
 
         void ProcessPlayerDeath(GameScore score)
         {
-            // (no) death screen, wait 1 sec;
-            // (no) on tap - skip waiting;
+            OnPlayerDeath(score);
+
+            int oldBalance = CurrentPlayer.Inventory.Money;
+            int newBalance = oldBalance + score.Money;
 
             // add money
-            CurrentPlayer.Inventory.Money += score.Money;
+            CurrentPlayer.Inventory.Money = newBalance;
+
             // and save
             SaveData();
+
+            OnPlayerBalanceChange(oldBalance, newBalance);
 
             // scale down time
             StartCoroutine(WaitForScaleTime());

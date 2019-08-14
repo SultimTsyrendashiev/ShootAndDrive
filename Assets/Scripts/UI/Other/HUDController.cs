@@ -12,49 +12,45 @@ namespace SD.UI
         [SerializeField]
         GameObject weaponSelection;
 
-        MovementInputType movementInputType;
-
         [SerializeField]
         GameObject movementField;
         [SerializeField]
         GameObject movementButtons;
 
-        float maxVehicleHealth;
-
         void Start()
         {
             SetActiveHUD(true);
             SetActiveWeaponSelectionMenu(false);
+
+            GlobalSettings.OnMovementInputTypeChange += SetMovementInputType;
         }
 
-        public MovementInputType MovementInputType
+        void OnEnable()
         {
-            get
-            {
-                return MovementInputType;
-            }
-            set
-            {
-                if (movementInputType == value)
-                {
-                    return;
-                }
+            SetMovementInputType(GameController.Instance.Settings.InputMovementType);
+        }
 
-                switch (value)
-                {
-                    case MovementInputType.Joystick:
-                        movementField.SetActive(true);
-                        movementButtons.SetActive(false);
-                        break;
-                    case MovementInputType.Buttons:
-                        movementField.SetActive(false);
-                        movementButtons.SetActive(true);
-                        break;
-                    case MovementInputType.Gyroscope:
-                        movementField.SetActive(false);
-                        movementButtons.SetActive(false);
-                        break;
-                }
+        void OnDestroy()
+        {
+            GlobalSettings.OnMovementInputTypeChange -= SetMovementInputType;
+        }
+
+        void SetMovementInputType(MovementInputType type)
+        {
+            switch (type)
+            {
+                case MovementInputType.Joystick:
+                    movementField.SetActive(true);
+                    movementButtons.SetActive(false);
+                    break;
+                case MovementInputType.Buttons:
+                    movementField.SetActive(false);
+                    movementButtons.SetActive(true);
+                    break;
+                case MovementInputType.Gyroscope:
+                    movementField.SetActive(false);
+                    movementButtons.SetActive(false);
+                    break;
             }
         }
 

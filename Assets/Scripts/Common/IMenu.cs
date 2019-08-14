@@ -2,7 +2,7 @@
 {
     interface IMenu
     {
-        void Init();
+        void Init(UI.MenuController menuController);
         /// <summary>
         /// Called when menu must be activated.
         /// NOTE: menu game object must be enabled manually in this method

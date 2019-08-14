@@ -40,22 +40,23 @@ namespace SD.Weapons
         public Player               CurrentPlayer { get; private set; }
         bool                        playerIsActive;
 
+        bool                        isInitialized;
+
         public AllWeaponsStats      Stats { get; private set; }
 
         #region init / destroy
         public void SetOwner(Player player)
         {
             CurrentPlayer = player;
+            CurrentPlayer.OnPlayerStateChange += ProcessPlayerStateChange;
         }
 
         void Start()
         {
-            playerIsActive = true;
-
-            // init weapons
             inventoryWeapons = CurrentPlayer.Inventory.Weapons;
             inventoryAmmo = CurrentPlayer.Inventory.Ammo;
 
+            // init weapons
             Weapon[] ws = GetComponentsInChildren<Weapon>(true);
             weapons = new Dictionary<WeaponIndex, Weapon>();
 
@@ -96,13 +97,14 @@ namespace SD.Weapons
 
             // set parameters for weapons particles
             InitParticles();
+
+            isInitialized = true;
         }
 
         void SignToEvents()
         {
             Weapon.OnWeaponBreak += ProcessWeaponBreak;
             Weapon.OnShootFinish += FinishShootingWeapon;
-            CurrentPlayer.OnPlayerStateChange += ProcessPlayerStateChange;
             InputController.OnFireButton += Fire;
             InputController.OnWeaponSwitch += SwitchTo;
         }
@@ -112,9 +114,10 @@ namespace SD.Weapons
             // unsign from events to enable GC
             Weapon.OnWeaponBreak -= ProcessWeaponBreak;
             Weapon.OnShootFinish -= FinishShootingWeapon;
-            CurrentPlayer.OnPlayerStateChange -= ProcessPlayerStateChange;
             InputController.OnFireButton -= Fire;
             InputController.OnWeaponSwitch -= SwitchTo;
+
+            CurrentPlayer.OnPlayerStateChange -= ProcessPlayerStateChange;
         }
 
         void OnDestroy()
@@ -128,25 +131,36 @@ namespace SD.Weapons
             switch (state)
             {
                 case PlayerState.Dead:
-
-                    // just deactivate object
-                    if (currentWeapon.Exist)
+                    if (isInitialized)
                     {
-                        Weapon current = weapons[currentWeapon.Value];
-                        current.gameObject.SetActive(false);
+                        // just deactivate object
+                        if (currentWeapon.Exist)
+                        {
+                            Weapon current = weapons[currentWeapon.Value];
+                            current.gameObject.SetActive(false);
+                        }
                     }
 
                     playerIsActive = false;
                     break;
 
                 case PlayerState.Regenerating:
-                    HideWeapon();
+                    if (isInitialized)
+                    {
+                        HideWeapon();
+                    }
+
                     playerIsActive = false;
                     break;
 
                 case PlayerState.Ready:
                     playerIsActive = true;
-                    TakeOutWeapon();
+
+                    if (isInitialized)
+                    {
+                        TakeOutWeapon();
+                    }
+
                     break;
             }
         }

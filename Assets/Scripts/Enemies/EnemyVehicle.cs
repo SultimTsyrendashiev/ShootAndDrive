@@ -291,20 +291,35 @@ namespace SD.Enemies
         {
             var other = col.collider.GetComponent<IVehicle>();
 
-            VehicleCollisionInfo info = new VehicleCollisionInfo();
+            if (other != null)
+            {
+                VehicleCollisionInfo info = new VehicleCollisionInfo();
 
-            // if driver is still alive, 
-            // then send full damage,
-            // otherwise nothing
-            info.Damage = State == EnemyVehicleState.Active ? data.CollisionDamage : 0;
+                // if driver is still alive, 
+                // then send full damage,
+                // otherwise nothing
+                info.Damage = State == EnemyVehicleState.Active ? data.CollisionDamage : 0;
 
-            other?.Collide(this, info);
+                // set to true as other vehicle must call 'Collide' method
+                // on this one with other data
+                info.ThisWithOther = true;
+
+                other.Collide(this, info);
+            }
         }
 
-        void IVehicle.Collide(IVehicle other, VehicleCollisionInfo info)
+        public void Collide(IVehicle other, VehicleCollisionInfo info)
         {
             ReceiveDamage(Damage.CreateBulletDamage(
                 info.Damage, Vector3.forward, transform.position, Vector3.up, null));
+
+            if (info.ThisWithOther)
+            {
+                VehicleCollisionInfo backInfo = new VehicleCollisionInfo();
+                backInfo.Damage = State == EnemyVehicleState.Active ? data.CollisionDamage : 0;
+
+                other.Collide(this, backInfo);
+            }
 
             DoVehicleCollision();
         }

@@ -147,12 +147,7 @@ namespace SD.Enemies
             {
                 // drive away:
                 // move to bound, if far from it,
-                // otherwise stop
                 if (Mathf.Abs(VehicleRigidbody.position.x - xBound) > DriveAwayBoundEpsilon)
-                {
-                    VehicleRigidbody.position += velocity * Time.fixedDeltaTime;
-                }
-                else
                 {
                     var targetTransform = currentTarget.Target;
 
@@ -163,6 +158,13 @@ namespace SD.Enemies
 
                     VehicleRigidbody.position = pos;
                 }
+                // otherwise stop
+
+                //else
+                //{
+                //    // velocity changed to side velocity after passengers death
+                //    VehicleRigidbody.position += velocity * Time.fixedDeltaTime;
+                //}
             }
         }
 
@@ -175,15 +177,15 @@ namespace SD.Enemies
             Vector2 b = background.GetBlockBounds(pos);
 
             // find nearest bound
-            if ( Mathf.Abs(b[0] - pos.x) < Mathf.Abs(b[1] - pos.x))
+            if (Mathf.Abs(b[0] - pos.x) < Mathf.Abs(b[1] - pos.x))
             {
                 xBound = b[0];
-                velocity = -transform.right * SideSpeed;
+                //velocity = -transform.right * SideSpeed;
             }
             else
             {
                 xBound = b[1];
-                velocity = transform.right * SideSpeed;
+                //velocity = transform.right * SideSpeed;
             }
 
             // if exactly this van followed

@@ -8,6 +8,7 @@ namespace SD.Weapons
         {
             // on contact damageable take full damage
             ApplyFullDamage(col, false);
+            gameObject.SetActive(false);
         }
     }
 }

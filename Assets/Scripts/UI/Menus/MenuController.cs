@@ -6,17 +6,6 @@ namespace SD.UI
 {
     class MenuController : MonoBehaviour
     {
-        //public enum Menu
-        //{
-        //    Main,
-        //    Settings,
-        //    Pause,
-        //    Score,
-        //    Inventory,
-        //    Curtscene,
-        //    InGame
-        //}
-
         [SerializeField]
         GameObject[] menuList;
         [SerializeField]
@@ -39,8 +28,16 @@ namespace SD.UI
             {
                 menus.Add(g.name, g);
 
-                // small hack to call Awake on all objects, even on deactivated
-                g.SetActive(true);
+                var menu = g.GetComponent<IMenu>();
+                if (menu != null)
+                {
+                    menu.Init(this);
+                }
+                else
+                {
+                    // to call Awake on all objects, even on deactivated
+                    g.SetActive(true);
+                }
             }
 
             EnableMenu(startMenu);
@@ -62,6 +59,30 @@ namespace SD.UI
             // disable all other menus
             foreach (var m in menus.Keys)
             {
+                // call if there is IMenu component
+                if (m == previousMenu)
+                {
+                    var menuComp = menus[m].GetComponent<IMenu>();
+
+                    if (menuComp != null)
+                    {
+                        menuComp.Deactivate();
+                        continue;
+                    }
+                }
+                else if (m == currentMenu)
+                {
+                    var menuComp = menus[m].GetComponent<IMenu>();
+
+                    if (menuComp != null)
+                    {
+                        menuComp.Activate();
+                        continue;
+                    }
+                }
+
+                // if there is no special component,
+                // just disable it
                 menus[m].SetActive(m == newMenu);
             }
         }

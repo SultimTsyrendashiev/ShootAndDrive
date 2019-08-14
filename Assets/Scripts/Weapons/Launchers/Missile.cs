@@ -15,6 +15,9 @@ namespace SD.Weapons
         [SerializeField]
         float                       lifetime = 5;
 
+        float                       timeToDestroy;
+        bool                        exploded;
+
         // entity that launched this missile
         GameObject                  owner;
         // damage value, set by owner
@@ -44,6 +47,7 @@ namespace SD.Weapons
 
         public void Reinit()
         {
+            exploded = false;
             MissileReinit();
         }
 
@@ -69,7 +73,7 @@ namespace SD.Weapons
         public virtual void Launch(float missileSpeed)
         {
             PhysicsModel.velocity = transform.forward * missileSpeed;
-            StartCoroutine(WaitToDisable());
+            timeToDestroy = Time.time + lifetime;
 
             if (maxAngularSpeed > 0)
             {
@@ -95,7 +99,7 @@ namespace SD.Weapons
         protected Damage Explode(Vector3 position, Collider ignore, bool disableAfterExplosion = true, List<IDamageable> list = null)
         {
             // stop waiting for lifetime explosion
-            StopAllCoroutines();
+            exploded = true;
 
             // disable, as there can be different owners after explosion
             IgnoreCollisionWithOwner(false);
@@ -202,10 +206,12 @@ namespace SD.Weapons
             return false;
         }
 
-        IEnumerator WaitToDisable()
+        void Update()
         {
-            yield return new WaitForSeconds(lifetime);
-            Explode(transform.position, null);
+            if (!exploded && Time.time > timeToDestroy)
+            {
+                Explode(transform.position, null);
+            }
         }
 
         void IgnoreCollisionWithOwner(bool ignore)

@@ -14507,14 +14507,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 395d09aca1610ad42abed71716b552a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 1000
   DefaultSpeed: 28
-  SideSpeed: 10
+  DefaultSideSpeed: 10
   currentSpeed: 0
   HitParticlesName: Sparks
   engineSmoke: {fileID: 1280477574}
   engineFire: {fileID: 1959862513}
   rotatingTransform: {fileID: 7214096365239573480}
+  MaxHealth: 1000
 --- !u!65 &1232212253
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14998,7 +14998,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 3845
+    m_Bits: 6917
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

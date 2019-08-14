@@ -1,11 +1,16 @@
 ﻿namespace SD
 {
+    delegate void MovementInputTypeChange(MovementInputType type);
+
     /// <summary>
     /// Holds all settings for the game
     /// </summary>
     [System.Serializable]
     class GlobalSettings
     {
+
+        public static event MovementInputTypeChange OnMovementInputTypeChange;
+
         /// <summary>
         /// This language must be in language packs
         /// </summary>
@@ -18,7 +23,7 @@
         public static event System.Action<string> OnLanguageChange;
 
         #region game
-        string gameLanguage;
+        private string              gameLanguage;
         public string               GameLanguage
         {
             get
@@ -49,6 +54,7 @@
 
         #region performance
         public PerformancePreset    PerfPreset;
+
         public int                  PerfMsaa;
         public float                PerfResolutionMult;
         public int                  PerfRagdollAmount;
@@ -62,7 +68,21 @@
         #endregion
 
         #region input
-        public MovementInputType    InputMovementType;
+        private MovementInputType   movementInputType;
+        public MovementInputType    InputMovementType
+        {
+            get
+            {
+                return movementInputType;
+            }
+            set
+            {
+                OnMovementInputTypeChange += DummyA;
+                OnMovementInputTypeChange(value);
+                OnMovementInputTypeChange -= DummyA;
+                movementInputType = value;
+            }
+        }
         public bool                 InputLeftHanded;
         #endregion
 
@@ -122,5 +142,7 @@
         {
             GameLanguage = DefaultLanguage;
         }
+
+        void DummyA(MovementInputType type) { }
     }
 }

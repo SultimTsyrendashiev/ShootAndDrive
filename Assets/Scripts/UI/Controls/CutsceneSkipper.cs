@@ -2,41 +2,48 @@
 
 namespace SD.UI.Controls
 {
-    class CutsceneSkipper
+    class CutsceneSkipper : MonoBehaviour
     {
-        [SerializeField]
-        MenuController mainMenuController;
-        [SerializeField]
-        string nextMenuName = "InGame";
+        public static event Void OnCutsceneSkip;
 
         [SerializeField]
-        GameObject  skip;
-        Animation   skipAnimation;
-        float       skipHoldTime;
-        float       neededTime;
+        GameObject          skip;
+        Animation           skipAnimation;
+        float               skipHoldTime;
+        float               neededTime;
+
+        bool                isHolding;
 
         void Start()
         {
             skipAnimation = skip.GetComponent<Animation>();
             neededTime = skipAnimation.clip.length;
+
+            PointerUp();
         }
 
-        void OnEnable()
+        public void PointerDown()
         {
-            skipHoldTime = 0;
+            isHolding = true;
+
+            skip.SetActive(true);
+            skipAnimation.Play(PlayMode.StopAll);
+        }
+
+        public void PointerUp()
+        {
+            isHolding = false;
+
             skip.SetActive(false);
+            skipAnimation.Stop();
+
+            skipHoldTime = 0;
         }
 
         void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (isHolding)
             {
-                if (skipHoldTime == 0)
-                {
-                    skip.SetActive(true);
-                    skipAnimation.Play(PlayMode.StopAll);
-                }
-
                 skipHoldTime += Time.unscaledDeltaTime;
 
                 if (skipHoldTime > neededTime)
@@ -44,21 +51,11 @@ namespace SD.UI.Controls
                     SkipCutscene();
                 }
             }
-            else
-            {
-                if (skipHoldTime == 0)
-                {
-                    skip.SetActive(false);
-                    skipAnimation.Stop();
-                }
-
-                skipHoldTime = 0;
-            }
         }
 
         void SkipCutscene()
         {
-            mainMenuController.EnableMenu(nextMenuName);
+            OnCutsceneSkip();
         }
     }
 }

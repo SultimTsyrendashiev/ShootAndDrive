@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SD.Game;
 
 namespace SD.UI.Menus
 {
-    public class CutsceneMenu : MonoBehaviour, IMenu
+    class CutsceneMenu : MonoBehaviour, IMenu
     {
+        MenuController menuController;
+
         [SerializeField]
         Animation   blackLinesAnimation;
         [SerializeField]
@@ -13,8 +16,23 @@ namespace SD.UI.Menus
         [SerializeField]
         string      hidingAnimation;
 
-        public void Init()
-        { }
+        public void Init(MenuController menuController)
+        {
+            this.menuController = menuController;
+
+            // when cutscene starts, enable this menu
+            CutsceneManager.OnCutsceneStart += EnableCutscene;
+        }
+
+        void OnDestroy()
+        {
+            CutsceneManager.OnCutsceneStart -= EnableCutscene;
+        }
+
+        void EnableCutscene()
+        {
+            menuController.EnableMenu(gameObject.name);
+        }
 
         public void Activate()
         {
@@ -33,7 +51,7 @@ namespace SD.UI.Menus
 
         IEnumerator WaitForDisable()
         {
-            yield return new WaitForSeconds(blackLinesAnimation.clip.length);
+            yield return new WaitForSeconds(blackLinesAnimation[hidingAnimation].length);
             gameObject.SetActive(false);
         }
     }

@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using UnityEngine;
-using SD.PlayerLogic;
 using SD.UI.Indicators;
+using SD.PlayerLogic;
 
 namespace SD.UI.Menus
 {
-    class ScoreMenu : MonoBehaviour
+    class ScoreMenu : MonoBehaviour, IMenu
     {
-        [SerializeField]
+        /// <summary>
+        /// How long to count from old to new balance
+        /// </summary>
+        const float BalanceCountTime = 2.5f;
+
         MenuController menuController;
-        [SerializeField]
-        string scoreMenuName = "Score";
 
         [SerializeField]
         SmoothCounter scoreText;
@@ -18,38 +20,52 @@ namespace SD.UI.Menus
         SmoothCounter moneyText;
 
         [SerializeField]
+        SmoothCounter playerBalanceText;
+
+        [SerializeField]
         Animation deadAnimation;
 
-        // use this field ONLY for events
-        Player player;
+        [SerializeField]
+        Animation scoreDisplayAnimation;
 
-        void Awake()
+        public void Init(MenuController menuController)
         {
-            Player.OnPlayerSpawn += Init;
-        }
-
-        void Init(Player player)
-        {
-            this.player = player;
-            player.OnPlayerDeath += ShowScoreMenu;
+            this.menuController = menuController;
+            GameController.OnPlayerDeath += ShowThisMenu;
+            GameController.OnPlayerBalanceChange += SetBalance;
         }
 
         void OnDestroy()
         {
-            player.OnPlayerDeath -= ShowScoreMenu;
-            Player.OnPlayerSpawn -= Init;
+            GameController.OnPlayerDeath -= ShowThisMenu;
+            GameController.OnPlayerBalanceChange -= SetBalance;
         }
 
-        void ShowScoreMenu(GameScore score)
+        public void Activate()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void Deactivate()
+        {
+            gameObject.SetActive(false);
+        }
+
+        void ShowThisMenu(GameScore score)
         {
             // enable this menu
-            menuController.EnableMenu(scoreMenuName);
+            menuController.EnableMenu(gameObject.name);
 
             // set values
             scoreText.Set(score.ActualScorePoints);
             moneyText.Set(score.Money);
 
             StartCoroutine(WaitForAnimation());
+        }
+
+        void SetBalance(int oldBalance, int newBalance)
+        {
+            playerBalanceText.Set(newBalance, oldBalance, BalanceCountTime);
         }
 
         /// <summary>
@@ -63,9 +79,22 @@ namespace SD.UI.Menus
 
             yield return new WaitForSeconds(deadAnimation.clip.length);
 
+            // play another animation
+            scoreDisplayAnimation.Play();
+
+            // wait for some time
+            yield return new WaitForSeconds(scoreDisplayAnimation.clip.length - 0.1f);
+
             // start counting
             scoreText.StartCounting();
             moneyText.StartCounting();
+
+            // wait them
+            float toWait = 0.25f + Mathf.Max(scoreText.CountTime, moneyText.CountTime);
+            yield return new WaitForSeconds(toWait);
+
+            // start counting balance
+            playerBalanceText.StartCounting();
         }
     }
 }

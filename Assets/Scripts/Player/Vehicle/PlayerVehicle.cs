@@ -6,11 +6,9 @@ using UnityEngine;
 namespace SD.PlayerLogic
 {
     [RequireComponent(typeof(Collider))]
-    class PlayerVehicle : MonoBehaviour, IVehicle, IDamageable
+    class PlayerVehicle : MonoBehaviour, IPlayerVehicle
     {
-        public int                  MaxHealth = 1000;
-
-
+        #region const
         // percentage of health when to start playing smoke particle system
         const float                 SmokeHealthPercentage = 0.2f;
         const float                 FireHealthPercentage = 0.02f;
@@ -26,26 +24,34 @@ namespace SD.PlayerLogic
         // dont move vehicle, if speed is less than this value
         const float                 SpeedEpsilon = 0.1f;
 
-
-        public event                FloatChange OnVehicleHealthChange;
-        public event                FloatChange OnDistanceChange;
+        // how long it takes to accelerate from 0 to default speed
+        const float                 AccelerationTime = 2.0f;
+        // how long it takes to stop, if vehicle has default speed
+        const float                 BrakeTime = 2.0f;
+        #endregion
 
         Transform                   playerTransform;
         Rigidbody                   playerRigidbody;
 
-        public float                DefaultSpeed = 20;
-        public float                SideSpeed = 10;
 
         //List<PlayerVehicleDamageReceiver> damageReceivers;
         PlayerVehicleDamageReceiver damageReceiver;
-        public event CollideVehicle OnVehicleCollision;
 
-        // to check horizontal bounds
-        IBackgroundController       background;
+        public event CollideVehicle OnVehicleCollision;
+        public event                FloatChange OnVehicleHealthChange;
+        public event                FloatChange OnDistanceChange;
+
+        #region speed
+        public float                DefaultSpeed = 20;
+        public float                DefaultSideSpeed = 10;
 
         [SerializeField]
         float                       currentSpeed;
         float                       currentSideSpeed;
+
+        float                       targetSpeed;
+        float                       targetSideSpeed;
+        #endregion
 
         #region particles
         [SerializeField]
@@ -69,15 +75,21 @@ namespace SD.PlayerLogic
         // approximate vechicle collider
         Collider                    apxVehicleCollider;
 
-        public float Health { get; private set; }
 
-        float prevUpdatedDistance = -1;
-        public float TravelledDistance { get; private set; }
+        public int                  MaxHealth = 1000;
+        public float                Health { get; private set; }
 
-        public ISteeringWheel SteeringWheel { get; private set; }
+        float                       prevUpdatedDistance = -1;
+        public float                TravelledDistance { get; private set; }
 
-        public Player Player { get; private set; }
+        public ISteeringWheel       SteeringWheel { get; private set; }
+        public Player               Player { get; private set; }
 
+
+        /// <summary>
+        /// Init this vehicle. Must be called only once
+        /// </summary>
+        /// <param name="player"></param>
         public void Init(Player player)
         {
             Player = player;
@@ -92,13 +104,21 @@ namespace SD.PlayerLogic
             damageReceiver.SetVehicle(this);
         }
 
+        /// <summary>
+        /// Reinit this vehicle. Reset to default state.
+        /// Should be called when player restarts
+        /// </summary>
+        /// <param name="accelerate">true, if start speed of this vehicle must be 0</param>
         public void Reinit(bool accelerate)
         {
             playerRigidbody.isKinematic = true;
 
             // default values
             currentSpeed = accelerate ? 0 : DefaultSpeed;
-            currentSideSpeed = accelerate ? 0 : SideSpeed;
+            currentSideSpeed = accelerate ? 0 : DefaultSideSpeed;
+
+            targetSpeed = currentSpeed;
+            targetSideSpeed = currentSideSpeed;
 
             TravelledDistance = 0;
 
@@ -108,11 +128,7 @@ namespace SD.PlayerLogic
             engineFire.Stop();
         }
 
-        void Start()
-        {
-            background = GameController.Instance.Background;
-        }
-
+        #region interface impl
         public void ReceiveDamage(Damage damage)
         {
             if (Health == 0)
@@ -141,6 +157,9 @@ namespace SD.PlayerLogic
             {
                 Health = 0;
 
+                // stop vehicle
+                Brake();
+
                 // explode
                 StartCoroutine(WaitToExplode(TimeToExplode));
             }
@@ -167,82 +186,51 @@ namespace SD.PlayerLogic
 
             }
 
+            // collide other with this, player don't send them damage
+            otherVehicle.Collide(this, new VehicleCollisionInfo());
+
             // call event even if damage == 0
             OnVehicleCollision(otherVehicle, damage);
         }
 
-        //public void GetGlobalExtents(out Vector3 globalMin, out Vector3 globalMax)
-        //{
-        //    globalMin = apxVehicleCollider.bounds.min;
-        //    globalMax = apxVehicleCollider.bounds.max;
-
-        //    globalMin += transform.position;
-        //    globalMin += transform.position;
-        //}
-
-        /// <summary>
-        /// Wait some time and then explode this vehicle
-        /// </summary>
-        IEnumerator WaitToExplode(float timeToWait)
+        public void Accelerate()
         {
-            yield return new WaitForSeconds(timeToWait);
-            Explode();
+            targetSpeed = DefaultSpeed;
+            targetSideSpeed = DefaultSideSpeed;
         }
 
-        /// <summary>
-        /// Explode this vehicle
-        /// </summary>
-        public void Explode()
+        public void Brake()
         {
-            // explosion particle system
-            ParticlesPool.Instance.Play("Explosion", engineFire.transform.position, Quaternion.identity);
-
-            // kill player, but not instantly
-            StartCoroutine(KillPlayerByExplosion());
+            targetSpeed = 0;
+            targetSideSpeed = 0;
         }
-
-        IEnumerator KillPlayerByExplosion()
-        {
-            yield return new WaitForSeconds(0.2f);
-            Player.Kill();
-        }
+        #endregion
 
         void FixedUpdate()
         {
-            // if alive and speed isn't default, accelerate
-            if (Health > 0 && (currentSpeed < DefaultSpeed || currentSideSpeed < SideSpeed))
+            // process brake / acceleration
+            if (currentSpeed != targetSpeed || currentSideSpeed != targetSideSpeed)
             {
-                if (currentSpeed < DefaultSpeed - SpeedEpsilon || currentSideSpeed < SideSpeed - SpeedEpsilon)
+                if (Mathf.Abs(currentSpeed - targetSpeed) < SpeedEpsilon ||
+                    Mathf.Abs(currentSideSpeed - targetSideSpeed) < SpeedEpsilon)
                 {
-                    const float lerpMultiplier = 1.0f;
+                    float time = currentSpeed < targetSpeed ? AccelerationTime : BrakeTime;
 
-                    currentSpeed = Mathf.Lerp(currentSpeed, DefaultSpeed, Time.fixedDeltaTime * lerpMultiplier);
-                    currentSideSpeed = Mathf.Lerp(currentSideSpeed, SideSpeed, Time.fixedDeltaTime * lerpMultiplier);
+                    currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.fixedDeltaTime / time);
+                    currentSideSpeed = Mathf.Lerp(currentSideSpeed, targetSideSpeed, Time.fixedDeltaTime / time);
                 }
                 else
                 {
-                    currentSpeed = DefaultSpeed;
-                    currentSideSpeed = SideSpeed;
+                    currentSpeed = targetSpeed;
+                    currentSideSpeed = targetSideSpeed;
                 }
             }
 
-
-            // ignore if too smale
+            // ignore if too small
             if (currentSpeed < SpeedEpsilon && currentSideSpeed < SpeedEpsilon)
             {
                 return;
             }
-
-
-            // slow down this vehicle if vehicle is broken
-            if (Health <= 0)
-            {
-                const float lerpMultiplier = 2.0f;
-
-                currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.fixedDeltaTime * lerpMultiplier);
-                currentSideSpeed = Mathf.Lerp(currentSideSpeed, 0, Time.fixedDeltaTime * lerpMultiplier);
-            }
-
 
             // get data from steering wheel
             float steering = SteeringWheel.Steering;
@@ -256,6 +244,8 @@ namespace SD.PlayerLogic
             if (steering > SteeringEpsilon || steering < -SteeringEpsilon)
             {
                 newPosition += playerTransform.right * steering * currentSideSpeed * Time.fixedDeltaTime;
+
+                var background = GameController.Instance.Background;
 
                 if (background != null)
                 {
@@ -296,5 +286,34 @@ namespace SD.PlayerLogic
                 rotatingTransform.localEulerAngles = euler;
             }
         }
+
+        #region explosion
+        /// <summary>
+        /// Wait some time and then explode this vehicle
+        /// </summary>
+        IEnumerator WaitToExplode(float timeToWait)
+        {
+            yield return new WaitForSeconds(timeToWait);
+            Explode();
+        }
+
+        /// <summary>
+        /// Explode this vehicle
+        /// </summary>
+        public void Explode()
+        {
+            // explosion particle system
+            ParticlesPool.Instance.Play("Explosion", engineFire.transform.position, Quaternion.identity);
+
+            // kill player, but not instantly
+            StartCoroutine(KillPlayerByExplosion());
+        }
+
+        IEnumerator KillPlayerByExplosion()
+        {
+            yield return new WaitForSeconds(0.2f);
+            Player.Kill();
+        }
+        #endregion
     }
 }

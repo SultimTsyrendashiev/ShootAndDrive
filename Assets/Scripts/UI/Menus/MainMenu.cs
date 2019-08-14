@@ -1,28 +1,50 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace SD.UI.Menus
+namespace SD.UI.Controls
 {
     class MainMenu : MonoBehaviour, IMenu
     {
-        public const string PlayerPrefs_FirstTimePlay = "FirstTimePlay";
+        MenuController  menuController;
 
-        public void Play()
+        [SerializeField]
+        Animation       menuAnimation;
+        [SerializeField]
+        string          enablingAnimation;
+        [SerializeField]
+        string          hidingAnimation;
+
+
+        public void Init(MenuController menuController)
         {
-            GameController.Instance.Play();
+            this.menuController = menuController;
+            GameController.OnMainMenuActivate += ShowThisMenu;
         }
 
-        public void Init()
-        { }
+        void OnDestroy()
+        {
+            GameController.OnMainMenuActivate -= ShowThisMenu;
+        }
+
+        void ShowThisMenu()
+        {
+            menuController.EnableMenu(gameObject.name);
+        }
 
         public void Activate()
         {
             gameObject.SetActive(true);
+            menuAnimation.Play(enablingAnimation, PlayMode.StopAll);
         }
 
         public void Deactivate()
         {
+            menuAnimation.Play(hidingAnimation, PlayMode.StopAll);
+        }
+
+        IEnumerator WaitForDisable()
+        {
+            yield return new WaitForSeconds(menuAnimation[hidingAnimation].length);
             gameObject.SetActive(false);
         }
     }

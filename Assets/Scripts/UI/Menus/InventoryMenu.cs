@@ -6,7 +6,7 @@ namespace SD.UI.Menus
 {
     class InventoryMenu : MonoBehaviour, IMenu
     {
-        public void Init()
+        public void Init(MenuController menuController)
         { }
 
         public void Activate()
@@ -17,11 +17,6 @@ namespace SD.UI.Menus
         public void Deactivate()
         {
             gameObject.SetActive(false);
-        }
-
-        public void Play()
-        {
-
         }
     }
 }

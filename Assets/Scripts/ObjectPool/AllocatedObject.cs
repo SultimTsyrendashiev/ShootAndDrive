@@ -57,8 +57,23 @@ namespace SD.ObjectPooling
             // allocate new
             else if (type == PooledObjectType.Important)
             {
-                prevReturnedIndex = allocated.Count;
-                return AllocateNew(true, true); // create active and reinit
+                // find not active
+                int available = FindAvailable();
+
+                // if not found, create new
+                if (available == -1)
+                {
+                    prevReturnedIndex = allocated.Count;
+                    return AllocateNew(true, true); // create active and reinit
+                }
+                // otherwise
+                else
+                {
+                    next = available;
+
+                    nextPooled = allocated[next];
+                    nextObj = nextPooled.ThisObject;
+                }
             }
             // if not available and not important,
             // just return some object
@@ -72,6 +87,30 @@ namespace SD.ObjectPooling
             // reinit when get object from pool
             nextPooled.Reinit();
             return nextObj;
+        }
+
+        int FindAvailable()
+        {
+            int startIndex =prevReturnedIndex + 1;
+
+            for (int i = startIndex; i < allocated.Count; i++)
+            {
+                if (!allocated[i].ThisObject.activeSelf)
+                {
+                    return i;
+                }
+            }
+
+            for (int i = 0; i < startIndex; i++)
+            {
+                if (!allocated[i].ThisObject.activeSelf)
+                {
+                    return i;
+                }
+            }
+
+            // can't find
+            return -1;
         }
 
         GameObject AllocateNew(bool active, bool toReinit)

@@ -6,23 +6,30 @@ namespace SD.UI.Indicators
     [RequireComponent(typeof(Text))]
     class SmoothCounter : MonoBehaviour
     {
-        const float TimeForCount = 1.5f;
+        const float     DefaultCountTime = 1.5f;
+        Text            text;
 
-        Text    text;
+        int             target;
+        float           current;
 
-        int     target;
-        float   current;
-        bool    toCount;
+        bool            toCount;
 
-        void Start()
-        {
-            text = GetComponent<Text>();
-        }
 
-        public void Set(int target)
+        public float    CountTime { get; private set; }
+
+
+        public void Set(int target, int from = 0, float countTime = DefaultCountTime)
         {
             this.target = target;
-            current = 0;
+            this.current = from;
+            this.CountTime = countTime;
+
+            if (text == null)
+            {
+                text = GetComponent<Text>();
+            }
+
+            text.text = from.ToString();
         }
 
         public void StartCounting()
@@ -34,7 +41,7 @@ namespace SD.UI.Indicators
         {
             if (toCount)
             {
-                float add = target * Time.unscaledDeltaTime / TimeForCount;
+                float add = target * Time.unscaledDeltaTime / CountTime;
                 current += add;
 
                 if (current >= target)

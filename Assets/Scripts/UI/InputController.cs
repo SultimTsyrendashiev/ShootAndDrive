@@ -5,13 +5,6 @@ using SD.Weapons;
 
 namespace SD.UI
 {
-    enum MovementInputType
-    {
-        Joystick,
-        Buttons,
-        Gyroscope
-    }
-
     class InputController : MonoBehaviour
     {
         [SerializeField]
@@ -28,6 +21,8 @@ namespace SD.UI
         public static event WeaponSwitch        OnWeaponSwitch;
         public static event Void                OnPause;
         public static event Void                OnUnpause;
+        public static event Void                OnMainMenuButton;
+        public static event Void                OnPlayButton;
 
         public static event RegenerateHealth    OnHealthRegenerate;
 
@@ -132,6 +127,16 @@ namespace SD.UI
         public void Unpause()
         {
             OnUnpause();
+        }
+
+        public void GoToMainMenu()
+        {
+            OnMainMenuButton();
+        }
+
+        public void Play()
+        {
+            OnPlayButton();
         }
 
         /// <summary>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SD.Parsers
+namespace SD.Utils
 {
     /// <summary>
     /// Simple .csv parser.

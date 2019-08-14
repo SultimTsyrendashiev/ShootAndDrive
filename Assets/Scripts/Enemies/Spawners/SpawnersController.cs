@@ -5,6 +5,8 @@ namespace SD.Enemies.Spawner
 {
     class SpawnersController : MonoBehaviour
     {
+        const float CleanTimePeriod = 1.0f;
+
         public const string EnemySedan  = "EnemySedan";
         public const string EnemyBike   = "EnemyBike";
         public const string EnemyCoupe  = "EnemyCoupe";
@@ -20,6 +22,9 @@ namespace SD.Enemies.Spawner
 
         Vector3                 currentPos;
         bool                    shouldSpawn;
+
+        // when to return to pool out of bounds enemies
+        float                   cleanTime;
 
         IEnemyTarget            target;
 
@@ -78,10 +83,33 @@ namespace SD.Enemies.Spawner
         //    spawnersQueue.Enqueue(index);
         //}
 
-        public void StartSpawn(Vector3 startPosition)
+        /// <summary>
+        /// Restarts spawner in safe distance from the enemy target.
+        /// This target is specified in game controller
+        /// </summary>
+        public void RestartSpawn()
         {
+            if (target == null)
+            {
+                Debug.Log("Target is null", this);
+                return;
+            }
+
+            const float safeDistance = 200;
+            RestartSpawn(target.Target.position + Vector3.forward * safeDistance);
+        }
+
+        /// <summary>
+        /// Restarts spawner in specified position
+        /// </summary>
+        public void RestartSpawn(Vector3 startPosition)
+        {
+            // delete all previously spawned objects
+            DisableAll();
+
             shouldSpawn = true;
             currentPos = startPosition;
+            cleanTime = Time.time + CleanTimePeriod;
         }
 
         /// <summary>
@@ -92,6 +120,16 @@ namespace SD.Enemies.Spawner
         /// <returns></returns>
         public void Update()
         {
+            float currentTime = Time.time;
+
+            if (currentTime > cleanTime)
+            {
+                // return to pool, if out of background
+                DisableUnused();
+
+                cleanTime = currentTime + CleanTimePeriod;
+            }
+
             if (!shouldSpawn)
             {
                 return;
@@ -125,9 +163,6 @@ namespace SD.Enemies.Spawner
 
                 currentPos += target.Target.forward * d;
             }
-
-            // return to pool, if out of background
-            DisableUnused();
         }
 
         public void Stop()
@@ -147,7 +182,6 @@ namespace SD.Enemies.Spawner
 
             LinkedListNode<ISpawnable> node = spawnedObjects.First;
 
-            // backward as items are removed while iterating over list
             do
             {
                 LinkedListNode<ISpawnable> next = node.Next;
@@ -164,6 +198,34 @@ namespace SD.Enemies.Spawner
                     // remove from active
                     spawnedObjects.Remove(node);
                 }
+
+                node = next;
+
+            } while (node != null);
+        }
+
+        /// <summary>
+        /// Disable all spawned objects
+        /// </summary>
+        void DisableAll()
+        {
+            if (spawnedObjects.Count == 0)
+            {
+                return;
+            }
+
+            LinkedListNode<ISpawnable> node = spawnedObjects.First;
+
+            do
+            {
+                LinkedListNode<ISpawnable> next = node.Next;
+                ISpawnable s = node.Value;
+
+                // return to object pool
+                s.Return();
+
+                // remove from active
+                spawnedObjects.Remove(node);
 
                 node = next;
 

@@ -40,7 +40,7 @@ namespace SD.PlayerLogic
         public Camera                       MainCamera { get; private set; }
         public PlayerInventory              Inventory { get; private set; }
         public PlayerState                  State { get; private set; }
-        public float                        Health { get; private set; } = MaxHealth;
+        public float                        Health { get; private set; }
         public GameScore                    CurrentScore => currentScore;
         public PlayerVehicle                Vehicle { get; private set; }
 
@@ -55,8 +55,13 @@ namespace SD.PlayerLogic
         /// Init player, must be called before 'Start'
         /// </summary>
         public void Init()
-        {
+        {            
             MainCamera = GetComponentInChildren<Camera>();
+
+
+            // player must be faced to world forward
+            transform.forward = Vector3.forward;
+
 
             // init vehicle
             Vehicle = GetComponentInChildren<PlayerVehicle>(true);
@@ -65,26 +70,38 @@ namespace SD.PlayerLogic
             Vehicle.Init(this);
             steeringWheel = Vehicle.SteeringWheel;
 
+            // init weapons
             weaponsController = GetComponentInChildren<WeaponsController>();
             weaponsController.SetOwner(this);
 
             SignToEvents();
 
-            // TODO: remove
-            Reinit(transform.position);
-
-            State = PlayerState.Ready;
+            // by default player is inactive, it must be activated by game controller
+            gameObject.SetActive(false);
         }
 
-        public void Reinit(Vector3 position)
+        /// <summary>
+        /// Reinit player
+        /// </summary>
+        /// <param name="position">where to spawn player</param>
+        /// <param name="defaultVehicleSpeed">if false, player's vehicle will accelerate from zero speed</param>
+        public void Reinit(Vector3 position, bool defaultVehicleSpeed = true)
         {
+            gameObject.SetActive(true);
             transform.position = position;
+
+            Health = MaxHealth;
 
             // reset score
             currentScore = new GameScore(Vehicle.MaxHealth);
 
             // reset vehicle
-            Vehicle.Reinit(true);
+            Vehicle.Reinit(!defaultVehicleSpeed);
+
+            CameraShaker.Instance?.ResetAnimation();
+
+            State = PlayerState.Ready;
+            OnPlayerStateChange(State);
         }
 
         void Start()
