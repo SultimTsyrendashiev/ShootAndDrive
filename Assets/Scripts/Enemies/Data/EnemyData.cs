@@ -21,13 +21,19 @@ namespace SD.Enemies
 
         // special, if needed
         [SerializeField] bool       isDriver = false;
+
         [SerializeField] bool       canAttack = false;
         [SerializeField] string     projectileName;
         [SerializeField] int        projectileDamage = 7;
         [SerializeField] float      projectileSpeed = 5.0f;
+
         [SerializeField] Vector2    timeBetweenRounds = new Vector2(1.0f, 1.0f);
         [SerializeField] float      fireRate = 0.1f;
         [SerializeField] int        shotsAmount = 1;
+
+        [SerializeField] float      maxAttackDistance;
+        [SerializeField] float      minAttackDistance;
+
         [SerializeField] string     bloodParticlesName = "Blood";
         [SerializeField] string     corpseName;
 
@@ -60,5 +66,8 @@ namespace SD.Enemies
         public float                ProjectileSpeed => projectileSpeed;
 
         public int                  ProjectileDamage => projectileDamage;
+
+        public float                MaxAttackDistance => maxAttackDistance;
+        public float                MinAttackDistance => minAttackDistance;
     }
 }

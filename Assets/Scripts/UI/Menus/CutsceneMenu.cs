@@ -5,54 +5,16 @@ using SD.Game;
 
 namespace SD.UI.Menus
 {
-    class CutsceneMenu : MonoBehaviour, IMenu
+    class CutsceneMenu : AAnimatedMenu
     {
-        MenuController menuController;
-
-        [SerializeField]
-        Animation   blackLinesAnimation;
-        [SerializeField]
-        string      enablingAnimation;
-        [SerializeField]
-        string      hidingAnimation;
-
-        public void Init(MenuController menuController)
+        protected override void SignToEvents()
         {
-            this.menuController = menuController;
-
-            // when cutscene starts, enable this menu
-            CutsceneManager.OnCutsceneStart += EnableCutscene;
+            CutsceneManager.OnCutsceneStart += ShowThisMenu;
         }
 
-        void OnDestroy()
+        protected override void UnsignFromEvents()
         {
-            CutsceneManager.OnCutsceneStart -= EnableCutscene;
-        }
-
-        void EnableCutscene()
-        {
-            menuController.EnableMenu(gameObject.name);
-        }
-
-        public void Activate()
-        {
-            gameObject.SetActive(true);
-            blackLinesAnimation.Play(enablingAnimation, PlayMode.StopAll);
-        }
-
-        public void Deactivate()
-        {
-            blackLinesAnimation.Play(hidingAnimation, PlayMode.StopAll);
-            
-            // wait until animation ends,
-            // and only then disable game object
-            StartCoroutine(WaitForDisable());
-        }
-
-        IEnumerator WaitForDisable()
-        {
-            yield return new WaitForSeconds(blackLinesAnimation[hidingAnimation].length);
-            gameObject.SetActive(false);
+            CutsceneManager.OnCutsceneStart -= ShowThisMenu;
         }
     }
 }

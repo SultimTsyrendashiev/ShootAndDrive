@@ -17,6 +17,9 @@ namespace SD
         LanguageList                    languageList;
 
         [SerializeField]
+        WeaponsList                     weaponsList;
+
+        [SerializeField]
         GameObject                      playerPrefab;
 
         Vector3                         defaultPlayerPosition;
@@ -108,12 +111,13 @@ namespace SD
             // init multilingual
             InitLanguages();
 
-            // find object with stats
-            WeaponsStats            = FindObjectOfType<AllWeaponsStats>();
+            // find objects
             Background              = FindObjectOfType<BackgroundController>();
-            spawnersController      = FindObjectOfType<SpawnersController>();
             cutsceneManager         = FindObjectOfType<CutsceneManager>();
             tutorialManager         = FindObjectOfType<TutorialManager>();
+
+            WeaponsStats            = new AllWeaponsStats(weaponsList.Data);
+            spawnersController      = new SpawnersController();
 
             // check all systems
             Debug.Assert(WeaponsStats != null,                              "Can't find AllWeaponsStats", this);
@@ -184,6 +188,11 @@ namespace SD
             }
         }
         #endregion
+
+        void Update()
+        {
+            spawnersController.Update();
+        }
 
         void SaveData()
         {

@@ -72,11 +72,9 @@ namespace SD.PlayerLogic
             //            return;
             //#endif
 
-            var stats = GameController.Instance.WeaponsStats;
-
             foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
             {
-                Weapons.Set(w, stats[w].Durability, true);
+                Weapons.Set(w, AllWeaponsStats.Instance[w].Durability, true);
             }
         }
 

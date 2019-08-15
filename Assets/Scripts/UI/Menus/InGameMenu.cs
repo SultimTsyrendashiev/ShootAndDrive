@@ -1,38 +1,20 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
+using System.Collections;
 
-namespace SD.UI.Controls
+namespace SD.UI.Menus
 {
-    class InGameMenu : MonoBehaviour, IMenu
+    class InGameMenu : AAnimatedMenu
     {
-        MenuController menuController;
-
-        public void Init(MenuController menuController)
+        protected override void SignToEvents()
         {
-            this.menuController = menuController;
             GameController.OnGameplayActivate += ShowThisMenu;
             GameController.OnGameUnpause += ShowThisMenu;
         }
 
-        void OnDestroy()
+        protected override void UnsignFromEvents()
         {
             GameController.OnGameplayActivate -= ShowThisMenu;
             GameController.OnGameUnpause -= ShowThisMenu;
-        }
-
-        void ShowThisMenu()
-        {
-            menuController.EnableMenu(gameObject.name);
-        }
-
-        public void Activate()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Deactivate()
-        {
-            gameObject.SetActive(false);
         }
     }
 }

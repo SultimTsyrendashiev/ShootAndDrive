@@ -5599,8 +5599,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.3
-      minScalar: 0.5
+      scalar: 0.8
+      minScalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5946,8 +5946,8 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 3
-      scalar: -0.7
-      minScalar: -0.2
+      scalar: -0.2
+      minScalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -6205,8 +6205,8 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 40
-      minScalar: 25
+      scalar: 50
+      minScalar: 30
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -6573,7 +6573,7 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 0}
         key1: {r: 0, g: 0, b: 0, a: 0.8627451}
-        key2: {r: 0.6627451, g: 0.6039216, b: 0.5176471, a: 0.8980392}
+        key2: {r: 0.6627451, g: 0.6039216, b: 0.5176471, a: 0.654902}
         key3: {r: 1, g: 1, b: 1, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -6588,7 +6588,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 54741
+        atime1: 42405
         atime2: 59560
         atime3: 65535
         atime4: 65535
@@ -9991,7 +9991,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0c94f419b3876fb4f9c0ee63a849f09b, type: 2}
+  - {fileID: 2100000, guid: e2ea0fd3a5035434eb3d877207ef7114, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0

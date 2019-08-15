@@ -5,25 +5,23 @@ namespace SD.ObjectPooling
 {
     class AllocatedPrefab
     {
-        /// <summary>
-        /// How mmany objects to allocate at once
-        /// </summary>
-        // const int ChunkSize = 4;
-
-        IPooledObject           prefab;
         PooledObjectType        type;
         Transform               pool;
         List<IPooledObject>     allocated;
         int                     prevReturnedIndex;
 
-        public IPooledObject Prefab { get => prefab; }
+        public IPooledObject    Prefab { get; }
+        /// <summary>
+        /// How many objects are allocated?
+        /// </summary>
+        public int              Amount => allocated.Count;
 
         public AllocatedPrefab(Transform pool, IPooledObject prefab)
         {
             Debug.Assert(!(prefab.AmountInPool == 0 && prefab.Type == PooledObjectType.NotImportant), 
                 "Start amount of not important is 0: " + prefab.ThisObject.name);
 
-            this.prefab = prefab;
+            this.Prefab = prefab;
             this.type = prefab.Type;
             this.pool = pool;
             this.allocated = new List<IPooledObject>();
@@ -73,6 +71,8 @@ namespace SD.ObjectPooling
 
                     nextPooled = allocated[next];
                     nextObj = nextPooled.ThisObject;
+
+                    nextObj.SetActive(true);
                 }
             }
             // if not available and not important,
@@ -81,8 +81,8 @@ namespace SD.ObjectPooling
             prevReturnedIndex = next;
 
             // set default rotation and position
-            nextObj.transform.position = prefab.ThisObject.transform.position;
-            nextObj.transform.rotation = prefab.ThisObject.transform.rotation;
+            nextObj.transform.position = Prefab.ThisObject.transform.position;
+            nextObj.transform.rotation = Prefab.ThisObject.transform.rotation;
 
             // reinit when get object from pool
             nextPooled.Reinit();
@@ -115,12 +115,12 @@ namespace SD.ObjectPooling
 
         GameObject AllocateNew(bool active, bool toReinit)
         {
-            GameObject result = GameObject.Instantiate(prefab.ThisObject);
+            GameObject result = Object.Instantiate(Prefab.ThisObject);
 
             IPooledObject pooled = result.GetComponent<IPooledObject>();
             pooled.Init();
 
-            result.name = prefab.ThisObject.name;
+            result.name = Prefab.ThisObject.name;
             result.SetActive(active);
             result.transform.parent = pool;
 
@@ -132,6 +132,49 @@ namespace SD.ObjectPooling
             allocated.Add(pooled);
 
             return result;
+        }
+
+        public void Resize(int newAmount)
+        {
+            if (allocated.Count == newAmount)
+            {
+                return;
+            }
+
+            List<int> available = new List<int>();
+
+            // find all inactive objects
+            for (int i = 0; i < allocated.Count; i++)
+            {
+                if (allocated[i].ThisObject.activeSelf)
+                {
+                    available.Add(i);
+                }
+            }
+
+            // destroy only not active objects
+            for (int i = 0; i < available.Count; i++)
+            {
+                allocated.RemoveAt(available[i]);
+
+                // return, if desired amount is set
+                if (allocated.Count == newAmount)
+                {
+                    return;
+                }
+            }
+
+            // if desired amount is not set,
+            // some active objects must be destroyed too
+            for (int i = 0; i < allocated.Count; i++)
+            {
+                allocated.RemoveAt(i);
+
+                if (allocated.Count == newAmount)
+                {
+                    return;
+                }
+            }
         }
     }
 }

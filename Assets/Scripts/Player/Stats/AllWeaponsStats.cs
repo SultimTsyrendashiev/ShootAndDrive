@@ -11,29 +11,26 @@ namespace SD.Weapons
     /// For extending: add weapon in "WeaponIndex" enum 
     /// and add weapon stats to this list.
     /// </summary>
-    class AllWeaponsStats : MonoBehaviour
+    class AllWeaponsStats
     {
-        [SerializeField]
-        WeaponsList weaponsList;
-
         Dictionary<WeaponIndex, WeaponData> weapons;
 
-        void Awake()
+        public static AllWeaponsStats Instance => GameController.Instance.WeaponsStats;
+
+        public AllWeaponsStats(WeaponData[] weaponsData)
         {
             weapons = new Dictionary<WeaponIndex, WeaponData>();
-            AddWeapons();
+            AddWeapons(weaponsData);
 
             // check if all types are added
-            Debug.Assert(weapons.Keys.Count == Enum.GetValues(typeof(WeaponIndex)).Length, "Not enough weapons types in dictionary", this);
+            Debug.Assert(weapons.Keys.Count == Enum.GetValues(typeof(WeaponIndex)).Length, ToString() + ": Not enough weapons types in dictionary");
         }
 
         /// <summary>
         /// Add main weapons stats
         /// </summary>
-        void AddWeapons()
+        void AddWeapons(WeaponData[] weaponsData)
         {
-            var weaponsData = weaponsList.Data;
-
             foreach (var w in weaponsData)
             {
                 weapons.Add(w.Index, w);
@@ -61,6 +58,11 @@ namespace SD.Weapons
         public static bool CanBreak(AmmunitionType a)
         {
             return !(a == AmmunitionType.Cannonballs || a == AmmunitionType.FireBottles || a == AmmunitionType.Grenades);
+        }
+
+        public override string ToString()
+        {
+            return "AllWeaponsStats";
         }
     }
 }

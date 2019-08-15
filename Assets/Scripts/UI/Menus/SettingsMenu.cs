@@ -10,47 +10,82 @@ namespace SD.UI.Menus
     /// <summary>
     /// Controls all settings
     /// </summary>
-    class SettingsMenu : MonoBehaviour
+    class SettingsMenu : AAnimatedMenu
     {
-        #region keys; TODO: must be from language packs
-        string Key_Yes                  => GetTranslatedName("Settings.Key.Yes");
-        string Key_No                   => GetTranslatedName("Settings.Key.No");
+        GlobalSettings settings;
 
-        string Key_Enable               => GetTranslatedName("Settings.Key.Enable");
-        string Key_Disable              => GetTranslatedName("Settings.Key.Disable");
+        /// <summary>
+        /// Change setting by its identifier
+        /// </summary>
+        Dictionary<string, Void> methodsList;
+        
+        /// <summary>
+        /// Contains methods that return name for current setting by its identifier
+        /// </summary>
+        Dictionary<string, Func<string>> getNamesList;
 
-        string Key_Show                 => GetTranslatedName("Settings.Key.Show");
-        string Key_Hide                 => GetTranslatedName("Settings.Key.Hide");
+        public void ChangeSetting(string settingName)
+        {
+            methodsList[settingName].Invoke();
+        }
 
-        string Key_05x                  => GetTranslatedName("Settings.Key.0.5x");
-        string Key_075x                 => GetTranslatedName("Settings.Key.0.75x");
-        string Key_09x                  => GetTranslatedName("Settings.Key.0.9x");
-        string Key_1x                   => GetTranslatedName("Settings.Key.1x");
-        string Key_125x                 => GetTranslatedName("Settings.Key.1.25x");
-        string Key_15x                  => GetTranslatedName("Settings.Key.1.5x");
-        string Key_2x                   => GetTranslatedName("Settings.Key.2x");
-        string Key_4x                   => GetTranslatedName("Settings.Key.4x");
+        public string GetSetting(string settingName)
+        {
+            return getNamesList[settingName].Invoke();
+        }
 
-        string Key_Amount_Zero          => GetTranslatedName("Settings.Key.Amount.Zero");
-        string Key_Amount_Min           => GetTranslatedName("Settings.Key.Amount.Min");
-        string Key_Amount_Default       => GetTranslatedName("Settings.Key.Amount.Default");
-        string Key_Amount_Max           => GetTranslatedName("Settings.Key.Amount.Max");
+        #region menu
+        protected override void SignToEvents()
+        {
+            InputController.OnSettingsButton += ShowThisMenu;
+        }
 
-        string Key_Shader_Perf          => GetTranslatedName("Settings.Key.Shader.Performance");
-        string Key_Shader_PB            => GetTranslatedName("Settings.Key.Shader.PB");
+        protected override void UnsignFromEvents()
+        {
+            InputController.OnSettingsButton -= ShowThisMenu;
+        }
+        #endregion
 
-        string Key_Shadow_No            => GetTranslatedName("Settings.Key.Shadow.No");
-        string Key_Shadow_Low           => GetTranslatedName("Settings.Key.Shadow.Low");
-        string Key_Shadow_Medium        => GetTranslatedName("Settings.Key.Shadow.Medium");
-        string Key_Shadow_High          => GetTranslatedName("Settings.Key.Shadow.High");
-        string Key_Shadow_Ultra         => GetTranslatedName("Settings.Key.Shadow.Ultra");
+        #region settings
+        #region keys
+        string Key_Yes => GetTranslatedName("Settings.Key.Yes");
+        string Key_No => GetTranslatedName("Settings.Key.No");
 
-        string Key_Movement_Joystick    => GetTranslatedName("Settings.Key.Movement.Joystick");
-        string Key_Movement_Buttons     => GetTranslatedName("Settings.Key.Movement.Buttons");
-        string Key_Movement_Gyro        => GetTranslatedName("Settings.Key.Movement.Gyro");
+        string Key_Enable => GetTranslatedName("Settings.Key.Enable");
+        string Key_Disable => GetTranslatedName("Settings.Key.Disable");
 
-        string Key_PerfPreset_Low       => GetTranslatedName("Settings.Key.PerfPreset.Low");
-        string Key_PerfPreset_Default   => GetTranslatedName("Settings.Key.PerfPreset.Default");
+        string Key_Show => GetTranslatedName("Settings.Key.Show");
+        string Key_Hide => GetTranslatedName("Settings.Key.Hide");
+
+        string Key_05x => GetTranslatedName("Settings.Key.0.5x");
+        string Key_075x => GetTranslatedName("Settings.Key.0.75x");
+        string Key_09x => GetTranslatedName("Settings.Key.0.9x");
+        string Key_1x => GetTranslatedName("Settings.Key.1x");
+        string Key_125x => GetTranslatedName("Settings.Key.1.25x");
+        string Key_15x => GetTranslatedName("Settings.Key.1.5x");
+        string Key_2x => GetTranslatedName("Settings.Key.2x");
+        string Key_4x => GetTranslatedName("Settings.Key.4x");
+
+        string Key_Amount_Zero => GetTranslatedName("Settings.Key.Amount.Zero");
+        string Key_Amount_Min => GetTranslatedName("Settings.Key.Amount.Min");
+        string Key_Amount_Default => GetTranslatedName("Settings.Key.Amount.Default");
+        string Key_Amount_Max => GetTranslatedName("Settings.Key.Amount.Max");
+
+        string Key_Shader_Perf => GetTranslatedName("Settings.Key.Shader.Performance");
+        string Key_Shader_PB => GetTranslatedName("Settings.Key.Shader.PB");
+
+        string Key_Shadow_No => GetTranslatedName("Settings.Key.Shadow.No");
+        string Key_Shadow_Low => GetTranslatedName("Settings.Key.Shadow.Low");
+        string Key_Shadow_Medium => GetTranslatedName("Settings.Key.Shadow.Medium");
+        string Key_Shadow_High => GetTranslatedName("Settings.Key.Shadow.High");
+        string Key_Shadow_Ultra => GetTranslatedName("Settings.Key.Shadow.Ultra");
+
+        string Key_Movement_Joystick => GetTranslatedName("Settings.Key.Movement.Joystick");
+        string Key_Movement_Buttons => GetTranslatedName("Settings.Key.Movement.Buttons");
+        string Key_Movement_Gyro => GetTranslatedName("Settings.Key.Movement.Gyro");
+
+        string Key_PerfPreset_Low => GetTranslatedName("Settings.Key.PerfPreset.Low");
+        string Key_PerfPreset_Default => GetTranslatedName("Settings.Key.PerfPreset.Default");
 
         string GetTranslatedName(string key)
         {
@@ -79,11 +114,6 @@ namespace SD.UI.Menus
         const string Btn_Perf_ShaderQuality     = "Perf.ShaderQuality";
         const string Btn_Perf_ShadowQuality     = "Perf.ShadowQuality";
         #endregion
-
-        GlobalSettings settings;
-
-        Dictionary<string, Void> methodsList;
-        Dictionary<string, Func<string>> getNamesList;
 
         void Start()
         {
@@ -136,16 +166,7 @@ namespace SD.UI.Menus
             getNamesList.Add(Btn_Perf_ShadowQuality, GetText_Perf_ShadowQuality);
         }
 
-        public void ChangeSetting(string settingName)
-        {
-            methodsList[settingName].Invoke();
-        }
-
-        public string GetSetting(string settingName)
-        {
-            return getNamesList[settingName].Invoke();
-        }
-    
+        #region change settings
         void Change_Game_Language()
         {
             var ls = GameController.Instance.Languages.LanguageNames;
@@ -319,6 +340,7 @@ namespace SD.UI.Menus
         {
             settings.HUDDiegetic = !settings.HUDDiegetic;
         }
+        #endregion
 
         #region get names
         string GetText_Game_Language()
@@ -465,11 +487,11 @@ namespace SD.UI.Menus
         }
         #endregion
 
-
         public void Change_Sound_MusicVolume(float volume)
         {
             volume = Mathf.Clamp(volume, 0, 1);
             // AudioMixer::SetFloat( , volume);
         }
+        #endregion
     }
 }

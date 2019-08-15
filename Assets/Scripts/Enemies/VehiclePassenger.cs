@@ -16,36 +16,37 @@ namespace SD.Enemies
 
         // how long to wait for damage
         const float TimeForDamage = 1.0f;
-        // when can attack
-        const float AttackDistance = 75.0f;
-        const float AttackDistanceSqr = AttackDistance * AttackDistance;
 
         [SerializeField]
-        EnemyData               data;
+        EnemyData                   data;
 
         [SerializeField]
-        Transform               projectileSpawn;
+        Transform                   projectileSpawn;
 
         [SerializeField]
-        Collider                autoaimTarget;
+        Collider                    autoaimTarget;
 
-        Coroutine               attackCoroutine;
-
-        Collider                damageable;
+        Collider                    damageable;
         // Current vehicle of this passenger
-        EnemyVehicle            vehicle;
+        EnemyVehicle                vehicle;
         // Current target of this passenger
-        IEnemyTarget            target;
+        IEnemyTarget                target;
 
         [SerializeField]
         // Animation for this passenger
-        EnemyPassengerAnimation passengerAnimation;
-        
-        // When to end damaging
-        float                   damageEndTime;
+        EnemyPassengerAnimation     passengerAnimation;
 
-        PassengerState          State { get; set; }
-        public float            Health { get; private set; }
+        // When to end damaging
+        float                       damageEndTime;
+
+        // When to start attacking
+        float                       attackTime;
+        float                       minAttackDistanceSqr;
+        float                       maxAttackDistanceSqr;
+        bool                        isAttacking;
+
+        PassengerState              State { get; set; }
+        public float                Health { get; private set; }
 
         /// <summary>
         /// Called on death, sends info about this enemy
@@ -65,6 +66,9 @@ namespace SD.Enemies
 
             Debug.Assert(passengerAnimation != null, "Passenger animation is not set", this);
             passengerAnimation.Init(this);
+
+            minAttackDistanceSqr = data.MinAttackDistance * data.MinAttackDistance;
+            maxAttackDistanceSqr = data.MaxAttackDistance * data.MaxAttackDistance;
         }
 
         /// <summary>
@@ -87,7 +91,7 @@ namespace SD.Enemies
             // reset collider
             damageable.enabled = true;
 
-            TryToStartAttack();
+            StartAttacking(false);
         }
 
         /// <summary>
@@ -96,8 +100,7 @@ namespace SD.Enemies
         /// </summary>
         public void Deactivate()
         {
-            StopAllCoroutines();
-            attackCoroutine = null;
+            StopAttacking();
 
             State = PassengerState.Nothing;
         }
@@ -105,12 +108,17 @@ namespace SD.Enemies
 
         void Update()
         {
-            // if time for damage passed and was damaging
-            if (damageEndTime <= 0 && State == PassengerState.Damaging)
+            // if time for damage passed, but state still is damaging,
+            // then return to normal state
+            if (Time.time > damageEndTime && State == PassengerState.Damaging)
             {
-                // return to normal state
                 damageEndTime = 0;
                 State = PassengerState.Active;
+            }
+
+            if (Time.time > attackTime && CanAttack())
+            {
+                StartCoroutine(Attack());
             }
         }
 
@@ -134,19 +142,18 @@ namespace SD.Enemies
             }
 
             // stop attacking
-            if (attackCoroutine != null)
+            if (isAttacking)
             {
-                StopCoroutine(attackCoroutine);
-                attackCoroutine = null;
+                StopAttacking();
             }
 
             State = PassengerState.Damaging;
             Health -= damage.CalculateDamageValue(transform.position);
-            
+
             if (Health > 0)
             {
                 passengerAnimation.Damage();
-                damageEndTime += TimeForDamage;
+                damageEndTime = Time.time + TimeForDamage;
             }
             else // death
             {
@@ -219,98 +226,112 @@ namespace SD.Enemies
         {
             this.target = target;
 
-            if (target == null && attackCoroutine != null)
+            // if forced to stop
+            if (target == null && isAttacking)
             {
-                StopCoroutine(attackCoroutine);
+                StopAttacking();
             }
 
             // start if object is enabled and ready,
             // try to start attack
-            if (State == PassengerState.Active)
+            if (State == PassengerState.Active && !isAttacking)
             {
-                TryToStartAttack();
+                StartAttacking(true);
             }
         }
 
-        bool TryToStartAttack()
+        bool CanAttack()
         {
+            if (isAttacking)
+            {
+                return false;
+            }
+
             if (!data.CanAttack || data.ShotsAmount == 0)
             {
                 return false;
             }
 
-            if (target == null)
+            // must be active
+            if (State != PassengerState.Active || target == null)
             {
                 return false;
             }
 
-            // if already attacking
-            if (attackCoroutine != null)
+            Vector3 fromTarget = transform.position - target.Target.position;
+            float sqrDist = fromTarget.sqrMagnitude;
+
+            // if out
+            if (sqrDist > maxAttackDistanceSqr &&
+                sqrDist < minAttackDistanceSqr)
             {
                 return false;
             }
 
-            // this coroutine will be disabled when
-            // passenger will receive damage
-            attackCoroutine = StartCoroutine(WaitForAttack());
+            // don't attack, if behind
+            if (Vector3.Dot(fromTarget, target.Target.forward) < 0)
+            {
+                return false;
+            }
 
             return true;
         }
 
-        IEnumerator WaitForAttack()
+        /// <summary>
+        /// Start attacking, set next attack time
+        /// </summary>
+        IEnumerator Attack()
         {
-            Vector2     timeBetweenRounds = data.TimeBetweenRounds;
+            isAttacking = true;
+
             int         shotsAmount = data.ShotsAmount;
-            string      projectileName = data.ProjectileName;
             float       fireRate = data.FireRate;
 
-            while (isActiveAndEnabled)
-            {
-                yield return new WaitForSeconds(Random.Range(timeBetweenRounds[0], timeBetweenRounds[1]));
+            // play animation
+            passengerAnimation.Attack();
 
-                // must be active
-                if (State != PassengerState.Active || target == null)
+            for (int i = 0; i < shotsAmount; i++)
+            {
+                // always check for state and target
+                if (State != PassengerState.Active || target == null || !isAttacking)
                 {
-                    attackCoroutine = null;
                     yield break;
                 }
 
-                Vector3 fromTarget = transform.position - target.Target.position;
-
-                // don't attack if target is far away
-                if (fromTarget.sqrMagnitude > AttackDistanceSqr)
-                {
-                    continue;
-                }
-
-                // don't attack, if behind
-                if (Vector3.Dot(fromTarget, target.Target.forward) < 0)
-                {
-                    continue;
-                }
-
-                // play animation
-                passengerAnimation.Attack();
-
-                for (int i = 0; i < shotsAmount; i++)
-                {
-                    // always check for state and target
-                    if (State != PassengerState.Active || target == null)
-                    {
-                        attackCoroutine = null;
-                        yield break;
-                    }
-
-                    Vector3 direction = AimToTarget(i);
-
-                    var missileObj = ObjectPool.Instance.GetObject(projectileName, projectileSpawn.position, direction);
-                    var missile = missileObj.GetComponent<Weapons.Missile>();
-                    missile.Set(data.ProjectileDamage, vehicle.gameObject);
-                    missile.Launch(data.ProjectileSpeed);
-
-                    yield return new WaitForSeconds(fireRate);
-                }
+                LaunchMissile(i);
+                yield return new WaitForSeconds(fireRate);
             }
+
+            isAttacking = false;
+            StartAttacking(false);
+        }
+
+        void StartAttacking(bool instant)
+        {
+            if (!instant)
+            {
+                // set for next time
+                attackTime = Time.time + Random.Range(data.TimeBetweenRounds[0], data.TimeBetweenRounds[1]);
+            }
+            else
+            {
+                attackTime = Time.time;
+            }
+        }
+
+        void LaunchMissile(int index)
+        {
+            Vector3 direction = AimToTarget(index);
+
+            var missileObj = ObjectPool.Instance.GetObject( data.ProjectileName, projectileSpawn.position, direction);
+            var missile = missileObj.GetComponent<Weapons.Missile>();
+            missile.Set(data.ProjectileDamage, vehicle.gameObject);
+            missile.Launch(data.ProjectileSpeed);
+        }
+
+        void StopAttacking()
+        {
+            StopAllCoroutines();
         }
 
         Vector3 AimToTarget(int shotIndex)

@@ -13,13 +13,15 @@ namespace SD.Background
         /// Blocks must be to this distance
         /// </summary>
         [SerializeField]
-        float               distance = 300.0f;
+        float           desiredDistance = 300.0f;
 
         /// <summary>
         /// Names of block prefabs in object pool
         /// </summary>
         [SerializeField]
-        string[]            blockPrefabs;
+        BackgroundData  data;
+
+        string[]        blockPrefabs;
 
         /// <summary>
         /// Holds all active blocks in current scene
@@ -29,18 +31,20 @@ namespace SD.Background
         /// <summary>
         /// Camera to track
         /// </summary>
-        Transform           target;
+        Transform       target;
 
         /// <summary>
         /// Length of all active blocks
         /// Must be >= 'distance'
         /// </summary>
-        public float        CurrentLength { get; private set; }
+        public float    CurrentLength { get; private set; }
 
 
         public void Awake()
         {
-            Debug.Assert(blockPrefabs.Length > 0, "Not enough block prefabs", this);
+            blockPrefabs = data.Blocks;
+
+            Debug.Assert(blockPrefabs.Length > 0, "Block prefabs amount must be > 0", this);
 
             blocks = new LinkedList<IBackgroundBlock>();
             CurrentLength = 0.0f;
@@ -162,7 +166,7 @@ namespace SD.Background
         public void UpdateCameraPosition(Vector3 cameraPosition)
         {
             // create if needed
-            while (CurrentLength < distance)
+            while (CurrentLength < desiredDistance)
             {
                 CreateBlock();
             }

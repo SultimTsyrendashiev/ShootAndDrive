@@ -94,13 +94,10 @@ namespace SD.Weapons
         /// <param name="position">position of explosion</param>
         /// <param name="ignore">what collider to ignore</param>
         /// <param name="disableAfterExplosion">should game object be deactivated after explosion?</param>
-        /// <param name="list"> list of all IDamageables that were wounded. Note: it will be cleared</param>
+        /// <param name="list"> initialized list, which will contain all IDamageables that were wounded. Note: list will be cleared</param>
         /// <returns>damage that was sended</returns>
         protected Damage Explode(Vector3 position, Collider ignore, bool disableAfterExplosion = true, List<IDamageable> list = null)
         {
-            // stop waiting for lifetime explosion
-            exploded = true;
-
             // disable, as there can be different owners after explosion
             IgnoreCollisionWithOwner(false);
 
@@ -159,10 +156,21 @@ namespace SD.Weapons
 
             if (disableAfterExplosion)
             {
-                gameObject.SetActive(false);
+                Deactivate();
             }
 
             return dmg;
+        }
+
+        /// <summary>
+        /// Missile must be deactivated only through this method.
+        /// Deactivates game object and disables lifetime deactivation timer
+        /// </summary>
+        public void Deactivate()
+        {
+            // stop waiting for lifetime explosion
+            exploded = true;
+            gameObject.SetActive(false);
         }
 
         /// <summary>

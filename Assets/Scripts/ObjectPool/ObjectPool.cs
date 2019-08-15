@@ -68,7 +68,11 @@ namespace SD
         public GameObject GetObject(string name)
         {
             // check if there is prefab
-            Debug.Assert(allocated.ContainsKey(name), "Object pool doesn't contain this key: " + name, this);
+            if (!allocated.ContainsKey(name))
+            {
+                Debug.LogError("Object pool doesn't contain this key: " + name, this);
+                return null;
+            }
 
             // get object from local pool
             return allocated[name].GetObject();
@@ -94,6 +98,29 @@ namespace SD
         public GameObject GetObject(string name, Vector3 position, Vector3 direction)
         {
             return GetObject(name, position, Quaternion.LookRotation(direction));
+        }
+
+        /// <summary>
+        /// Change amount of allocated objects in a scene
+        /// </summary>
+        void Resize(string prefabName, int newAmount)
+        {
+            Debug.Assert(newAmount > 0, "New amount must be > 0", this);
+
+            if (!allocated.ContainsKey(prefabName))
+            {
+                Debug.Log("Can't change amount in ObjectPool: prefab doesn't exist: " + prefabName, this);
+                return;
+            }
+
+            var ap = allocated[prefabName];
+
+            if (ap.Prefab.Type != PooledObjectType.NotImportant)
+            {
+                Debug.Log("Can't change amount in ObjectPool: only NotImportant can be resized", this);
+            }
+
+            ap.Resize(newAmount);
         }
     }
 }

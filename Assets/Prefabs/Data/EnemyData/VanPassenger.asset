@@ -10,18 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b37999d00b7e8b4db92b1bd299f5adb, type: 3}
-  m_Name: SedanDriver
+  m_Name: VanPassenger
   m_EditorClassIdentifier: 
-  enemyName: Sedan Driver
-  startHealth: 30
-  score: 100
-  isDriver: 1
+  enemyName: Van Shooter
+  startHealth: 35
+  score: 180
+  isDriver: 0
   canAttack: 1
   projectileName: Bullet
-  projectileDamage: 7
-  projectileSpeed: 31
-  timeBetweenRounds: {x: 0.6, y: 0.8}
-  fireRate: 0.2
-  shotsAmount: 2
+  projectileDamage: 6
+  projectileSpeed: 3
+  timeBetweenRounds: {x: 0.6, y: 1}
+  fireRate: 0.15
+  shotsAmount: 3
+  maxAttackDistance: 100
+  minAttackDistance: 1
   bloodParticlesName: Blood
-  corpseName: 
+  corpseName: HumanRagdoll

@@ -23,6 +23,7 @@ namespace SD.UI
         public static event Void                OnUnpause;
         public static event Void                OnMainMenuButton;
         public static event Void                OnPlayButton;
+        public static event Void                OnSettingsButton;
 
         public static event RegenerateHealth    OnHealthRegenerate;
 
@@ -132,6 +133,11 @@ namespace SD.UI
         public void GoToMainMenu()
         {
             OnMainMenuButton();
+        }
+
+        public void GoToSettings()
+        {
+            OnSettingsButton();
         }
 
         public void Play()

@@ -3,7 +3,7 @@ using UnityEngine;
     
 namespace SD.Enemies.Spawner
 {
-    class SpawnersController : MonoBehaviour
+    class SpawnersController
     {
         const float CleanTimePeriod = 1.0f;
 
@@ -44,7 +44,7 @@ namespace SD.Enemies.Spawner
             }
         }
 
-        void Awake()
+        public SpawnersController()
         {
             shouldSpawn = false;
 
@@ -91,7 +91,7 @@ namespace SD.Enemies.Spawner
         {
             if (target == null)
             {
-                Debug.Log("Target is null", this);
+                Debug.Log("SpawnersController::Target is null");
                 return;
             }
 
