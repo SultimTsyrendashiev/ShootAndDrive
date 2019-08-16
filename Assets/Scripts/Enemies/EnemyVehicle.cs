@@ -20,8 +20,6 @@ namespace SD.Enemies
         // approximate vechicle collider
         Collider apxVehicleCollider;
 
-        IEnemyTarget target;
-
         public EnemyVehicleState        State       { get; private set; }
         protected VehiclePassenger[]    Passengers  { get; private set; }
         public bool                     AliveDriver => State != EnemyVehicleState.DeadDriver && alivePassengersAmount > 0;
@@ -89,8 +87,6 @@ namespace SD.Enemies
 
             apxVehicleCollider = GetComponent<Collider>();
 
-            target = GameController.Instance.EnemyTarget;
-
             // specific init
             InitEnemy();
         }
@@ -132,7 +128,7 @@ namespace SD.Enemies
                 d.ActivateMeshCollider(true);
             }
 
-            SetTarget(target);
+            SetTarget(GameController.Instance.EnemyTarget);
 
             // specific activate
             Activate();
@@ -278,7 +274,6 @@ namespace SD.Enemies
         /// <summary>
         /// Set target to passengers
         /// </summary>
-        /// <param name="target"></param>
         public void SetTarget(IEnemyTarget target)
         {
             foreach (var p in Passengers)

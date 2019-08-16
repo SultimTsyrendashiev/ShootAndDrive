@@ -64,9 +64,9 @@ namespace SD.Background
 
         #region creating blocks
         /// <summary>
-        /// Creates block at the end of the last one
+        /// Creates block at undefined position
         /// </summary>
-        void CreateBlock()
+        IBackgroundBlock CreateBlock()
         {
             int index = GetNextBlockIndex();
 
@@ -75,33 +75,35 @@ namespace SD.Background
             IBackgroundBlock newBlock = newBlockObj.GetComponent<IBackgroundBlock>();
             Debug.Assert(newBlock != null, "Block must contain 'IBackgroundBlock' component", newBlockObj);
 
-            if (blocks.Count > 0)
-            {
-                IBackgroundBlock last = blocks.Last.Value;
+            //if (blocks.Count > 0)
+            //{
+            //    IBackgroundBlock last = blocks.Last.Value;
 
-                Vector3 newPosition = last.Center;
-                newPosition.z += (newBlock.Length + last.Length) / 2;
-                newBlockObj.transform.position = newPosition;
-            }
-            else
-            {
-                newBlockObj.transform.position = Vector3.zero;
-            }
+            //    Vector3 newPosition = last.Center;
+            //    newPosition.z += (newBlock.Length + last.Length) / 2;
+            //    newBlockObj.transform.position = newPosition;
+            //}
+            //else
+            //{
+            //    newBlockObj.transform.position = target.position;
+            //}
 
             CurrentLength += newBlock.Length;
             blocks.AddLast(newBlock);
+
+            return newBlock;
         }
 
-        void DeleteOldestBlock()
+        void DeleteBlock(LinkedListNode<IBackgroundBlock> node)
         {
             // first is the oldest
-            IBackgroundBlock first = blocks.First.Value;
+            IBackgroundBlock first = node.Value;
 
             // return to pool
             first.CurrentObject.SetActive(false);
             CurrentLength -= first.Length;
-            
-            blocks.RemoveFirst();
+
+            blocks.Remove(node);
         }
 
         /// <summary>
@@ -154,7 +156,7 @@ namespace SD.Background
         {
             if (target != null)
             {
-                UpdateCameraPosition(target.position);
+                UpdateTargetPosition(target.position);
             }
         }
 
@@ -163,20 +165,99 @@ namespace SD.Background
             this.target = target;
         }
 
-        public void UpdateCameraPosition(Vector3 cameraPosition)
+        public void UpdateTargetPosition(Vector3 targetPosition)
         {
-            // create if needed
-            while (CurrentLength < desiredDistance)
+            DeleteBeginning();
+            DeleteEnding();
+
+            AddBeginning();
+            AddEnding();
+        }
+
+        /// <summary>
+        /// Delete blocks behind target
+        /// </summary>
+        void DeleteBeginning()
+        {
+            if (blocks.Count == 0)
             {
-                CreateBlock();
+                return;
             }
 
-            // delete invisible blocks for camera;
-            // first is the oldest;
-            // assume, that all blocks are created along z axis
-            while (!blocks.First.Value.Contains(cameraPosition))
+            float targetz = target.position.z;
+
+            // scan from the beginning
+            while (blocks.First.Value.GetMaxZ() < targetz)
             {
-                DeleteOldestBlock();
+                DeleteBlock(blocks.First);
+
+                if (blocks.Count == 0)
+                {
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Delete blocks that are too far from target
+        /// </summary>
+        void DeleteEnding()
+        {
+            if (blocks.Count == 0)
+            {
+                return;
+            }
+
+            float farTargetZ = target.position.z + desiredDistance;
+
+            // scan from the end
+            while (blocks.Last.Value.GetMinZ() > farTargetZ)
+            {
+                DeleteBlock(blocks.Last);
+
+                if (blocks.Count == 0)
+                {
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// If there are no blocks, adds block to the begginning
+        /// </summary>
+        void AddBeginning()
+        {
+            if (blocks.Count == 0)
+            {
+                // if there are no blocks, add around target
+                var b = CreateBlock();
+                b.Center = target.position;
+
+                blocks.AddFirst(b);
+            }
+        }
+
+        /// <summary>
+        /// Add blocks up to desired distance
+        /// </summary>
+        void AddEnding()
+        {
+            if (blocks.Count == 0)
+            {
+                Debug.Log("'AddBeginning' must be called before 'AddEnding'", this);
+                return;
+            }
+
+            float desiredZ = target.position.z + desiredDistance;
+
+            while (blocks.Last.Value.GetMaxZ() < desiredZ)
+            {
+                var last = blocks.Last.Value;
+
+                var b = CreateBlock();
+                b.Center = (last.GetMaxZ() + b.Length / 2) * Vector3.forward;
+
+                blocks.AddLast(b);
             }
         }
         #endregion

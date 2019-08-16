@@ -8,7 +8,7 @@ namespace SD
     interface IBackgroundBlock
     {
         float Length { get; }
-        Vector3 Center { get; }
+        Vector3 Center { get; set; }
 
         /// <summary>
         /// For block allocating
@@ -33,5 +33,10 @@ namespace SD
         /// Get min on z axis
         /// </summary>
         float GetMinZ();
+
+        /// <summary>
+        /// Get max on z axis
+        /// </summary>
+        float GetMaxZ();
     }
 }

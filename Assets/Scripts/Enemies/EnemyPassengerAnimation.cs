@@ -30,17 +30,19 @@ namespace SD.Enemies
 
             foreach (AnimationState s in passengerAnimation)
             {
-                if (s.name.Contains(AttackNamePart))
+                string name = s.name;
+
+                if (name.Contains(AttackNamePart))
                 {
-                    attackAnimationName = s.name;
+                    attackAnimationName = name;
                 }
-                else if (s.name.Contains(DamageNamePart))
+                else if (name.Contains(DamageNamePart))
                 {
-                    damageAnimationName = s.name;
+                    damageAnimationName = name;
                 }
-                else if (s.name.Contains(DeathNamePart))
+                else if (name.Contains(DeathNamePart))
                 {
-                    dieAnimationName = s.name;
+                    dieAnimationName = name;
                 }
             }
         }
@@ -48,7 +50,7 @@ namespace SD.Enemies
         void Start()
         {
             // pose to default
-            passengerAnimation.Play();
+            Reset();
         }
 
         /// <summary>
@@ -81,7 +83,7 @@ namespace SD.Enemies
 
         public void Reset()
         {
-            passengerAnimation.Stop();
+            passengerAnimation.Play();
         }
     }
 }

@@ -127,7 +127,6 @@ namespace SD.Enemies
         {
             if (State == PassengerState.Nothing)
             {
-                Debug.Log("Wrong damageable state", this);
                 return;
             }
 
@@ -230,6 +229,7 @@ namespace SD.Enemies
             if (target == null && isAttacking)
             {
                 StopAttacking();
+                return;
             }
 
             // start if object is enabled and ready,

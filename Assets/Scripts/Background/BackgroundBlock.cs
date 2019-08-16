@@ -12,8 +12,9 @@ namespace SD.Background
         float length = 20;
 
         public float Length => length;
-        public Vector3 Center => transform.position;
         public GameObject CurrentObject => gameObject;
+
+        public Vector3 Center { get => transform.position; set => transform.position = value; }
 
         public GameObject ThisObject => gameObject;
         public PooledObjectType Type => PooledObjectType.Important;
@@ -44,8 +45,13 @@ namespace SD.Background
         public float GetMinZ()
         {
             float center = transform.position.z;
-
             return center - length / 2;
+        }
+
+        public float GetMaxZ()
+        {
+            float center = transform.position.z;
+            return center + length / 2;
         }
     }
 }

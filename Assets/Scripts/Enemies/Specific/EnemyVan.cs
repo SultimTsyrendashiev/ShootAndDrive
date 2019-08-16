@@ -93,6 +93,12 @@ namespace SD.Enemies
 
         void FixedUpdate()
         {
+            // dont override position, if collided
+            if (!VehicleRigidbody.isKinematic)
+            {
+                return;
+            }
+
             if (State == EnemyVehicleState.Active)
             {
                 var targetTransform = currentTarget.Target;
@@ -233,6 +239,12 @@ namespace SD.Enemies
             {
                 p.SetTarget(currentTarget);
             }
+        }
+
+        protected override void DoVehicleCollision()
+        {
+            SetKinematic(false);
+            KillAllPassengers();
         }
     }
 }

@@ -3,20 +3,25 @@ using System.Collections;
 
 namespace SD.UI.Menus
 {
+    /// <summary>
+    /// Has enabling and hiding animation
+    /// </summary>
     abstract class AAnimatedMenu : MonoBehaviour, IMenu
     {
-        Animator animator;
         [SerializeField]
         string          enablingAnimation;
         [SerializeField]
         string          hidingAnimation;
 
+        Coroutine       hidingCoroutine;
+
         protected MenuController MenuController { get; private set; }
+        protected Animator Animator { get; private set; }
 
         public void Init(MenuController menuController)
         {
             MenuController = menuController;
-            animator = GetComponent<Animator>();
+            Animator = GetComponent<Animator>();
 
             SignToEvents();
         }
@@ -36,18 +41,36 @@ namespace SD.UI.Menus
 
         public void Activate()
         {
-            StopAllCoroutines();
+            if (hidingCoroutine != null)
+            {
+                StopCoroutine(hidingCoroutine);
+                hidingCoroutine = null;
+            }
 
             gameObject.SetActive(true);
-            animator?.Play(enablingAnimation);
+
+            if (!string.IsNullOrEmpty(enablingAnimation))
+            {
+                PlayActivationAnimation(enablingAnimation);
+            }
+        }
+
+        protected virtual void PlayActivationAnimation(string animName)
+        {
+            Animator?.Play(animName);
         }
 
         public void Deactivate()
         {
-            if (animator != null)
+            if (Animator != null && !string.IsNullOrEmpty(enablingAnimation))
             {
-                StopAllCoroutines();
-                StartCoroutine(WaitForHide());
+                if (hidingCoroutine != null)
+                {
+                    StopCoroutine(hidingCoroutine);
+                    hidingCoroutine = null;
+                }
+
+                hidingCoroutine = StartCoroutine(WaitForHide());
             }
             else
             {
@@ -57,8 +80,8 @@ namespace SD.UI.Menus
 
         IEnumerator WaitForHide()
         {
-            animator.Play(hidingAnimation);
-            yield return new WaitForSecondsRealtime(animator.GetCurrentAnimatorStateInfo(0).length);
+            Animator.Play(hidingAnimation);
+            yield return new WaitForSecondsRealtime(Animator.GetCurrentAnimatorStateInfo(0).length);
 
             gameObject.SetActive(false);
         }

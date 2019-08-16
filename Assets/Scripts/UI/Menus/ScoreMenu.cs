@@ -5,14 +5,15 @@ using SD.PlayerLogic;
 
 namespace SD.UI.Menus
 {
-    class ScoreMenu : MonoBehaviour, IMenu
+    class ScoreMenu : AAnimatedMenu
     {
         /// <summary>
         /// How long to count from old to new balance
         /// </summary>
         const float BalanceCountTime = 2.5f;
 
-        MenuController menuController;
+        [SerializeField]
+        string deathScreenAnimation;
 
         [SerializeField]
         SmoothCounter scoreText;
@@ -22,45 +23,54 @@ namespace SD.UI.Menus
         [SerializeField]
         SmoothCounter playerBalanceText;
 
+        /// <summary>
+        /// How long to wait from enabling this menu to start of counting score and money
+        /// </summary>
         [SerializeField]
-        Animation deadAnimation;
+        float scoreCountingDelay = 1.0f;
 
+        /// <summary>
+        /// How long to wait from end of counting score and money
+        /// to start of counting player's balance
+        /// </summary>
         [SerializeField]
-        Animation scoreDisplayAnimation;
+        float balanceCountingDelay = 0.25f;
 
-        public void Init(MenuController menuController)
+        /// <summary>
+        /// If true, then don't play activation animation
+        /// </summary>
+        bool firstTimeAfterDeath;
+
+        protected override void SignToEvents()
         {
-            this.menuController = menuController;
-            GameController.OnPlayerDeath += ShowThisMenu;
+            GameController.OnPlayerDeath += SetScore;
             GameController.OnPlayerBalanceChange += SetBalance;
         }
 
-        void OnDestroy()
+        protected override void UnsignFromEvents()
         {
-            GameController.OnPlayerDeath -= ShowThisMenu;
+            GameController.OnPlayerDeath -= SetScore;
             GameController.OnPlayerBalanceChange -= SetBalance;
         }
 
-        public void Activate()
+        /// <summary>
+        /// Activates this menu and set score for counters
+        /// </summary>
+        void SetScore(GameScore score)
         {
-            gameObject.SetActive(true);
-        }
+            firstTimeAfterDeath = true;
 
-        public void Deactivate()
-        {
-            gameObject.SetActive(false);
-        }
+            // activate this menu
+            ShowThisMenu();
+            firstTimeAfterDeath = false;
 
-        void ShowThisMenu(GameScore score)
-        {
-            // enable this menu
-            menuController.EnableMenu(gameObject.name);
+            Animator.Play(deathScreenAnimation);
 
             // set values
             scoreText.Set(score.ActualScorePoints);
             moneyText.Set(score.Money);
 
-            StartCoroutine(WaitForAnimation());
+            StartCoroutine(WaitForCount());
         }
 
         void SetBalance(int oldBalance, int newBalance)
@@ -68,29 +78,28 @@ namespace SD.UI.Menus
             playerBalanceText.Set(newBalance, oldBalance, BalanceCountTime);
         }
 
+        protected override void PlayActivationAnimation(string animName)
+        {
+            if (!firstTimeAfterDeath)
+            {
+                base.PlayActivationAnimation(animName);
+            }
+        }
+
         /// <summary>
         /// Waits for UI death animation
         /// </summary>
         /// <returns></returns>
-        IEnumerator WaitForAnimation()
+        IEnumerator WaitForCount()
         {
-            // show ui dead animation
-            deadAnimation.Play();
-
-            yield return new WaitForSeconds(deadAnimation.clip.length);
-
-            // play another animation
-            scoreDisplayAnimation.Play();
-
-            // wait for some time
-            yield return new WaitForSeconds(scoreDisplayAnimation.clip.length - 0.1f);
+            yield return new WaitForSeconds(scoreCountingDelay);
 
             // start counting
             scoreText.StartCounting();
             moneyText.StartCounting();
 
-            // wait them
-            float toWait = 0.25f + Mathf.Max(scoreText.CountTime, moneyText.CountTime);
+            // wait for these counters
+            float toWait = balanceCountingDelay + Mathf.Max(scoreText.CountTime, moneyText.CountTime);
             yield return new WaitForSeconds(toWait);
 
             // start counting balance

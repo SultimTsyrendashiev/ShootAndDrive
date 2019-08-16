@@ -28,9 +28,6 @@ namespace SD.UI.Indicators
             vehicle = player.Vehicle;
             maxVehicleHealth = vehicle.MaxHealth;
 
-            // default
-            SetVehicleHealth(vehicle.Health);
-
             vehicle.OnVehicleHealthChange += SetVehicleHealth;
         }
 

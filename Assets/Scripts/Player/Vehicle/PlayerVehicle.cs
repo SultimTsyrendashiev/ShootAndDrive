@@ -38,8 +38,8 @@ namespace SD.PlayerLogic
         PlayerVehicleDamageReceiver damageReceiver;
 
         public event CollideVehicle OnVehicleCollision;
-        public event                FloatChange OnVehicleHealthChange;
-        public event                FloatChange OnDistanceChange;
+        public event FloatChange    OnVehicleHealthChange;
+        public event FloatChange    OnDistanceChange;
 
         #region speed
         public float                DefaultSpeed = 20;
@@ -122,7 +122,19 @@ namespace SD.PlayerLogic
 
             TravelledDistance = 0;
 
+            try
+            {
+                OnDistanceChange(TravelledDistance);
+            }
+            catch { }
+
             Health = MaxHealth;
+
+            try
+            {
+                OnVehicleHealthChange(Health);
+            }
+            catch { }
 
             engineSmoke.Stop();
             engineFire.Stop();
@@ -266,7 +278,7 @@ namespace SD.PlayerLogic
 
             TravelledDistance += forwardDistance;
 
-            if (TravelledDistance - prevUpdatedDistance > DistanceUpdateEpsilon)
+            if (Mathf.Abs(TravelledDistance - prevUpdatedDistance) > DistanceUpdateEpsilon)
             {
                 OnDistanceChange(TravelledDistance);
                 prevUpdatedDistance = TravelledDistance;

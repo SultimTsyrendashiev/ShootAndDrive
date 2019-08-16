@@ -133,12 +133,7 @@ namespace SD.Weapons
                 case PlayerState.Dead:
                     if (isInitialized)
                     {
-                        // just deactivate object
-                        if (currentWeapon.Exist)
-                        {
-                            Weapon current = weapons[currentWeapon.Value];
-                            current.gameObject.SetActive(false);
-                        }
+                        HideWeapon();
                     }
 
                     playerIsActive = false;
@@ -157,7 +152,7 @@ namespace SD.Weapons
                     playerIsActive = true;
 
                     if (isInitialized)
-                    {
+                    {                       
                         TakeOutWeapon();
                     }
 
@@ -351,13 +346,16 @@ namespace SD.Weapons
                 return;
             }
 
-            // if can be hidden
-            if (weapons[currentWeapon.Value].State != WeaponState.Ready)
+            Weapon weapon = weapons[currentWeapon.Value];
+
+            // if cannot be hidden
+            if (weapon.State != WeaponState.Ready &&
+                weapon.State != WeaponState.ReadyForUnjam)
             {
                 return;
             }
 
-            weapons[currentWeapon.Value].ForceDisable();
+            weapon.ForceDisable();
             commonAnimation.Play(animHide);
 
             // there is no current weapon anymore

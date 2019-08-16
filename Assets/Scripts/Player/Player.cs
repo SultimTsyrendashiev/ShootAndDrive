@@ -37,10 +37,28 @@ namespace SD.PlayerLogic
         WeaponsController                   weaponsController;
         GameScore                           currentScore;
 
+        float                               health;
+        public float                        Health
+        {
+            get
+            {
+                return health;
+            }
+            private set
+            {
+                health = value;
+
+                try
+                {
+                    OnHealthChange(value);
+                }
+                catch { }
+            }
+        }
+
         public Camera                       MainCamera { get; private set; }
         public PlayerInventory              Inventory { get; private set; }
         public PlayerState                  State { get; private set; }
-        public float                        Health { get; private set; }
         public GameScore                    CurrentScore => currentScore;
         public PlayerVehicle                Vehicle { get; private set; }
 
@@ -102,6 +120,12 @@ namespace SD.PlayerLogic
 
             State = PlayerState.Ready;
             OnPlayerStateChange(State);
+
+            try
+            {
+                OnScoreChange(currentScore);
+            }
+            catch { }
         }
 
         void Start()
@@ -314,14 +338,13 @@ namespace SD.PlayerLogic
 
             if (damageValue > 0)
             {
-                Health -= damageValue;
-                OnHealthChange(Health);
+                float newHealth = Health - damageValue;
+                newHealth = newHealth < 0 ? 0 : newHealth;
+
+                Health = newHealth;
 
                 if (Health <= 0)
                 {
-                    // normalize
-                    Health = 0;
-
                     Die();
                 }
                 else
