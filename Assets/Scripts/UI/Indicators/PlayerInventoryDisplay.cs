@@ -12,13 +12,13 @@ namespace SD.UI
     {
         [SerializeField]
         Transform           ammoTextsParent;
-        [SerializeField]
-        Transform           itemTextsParent;
+        //[SerializeField]
+        //Transform           itemTextsParent;
 
-        PlayerInventory     inventory;
+        IInventory          inventory;
 
         Dictionary<AmmunitionType, Text>    ammoTexts;
-        Dictionary<ItemType, Text>          itemTexts;
+        //Dictionary<ItemType, Text>          itemTexts;
         
         void Start()
         {
@@ -41,12 +41,12 @@ namespace SD.UI
         public void Init()
         {
             ammoTexts = new Dictionary<AmmunitionType, Text>();
-            itemTexts = new Dictionary<ItemType, Text>();
+            //itemTexts = new Dictionary<ItemType, Text>();
 
             ParseTextObjects(ammoTexts, ammoTextsParent);
-            ParseTextObjects(itemTexts, itemTextsParent);
+            //ParseTextObjects(itemTexts, itemTextsParent);
 
-            inventory = GameController.Instance.CurrentPlayer.Inventory;
+            inventory = GameController.Instance.Inventory;
             Debug.Assert(inventory != null, "Can't find GameController", this);
         }
 
@@ -69,13 +69,13 @@ namespace SD.UI
         {
             foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
             {
-                SetText(a, inventory.Ammo[a].ToString());
+                SetText(a, inventory.Ammo.Get(a).CurrentAmount.ToString());
             }
 
-            foreach (ItemType a in Enum.GetValues(typeof(ItemType)))
-            {
-                SetText(a, inventory.Items[a].ToString());
-            }
+            //foreach (ItemType a in Enum.GetValues(typeof(ItemType)))
+            //{
+            //    SetText(a, inventory.Items[a].ToString());
+            //}
         }
 
         /// <summary>
@@ -85,12 +85,13 @@ namespace SD.UI
         {
             ammoTexts[t].text = text;
         }
-        /// <summary>
-        /// Set text of Text component for given item
-        /// </summary>
-        void SetText(ItemType t, string text)
-        {
-            itemTexts[t].text = text;
-        }
+
+        ///// <summary>
+        ///// Set text of Text component for given item
+        ///// </summary>
+        //void SetText(ItemType t, string text)
+        //{
+        //    itemTexts[t].text = text;
+        //}
     }
 }

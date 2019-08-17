@@ -15,8 +15,6 @@ namespace SD.Weapons
     {
         Dictionary<WeaponIndex, WeaponData> weapons;
 
-        public static AllWeaponsStats Instance => GameController.Instance.WeaponsStats;
-
         public AllWeaponsStats(WeaponData[] weaponsData)
         {
             weapons = new Dictionary<WeaponIndex, WeaponData>();
@@ -43,11 +41,6 @@ namespace SD.Weapons
             {
                 return weapons[weapon];
             }
-        }
-
-        public WeaponData Get(WeaponIndex weapon)
-        {
-            return this[weapon];
         }
 
         public static bool CanJam(AmmunitionType a)

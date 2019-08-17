@@ -10,12 +10,14 @@ namespace SD.Game.Data
         public WeaponIndex  Index;
         public int          Health;
         public bool         IsBought;
+        public bool         IsSelected;
 
-        public InvWeapon(WeaponIndex index, int health, bool isBought)
+        public InvWeapon(WeaponIndex index, int health, bool isBought, bool isSelected)
         {
             Index = index;
             Health = health;
             IsBought = isBought;
+            IsSelected = isSelected;
         }
     }
 

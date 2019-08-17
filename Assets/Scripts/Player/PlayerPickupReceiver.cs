@@ -10,7 +10,7 @@ namespace SD.PlayerLogic
     class PlayerPickupReceiver : MonoBehaviour, IPickupReceiver
     {
         Player              player;
-        PlayerInventory     playerInventory;
+        IInventory          playerInventory;
 
         void Start()
         {
@@ -23,11 +23,13 @@ namespace SD.PlayerLogic
 
         public bool ReceiveAmmoPickup(AmmunitionType type, int amount)
         {
+            IAmmoItem ammo = playerInventory.Ammo.Get(type);
+
             // if ammo is not max
-            if (playerInventory.Ammo.Get(type) < AllAmmoStats.Instance.Get(type).MaxAmount)
+            if (ammo.CurrentAmount < ammo.MaxAmount)
             {
                 // then add
-                playerInventory.Ammo.Add(type, amount);
+                ammo.CurrentAmount += amount;
                 return true;
             }
 

@@ -33,7 +33,7 @@ namespace SD.Weapons
 
         // Items in player's inventory
         WeaponItem              item;
-        AmmoHolder              ammo;
+        IAmmoHolder             ammo;
 
         // weapon's health must be synced with inventory
         // so use reference to that int
@@ -70,7 +70,6 @@ namespace SD.Weapons
         public WeaponData       Data { get; private set; }
 
         public WeaponIndex      WeaponIndex { get; private set; }
-        public string           Name { get; private set; }
         public float            DamageValue { get; private set; }
         public AmmunitionType   AmmoType { get; private set; }
         public int              AmmoConsumption { get; private set; }
@@ -99,7 +98,7 @@ namespace SD.Weapons
         /// <summary>
         /// Init fields from player's items
         /// </summary>
-        public void Init(WeaponsController controller, WeaponItem playerItem, AmmoHolder playerAmmo)
+        public void Init(WeaponsController controller, WeaponItem playerItem, IAmmoHolder playerAmmo)
         {
             Debug.Assert(WController == null, "Several initializations of the same weapon", controller);
 
@@ -115,7 +114,6 @@ namespace SD.Weapons
             // load info
             Data                = item.Stats;
 
-            Name                = Data.Name;
             WeaponIndex         = item.This;
 
             DamageValue         = Data.Damage;
@@ -221,8 +219,10 @@ namespace SD.Weapons
 
         protected void ReduceAmmo()
         {
-            ammo.Add(AmmoType, -AmmoConsumption);
-            OnAmmoChange(ammo[AmmoType]);
+            int newAmount = ammo.Get(AmmoType).CurrentAmount - AmmoConsumption;
+
+            ammo.Get(AmmoType).CurrentAmount = newAmount;
+            OnAmmoChange(newAmount);
         }
 
         void PlayJammingAnimation()
@@ -373,7 +373,7 @@ namespace SD.Weapons
 
             // this weapon is activating,
             // show its ammo
-            OnAmmoChange(ammo[AmmoType]);
+            OnAmmoChange(ammo.Get(AmmoType).CurrentAmount);
 
             // pose hand
             if (handPivot != null)
@@ -392,7 +392,7 @@ namespace SD.Weapons
 
         public void Fire()
         {
-            if (ammo[AmmoType] < AmmoConsumption)
+            if (ammo.Get(AmmoType).CurrentAmount < AmmoConsumption)
             {
                 return;
             }

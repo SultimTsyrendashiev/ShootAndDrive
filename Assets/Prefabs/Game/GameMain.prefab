@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   languageList: {fileID: 11400000, guid: 57bd1d7f73821a54babeede5762395f4, type: 2}
   weaponsList: {fileID: 11400000, guid: babd1147b6cb2c746ad5de54630ae7df, type: 2}
+  ammoList: {fileID: 11400000, guid: 75d2d5a4464a94149bb6fd1c12fc2dc4, type: 2}
   playerPrefab: {fileID: 7581316839824631170, guid: 1fb7ac223cb085f4bb25359fccb3dfa8,
     type: 3}
 --- !u!114 &1962802555

@@ -17,6 +17,8 @@ namespace SD.UI
 
         Text text;
 
+        public string TranslationKey => key;
+
         void Start()
         {
             text = GetComponentInChildren<Text>();
@@ -43,6 +45,16 @@ namespace SD.UI
         void ChangeText(string newLanguage)
         {
             text.text = GameController.Instance.Languages.GetValue(newLanguage, key);
+        }
+
+        public string GetValue()
+        {
+            return GetValue(GameController.Instance.Settings.GameLanguage);
+        }
+
+        public string GetValue(string language)
+        {
+            return GameController.Instance.Languages.GetValue(language, key);
         }
     }
 }

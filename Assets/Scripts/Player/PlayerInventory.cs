@@ -10,14 +10,15 @@ namespace SD.PlayerLogic
     /// Holds all information about player's items.
     /// This class is singleton.
     /// </summary>
-    class PlayerInventory
+    class PlayerInventory : IInventory
     {
-        public const char MoneySymbol = '⊙';
-
         public WeaponsHolder Weapons { get; private set; }
         public AmmoHolder Ammo { get; private set; }
         public ItemsHolder Items { get; private set; }
         public int Money { get; set; }
+
+        IWeaponsHolder IInventory.Weapons => Weapons;
+        IAmmoHolder IInventory.Ammo => Ammo;
 
         /// <summary>
         /// Sets default values
@@ -37,19 +38,11 @@ namespace SD.PlayerLogic
             Money = 0;
         }
 
-        public List<WeaponIndex> GetAvailableWeapons()
+        public void SetDefault()
         {
-            List<WeaponIndex> available = new List<WeaponIndex>();
-
-            foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
-            {
-                if (Weapons.IsAvailable(w))
-                {
-                    available.Add(w);
-                }
-            }
-
-            return available;
+            Weapons.SetDefault();
+            Ammo.SetDefault();
+            Items.SetDefault();
         }
 
         #region cheats
@@ -74,7 +67,7 @@ namespace SD.PlayerLogic
 
             foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
             {
-                Weapons.Set(w, AllWeaponsStats.Instance[w].Durability, true);
+                Weapons.Set(w, GameController.Instance.WeaponsStats[w].Durability, true, true);
             }
         }
 
@@ -85,15 +78,8 @@ namespace SD.PlayerLogic
         {
             foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
             {
-                Ammo.Set(a, AllAmmoStats.Instance.Get(a).MaxAmount);
+                Ammo.Set(a, GameController.Instance.AmmoStats[a].MaxAmount);
             }
-        }
-
-        public void SetDefault()
-        {
-            Weapons.SetDefault();
-            Ammo.SetDefault();
-            Items.SetDefault();
         }
         #endregion
     }

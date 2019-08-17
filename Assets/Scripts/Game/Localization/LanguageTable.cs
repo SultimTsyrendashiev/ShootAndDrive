@@ -57,8 +57,8 @@ namespace SD
         {
             if (!languages.ContainsKey(key))
             {
-                Debug.Log("Language doesn't contain key: " + key);
-                return "";
+                Debug.Log("Can't find key in language list: " + key);
+                return key;
             }
 
             var keys = languages[key];
@@ -66,6 +66,7 @@ namespace SD
             if (!keys.ContainsKey(languageName))
             {
                 Debug.Log("Can't find language: " + languageName + ". For key: " + key);
+                return key;
             }
 
             return keys[languageName];

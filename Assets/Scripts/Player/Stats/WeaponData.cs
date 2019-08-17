@@ -8,7 +8,7 @@ namespace SD.Weapons
         // common
         [SerializeField] WeaponIndex        weaponIndex;
         [SerializeField] string             weaponEditorName;
-        [SerializeField] string             weaponName;
+        [SerializeField] string             translationKey;
         [SerializeField] Sprite             icon;
 
         [SerializeField] AudioClip          shotSound;
@@ -21,6 +21,9 @@ namespace SD.Weapons
 
         [SerializeField] int                cost;               // cost in a shop
         [SerializeField] int                durability;         // how many shots is needed to destroy weapon
+
+        [SerializeField] bool               canBeDamaged;       // should health of this weapon reduce?
+        [SerializeField] bool               isAmmo;             // is this weapon is ammo too? F.e grenades, fire bottles
 
         [SerializeField] float              percentageForJam = 0.17f;   // if (health/durabiltity) below this number, 
                                                                         // weapon can jam
@@ -35,11 +38,14 @@ namespace SD.Weapons
         // for missiles
         [SerializeField] string             missileName;
         
-
+        void Awake()
+        {
+            translationKey = "Inventory.Weapons.Names." + Index.ToString();
+        }
 
         public WeaponIndex      Index => weaponIndex;
-        //public string         EditorName => weaponEditorName;
-        public string           Name => weaponName;
+        public string           EditorName => weaponEditorName;
+        public string           TranslationKey => translationKey;
         public Sprite           Icon => icon;
         public AmmunitionType   AmmoType => ammoType;
         public int              AmmoConsumption => ammoConsumption;
@@ -63,9 +69,12 @@ namespace SD.Weapons
         public AudioClip        UnjamSound => unjamSound; 
         public AudioClip        BreakSound => breakSound;
 
-        public float GetFireRate()
-        {
-            return (int)(60.0f / reloadingTime);
-        }
+        /// <summary>
+        /// Get fire rate in rounds per minute
+        /// </summary>
+        public int RoundsPerMinute => (int)(60.0f / reloadingTime);
+
+        public bool IsAmmo => isAmmo;
+        public bool CanBeDamaged => canBeDamaged;
     }
 }

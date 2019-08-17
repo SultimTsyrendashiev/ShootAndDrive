@@ -23,18 +23,20 @@ namespace SD.UI
         [SerializeField]
         Sprite              icon;
 
-        PlayerInventory     inventory;  // inventory of current player
+        IInventory          inventory;
+
         bool                wasSelected;
         WeaponIndex         selectedWeapon;
-        List<WeaponIndex>   availableWeapons;
         int                 count;
 
-        void Start()
+        void Awake()
         {
-            var p = GameController.Instance.CurrentPlayer;
-            Debug.Assert(p != null, "Can't find player", this);
+            Player.OnPlayerSpawn += Init;
+        }
 
-            inventory = p.Inventory;
+        void Init(Player player)
+        {
+            inventory = player.Inventory;
         }
         
         public void OnPointerDown(PointerEventData eventData)
@@ -43,7 +45,7 @@ namespace SD.UI
             inputController.OnWeaponSelectorDown();
 
             // get available weapons
-            availableWeapons = inventory.GetAvailableWeapons();
+            var availableWeapons = inventory.Weapons.GetAvailableWeapons();
             count = availableWeapons.Count > 5 ? 5 : availableWeapons.Count;
 
             // place them on hud

@@ -18,9 +18,13 @@ namespace SD
 
         [SerializeField]
         WeaponsList                     weaponsList;
+        [SerializeField]
+        AmmoList                        ammoList;
 
         [SerializeField]
         GameObject                      playerPrefab;
+
+
 
         Vector3                         defaultPlayerPosition;
 
@@ -30,14 +34,18 @@ namespace SD
 
         // instances
         public Player                   CurrentPlayer { get; private set; }
+        public IInventory               Inventory { get; private set; }
         public IBackgroundController    Background { get; private set; }
         public IEnemyTarget             EnemyTarget { get; private set; }
         SpawnersController              spawnersController;
         CutsceneManager                 cutsceneManager;
         TutorialManager                 tutorialManager;
 
-        // settings, stats
+        // stats
         public AllWeaponsStats          WeaponsStats { get; private set; }
+        public AllAmmoStats             AmmoStats { get; private set; }
+
+        // settings
         public GlobalSettings           Settings { get; private set; }
         public LanguageTable            Languages => csvLanguageTable.Languages;
         CSVLanguageTable                csvLanguageTable;
@@ -117,6 +125,8 @@ namespace SD
             tutorialManager         = FindObjectOfType<TutorialManager>();
 
             WeaponsStats            = new AllWeaponsStats(weaponsList.Data);
+            AmmoStats               = new AllAmmoStats(ammoList.Data);
+
             spawnersController      = new SpawnersController();
 
             // check all systems
@@ -167,6 +177,8 @@ namespace SD
             // depends on player and weapons stats
             CurrentPlayer.InitInventory();
             DataSystem.LoadInventory(CurrentPlayer.Inventory);
+
+            Inventory = CurrentPlayer.Inventory;
 
             defaultPlayerPosition = CurrentPlayer.transform.position;
         }

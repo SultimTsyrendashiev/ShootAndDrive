@@ -22,7 +22,7 @@ namespace SD.Game.Data
         /// <summary>
         /// Load data from inventory to this class
         /// </summary>
-        public void LoadFrom(PlayerInventory inventory)
+        public void LoadFrom(IInventory inventory)
         {
             // all arrays must be null
             Debug.Assert(SavedWeapons == null, "Weapons array in InventoryData must be null");
@@ -37,26 +37,26 @@ namespace SD.Game.Data
             foreach (WeaponIndex t in Enum.GetValues(typeof(WeaponIndex)))
             {
                 // get from inventory
-                var w = inventory.Weapons.Get(t);
+                IWeaponItem w = inventory.Weapons.Get(t);
                 // save to the list
-                weapons.Add(new InvWeapon(t, w.HealthRef.Value, w.IsBought));
+                weapons.Add(new InvWeapon(t, w.Health, w.IsBought, w.IsSelected));
             }
 
             foreach (AmmunitionType t in Enum.GetValues(typeof(AmmunitionType)))
             {
                 // get from inventory
-                var amount = inventory.Ammo.Get(t);
+                int amount = inventory.Ammo.Get(t).CurrentAmount;
                 // save to the list
                 ammo.Add(new InvAmmo(t, amount));
             }
 
-            foreach (ItemType t in Enum.GetValues(typeof(ItemType)))
-            {
-                // get from inventory
-                var amount = inventory.Items.Get(t);
-                // save to the list
-                items.Add(new InvItem(t, amount));
-            }
+            //foreach (ItemType t in Enum.GetValues(typeof(ItemType)))
+            //{
+            //    // get from inventory
+            //    var amount = inventory.Items.Get(t);
+            //    // save to the list
+            //    items.Add(new InvItem(t, amount));
+            //}
 
             // to arrays, so this class is ready for serialization
             SavedWeapons = weapons.ToArray();
@@ -80,7 +80,7 @@ namespace SD.Game.Data
 
             foreach (var w in SavedWeapons)
             {
-                inventory.Weapons.Set(w.Index, w.Health, w.IsBought);
+                inventory.Weapons.Set(w.Index, w.Health, w.IsBought, w.IsSelected);
             }
 
             foreach (var a in SavedAmmo)
@@ -88,10 +88,10 @@ namespace SD.Game.Data
                 inventory.Ammo.Set(a.Type, a.Amount);
             }
 
-            foreach (var i in SavedItems)
-            {
-                inventory.Items.Set(i.Type, i.Amount);
-            }
+            //foreach (var i in SavedItems)
+            //{
+            //    inventory.Items.Set(i.Type, i.Amount);
+            //}
 
             inventory.Money = SavedMoney;
         }
