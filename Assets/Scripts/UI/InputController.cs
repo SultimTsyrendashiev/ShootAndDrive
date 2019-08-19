@@ -23,7 +23,9 @@ namespace SD.UI
         public static event Void                OnUnpause;
         public static event Void                OnMainMenuButton;
         public static event Void                OnPlayButton;
+        public static event Void                OnPlayWithInventoryButton;
         public static event Void                OnSettingsButton;
+        public static event Void                OnInventoryButton;
 
         public static event RegenerateHealth    OnHealthRegenerate;
 
@@ -130,19 +132,29 @@ namespace SD.UI
             OnUnpause();
         }
 
-        public void GoToMainMenu()
+        public void OpenMainMenu()
         {
             OnMainMenuButton();
         }
 
-        public void GoToSettings()
+        public void OpenSettings()
         {
             OnSettingsButton();
+        }
+
+        public void OpenInventory()
+        {
+            OnInventoryButton();
         }
 
         public void Play()
         {
             OnPlayButton();
+        }
+
+        public void PlayWithInventory()
+        {
+            OnPlayWithInventoryButton();
         }
 
         /// <summary>

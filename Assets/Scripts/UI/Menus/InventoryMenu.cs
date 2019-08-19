@@ -1,22 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using SD.Game;
 
 namespace SD.UI.Menus
 {
-    class InventoryMenu : MonoBehaviour, IMenu
+    class InventoryMenu : AAnimatedMenu
     {
-        public void Init(MenuController menuController)
-        { }
-
-        public void Activate()
+        protected override void SignToEvents()
         {
-            gameObject.SetActive(true);
+            GameController.OnInventoryOpen += ShowThisMenu;
         }
 
-        public void Deactivate()
+        protected override void UnsignFromEvents()
         {
-            gameObject.SetActive(false);
+            GameController.OnInventoryOpen -= ShowThisMenu;
         }
     }
 }

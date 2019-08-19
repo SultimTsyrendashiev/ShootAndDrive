@@ -20,13 +20,31 @@
         public bool             IsBroken => HealthRef.Value <= 0;
         public Weapons.WeaponData   Stats => GameController.Instance.WeaponsStats[This];
 
-        public int              Health { get => HealthRef.Value; set => HealthRef.Value = value; }
+        public int Health
+        {
+            get
+            {
+                return HealthRef.Value;
+            }
+            set
+            {
+                HealthRef.Value = value;
+
+                if (value == 0)
+                {
+                    IsBought = false;
+                }
+            }
+        }
 
         public WeaponIndex      Index => Stats.Index;
         public string           EditorName => Stats.EditorName;
         public string           TranslationKey => Stats.TranslationKey;
         public AmmunitionType   AmmoType => Stats.AmmoType;
-        public int              Cost => Stats.Cost;
+
+        public int              Price => Stats.Cost;
+        public int              RepairCost => Price / 4;
+
         public int              Durability => Stats.Durability;
         public float            Damage => Stats.Damage;
         public float            Accuracy => Stats.Accuracy;

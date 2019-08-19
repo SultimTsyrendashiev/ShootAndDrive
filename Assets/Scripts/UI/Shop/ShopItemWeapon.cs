@@ -52,7 +52,7 @@ namespace SD.UI.Shop
         [SerializeField]
         float maxIndicatorsWidth;
         
-        public void Set(string name, IWeaponItem weaponItem, IAmmoItem ammoItem)
+        public void Set(IWeaponItem weaponItem, IAmmoItem ammoItem)
         {
             nameText.text = GetTranslation(weaponItem.TranslationKey);
 
@@ -65,7 +65,7 @@ namespace SD.UI.Shop
                 repairButton.SetActive(false);
                 health.SetActive(false);
 
-                buyText.text = GetBuyText(weaponItem.Cost);
+                buyText.text = GetBuyText(weaponItem.Price);
             }
             else
             {
@@ -78,7 +78,7 @@ namespace SD.UI.Shop
                 SetPercentage(healthIndicatorImage, maxIndicatorsWidth, healthPercentage);
 
                 // todo: add full repair cost
-                int fullRepairCost = weaponItem.Cost / 4;
+                int fullRepairCost = weaponItem.Price / 4;
 
                 int repairCost = (int)(fullRepairCost * healthPercentage);
                 repairText.text = GetRepairText(repairCost);
@@ -138,16 +138,16 @@ namespace SD.UI.Shop
 
         string GetRepairText(int price)
         {
-            if (buyTranslation == null)
+            if (repairTranslation == null)
             {
-                buyTranslation = buyText.GetComponent<TranslatedText>();
+                repairTranslation = buyText.GetComponent<TranslatedText>();
             }
 
             string translated;
 
             try
             {
-                translated = buyTranslation.GetValue();
+                translated = repairTranslation.GetValue();
             }
             catch
             {

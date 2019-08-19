@@ -12,7 +12,7 @@ namespace SD.UI.Menus
 
         protected override void UnsignFromEvents()
         {
-            GameController.OnGameplayActivate -= ShowThisMenu;
+            GameController.OnGamePause -= ShowThisMenu;
         }
     }
 }

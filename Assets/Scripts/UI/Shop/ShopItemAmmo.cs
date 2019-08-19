@@ -42,27 +42,45 @@ namespace SD.UI.Shop
         [SerializeField]
         float maxImageWidth;
 
+        IShop shop;
+        IAmmoItem ammoItem;
 
         /// <summary>
         /// Set info about ammo item
         /// </summary>
-        /// <param name="price">price of 'amount' ammo</param>
-        /// <param name="buyAmount">ammo to buy for 'price'</param>
-        /// <param name="priceAll">price to buy all ammo</param>
-        public void SetInfo(string name, Sprite sprite, int price, int buyAmount, int currentAmount, int maxAmount, int priceAll)
+        public void SetInfo(IShop shop, IAmmoItem item)
         {
-            nameText.text = name;
+            this.shop = shop;
+            this.ammoItem = item;
 
-            ammoImage.sprite = sprite;
+            UpdateInfo();
+        }
 
-            buyText.text = GetBuyText(buyAmount);
-            buyAllText.text = GetBuyAllText();
+        void UpdateInfo()
+        {
+            nameText.text = GetTranslation(ammoItem.TranslationKey);
+            ammoImage.sprite = ammoItem.Icon;
 
-            priceText.text = MoneyFormatter.FormatMoney(price);
-            priceAllText.text = MoneyFormatter.FormatMoney(priceAll);
 
-            currentAmountText.text = GetAmountText(currentAmount, maxAmount);
-            SetAmountPercentage((float)currentAmount / maxAmount);
+            int diff = ammoItem.MaxAmount - ammoItem.CurrentAmount;
+            if (diff > ammoItem.AmountToBuy)
+            {
+                diff = ammoItem.AmountToBuy;
+            }
+
+            int diffAll = ammoItem.MaxAmount - ammoItem.CurrentAmount;
+
+
+            buyText.text = GetBuyText(diff);
+            buyAllText.text = GetBuyAllText(diffAll);
+
+            priceText.text =
+                MoneyFormatter.FormatMoney(shop.GetAmmoPrice(ammoItem, diff));
+            priceAllText.text =
+                MoneyFormatter.FormatMoney(shop.GetAmmoPrice(ammoItem, diffAll));
+
+            currentAmountText.text = GetAmountText(ammoItem.CurrentAmount, ammoItem.MaxAmount);
+            SetAmountPercentage((float)ammoItem.CurrentAmount / ammoItem.MaxAmount);
         }
 
         /// <summary>
@@ -99,13 +117,13 @@ namespace SD.UI.Shop
             }
             catch
             {
-                translated = "Buy x{0}";
+                return string.Format("Buy x{0}", amount);
             }
 
             return string.Format(translated, amount);
         }
 
-        string GetBuyAllText()
+        string GetBuyAllText(int amount)
         {
             if (buyAllTranslation == null)
             {
@@ -126,6 +144,38 @@ namespace SD.UI.Shop
         {
             const string format = "{0} / {1}";
             return string.Format(format, currentAmount, maxAmount);
+        }
+
+        string GetTranslation(string key)
+        {
+            return GameController.Instance.Languages.GetValue(
+                GameController.Instance.Settings.GameLanguage, key);
+        }
+
+        public void BuyThis()
+        {
+            if (shop == null)
+            {
+                return;
+            }
+
+            shop.BuyAmmo(ammoItem.This, false);
+
+            // update this
+            UpdateInfo();
+        }
+
+        public void BuyThisAll()
+        {
+            if (shop == null)
+            {
+                return;
+            }
+
+            shop.BuyAmmo(ammoItem.This, true);
+
+            // update this
+            UpdateInfo();
         }
     }
 }

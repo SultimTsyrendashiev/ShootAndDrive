@@ -51,7 +51,7 @@ namespace SD.Enemies
         /// <summary>
         /// Called on death, sends info about this enemy
         /// </summary>
-        public event PassengerDied OnPassengerDeath;
+        public event PassengerDeath OnPassengerDeath;
 
         #region init
         /// <summary>
@@ -156,14 +156,14 @@ namespace SD.Enemies
             }
             else // death
             {
-                Die();
+                Die(damage.Initiator);
             }
         }
 
         /// <summary>
         /// Must be called only from 'ReceiveDamage'
         /// </summary>
-        void Die()
+        void Die(GameObject deathInitiator)
         {
             Health = 0;
             State = PassengerState.Dead;
@@ -196,7 +196,7 @@ namespace SD.Enemies
                 c.Launch(vehicle.VehicleRigidbody.velocity, av);
             }
 
-            OnPassengerDeath(data);
+            OnPassengerDeath(data, deathInitiator);
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace SD.Enemies
             float sqrDist = fromTarget.sqrMagnitude;
 
             // if out
-            if (sqrDist > maxAttackDistanceSqr &&
+            if (sqrDist > maxAttackDistanceSqr ||
                 sqrDist < minAttackDistanceSqr)
             {
                 return false;

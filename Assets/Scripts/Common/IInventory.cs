@@ -5,9 +5,12 @@ namespace SD
 {
     interface IInventory
     {
+
         IWeaponsHolder      Weapons { get; }
         IAmmoHolder         Ammo { get; }
         int                 Money { get; set; }
+
+        event PlayerBalanceChange OnBalanceChange;
     }
 
     interface IWeaponsHolder
@@ -79,7 +82,8 @@ namespace SD
         bool                IsAmmo { get; }
         bool                CanBeDamaged { get; }
 
-        int                 Cost { get; }
+        int                 Price { get; }
+        int                 RepairCost { get; }
 
         int                 Durability { get; }
         float               Damage { get; }

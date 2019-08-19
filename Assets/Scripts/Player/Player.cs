@@ -185,20 +185,28 @@ namespace SD.PlayerLogic
         }
 
         #region score
-        void AddEnemyScore(Enemies.EnemyData data)
+        void AddEnemyScore(Enemies.EnemyData data, GameObject initiator)
         {
-            currentScore.KillsAmount++;
-            currentScore.ScorePoints += data.Score;
+            // if initiator is player, count score
+            if (initiator == gameObject)
+            {
+                currentScore.KillsAmount++;
+                currentScore.ScorePoints += data.Score;
 
-            OnScoreChange(currentScore);
+                OnScoreChange(currentScore);
+            }
         }
 
-        void AddEnemyVehicleScore(Enemies.EnemyVehicleData data)
-        {
-            currentScore.DestroyedVehiclesAmount++;
-            currentScore.ScorePoints += data.Score;
+        void AddEnemyVehicleScore(Enemies.EnemyVehicleData data, GameObject initiator)
+        {          
+            // if initiator is player, count score
+            if (initiator == gameObject)
+            {
+                currentScore.DestroyedVehiclesAmount++;
+                currentScore.ScorePoints += data.Score;
 
-            OnScoreChange(currentScore);
+                OnScoreChange(currentScore);
+            }
         }
         #endregion
 

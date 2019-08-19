@@ -1,6 +1,6 @@
 ﻿using SD.Enemies;
 using SD.PlayerLogic;
-using SD.Weapons;
+using UnityEngine;
 
 namespace SD
 {
@@ -15,15 +15,21 @@ namespace SD
     delegate void PlayerStateChange(PlayerState state);
     delegate void PlayerSpawn(Player player);
 
+    // game
+    delegate void GameControllerCreate(GameController controller);
+    delegate void InventoryCreate(IInventory inventory);
+
     // vehicles
     delegate void CollideVehicle(IVehicle other, float damage);
 
     // enemies
-    delegate void EnemyDied(EnemyData data);                // for player's score
-    delegate void VehicleDeath();                           // from damage receiver
-    delegate void VehicleDestroyed(EnemyVehicleData data);  // for player's score
-    delegate void PassengerDied(EnemyData data);            // from passengers of vehicles
-                                                            // delegate void PassengerStateChacnge(PassengerState passengerState); // for animations, sounds etc
+    delegate void EnemyDied(EnemyData data, GameObject initiator);                 // for player's score
+    delegate void VehicleDestroyed(EnemyVehicleData data, GameObject initiator);   // for player's score
+
+    delegate void VehicleDeath();                                       // from damage receiver
+    delegate void PassengerDeath(EnemyData data, GameObject initiator);     // from passengers of vehicles
+
+    // delegate void PassengerStateChacnge(PassengerState passengerState); // for animations, sounds etc
 
     // weapons
     delegate void WeaponShootFinish(WeaponIndex finishedWeapon);    // to weapons controller

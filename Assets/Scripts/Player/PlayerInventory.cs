@@ -15,7 +15,28 @@ namespace SD.PlayerLogic
         public WeaponsHolder Weapons { get; private set; }
         public AmmoHolder Ammo { get; private set; }
         public ItemsHolder Items { get; private set; }
-        public int Money { get; set; }
+
+        public event PlayerBalanceChange OnBalanceChange;
+
+        int money;
+        public int Money
+        {
+            get
+            {
+                return money;
+            }
+            set
+            {
+                int oldBalance = money;
+                money = value;
+
+                try
+                {
+                    OnBalanceChange(oldBalance, money);
+                }
+                catch { }
+            }
+        }
 
         IWeaponsHolder IInventory.Weapons => Weapons;
         IAmmoHolder IInventory.Ammo => Ammo;
@@ -51,6 +72,11 @@ namespace SD.PlayerLogic
         /// </summary>
         public void GiveAll()
         {
+            // only in editor
+#if !UNITY_EDITOR
+            return;
+#endif
+
             GiveAllWeapons();
             GiveAllAmmo();
         }
@@ -60,11 +86,6 @@ namespace SD.PlayerLogic
         /// </summary>
         public void GiveAllWeapons()
         {
-            //            // only in editor
-            //#if !UNITY_EDITOR
-            //            return;
-            //#endif
-
             foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
             {
                 Weapons.Set(w, GameController.Instance.WeaponsStats[w].Durability, true, true);

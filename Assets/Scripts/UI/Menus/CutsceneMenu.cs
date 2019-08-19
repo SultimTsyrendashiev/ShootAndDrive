@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using SD.Game;
+﻿using SD.Game;
 
 namespace SD.UI.Menus
 {

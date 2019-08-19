@@ -6,29 +6,35 @@ namespace SD.UI.Indicators
 {
     class MoneyIndicator : MonoBehaviour
     {
-        Player player;
-
         [SerializeField]
         Text moneyAmountText;
 
-        void Awake()
+        IInventory inventory;
+
+        void Start()
         {
-            SetMoneyAmount(0);
-            Player.OnPlayerSpawn += Init;
+            Init(GameController.Instance.Inventory);
         }
 
-        void Init(Player player)
+        void OnDestroy()
         {
-            this.player = player;
-            Player.OnPlayerSpawn -= Init;
-        }
-
-        void OnEnable()
-        {
-            if (player != null)
+            if (inventory != null)
             {
-                SetMoneyAmount(player.Inventory.Money);
+                inventory.OnBalanceChange -= SetMoneyAmount;
             }
+        }
+
+        void Init(IInventory inventory)
+        {
+            this.inventory = inventory;
+            SetMoneyAmount(inventory.Money);
+
+            inventory.OnBalanceChange += SetMoneyAmount;
+        }
+
+        void SetMoneyAmount(int oldBalance, int newBalance)
+        {
+            SetMoneyAmount(newBalance);
         }
 
         void SetMoneyAmount(int amount)

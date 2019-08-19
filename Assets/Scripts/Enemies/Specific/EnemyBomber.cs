@@ -23,7 +23,7 @@ namespace SD.Enemies
 
         protected override void DoDriverDeath()
         {
-            Explode();
+            Explode(gameObject);
         }
     }
 }

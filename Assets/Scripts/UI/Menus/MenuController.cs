@@ -11,6 +11,9 @@ namespace SD.UI
         [SerializeField]
         string startMenu = "MainMenu";
 
+        [SerializeField]
+        bool startMenuOnEnable = false;
+
         Dictionary<string, GameObject> menus;
         string currentMenu;
         string previousMenu;
@@ -41,6 +44,14 @@ namespace SD.UI
             }
 
             EnableMenu(startMenu);
+        }
+
+        void OnEnable()
+        {
+            if (menus != null && startMenuOnEnable)
+            {
+                EnableMenu(startMenu);
+            }
         }
 
         /// <summary>

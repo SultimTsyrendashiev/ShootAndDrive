@@ -44,13 +44,13 @@ namespace SD.UI.Menus
         protected override void SignToEvents()
         {
             GameController.OnPlayerDeath += SetScore;
-            GameController.OnPlayerBalanceChange += SetBalance;
+            GameController.Instance.Inventory.OnBalanceChange += SetBalance;
         }
 
         protected override void UnsignFromEvents()
         {
             GameController.OnPlayerDeath -= SetScore;
-            GameController.OnPlayerBalanceChange -= SetBalance;
+            GameController.Instance.Inventory.OnBalanceChange -= SetBalance;
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace SD.UI.Menus
         /// <returns></returns>
         IEnumerator WaitForCount()
         {
-            yield return new WaitForSeconds(scoreCountingDelay);
+            yield return new WaitForSecondsRealtime(scoreCountingDelay);
 
             // start counting
             scoreText.StartCounting();
@@ -100,7 +100,7 @@ namespace SD.UI.Menus
 
             // wait for these counters
             float toWait = balanceCountingDelay + Mathf.Max(scoreText.CountTime, moneyText.CountTime);
-            yield return new WaitForSeconds(toWait);
+            yield return new WaitForSecondsRealtime(toWait);
 
             // start counting balance
             playerBalanceText.StartCounting();

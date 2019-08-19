@@ -8,6 +8,7 @@ using SD.Background;
 using SD.UI;
 using SD.Game.Data;
 using SD.Game;
+using SD.Game.Shop;
 
 namespace SD
 {
@@ -32,11 +33,15 @@ namespace SD
         float                           defaultFixedDelta;
 
 
-        // instances
+        // services
         public Player                   CurrentPlayer { get; private set; }
+
         public IInventory               Inventory { get; private set; }
+        public IShop                    Shop { get; private set; }
+
         public IBackgroundController    Background { get; private set; }
         public IEnemyTarget             EnemyTarget { get; private set; }
+
         SpawnersController              spawnersController;
         CutsceneManager                 cutsceneManager;
         TutorialManager                 tutorialManager;
@@ -51,12 +56,13 @@ namespace SD
         CSVLanguageTable                csvLanguageTable;
 
         // events
-        public static event Void        OnGameplayActivate;
-        public static event Void        OnGamePause;
-        public static event Void        OnGameUnpause;
-        public static event Void        OnMainMenuActivate;
+        public static event Void                    OnGameplayActivate;
+        public static event Void                    OnGamePause;
+        public static event Void                    OnGameUnpause;
+        public static event Void                    OnMainMenuActivate;
         public static event PlayerDeath             OnPlayerDeath;
-        public static event PlayerBalanceChange     OnPlayerBalanceChange;
+
+        public static event Void                    OnInventoryOpen;
 
         // this class is always alive
         public static GameController    Instance { get; private set; }
@@ -91,7 +97,9 @@ namespace SD
             InputController.OnPause += PauseGame;
             InputController.OnUnpause += UnpauseGame;
             InputController.OnPlayButton += Play;
+            InputController.OnPlayWithInventoryButton += PlayWithInventoryMenu;
             InputController.OnMainMenuButton += StopGame;
+            InputController.OnInventoryButton += ShowInventory;
         }
 
         void UnsignFromEvents()
@@ -100,7 +108,9 @@ namespace SD
             InputController.OnPause -= PauseGame;
             InputController.OnUnpause -= UnpauseGame;
             InputController.OnPlayButton -= Play;
+            InputController.OnPlayWithInventoryButton -= PlayWithInventoryMenu;
             InputController.OnMainMenuButton -= StopGame;
+            InputController.OnInventoryButton -= ShowInventory;
 
             GlobalSettings.OnLanguageChange -= Dummy;
         }
@@ -139,6 +149,9 @@ namespace SD
             Debug.Assert(FindObjectOfType<ParticlesPool>() != null,         "Can't find ParticlesPool", this);
 
             InitPlayer();
+
+            // inventory is loaded, create shop system
+            Shop = new ShopSystem(Inventory);
 
             // all systems initialized, sign up to events
             SignToEvents();
@@ -219,14 +232,27 @@ namespace SD
 
         #region game start: cutscene / tutorial / gameplay
         /// <summary>
+        /// Same method as Play(), but shows inventory menu,
+        /// if cutscene and tutorial are disabled
+        /// </summary>
+        public void PlayWithInventoryMenu()
+        {
+            if (!Settings.GameShowCutscene && !Settings.GameShowTutorial)
+            {
+                ShowInventory();
+            }
+            else
+            {
+                Play();
+            }
+        }
+
+        /// <summary>
         /// Starts / restarts gameplay. Processes cutscene and tutorial show,
         /// as specified in game settings
         /// </summary>
         public void Play()
         {
-            // temp
-            CurrentPlayer.Inventory.GiveAll();
-
             if (Settings.GameShowCutscene)
             {
                 if (Settings.GameShowTutorial)
@@ -286,6 +312,11 @@ namespace SD
             tutorialManager.StartTutorial(spawnersController.RestartSpawn);
         }
 
+        void ShowInventory()
+        {
+            OnInventoryOpen();
+        }
+
         /// <summary>
         /// Activate player object, start enemy spawn
         /// </summary>
@@ -336,16 +367,11 @@ namespace SD
         {
             OnPlayerDeath(score);
 
-            int oldBalance = CurrentPlayer.Inventory.Money;
-            int newBalance = oldBalance + score.Money;
-
             // add money
-            CurrentPlayer.Inventory.Money = newBalance;
+            CurrentPlayer.Inventory.Money += score.Money;
 
             // and save
             SaveData();
-
-            OnPlayerBalanceChange(oldBalance, newBalance);
 
             // scale down time
             StartCoroutine(WaitForScaleTime());

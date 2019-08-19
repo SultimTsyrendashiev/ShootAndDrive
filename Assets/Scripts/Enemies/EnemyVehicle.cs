@@ -150,7 +150,7 @@ namespace SD.Enemies
 
             if (Health <= 0)
             {
-                Explode();
+                Explode(damage.Initiator);
             }
         }
 
@@ -179,7 +179,8 @@ namespace SD.Enemies
         /// Explode this vehicle.
         /// Must be called on vehicle destuction
         /// </summary>
-        public void Explode()
+        /// <param name="initiator">damage initiator, f.e. player</param>
+        public void Explode(GameObject initiator)
         {
             // ignore if not exist
             if (State == EnemyVehicleState.Nothing)
@@ -199,7 +200,7 @@ namespace SD.Enemies
             ParticlesPool.Instance.Play(data.ExplosionName, transform.position, transform.rotation);
 
             // call event
-            OnVehicleDestroy(data);
+            OnVehicleDestroy(data, initiator);
 
             // disable vehicle after exlosion
             Return();
@@ -224,7 +225,7 @@ namespace SD.Enemies
         /// <summary>
         /// Called on death of one of passengers
         /// </summary>
-        void PassengerDied(EnemyData passengerData)
+        void PassengerDied(EnemyData passengerData, GameObject initiator)
         {
             // check for incorrect states;
             // must be 'Active' or 'DeadDriver'
@@ -240,7 +241,7 @@ namespace SD.Enemies
             alivePassengersAmount--;
 
             // call event
-            OnEnemyDeath(passengerData);
+            OnEnemyDeath(passengerData, initiator);
 
             // if there are passengers, but driver died
             if (passengerData.IsDriver)
