@@ -4,12 +4,12 @@ namespace SD.UI.Menus
 {
     class CutsceneMenu : AAnimatedMenu
     {
-        protected override void SignToEvents()
+        protected override void DoInit()
         {
             CutsceneManager.OnCutsceneStart += ShowThisMenu;
         }
 
-        protected override void UnsignFromEvents()
+        protected override void DoDestroy()
         {
             CutsceneManager.OnCutsceneStart -= ShowThisMenu;
         }

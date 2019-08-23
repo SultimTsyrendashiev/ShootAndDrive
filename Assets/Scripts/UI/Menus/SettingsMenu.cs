@@ -35,12 +35,12 @@ namespace SD.UI.Menus
         }
 
         #region menu
-        protected override void SignToEvents()
+        protected override void DoInit()
         {
             InputController.OnSettingsButton += ShowThisMenu;
         }
 
-        protected override void UnsignFromEvents()
+        protected override void DoDestroy()
         {
             InputController.OnSettingsButton -= ShowThisMenu;
         }

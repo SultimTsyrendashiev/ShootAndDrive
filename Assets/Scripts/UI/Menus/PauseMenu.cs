@@ -5,12 +5,12 @@ namespace SD.UI.Menus
 {
     class PauseMenu : AAnimatedMenu
     {
-        protected override void SignToEvents()
+        protected override void DoInit()
         {
             GameController.OnGamePause += ShowThisMenu;
         }
 
-        protected override void UnsignFromEvents()
+        protected override void DoDestroy()
         {
             GameController.OnGamePause -= ShowThisMenu;
         }

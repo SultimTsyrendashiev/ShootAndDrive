@@ -23,16 +23,31 @@ namespace SD.UI.Menus
             MenuController = menuController;
             Animator = GetComponent<Animator>();
 
-            SignToEvents();
+            DoInit();
         }
 
         void OnDestroy()
         {
-            UnsignFromEvents();
+            DoDestroy();
         }
 
-        protected virtual void SignToEvents() { }
-        protected virtual void UnsignFromEvents() { }
+        /// <summary>
+        /// Called on init
+        /// </summary>
+        protected virtual void DoInit() { }
+        /// <summary>
+        /// Called on destroy
+        /// </summary>
+        protected virtual void DoDestroy() { }
+
+        /// <summary>
+        /// Called on menu activation, after starting an animation
+        /// </summary>
+        protected virtual void DoActivate() { }
+        /// <summary>
+        /// Called on menu deactivation, after the end of animation
+        /// </summary>
+        protected virtual void DoDeactivate() { }
 
         public void ShowThisMenu()
         {
@@ -53,6 +68,8 @@ namespace SD.UI.Menus
             {
                 PlayActivationAnimation(enablingAnimation);
             }
+
+            DoActivate();
         }
 
         protected virtual void PlayActivationAnimation(string animName)
@@ -75,6 +92,7 @@ namespace SD.UI.Menus
             else
             {
                 gameObject.SetActive(false);
+                DoDeactivate();
             }
         }
 
@@ -84,6 +102,7 @@ namespace SD.UI.Menus
             yield return new WaitForSecondsRealtime(Animator.GetCurrentAnimatorStateInfo(0).length);
 
             gameObject.SetActive(false);
+            DoDeactivate();
         }
     }
 }

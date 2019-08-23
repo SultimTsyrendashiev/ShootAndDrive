@@ -51,14 +51,37 @@ namespace SD.UI.Shop
 
         [SerializeField]
         float maxIndicatorsWidth;
-        
-        public void Set(IWeaponItem weaponItem, IAmmoItem ammoItem)
+
+        IShop shop;
+        IWeaponItem weaponItem;
+
+        public void SetInfo(IShop shop, IWeaponItem weaponItem, IAmmoItem ammoItem)
         {
+            this.shop = shop;
+            this.weaponItem = weaponItem;
+
             nameText.text = GetTranslation(weaponItem.TranslationKey);
 
             ammoImage.sprite = ammoItem.Icon;
             ammoText.text = GetTranslation(ammoItem.TranslationKey);
 
+            SetPercentage(damageIndicatorImage, maxIndicatorsWidth, 
+                Mathf.Clamp(weaponItem.Damage / IndicatorMaxDamage, 0, 1));
+
+            SetPercentage(durabilityIndicatorImage, maxIndicatorsWidth, 
+                Mathf.Clamp(weaponItem.Durability / IndicatorMaxDurability, 0, 1));
+
+            SetPercentage(fireRateIndicatorImage, maxIndicatorsWidth,
+                Mathf.Clamp(weaponItem.RoundsPerMinute / IndicatorMaxFireRate, 0, 1));
+
+            SetPercentage(accuracyIndicatorImage, maxIndicatorsWidth,
+                Mathf.Clamp(weaponItem.Accuracy / IndicatorMaxAccuracy, 0, 1));
+
+            UpdateInfo();
+        }
+
+        void UpdateInfo()
+        {
             if (!weaponItem.IsBought && weaponItem.Health > 0)
             {
                 buyButton.SetActive(true);
@@ -77,26 +100,36 @@ namespace SD.UI.Shop
 
                 SetPercentage(healthIndicatorImage, maxIndicatorsWidth, healthPercentage);
 
-                // todo: add full repair cost
-                int fullRepairCost = weaponItem.Price / 4;
-
-                int repairCost = (int)(fullRepairCost * healthPercentage);
+                int repairCost = shop.GetRepairCost(weaponItem);
                 repairText.text = GetRepairText(repairCost);
             }
-
-            SetPercentage(damageIndicatorImage, maxIndicatorsWidth, 
-                Mathf.Clamp(weaponItem.Damage / IndicatorMaxDamage, 0, 1));
-
-            SetPercentage(durabilityIndicatorImage, maxIndicatorsWidth, 
-                Mathf.Clamp(weaponItem.Durability / IndicatorMaxDurability, 0, 1));
-
-            SetPercentage(fireRateIndicatorImage, maxIndicatorsWidth,
-                Mathf.Clamp(weaponItem.RoundsPerMinute / IndicatorMaxFireRate, 0, 1));
-
-            SetPercentage(accuracyIndicatorImage, maxIndicatorsWidth,
-                Mathf.Clamp(weaponItem.Accuracy / IndicatorMaxAccuracy, 0, 1));
         }
 
+        public void BuyThis()
+        {
+            if (shop == null)
+            {
+                return;
+            }
+
+            shop.BuyWeapon(weaponItem.Index);
+
+            UpdateInfo();
+        }
+
+        public void RepairThis()
+        {
+            if (shop == null)
+            {
+                return;
+            }
+
+            shop.RepairWeapon(weaponItem.Index);
+
+            UpdateInfo();
+        }
+
+        #region hud
         string GetTranslation(string key)
         {
             return GameController.Instance.Languages.GetValue(
@@ -156,5 +189,6 @@ namespace SD.UI.Shop
 
             return string.Format(translated, MoneyFormatter.FormatMoney(price));
         }
+        #endregion
     }
 }

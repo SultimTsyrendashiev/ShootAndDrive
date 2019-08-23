@@ -4,12 +4,12 @@ namespace SD.UI.Menus
 {
     class InventoryMenu : AAnimatedMenu
     {
-        protected override void SignToEvents()
+        protected override void DoInit()
         {
             GameController.OnInventoryOpen += ShowThisMenu;
         }
 
-        protected override void UnsignFromEvents()
+        protected override void DoDestroy()
         {
             GameController.OnInventoryOpen -= ShowThisMenu;
         }

@@ -5599,7 +5599,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.8
+      scalar: 0.4
       minScalar: 0.2
       maxCurve:
         serializedVersion: 2
@@ -14540,7 +14540,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -6329100616344683915, guid: 7e9edb8f59e72e2418b45c5a9f48884f,
     type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

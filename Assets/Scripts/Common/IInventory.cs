@@ -15,10 +15,22 @@ namespace SD
 
     interface IWeaponsHolder
     {
+        /// <summary>
+        /// Is the weapon bought and not broken?
+        /// </summary>
         bool                IsAvailable(WeaponIndex weapon);
+        /// <summary>
+        /// Get all bought and not broken weapons
+        /// </summary>
         List<WeaponIndex>   GetAvailableWeapons();
 
-        bool                IsAvailableInGame(WeaponIndex weapon);
+        /// <summary>
+        /// Is the weapon selected, bought and not broken?
+        /// </summary>
+        bool IsAvailableInGame(WeaponIndex weapon);
+        /// <summary>
+        /// Get all selected, bought and not broken weapons
+        /// </summary>
         List<WeaponIndex>   GetAvailableWeaponsInGame();
 
         IWeaponItem         Get(WeaponIndex weapon);

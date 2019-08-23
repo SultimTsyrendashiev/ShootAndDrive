@@ -5,12 +5,12 @@ namespace SD.UI.Menus
 {
     class MainMenu : AAnimatedMenu
     {
-        protected override void SignToEvents()
+        protected override void DoInit()
         {
             GameController.OnMainMenuActivate += ShowThisMenu;
         }
 
-        protected override void UnsignFromEvents()
+        protected override void DoDestroy()
         {
             GameController.OnMainMenuActivate -= ShowThisMenu;
         }

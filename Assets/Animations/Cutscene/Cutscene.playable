@@ -11387,8 +11387,8 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.6666667
         value: {x: -90, y: 0, z: 0}
-        inSlope: {x: 56.25, y: 0, z: 0}
-        outSlope: {x: 56.25, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
@@ -12592,16 +12592,16 @@ AnimationClip:
         value: -90
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.6666667
         value: -90
-        inSlope: 56.25
-        outSlope: 56.25
-        tangentMode: 34
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
@@ -12728,7 +12728,7 @@ AnimationClip:
         value: 0
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
@@ -12737,7 +12737,7 @@ AnimationClip:
         value: 0
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
@@ -12864,7 +12864,7 @@ AnimationClip:
         value: 0
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
@@ -12873,7 +12873,7 @@ AnimationClip:
         value: 0
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
@@ -17152,7 +17152,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: CutsceneSedanBack
+    path: 
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -17162,7 +17162,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: CutsceneSedanBack
+    path: 
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -17172,7 +17172,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: CutsceneSedanBack
+    path: 
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -18274,7 +18274,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: 
+    path: CutsceneSedanBack
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -18284,7 +18284,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: 
+    path: CutsceneSedanBack
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -18294,7 +18294,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: 
+    path: CutsceneSedanBack
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 1

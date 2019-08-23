@@ -53,15 +53,14 @@ namespace SD.UI.Shop
             this.shop = shop;
             this.ammoItem = item;
 
+            nameText.text = GetTranslation(ammoItem.TranslationKey);
+            ammoImage.sprite = ammoItem.Icon;
+
             UpdateInfo();
         }
 
         void UpdateInfo()
         {
-            nameText.text = GetTranslation(ammoItem.TranslationKey);
-            ammoImage.sprite = ammoItem.Icon;
-
-
             int diff = ammoItem.MaxAmount - ammoItem.CurrentAmount;
             if (diff > ammoItem.AmountToBuy)
             {
@@ -83,6 +82,34 @@ namespace SD.UI.Shop
             SetAmountPercentage((float)ammoItem.CurrentAmount / ammoItem.MaxAmount);
         }
 
+
+        public void BuyThis()
+        {
+            if (shop == null)
+            {
+                return;
+            }
+
+            shop.BuyAmmo(ammoItem.This, false);
+
+            // update this
+            UpdateInfo();
+        }
+
+        public void BuyThisAll()
+        {
+            if (shop == null)
+            {
+                return;
+            }
+
+            shop.BuyAmmo(ammoItem.This, true);
+
+            // update this
+            UpdateInfo();
+        }
+
+        #region hud
         /// <summary>
         /// Set width of current amount image
         /// </summary>
@@ -151,31 +178,6 @@ namespace SD.UI.Shop
             return GameController.Instance.Languages.GetValue(
                 GameController.Instance.Settings.GameLanguage, key);
         }
-
-        public void BuyThis()
-        {
-            if (shop == null)
-            {
-                return;
-            }
-
-            shop.BuyAmmo(ammoItem.This, false);
-
-            // update this
-            UpdateInfo();
-        }
-
-        public void BuyThisAll()
-        {
-            if (shop == null)
-            {
-                return;
-            }
-
-            shop.BuyAmmo(ammoItem.This, true);
-
-            // update this
-            UpdateInfo();
-        }
+        #endregion
     }
 }

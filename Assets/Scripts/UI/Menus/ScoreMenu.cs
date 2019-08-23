@@ -41,13 +41,13 @@ namespace SD.UI.Menus
         /// </summary>
         bool firstTimeAfterDeath;
 
-        protected override void SignToEvents()
+        protected override void DoInit()
         {
             GameController.OnPlayerDeath += SetScore;
             GameController.Instance.Inventory.OnBalanceChange += SetBalance;
         }
 
-        protected override void UnsignFromEvents()
+        protected override void DoDestroy()
         {
             GameController.OnPlayerDeath -= SetScore;
             GameController.Instance.Inventory.OnBalanceChange -= SetBalance;
