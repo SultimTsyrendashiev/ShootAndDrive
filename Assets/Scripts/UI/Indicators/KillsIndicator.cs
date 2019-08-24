@@ -44,7 +44,12 @@ namespace SD.UI.Indicators
 
         void OnEnable()
         {
-            if (updateOnlyOnEnable && player)
+            if (player == null)
+            {
+                player = GameController.Instance.CurrentPlayer;
+            }
+
+            if (updateOnlyOnEnable)
             {
                 SetKillsAmount(player.CurrentScore);
             }

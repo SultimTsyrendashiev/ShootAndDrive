@@ -48,7 +48,7 @@ namespace SD.Enemies
 
         protected override void DoVehicleCollision()
         {
-            KillAllPassengers();
+            KillAllPassengers(null);
         }
     }
 }

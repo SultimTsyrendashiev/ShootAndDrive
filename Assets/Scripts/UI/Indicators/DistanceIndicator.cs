@@ -45,7 +45,12 @@ namespace SD.UI.Indicators
 
         void OnEnable()
         {
-            if (updateOnlyOnEnable && vehicle)
+            if (vehicle == null)
+            {
+                vehicle = GameController.Instance.CurrentPlayer.Vehicle;
+            }
+
+            if (updateOnlyOnEnable)
             {
                 SetDistance(vehicle.TravelledDistance);
             }

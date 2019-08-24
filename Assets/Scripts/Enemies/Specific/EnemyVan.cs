@@ -243,8 +243,10 @@ namespace SD.Enemies
 
         protected override void DoVehicleCollision()
         {
+            // manually set not kinematic, as there is no driver
             SetKinematic(false);
-            KillAllPassengers();
+
+            KillAllPassengers(null);
         }
     }
 }

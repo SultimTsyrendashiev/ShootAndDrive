@@ -14,6 +14,7 @@ namespace SD
     delegate void PlayerBalanceChange(int oldBalance, int newBalance);
     delegate void PlayerStateChange(PlayerState state);
     delegate void PlayerSpawn(Player player);
+    delegate void PlayerKills(Transform enemyTransform);
 
     // game
     delegate void GameControllerCreate(GameController controller);
@@ -23,11 +24,11 @@ namespace SD
     delegate void CollideVehicle(IVehicle other, float damage);
 
     // enemies
-    delegate void EnemyDied(EnemyData data, GameObject initiator);                 // for player's score
+    delegate void EnemyDeath(EnemyData data, Transform enemyPosition, GameObject initiator); // for player's score
     delegate void VehicleDestroyed(EnemyVehicleData data, GameObject initiator);   // for player's score
 
     delegate void VehicleDeath();                                       // from damage receiver
-    delegate void PassengerDeath(EnemyData data, GameObject initiator);     // from passengers of vehicles
+    delegate void PassengerDeath(EnemyData data, Transform enemyPosition, GameObject initiator);     // from passengers of vehicles
 
     // delegate void PassengerStateChacnge(PassengerState passengerState); // for animations, sounds etc
 

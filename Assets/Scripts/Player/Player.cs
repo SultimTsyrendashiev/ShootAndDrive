@@ -67,6 +67,7 @@ namespace SD.PlayerLogic
         public event PlayerDeath            OnPlayerDeath;
         public event PlayerStateChange      OnPlayerStateChange;
         public static event PlayerSpawn     OnPlayerSpawn;
+        public event PlayerKills            OnKill;
 
         #region init / destroy
         /// <summary>
@@ -185,7 +186,7 @@ namespace SD.PlayerLogic
         }
 
         #region score
-        void AddEnemyScore(Enemies.EnemyData data, GameObject initiator)
+        void AddEnemyScore(Enemies.EnemyData data, Transform enemyPosition, GameObject initiator)
         {
             // if initiator is player, count score
             if (initiator == gameObject)
@@ -194,6 +195,7 @@ namespace SD.PlayerLogic
                 currentScore.ScorePoints += data.Score;
 
                 OnScoreChange(currentScore);
+                OnKill(enemyPosition);
             }
         }
 
@@ -417,7 +419,7 @@ namespace SD.PlayerLogic
             }
 
             Damage fatalDamage = Damage.CreateBulletDamage(Health,
-                    transform.forward, transform.position, transform.forward, gameObject);
+                    transform.forward, transform.position, transform.forward, null);
 
             ReceiveDamage(fatalDamage);
         }

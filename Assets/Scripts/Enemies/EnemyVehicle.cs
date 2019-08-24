@@ -32,7 +32,7 @@ namespace SD.Enemies
         int                 IPooledObject.AmountInPool  => 8;
 
         // events
-        public static event EnemyDied           OnEnemyDeath;
+        public static event EnemyDeath          OnEnemyDeath;
         public static event VehicleDestroyed    OnVehicleDestroy;
 
         #region virtual
@@ -188,7 +188,7 @@ namespace SD.Enemies
                 return;
             }
 
-            KillAllPassengers();
+            KillAllPassengers(initiator);
 
             // generate wreck
             if (!string.IsNullOrEmpty(data.WreckName))
@@ -225,7 +225,7 @@ namespace SD.Enemies
         /// <summary>
         /// Called on death of one of passengers
         /// </summary>
-        void PassengerDied(EnemyData passengerData, GameObject initiator)
+        void PassengerDied(EnemyData passengerData, Transform enemyPosition, GameObject initiator)
         {
             // check for incorrect states;
             // must be 'Active' or 'DeadDriver'
@@ -241,7 +241,7 @@ namespace SD.Enemies
             alivePassengersAmount--;
 
             // call event
-            OnEnemyDeath(passengerData, initiator);
+            OnEnemyDeath(passengerData, enemyPosition, initiator);
 
             // if there are passengers, but driver died
             if (passengerData.IsDriver)
@@ -264,11 +264,11 @@ namespace SD.Enemies
         /// <summary>
         /// Usually called when vehicle is destroyed
         /// </summary>
-        public void KillAllPassengers()
+        public void KillAllPassengers(GameObject initiator)
         {
             foreach (var p in Passengers)
             {
-                p.Kill();
+                p.Kill(initiator);
             }
         }
 

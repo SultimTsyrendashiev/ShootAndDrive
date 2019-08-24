@@ -196,13 +196,13 @@ namespace SD.Enemies
                 c.Launch(vehicle.VehicleRigidbody.velocity, av);
             }
 
-            OnPassengerDeath(data, deathInitiator);
+            OnPassengerDeath(data, autoaimTarget.transform, deathInitiator);
         }
 
         /// <summary>
         /// Kill this passenger
         /// </summary>
-        public void Kill()
+        public void Kill(GameObject initiator)
         {
             if (Health <= 0)
             {
@@ -210,7 +210,7 @@ namespace SD.Enemies
             }
 
             Damage fatalDamage = Damage.CreateBulletDamage(Health,
-                    transform.forward, transform.position, transform.forward, gameObject);
+                    transform.forward, transform.position, transform.forward, initiator);
 
             ReceiveDamage(fatalDamage);
         }

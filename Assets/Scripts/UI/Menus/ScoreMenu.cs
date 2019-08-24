@@ -68,14 +68,14 @@ namespace SD.UI.Menus
 
             // set values
             scoreText.Set(score.ActualScorePoints);
-            moneyText.Set(score.Money);
+            moneyText.Set(score.Money, 0, MoneyFormatter.MoneyFormat);
 
             StartCoroutine(WaitForCount());
         }
 
         void SetBalance(int oldBalance, int newBalance)
         {
-            playerBalanceText.Set(newBalance, oldBalance, BalanceCountTime);
+            playerBalanceText.Set(newBalance, oldBalance, MoneyFormatter.MoneyFormat, BalanceCountTime);
         }
 
         protected override void PlayActivationAnimation(string animName)

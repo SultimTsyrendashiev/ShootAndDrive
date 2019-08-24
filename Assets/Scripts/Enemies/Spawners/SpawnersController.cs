@@ -6,7 +6,8 @@ namespace SD.Enemies.Spawner
     class SpawnersController
     {
         const float CleanTimePeriod = 1.0f;
-
+        const float MaxSpawnDistance = 200;
+        
         public const string EnemySedan  = "EnemySedan";
         public const string EnemyBike   = "EnemyBike";
         public const string EnemyCoupe  = "EnemyCoupe";
@@ -145,7 +146,7 @@ namespace SD.Enemies.Spawner
             }
 
             // spawn to the limit of background blocks
-            while ((currentPos - target.Target.position).sqrMagnitude < Mathf.Pow(Background.CurrentLength, 2))
+            while ((currentPos - target.Target.position).sqrMagnitude < MaxSpawnDistance * MaxSpawnDistance)
             {
                 // add to the queue new spawner indices
                 //SetNextSpawner();

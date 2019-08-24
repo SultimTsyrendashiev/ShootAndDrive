@@ -254,29 +254,37 @@ namespace SD.Weapons
             // if 'Fire' method wasn't called, then ignore
             if (toFire)
             {
-                // while player is holding fire button
-                if (InputController.FireButton && playerIsActive)
+                if (playerIsActive)
                 {
-                    Weapon w = weapons[currentWeapon.Value];
+                    // while player is holding fire button
+                    if (InputController.FireButton)
+                    {
+                        Weapon w = weapons[currentWeapon.Value];
 
-                    // if ready, then shoot
-                    if (w.State == WeaponState.Ready)
-                    {
-                        w.Fire();
+                        // if ready, then shoot
+                        if (w.State == WeaponState.Ready)
+                        {
+                            w.Fire();
+                        }
+                        else if (w.State == WeaponState.Unjamming
+                                || w.State == WeaponState.Reloading
+                                || w.State == WeaponState.Enabling)
+                        {
+                            // in this states, player holds button
+                            // and wants weapon to shoot
+                            // but he must wait until state Ready
+                        }
+                        else
+                        {
+                            // stop fire, now 'Fire' method can be called again
+                            toFire = false;
+                        }
                     }
-                    else if (w.State == WeaponState.Unjamming
-                            || w.State == WeaponState.Reloading
-                            || w.State == WeaponState.Enabling)
-                    {
-                        // in this states, player holds button
-                        // and wants weapon to shoot
-                        // but he must wait until state Ready
-                    }
-                    else
-                    {
-                        // stop fire, now 'Fire' method can be called again
-                        toFire = false;
-                    }
+                }
+                else
+                {
+                    // player is inactive, stop fire
+                    toFire = false;
                 }
             }
 
@@ -313,11 +321,12 @@ namespace SD.Weapons
                 return;
             }
 
+            // NOTE: this is checking in weapon class in 'Enable' method
             // if not hidden (according to its state)
-            if (weapons[currentWeapon.Value].State != WeaponState.Nothing)
-            {
-                return;
-            }
+            //if (weapons[currentWeapon.Value].State != WeaponState.Nothing)
+            //{
+            //    return;
+            //}
 
             weapons[currentWeapon.Value].Enable();
             commonAnimation.Play(animTakeOut);

@@ -9,27 +9,31 @@ namespace SD.UI.Indicators
         const float     DefaultCountTime = 1.5f;
         Text            text;
 
+        int             from;
         int             target;
         float           current;
 
         bool            toCount;
 
+        string          format;
 
         public float    CountTime { get; private set; }
 
 
-        public void Set(int target, int from = 0, float countTime = DefaultCountTime)
+        public void Set(int target, int from = 0, string format = null, float countTime = DefaultCountTime)
         {
             this.target = target;
             this.current = from;
+            this.from = from;
             this.CountTime = countTime;
+            this.format = format;
 
             if (text == null)
             {
                 text = GetComponent<Text>();
             }
 
-            text.text = from.ToString();
+            UpdateValue(from);
         }
 
         public void StartCounting()
@@ -41,7 +45,7 @@ namespace SD.UI.Indicators
         {
             if (toCount)
             {
-                float add = target * Time.unscaledDeltaTime / CountTime;
+                float add = (target - from) * Time.unscaledDeltaTime / CountTime;
                 current += add;
 
                 if (current >= target)
@@ -50,7 +54,19 @@ namespace SD.UI.Indicators
                     toCount = false;
                 }
 
-                text.text = ((int)current).ToString();
+                UpdateValue((int)current);
+            }
+        }
+
+        void UpdateValue(int value)
+        {
+            if (string.IsNullOrEmpty(format))
+            {
+                text.text = value.ToString();
+            }
+            else
+            {
+                text.text = string.Format(format, value);
             }
         }
     }

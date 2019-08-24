@@ -89,7 +89,7 @@ namespace SD.Game.Shop
 
             if (!CanBeRepaired(type))
             {
-                Debug.Log("ShopSystem: weapon must be buyable: " + type);
+                Debug.Log("ShopSystem: weapon must be repairable: " + type);
                 return false;
             }
 
@@ -145,7 +145,7 @@ namespace SD.Game.Shop
 
             int currentRepairCost = GetRepairCost(item);
             return item.IsBought
-                && !item.CanBeDamaged
+                && item.CanBeDamaged
                 && inventory.Money >= currentRepairCost;
         }
 
