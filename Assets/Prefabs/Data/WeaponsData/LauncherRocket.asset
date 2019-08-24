@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponIndex: 16
   weaponEditorName: LauncherRocket
-  weaponName: Rocket Launcher
+  translationKey: Inventory.Weapons.Names.LauncherRocket
   icon: {fileID: 0}
   shotSound: {fileID: 0}
   unjamSound: {fileID: 0}
@@ -22,7 +22,9 @@ MonoBehaviour:
   ammoType: 6
   ammoConsumption: 1
   cost: 28000
-  durability: 1200
+  durability: 800
+  canBeDamaged: 1
+  isAmmo: 0
   percentageForJam: 0.17
   jamProbability: 0.03
   damage: 400

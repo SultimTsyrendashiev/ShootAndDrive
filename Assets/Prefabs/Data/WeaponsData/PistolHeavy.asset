@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponIndex: 1
   weaponEditorName: PistolHeavy
-  weaponName: Heavy Pistol
+  translationKey: Inventory.Weapons.Names.PistolHeavy
   icon: {fileID: 0}
   shotSound: {fileID: 0}
   unjamSound: {fileID: 0}
@@ -23,6 +23,8 @@ MonoBehaviour:
   ammoConsumption: 1
   cost: 3200
   durability: 750
+  canBeDamaged: 1
+  isAmmo: 0
   percentageForJam: 0.17
   jamProbability: 0.03
   damage: 30

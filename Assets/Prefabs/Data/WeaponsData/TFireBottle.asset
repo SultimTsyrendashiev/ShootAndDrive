@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponIndex: 15
   weaponEditorName: TFireBottle
-  weaponName: Fire Bottle
+  translationKey: Inventory.Weapons.Names.TFireBottle
   icon: {fileID: 0}
   shotSound: {fileID: 0}
   unjamSound: {fileID: 0}
@@ -22,7 +22,9 @@ MonoBehaviour:
   ammoType: 5
   ammoConsumption: 1
   cost: 150
-  durability: 2147483647
+  durability: 1000000
+  canBeDamaged: 0
+  isAmmo: 1
   percentageForJam: 0.17
   jamProbability: 0.03
   damage: 7

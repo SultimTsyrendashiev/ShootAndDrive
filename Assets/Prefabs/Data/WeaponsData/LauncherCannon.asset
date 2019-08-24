@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponIndex: 18
   weaponEditorName: LauncherCannon
-  weaponName: Cannon
+  translationKey: Inventory.Weapons.Names.LauncherCannon
   icon: {fileID: 0}
   shotSound: {fileID: 0}
   unjamSound: {fileID: 0}
@@ -22,7 +22,9 @@ MonoBehaviour:
   ammoType: 7
   ammoConsumption: 1
   cost: 60000
-  durability: 3000
+  durability: 2300
+  canBeDamaged: 0
+  isAmmo: 0
   percentageForJam: 0.17
   jamProbability: 0.03
   damage: 1000

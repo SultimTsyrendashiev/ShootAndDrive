@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponIndex: 2
   weaponEditorName: PistolRevolver
-  weaponName: Revolver
+  translationKey: Inventory.Weapons.Names.PistolRevolver
   icon: {fileID: 0}
   shotSound: {fileID: 0}
   unjamSound: {fileID: 0}
@@ -23,6 +23,8 @@ MonoBehaviour:
   ammoConsumption: 1
   cost: 5000
   durability: 650
+  canBeDamaged: 1
+  isAmmo: 0
   percentageForJam: 0.17
   jamProbability: 0.03
   damage: 35

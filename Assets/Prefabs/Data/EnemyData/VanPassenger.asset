@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: VanPassenger
   m_EditorClassIdentifier: 
   enemyName: Van Shooter
-  startHealth: 35
+  startHealth: 30
   score: 180
   isDriver: 0
   canAttack: 1
   projectileName: Bullet
   projectileDamage: 6
-  projectileSpeed: 3
+  projectileSpeed: 20
   timeBetweenRounds: {x: 0.6, y: 1}
   fireRate: 0.15
   shotsAmount: 3

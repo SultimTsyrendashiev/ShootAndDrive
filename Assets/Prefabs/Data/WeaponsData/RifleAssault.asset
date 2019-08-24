@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponIndex: 10
   weaponEditorName: RifleAssault
-  weaponName: Assault Rifle
+  translationKey: Inventory.Weapons.Names.RifleAssault
   icon: {fileID: 0}
   shotSound: {fileID: 0}
   unjamSound: {fileID: 0}
@@ -22,7 +22,9 @@ MonoBehaviour:
   ammoType: 2
   ammoConsumption: 1
   cost: 13000
-  durability: 5400
+  durability: 3500
+  canBeDamaged: 1
+  isAmmo: 0
   percentageForJam: 0.17
   jamProbability: 0.03
   damage: 18

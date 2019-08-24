@@ -6,6 +6,17 @@ namespace SD.UI.Shop
 {
     class WeaponShop : MonoBehaviour, IMenu
     {
+        /// <summary>
+        /// Prefab that contains ui weapon models and weapon item camera
+        /// </summary>
+        [SerializeField]
+        GameObject          inventoryWorldUIPrefab;
+
+        WeaponsWorldUI      weaponsWorldUI;
+
+        /// <summary>
+        /// Container of weapon items
+        /// </summary>
         [SerializeField]
         Transform           itemsContainer;
 
@@ -13,12 +24,29 @@ namespace SD.UI.Shop
         ShopItemWeapon      weaponShopItem;
         WeaponIndex         currentWeapon;
 
-        IInventory inventory;
-        IShop shop;
+        IInventory          inventory;
+        IShop               shop;
 
         public void Init(MenuController menuController)
         {
             weaponShopItem = itemsContainer.GetComponentInChildren<ShopItemWeapon>(true);
+
+            Debug.Assert(inventoryWorldUIPrefab.GetComponent<WeaponsWorldUI>() != null,
+                "Prefab must contain 'InventoryWorldUI' script", inventoryWorldUIPrefab);
+
+            var found = FindObjectOfType<WeaponsWorldUI>();
+
+            if (found == null)
+            {
+                // create
+                weaponsWorldUI = Instantiate(inventoryWorldUIPrefab).GetComponent<WeaponsWorldUI>();
+            }
+            else
+            {
+                weaponsWorldUI = found;
+            }
+
+            weaponsWorldUI.Deactivate();
         }
 
         public void Activate()
@@ -27,6 +55,8 @@ namespace SD.UI.Shop
 
             shop = GameController.Instance.Shop;
             inventory = GameController.Instance.Inventory;
+
+            weaponsWorldUI.Activate();
 
             SetWeaponItem(currentWeapon);
         }
@@ -42,12 +72,16 @@ namespace SD.UI.Shop
             IWeaponItem weaponItem = inventory.Weapons.Get(w);
             IAmmoItem ammoItem = inventory.Ammo.Get(weaponItem.AmmoType);
 
+            // get image
+            Texture renderTexture = weaponsWorldUI.GetImage(w);
+
             // set info
-            weaponShopItem.SetInfo(shop, weaponItem, ammoItem);
+            weaponShopItem.SetInfo(shop, weaponItem, ammoItem, renderTexture);
         }
 
         public void Deactivate()
         {
+            weaponsWorldUI.Deactivate();
             gameObject.SetActive(false);
         }
 
@@ -76,12 +110,12 @@ namespace SD.UI.Shop
                 }
                 else
                 {
-                    return (WeaponIndex)(amount - 1);
+                    return 0;
                 }
             }
             else
             {
-                return 0;
+                return (WeaponIndex)(amount - 1);
             }
         }
     }

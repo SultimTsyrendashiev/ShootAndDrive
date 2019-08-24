@@ -19,18 +19,21 @@ namespace SD.UI.Shop
         Text nameText;
 
         [SerializeField]
+        RawImage weaponImage;
+
+        [SerializeField]
         Text ammoText;
         [SerializeField]
         Image ammoImage;
 
         [SerializeField]
-        GameObject buyButton;
+        Button buyButton;
         [SerializeField]
         Text buyText;
         TranslatedText buyTranslation;
 
         [SerializeField]
-        GameObject repairButton;
+        Button repairButton;
         [SerializeField]
         Text repairText;
         TranslatedText repairTranslation;
@@ -55,11 +58,12 @@ namespace SD.UI.Shop
         IShop shop;
         IWeaponItem weaponItem;
 
-        public void SetInfo(IShop shop, IWeaponItem weaponItem, IAmmoItem ammoItem)
+        public void SetInfo(IShop shop, IWeaponItem weaponItem, IAmmoItem ammoItem, Texture image)
         {
             this.shop = shop;
             this.weaponItem = weaponItem;
 
+            // firstly, set const info
             nameText.text = GetTranslation(weaponItem.TranslationKey);
 
             ammoImage.sprite = ammoItem.Icon;
@@ -77,23 +81,29 @@ namespace SD.UI.Shop
             SetPercentage(accuracyIndicatorImage, maxIndicatorsWidth,
                 Mathf.Clamp(weaponItem.Accuracy / IndicatorMaxAccuracy, 0, 1));
 
+            // then updateable info
             UpdateInfo();
+
+            SetImage(image);
         }
 
+        /// <summary>
+        /// Update info that can change
+        /// </summary>
         void UpdateInfo()
         {
             if (!weaponItem.IsBought && weaponItem.Health > 0)
             {
-                buyButton.SetActive(true);
-                repairButton.SetActive(false);
+                buyButton.gameObject.SetActive(true);
+                repairButton.gameObject.SetActive(false);
                 health.SetActive(false);
 
                 buyText.text = GetBuyText(weaponItem.Price);
             }
             else
             {
-                buyButton.SetActive(false);
-                repairButton.SetActive(true);
+                buyButton.gameObject.SetActive(false);
+                repairButton.gameObject.SetActive(true);
                 health.SetActive(true);
 
                 float healthPercentage = Mathf.Clamp((float)weaponItem.Health / weaponItem.Durability, 0, 1);
@@ -102,7 +112,15 @@ namespace SD.UI.Shop
 
                 int repairCost = shop.GetRepairCost(weaponItem);
                 repairText.text = GetRepairText(repairCost);
+
+                // disable button, if full health
+                repairButton.interactable = healthPercentage != 1;
             }
+        }
+
+        void SetImage(Texture image)
+        {
+            weaponImage.texture = image;
         }
 
         public void BuyThis()
@@ -173,7 +191,7 @@ namespace SD.UI.Shop
         {
             if (repairTranslation == null)
             {
-                repairTranslation = buyText.GetComponent<TranslatedText>();
+                repairTranslation = repairText.GetComponent<TranslatedText>();
             }
 
             string translated;

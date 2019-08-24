@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponIndex: 12
   weaponEditorName: HMachineGun
-  weaponName: Machine Gun
+  translationKey: Inventory.Weapons.Names.HMachineGun
   icon: {fileID: 0}
   shotSound: {fileID: 0}
   unjamSound: {fileID: 0}
@@ -22,7 +22,9 @@ MonoBehaviour:
   ammoType: 3
   ammoConsumption: 1
   cost: 21000
-  durability: 4500
+  durability: 2000
+  canBeDamaged: 1
+  isAmmo: 0
   percentageForJam: 0.17
   jamProbability: 0.03
   damage: 40

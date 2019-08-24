@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponIndex: 9
   weaponEditorName: ShotgunDouble
-  weaponName: Double Barrel Shotgun
+  translationKey: Inventory.Weapons.Names.ShotgunDouble
   icon: {fileID: 0}
   shotSound: {fileID: 0}
   unjamSound: {fileID: 0}
@@ -22,7 +22,9 @@ MonoBehaviour:
   ammoType: 0
   ammoConsumption: 2
   cost: 9000
-  durability: 2200
+  durability: 1000
+  canBeDamaged: 1
+  isAmmo: 0
   percentageForJam: 0.17
   jamProbability: 0.03
   damage: 13

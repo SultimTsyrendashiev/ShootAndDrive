@@ -32,6 +32,11 @@ namespace SD.UI.Shop
         [SerializeField]
         Text buyAllText;
 
+        [SerializeField]
+        Button buyButton;
+        [SerializeField]
+        Button buyAllButton;
+
         TranslatedText buyTranslation;
         TranslatedText buyAllTranslation;
 
@@ -80,6 +85,9 @@ namespace SD.UI.Shop
 
             currentAmountText.text = GetAmountText(ammoItem.CurrentAmount, ammoItem.MaxAmount);
             SetAmountPercentage((float)ammoItem.CurrentAmount / ammoItem.MaxAmount);
+
+            buyButton.interactable = diff != 0;
+            buyAllButton.interactable = diffAll != 0;
         }
 
 

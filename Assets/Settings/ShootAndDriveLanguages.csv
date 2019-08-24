@@ -12,13 +12,14 @@ Settings.Credits,Credits,Авторы
 Settings.Game.Language,Language,Язык
 Settings.Game.Subtitles,Subtitles,Субтитры
 Settings.Game.ShowCutscene,Show cutscene,Показывать катсцену
-Settings.Game.ShowTutorial,ShowTutorial,Показывать обучение
+Settings.Game.ShowTutorial,Show tutorial,Показывать обучение
 Settings.Performance.Preset,Preset,Настройка
 Settings.Performance.Msaa,Antialiasing,Сглаживание
 Settings.Performance.Resolution,Resolution scale,Масштаб разрешения
 Settings.Performance.Lod,Detail distance,Дальность прорисовки
-Settings.Performance.Shadowmap,Shadow Quality,Качество теней
+Settings.Performance.Shadowmap,Shadow quality,Качество теней
 Settings.Performance.RagdollsAmount,Ragdolls amount,Количество рэгдоллов
+Settings.Performance.Skybox3D,3D skybox,3D skybox
 Settings.Performance.ShaderQuality,Shader quality,Качество шейдеров
 Settings.Sound.MusicVolume,Music volume,Громкость музыки
 Settings.Input.MovementType,Movement input type,Тип управления
@@ -77,11 +78,11 @@ Inventory.AmmoText,Ammo,Боеприпасы
 Inventory.ItemsText,Items,Другое
 Inventory.Weapons.Damage,Damage,Урон
 Inventory.Weapons.Durability,Durability,Прочность
-Inventory.Weapons.FireRate,Fire rate,Скорострельность
+Inventory.Weapons.FireRate,Fire rate,Темп
 Inventory.Weapons.Accuracy,Accuracy,Точность
-Inventory.Weapons.Health,Health,Состояние
-Inventory.Weapons.Buy,Buy,Купить
-Inventory.Weapons.Repair,Repair,Починить
+Inventory.Weapons.Health,Condition,Состояние
+Inventory.Weapons.Buy,Buy {0},Покупка {0}
+Inventory.Weapons.Repair,Repair {0},Починка {0}
 Inventory.Weapons.NotBought,Not bought,Не куплено
 Inventory.Ammo.BulletsPistol,Pistol bullets,Пистолетные патроны
 Inventory.Ammo.Bullets,Bullets,Патроны
@@ -115,3 +116,4 @@ Inventory.Weapons.Names.TFireBottle,Fire Bottle,Бутылка с зажигат
 Inventory.Weapons.Names.LauncherRocket,Rocket Launcher,Ракетная установка
 Inventory.Weapons.Names.LauncherGrenade,Grenade Launcher,Гранатомёт
 Inventory.Weapons.Names.LauncherCannon,Cannon,Пушка
+Inventory.Weapons.Names,Weapon names,Названия оружия

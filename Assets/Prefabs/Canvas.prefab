@@ -267,6 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Performance.Resolution
+  updateTextOnStart: 1
 --- !u!1 &4775882493617496976
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,6 +504,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Inventory.Weapons.Damage
+  updateTextOnStart: 1
 --- !u!1 &4775882493628166998
 GameObject:
   m_ObjectHideFlags: 0
@@ -751,6 +753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Score.Text
+  updateTextOnStart: 1
 --- !u!1 &4775882493644432487
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,6 +847,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Score.ScorePointsAmount
+  updateTextOnStart: 1
 --- !u!1 &4775882493646376393
 GameObject:
   m_ObjectHideFlags: 0
@@ -969,10 +973,10 @@ RectTransform:
   m_Father: {fileID: 4775882494906729389}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 676, y: -311.91284}
-  m_SizeDelta: {x: 256, y: 320}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &4775882493646669825
 CanvasRenderer:
@@ -1193,10 +1197,10 @@ RectTransform:
   m_Father: {fileID: 4775882493776047545}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 196, y: -188}
+  m_SizeDelta: {x: 400, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4775882493662957123
 CanvasRenderer:
@@ -1490,10 +1494,10 @@ RectTransform:
   m_Father: {fileID: 4775882494194104144}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 436, y: -188}
+  m_SizeDelta: {x: 872, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4775882493670357207
 GameObject:
@@ -1919,6 +1923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.HUD.Diegetic
+  updateTextOnStart: 1
 --- !u!1 &4775882493710968299
 GameObject:
   m_ObjectHideFlags: 0
@@ -1930,7 +1935,7 @@ GameObject:
   - component: {fileID: 4775882493710968298}
   - component: {fileID: 4775882493710968303}
   - component: {fileID: 4775882493710968296}
-  - component: {fileID: 4775882493710968297}
+  - component: {fileID: 1466250858}
   m_Layer: 5
   m_Name: Start
   m_TagString: Untagged
@@ -1995,7 +2000,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4775882493710968297
+--- !u!114 &1466250858
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2004,27 +2009,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 4775882493710968299}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4775882495356558192}
-          m_MethodName: PlayWithInventory
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 4775882493710968296}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4775882495356558192}
+        m_MethodName: PlayWithInventory
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &4775882493712982541
 GameObject:
   m_ObjectHideFlags: 0
@@ -2795,6 +2826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Game.ShowTutorial
+  updateTextOnStart: 1
 --- !u!1 &4775882493757834714
 GameObject:
   m_ObjectHideFlags: 0
@@ -2827,10 +2859,10 @@ RectTransform:
   m_Father: {fileID: 4775882494194104144}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 436, y: -112}
+  m_SizeDelta: {x: 872, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4775882493767462255
 GameObject:
@@ -2843,6 +2875,7 @@ GameObject:
   - component: {fileID: 4775882493767462254}
   - component: {fileID: 4775882493767462252}
   - component: {fileID: 4775882493767462253}
+  - component: {fileID: 560654599}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -2911,6 +2944,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Repair $87
+--- !u!114 &560654599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4775882493767462255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4f3f0f8380bfb4c818d53a9dcf2a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Inventory.Weapons.Repair
+  updateTextOnStart: 0
 --- !u!1 &4775882493768951624
 GameObject:
   m_ObjectHideFlags: 0
@@ -3027,7 +3074,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 452}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &4775882493776047551
 MonoBehaviour:
@@ -3160,7 +3207,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4775882493781270308
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3225,6 +3272,7 @@ MonoBehaviour:
   - {fileID: 4775882494365211381}
   - {fileID: 4775882493628166998}
   startMenu: SMGame
+  startMenuOnEnable: 0
 --- !u!95 &4775882493781270315
 Animator:
   serializedVersion: 3
@@ -4094,6 +4142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.HUD.Hiding
+  updateTextOnStart: 1
 --- !u!1 &4775882493860468548
 GameObject:
   m_ObjectHideFlags: 0
@@ -4187,6 +4236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Score.DeadText
+  updateTextOnStart: 1
 --- !u!1 &4775882493866011891
 GameObject:
   m_ObjectHideFlags: 0
@@ -4428,6 +4478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Cutscene.HoldToSkip
+  updateTextOnStart: 1
 --- !u!1 &4775882493879793943
 GameObject:
   m_ObjectHideFlags: 0
@@ -4702,6 +4753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Name
+  updateTextOnStart: 1
 --- !u!1 &4775882493886408330
 GameObject:
   m_ObjectHideFlags: 0
@@ -4918,6 +4970,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Inventory.ItemsText
+  updateTextOnStart: 1
 --- !u!1 &4775882493900203898
 GameObject:
   m_ObjectHideFlags: 0
@@ -5650,6 +5703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.HUD.ShowPauseButton
+  updateTextOnStart: 1
 --- !u!1 &4775882493944431674
 GameObject:
   m_ObjectHideFlags: 0
@@ -6411,6 +6465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Inventory.Weapons.Accuracy
+  updateTextOnStart: 1
 --- !u!1 &4775882493977281768
 GameObject:
   m_ObjectHideFlags: 0
@@ -6637,10 +6692,10 @@ RectTransform:
   m_Father: {fileID: 4775882495628564324}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 528, y: -151.91284}
-  m_SizeDelta: {x: 256, y: 303.82568}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 256, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4775882493992236804
 CanvasRenderer:
@@ -6773,6 +6828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Game.Name
+  updateTextOnStart: 1
 --- !u!1 &4775882493997695766
 GameObject:
   m_ObjectHideFlags: 0
@@ -6808,10 +6864,10 @@ RectTransform:
   m_Father: {fileID: 4775882493776047545}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 196, y: -264}
+  m_SizeDelta: {x: 400, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4775882493997695770
 CanvasRenderer:
@@ -7837,14 +7893,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4775882494071237840}
-  - component: {fileID: 4775882494071237847}
+  - component: {fileID: 865948316566914022}
+  - component: {fileID: 268616772}
   m_Layer: 5
   m_Name: InvAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4775882494071237840
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7867,7 +7924,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &4775882494071237847
+--- !u!114 &865948316566914022
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7876,7 +7933,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 4775882494071237841}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 641489807bca79c408a5898bbf017715, type: 3}
+  m_Script: {fileID: 11500000, guid: 45bbcfc6ce82e344c931dfe201cae111, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammoItemPrefab: {fileID: 8365640678026860317, guid: 6485c3a4681694f47a78eaffa50b5fd6,
+    type: 3}
+  itemsContainer: {fileID: 4775882495403920671}
+--- !u!114 &268616772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4775882494071237841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45bbcfc6ce82e344c931dfe201cae111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ammoItemPrefab: {fileID: 8365640678026860317, guid: 6485c3a4681694f47a78eaffa50b5fd6,
@@ -8002,7 +8074,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4775882494072673305}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4775882494971155347}
+        m_MethodName: BuyThis
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &4775882494073646400
@@ -8098,6 +8181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Game.Language
+  updateTextOnStart: 1
 --- !u!1 &4775882494074157504
 GameObject:
   m_ObjectHideFlags: 0
@@ -8221,7 +8305,7 @@ GameObject:
   - component: {fileID: 4775882494076742694}
   - component: {fileID: 4775882494076742699}
   - component: {fileID: 4775882494076742692}
-  - component: {fileID: 4775882494076742693}
+  - component: {fileID: 394238832}
   m_Layer: 5
   m_Name: Prev
   m_TagString: Untagged
@@ -8286,7 +8370,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4775882494076742693
+--- !u!114 &394238832
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8295,10 +8379,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 4775882494076742695}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates: []
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 4775882494076742692}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4775882494971155350}
+        m_MethodName: SetPrevious
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &4775882494079291310
 GameObject:
   m_ObjectHideFlags: 0
@@ -8542,6 +8669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Performance.Preset
+  updateTextOnStart: 1
 --- !u!1 &4775882494102179244
 GameObject:
   m_ObjectHideFlags: 0
@@ -8574,10 +8702,10 @@ RectTransform:
   m_Father: {fileID: 4775882494194104144}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 436, y: -264}
+  m_SizeDelta: {x: 872, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4775882494102680420
 GameObject:
@@ -8672,6 +8800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Game.Language
+  updateTextOnStart: 1
 --- !u!1 &4775882494105788045
 GameObject:
   m_ObjectHideFlags: 0
@@ -9215,6 +9344,7 @@ GameObject:
   - component: {fileID: 4775882494148151887}
   - component: {fileID: 4775882494148151885}
   - component: {fileID: 4775882494148151886}
+  - component: {fileID: 1515644067}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -9283,6 +9413,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Buy $1200
+--- !u!114 &1515644067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4775882494148151880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4f3f0f8380bfb4c818d53a9dcf2a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Inventory.Weapons.Buy
+  updateTextOnStart: 0
 --- !u!1 &4775882494150536976
 GameObject:
   m_ObjectHideFlags: 0
@@ -9369,6 +9513,7 @@ GameObject:
   - component: {fileID: 4775882494154329335}
   - component: {fileID: 4775882494154329333}
   - component: {fileID: 4775882494154329334}
+  - component: {fileID: 4775882494971155347}
   m_Layer: 5
   m_Name: Weapon
   m_TagString: Untagged
@@ -9435,6 +9580,33 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4775882494971155347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4775882494154329328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbe26eeb727ace443bb5c1928b880e65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameText: {fileID: 4775882495345576265}
+  weaponImage: {fileID: 4775882495123569910}
+  ammoText: {fileID: 4775882494469898767}
+  ammoImage: {fileID: 4775882494290558813}
+  buyButton: {fileID: 4775882494072673306}
+  buyText: {fileID: 4775882494148151886}
+  repairButton: {fileID: 4775882495513633401}
+  repairText: {fileID: 4775882493767462253}
+  damageIndicatorImage: {fileID: 4775882495056203924}
+  durabilityIndicatorImage: {fileID: 4775882495589981735}
+  fireRateIndicatorImage: {fileID: 4775882494256774454}
+  accuracyIndicatorImage: {fileID: 4775882493968467844}
+  health: {fileID: 4775882494681648531}
+  healthIndicatorImage: {fileID: 4775882494541223120}
+  maxIndicatorsWidth: 160
 --- !u!1 &4775882494160055032
 GameObject:
   m_ObjectHideFlags: 0
@@ -9525,7 +9697,7 @@ GameObject:
   - component: {fileID: 4775882494161278619}
   - component: {fileID: 4775882494161278616}
   - component: {fileID: 4775882494161278617}
-  - component: {fileID: 4775882494161278618}
+  - component: {fileID: 1891517721}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -9590,7 +9762,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4775882494161278618
+--- !u!114 &1891517721
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9599,27 +9771,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 4775882494161278612}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4775882495356558192}
-          m_MethodName: GoToSettings
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 4775882494161278617}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4775882495356558192}
+        m_MethodName: OpenSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &4775882494174010230
 GameObject:
   m_ObjectHideFlags: 0
@@ -10064,7 +10262,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 528}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &4775882494194104150
 MonoBehaviour:
@@ -10287,6 +10485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Inventory.AmmoText
+  updateTextOnStart: 1
 --- !u!1 &4775882494213772125
 GameObject:
   m_ObjectHideFlags: 0
@@ -10492,6 +10691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Game.Subtitles
+  updateTextOnStart: 1
 --- !u!1 &4775882494229724551
 GameObject:
   m_ObjectHideFlags: 0
@@ -10982,10 +11182,10 @@ RectTransform:
   m_Father: {fileID: 4775882493776047545}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 196, y: -112}
+  m_SizeDelta: {x: 400, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4775882494261035479
 CanvasRenderer:
@@ -11174,6 +11374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Game
+  updateTextOnStart: 1
 --- !u!1 &4775882494273140788
 GameObject:
   m_ObjectHideFlags: 0
@@ -11346,6 +11547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Performance.RagdollsAmount
+  updateTextOnStart: 1
 --- !u!1 &4775882494274709860
 GameObject:
   m_ObjectHideFlags: 0
@@ -11571,6 +11773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Pause.TravelledDistance
+  updateTextOnStart: 1
 --- !u!1 &4775882494282704693
 GameObject:
   m_ObjectHideFlags: 0
@@ -12068,6 +12271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Input
+  updateTextOnStart: 1
 --- !u!1 &4775882494324720111
 GameObject:
   m_ObjectHideFlags: 0
@@ -13169,6 +13373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Credits
+  updateTextOnStart: 1
 --- !u!1 &4775882494417735520
 GameObject:
   m_ObjectHideFlags: 0
@@ -13201,10 +13406,10 @@ RectTransform:
   m_Father: {fileID: 4775882494194104144}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 436, y: -416}
+  m_SizeDelta: {x: 872, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4775882494420458123
 GameObject:
@@ -13833,6 +14038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Game.Language
+  updateTextOnStart: 1
 --- !u!1 &4775882494458569958
 GameObject:
   m_ObjectHideFlags: 0
@@ -14176,6 +14382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Score.AddedMoney
+  updateTextOnStart: 1
 --- !u!1 &4775882494485264360
 GameObject:
   m_ObjectHideFlags: 0
@@ -14794,6 +15001,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4775882494562612031}
+  - component: {fileID: 4775882494971155350}
   m_Layer: 5
   m_Name: InvWeapons
   m_TagString: Untagged
@@ -14823,6 +15031,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &4775882494971155350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4775882494562612024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75cbbab3c3b8ab14e8f9e1cf00b0bcbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryWorldUIPrefab: {fileID: 826202677296964397, guid: 07e90ad06c6212b43a11780486daddf2,
+    type: 3}
+  itemsContainer: {fileID: 4775882494190915706}
 --- !u!1 &4775882494571930383
 GameObject:
   m_ObjectHideFlags: 0
@@ -14916,6 +15139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Score.VehiclesAmount
+  updateTextOnStart: 1
 --- !u!1 &4775882494578173651
 GameObject:
   m_ObjectHideFlags: 0
@@ -15199,7 +15423,7 @@ GameObject:
   - component: {fileID: 4775882494596739881}
   - component: {fileID: 4775882494596739886}
   - component: {fileID: 4775882494596739887}
-  - component: {fileID: 4775882494596739880}
+  - component: {fileID: 416289721}
   m_Layer: 5
   m_Name: Next
   m_TagString: Untagged
@@ -15264,7 +15488,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4775882494596739880
+--- !u!114 &416289721
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15273,10 +15497,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 4775882494596739882}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates: []
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 4775882494596739887}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4775882494971155350}
+        m_MethodName: SetNext
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &4775882494608455558
 GameObject:
   m_ObjectHideFlags: 0
@@ -15868,6 +16135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Performance.Msaa
+  updateTextOnStart: 1
 --- !u!1 &4775882494646851490
 GameObject:
   m_ObjectHideFlags: 0
@@ -16283,6 +16551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Inventory.Weapons.Durability
+  updateTextOnStart: 1
 --- !u!1 &4775882494681648531
 GameObject:
   m_ObjectHideFlags: 0
@@ -17140,6 +17409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Game.Subtitles
+  updateTextOnStart: 1
 --- !u!1 &4775882494800741661
 GameObject:
   m_ObjectHideFlags: 0
@@ -17955,6 +18225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Pause.Text
+  updateTextOnStart: 1
 --- !u!1 &4775882494873597367
 GameObject:
   m_ObjectHideFlags: 0
@@ -19151,6 +19422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Inventory.Text
+  updateTextOnStart: 1
 --- !u!1 &4775882494969025346
 GameObject:
   m_ObjectHideFlags: 0
@@ -19709,6 +19981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Input.LeftHanded
+  updateTextOnStart: 1
 --- !u!1 &4775882495000714067
 GameObject:
   m_ObjectHideFlags: 0
@@ -20101,6 +20374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Sound
+  updateTextOnStart: 1
 --- !u!1 &4775882495016888331
 GameObject:
   m_ObjectHideFlags: 0
@@ -20307,6 +20581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Performance.ShaderQuality
+  updateTextOnStart: 1
 --- !u!1 &4775882495035591392
 GameObject:
   m_ObjectHideFlags: 0
@@ -20379,10 +20654,10 @@ RectTransform:
   m_Father: {fileID: 4775882494906729389}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 348, y: -311.91284}
-  m_SizeDelta: {x: 256, y: 320}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &4775882495036674467
 CanvasRenderer:
@@ -20660,6 +20935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Input.MovementType
+  updateTextOnStart: 1
 --- !u!1 &4775882495046357528
 GameObject:
   m_ObjectHideFlags: 0
@@ -20832,6 +21108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Inventory.Weapons.FireRate
+  updateTextOnStart: 1
 --- !u!1 &4775882495056203926
 GameObject:
   m_ObjectHideFlags: 0
@@ -21186,10 +21463,10 @@ RectTransform:
   m_Father: {fileID: 4775882494194104144}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 436, y: -36}
+  m_SizeDelta: {x: 872, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4775882495088170331
 GameObject:
@@ -21471,6 +21748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Game.Subtitles
+  updateTextOnStart: 1
 --- !u!1 &4775882495108849842
 GameObject:
   m_ObjectHideFlags: 0
@@ -21809,6 +22087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.HUD
+  updateTextOnStart: 1
 --- !u!1 &4775882495137903137
 GameObject:
   m_ObjectHideFlags: 0
@@ -22123,10 +22402,10 @@ RectTransform:
   m_Father: {fileID: 4775882493776047545}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 196, y: -340}
+  m_SizeDelta: {x: 400, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4775882495191529967
 CanvasRenderer:
@@ -22315,6 +22594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Performance
+  updateTextOnStart: 1
 --- !u!1 &4775882495218079597
 GameObject:
   m_ObjectHideFlags: 0
@@ -22902,6 +23182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Inventory.WeaponsText
+  updateTextOnStart: 1
 --- !u!1 &4775882495248501785
 GameObject:
   m_ObjectHideFlags: 0
@@ -23375,6 +23656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Score.ScorePointsBest
+  updateTextOnStart: 1
 --- !u!1 &4775882495289507449
 GameObject:
   m_ObjectHideFlags: 0
@@ -23468,6 +23750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Score.TravelledDistance
+  updateTextOnStart: 1
 --- !u!1 &4775882495293166044
 GameObject:
   m_ObjectHideFlags: 0
@@ -23614,10 +23897,10 @@ RectTransform:
   m_Father: {fileID: 4775882494194104144}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 436, y: -340}
+  m_SizeDelta: {x: 872, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4775882495303910133
 GameObject:
@@ -23688,10 +23971,10 @@ RectTransform:
   m_Father: {fileID: 4775882494194104144}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 436, y: -492}
+  m_SizeDelta: {x: 872, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4775882495312506418
 GameObject:
@@ -24302,6 +24585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Inventory.AmmoText
+  updateTextOnStart: 1
 --- !u!1 &4775882495351922035
 GameObject:
   m_ObjectHideFlags: 0
@@ -24335,10 +24619,10 @@ RectTransform:
   m_Father: {fileID: 4775882495628564324}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 821.3334, y: -151.91284}
-  m_SizeDelta: {x: 256, y: 303.82568}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 256, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4775882495351922032
 CanvasRenderer:
@@ -24661,6 +24945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Performance.Shadowmap
+  updateTextOnStart: 1
 --- !u!1 &4775882495367603298
 GameObject:
   m_ObjectHideFlags: 0
@@ -25204,10 +25489,10 @@ RectTransform:
   m_Father: {fileID: 4775882493776047545}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 196, y: -36}
+  m_SizeDelta: {x: 400, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4775882495400158470
 CanvasRenderer:
@@ -25321,7 +25606,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4775882495403265257
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25365,6 +25650,7 @@ MonoBehaviour:
   - {fileID: 4775882494071237841}
   - {fileID: 4775882495617191516}
   startMenu: InvMain
+  startMenuOnEnable: 1
 --- !u!114 &4775882495403265262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25377,8 +25663,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e211d3d29673a449aac8f9cefe6e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enablingAnimation: 
-  hidingAnimation: 
+  enablingAnimation: UI_InventoryEnable
+  hidingAnimation: UI_InventoryDisable
 --- !u!95 &4775882495403265263
 Animator:
   serializedVersion: 3
@@ -25426,15 +25712,14 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4775882494478271085}
+  m_Children: []
   m_Father: {fileID: 4775882493703064931}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 16, y: 0}
-  m_SizeDelta: {x: -32, y: -367.82568}
+  m_SizeDelta: {x: -32, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &4775882495403920670
 MonoBehaviour:
@@ -25901,6 +26186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Score.CurrentBalance
+  updateTextOnStart: 1
 --- !u!1 &4775882495439012306
 GameObject:
   m_ObjectHideFlags: 0
@@ -26308,7 +26594,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e4f3f0f8380bfb4c818d53a9dcf2a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: Inventory.Weapons.Accuracy
+  key: Inventory.Weapons.Health
+  updateTextOnStart: 1
 --- !u!1 &4775882495470528780
 GameObject:
   m_ObjectHideFlags: 0
@@ -26481,6 +26768,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Pause.KillsAmount
+  updateTextOnStart: 1
 --- !u!1 &4775882495474662707
 GameObject:
   m_ObjectHideFlags: 0
@@ -26723,10 +27011,10 @@ RectTransform:
   m_Father: {fileID: 4775882495628564324}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 186.66669, y: -151.91284}
-  m_SizeDelta: {x: 352, y: 303.82568}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 186.66667, y: 0}
+  m_SizeDelta: {x: 352, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4775882495505919603
 CanvasRenderer:
@@ -27013,6 +27301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Score.CurrentBalance
+  updateTextOnStart: 1
 --- !u!1 &4775882495513633403
 GameObject:
   m_ObjectHideFlags: 0
@@ -27133,7 +27422,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4775882495513633400}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4775882494971155347}
+        m_MethodName: RepairThis
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &4775882495522468928
@@ -27266,6 +27566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Credits.Text
+  updateTextOnStart: 1
 --- !u!1 &4775882495538835222
 GameObject:
   m_ObjectHideFlags: 0
@@ -27769,10 +28070,10 @@ RectTransform:
   m_Father: {fileID: 4775882493776047545}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 196, y: -416}
+  m_SizeDelta: {x: 400, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4775882495561130856
 CanvasRenderer:
@@ -28187,6 +28488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Game.ShowCutscene
+  updateTextOnStart: 1
 --- !u!1 &4775882495610152236
 GameObject:
   m_ObjectHideFlags: 0
@@ -28280,6 +28582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Sound.MusicVolume
+  updateTextOnStart: 1
 --- !u!1 &4775882495611061355
 GameObject:
   m_ObjectHideFlags: 0
@@ -28466,7 +28769,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4775882495617191523
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28619,6 +28922,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Settings.Performance.Lod
+  updateTextOnStart: 1
 --- !u!1 &4775882495628564325
 GameObject:
   m_ObjectHideFlags: 0
@@ -28816,6 +29120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Score.KillsAmount
+  updateTextOnStart: 1
 --- !u!1 &4775882495636703875
 GameObject:
   m_ObjectHideFlags: 0
@@ -30693,128 +30998,4 @@ MonoBehaviour:
   - {fileID: 4775882493853071886}
   - {fileID: 4775882495556999968}
   startMenu: MainMenu
---- !u!1001 &3918111938562430323
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 4775882495403920671}
-    m_Modifications:
-    - target: {fileID: 8365640678026860317, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_Name
-      value: WeaponAmmo
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 624
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -128
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1248
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 160
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-        type: 3}
-      propertyPath: m_Pivot.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 6485c3a4681694f47a78eaffa50b5fd6, type: 3}
---- !u!224 &4775882494478271085 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8365640678026860318, guid: 6485c3a4681694f47a78eaffa50b5fd6,
-    type: 3}
-  m_PrefabInstance: {fileID: 3918111938562430323}
-  m_PrefabAsset: {fileID: 0}
+  startMenuOnEnable: 0

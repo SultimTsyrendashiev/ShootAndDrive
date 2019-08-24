@@ -15,6 +15,9 @@ namespace SD.UI
         [SerializeField]
         string key;
 
+        [SerializeField]
+        bool updateTextOnStart = true;
+
         Text text;
 
         public string TranslationKey => key;
@@ -23,7 +26,11 @@ namespace SD.UI
         {
             text = GetComponentInChildren<Text>();
 
-            ChangeText(GameController.Instance.Settings.GameLanguage);
+            if (updateTextOnStart)
+            {
+                ChangeText(GameController.Instance.Settings.GameLanguage);
+            }
+
             GlobalSettings.OnLanguageChange += ChangeText;
         }
 

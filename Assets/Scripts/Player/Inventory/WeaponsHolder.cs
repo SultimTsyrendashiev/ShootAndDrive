@@ -64,12 +64,25 @@ namespace SD.PlayerLogic
 
         public WeaponItem Get(WeaponIndex w)
         {
-            return playerWeapons[w];
+            WeaponItem item = playerWeapons[w];
+            IWeaponItem iitem = item;
+
+            // check weapon's health, if it's out of bounds, clamp it
+            iitem.Health = Mathf.Clamp(iitem.Health, 0, iitem.Durability);
+            
+            // normalize other values
+            if (iitem.Health == 0)
+            {
+                iitem.IsBought = false;
+                iitem.IsSelected = false;
+            }
+
+            return item;
         }
 
         IWeaponItem IWeaponsHolder.Get(WeaponIndex w)
         {
-            return playerWeapons[w];
+            return Get(w);
         }
 
         /// <summary>

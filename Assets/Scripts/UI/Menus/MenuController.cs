@@ -103,5 +103,34 @@ namespace SD.UI
             Debug.Assert(!string.IsNullOrEmpty(previousMenu), "There was no previous menu. Current menu: " + currentMenu, this);
             EnableMenu(previousMenu);
         }
+
+        /// <summary>
+        /// Force to disable current menu.
+        /// Use this method, if 
+        /// </summary>
+        public void ForceDisableCurrentMenu()
+        {
+            if (string.IsNullOrEmpty(currentMenu))
+            {
+                return;
+            }
+
+            if (!menus.ContainsKey(currentMenu))
+            {
+                return;
+            }
+
+            var o = menus[currentMenu];
+            var m = o.GetComponent<IMenu>();
+
+            if (m != null)
+            {
+                m.Deactivate();
+            }
+            else
+            {
+                o.SetActive(false);
+            }
+        }
     }
 }

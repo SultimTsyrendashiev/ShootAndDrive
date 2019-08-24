@@ -18,7 +18,7 @@ namespace SD.UI.Shop
         {
             int amount = Enum.GetValues(typeof(AmmunitionType)).Length;
 
-            var inScene = itemsContainer.GetComponentsInChildren<ShopItemAmmo>();
+            var inScene = itemsContainer.GetComponentsInChildren<ShopItemAmmo>(true);
             int inSceneAmount = inScene.Length;
 
             if (inSceneAmount < amount)

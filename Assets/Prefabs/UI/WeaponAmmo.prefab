@@ -323,7 +323,7 @@ GameObject:
   - component: {fileID: 8365640678026860318}
   - component: {fileID: 8365640678026860288}
   - component: {fileID: 8365640678026860319}
-  - component: {fileID: 8365640678026860289}
+  - component: {fileID: 7999346668433784369}
   m_Layer: 5
   m_Name: WeaponAmmo
   m_TagString: Untagged
@@ -392,7 +392,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 2
---- !u!114 &8365640678026860289
+--- !u!114 &7999346668433784369
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8365640678026860317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9f9622800b43a641a59003ab6bbca4b, type: 3}
+  m_Script: {fileID: 11500000, guid: fd724452e67150d498bf36aef0c3389b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   nameText: {fileID: 8365640677650093990}
@@ -410,6 +410,8 @@ MonoBehaviour:
   priceAllText: {fileID: 8365640678744751965}
   buyText: {fileID: 8365640679444300583}
   buyAllText: {fileID: 8365640677481292752}
+  buyButton: {fileID: 8365640678257514725}
+  buyAllButton: {fileID: 8365640679165628359}
   currentAmountText: {fileID: 8365640677625694407}
   currentAmountIndicator: {fileID: 8365640679129754758}
   maxImageWidth: 800
@@ -425,7 +427,7 @@ GameObject:
   - component: {fileID: 8365640678257514727}
   - component: {fileID: 8365640678257514726}
   - component: {fileID: 8365640678257514725}
-  - component: {fileID: 1944116760}
+  - component: {fileID: 2693979374002540508}
   m_Layer: 5
   m_Name: Buy
   m_TagString: Untagged
@@ -537,7 +539,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &1944116760
+--- !u!114 &2693979374002540508
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -546,7 +548,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8365640678257514723}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abda59eb5d366774fbbc3dc4e05c8c32, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e8e65e745e7ddd45ad573ebfeb2b2bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8365640678744751963
@@ -792,7 +794,7 @@ GameObject:
   - component: {fileID: 8365640679165628361}
   - component: {fileID: 8365640679165628360}
   - component: {fileID: 8365640679165628359}
-  - component: {fileID: 700549434}
+  - component: {fileID: 2505312911833876116}
   m_Layer: 5
   m_Name: BuyAll
   m_TagString: Untagged
@@ -904,7 +906,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &700549434
+--- !u!114 &2505312911833876116
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -913,7 +915,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8365640679165628357}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4585ab25e2c07e24aae33029b9049dfc, type: 3}
+  m_Script: {fileID: 11500000, guid: 82f08587d8ad0cf449207bafe0bb6f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8365640679370840459

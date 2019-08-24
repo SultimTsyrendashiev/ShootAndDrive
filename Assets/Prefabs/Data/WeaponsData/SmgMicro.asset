@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponIndex: 3
   weaponEditorName: SmgMicro
-  weaponName: Micro SMG
+  translationKey: Inventory.Weapons.Names.SmgMicro
   icon: {fileID: 0}
   shotSound: {fileID: 0}
   unjamSound: {fileID: 0}
@@ -23,6 +23,8 @@ MonoBehaviour:
   ammoConsumption: 1
   cost: 4000
   durability: 2000
+  canBeDamaged: 1
+  isAmmo: 0
   percentageForJam: 0.17
   jamProbability: 0.03
   damage: 10

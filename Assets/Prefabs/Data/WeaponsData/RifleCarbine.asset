@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponIndex: 11
   weaponEditorName: RifleCarbine
-  weaponName: Carbine Rifle
+  translationKey: Inventory.Weapons.Names.RifleCarbine
   icon: {fileID: 0}
   shotSound: {fileID: 0}
   unjamSound: {fileID: 0}
@@ -22,7 +22,9 @@ MonoBehaviour:
   ammoType: 2
   ammoConsumption: 1
   cost: 14000
-  durability: 2100
+  durability: 1600
+  canBeDamaged: 1
+  isAmmo: 0
   percentageForJam: 0.17
   jamProbability: 0.03
   damage: 22
