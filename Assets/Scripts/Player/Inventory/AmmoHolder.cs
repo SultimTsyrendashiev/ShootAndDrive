@@ -28,7 +28,10 @@ namespace SD.PlayerLogic
         {
             foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
             {
-                ammo.Add(a, new AmmoItem(a, 0));
+                if (!ammo.ContainsKey(a))
+                {
+                    ammo.Add(a, new AmmoItem(a, 0));
+                }
             }
         }
 

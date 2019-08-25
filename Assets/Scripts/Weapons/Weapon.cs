@@ -366,6 +366,8 @@ namespace SD.Weapons
             Disable();
         }
 
+        HandsController handsController;
+
         public void Enable()
         {
             if (State != WeaponState.Nothing)
@@ -390,8 +392,16 @@ namespace SD.Weapons
             }
             else
             {
-                // if doesn't exist, dont render it
-                HandsController.Instance.RenderRightHand = false;
+                if (handsController == null)
+                {
+                    handsController = FindObjectOfType<HandsController>();
+                }
+
+                if (handsController != null)
+                {
+                    // if doesn't exist, dont render it
+                    handsController.RenderRightHand = false;
+                }
             }
 
             // wait for enabling

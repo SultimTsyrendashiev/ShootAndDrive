@@ -28,6 +28,9 @@ namespace SD.UI
         void OnEnable()
         {
             SetMovementInputType(GameController.Instance.Settings.InputMovementType);
+
+            SetActiveHUD(true);
+            SetActiveWeaponSelectionMenu(false);
         }
 
         void OnDestroy()

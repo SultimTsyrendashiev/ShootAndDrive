@@ -346,7 +346,7 @@ namespace SD.Enemies
 
             direction.Normalize();
 
-            const float maxAngle = 5.0f;
+            const float maxAngle = 0.3f;
             int amount = data.ShotsAmount; // >= 1
 
             if (amount == 1)

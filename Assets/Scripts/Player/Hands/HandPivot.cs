@@ -10,6 +10,8 @@ public class HandPivot : MonoBehaviour
     static Transform hand;
     static Animation handAnim;
 
+    HandsController handsController;
+
     bool    poseExist;
     string  poseAnimName;
 
@@ -23,7 +25,16 @@ public class HandPivot : MonoBehaviour
 
         if (hand == null && handAnim == null)
         {
-            hand = HandsController.Instance.RightHand;
+            if (handsController == null)
+            {
+                handsController = FindObjectOfType<HandsController>();
+            }
+
+            if (handsController != null)
+            {
+                hand = handsController.RightHand;
+            }
+
             handAnim = hand.GetComponentInChildren<Animation>();
         }
 
@@ -42,7 +53,11 @@ public class HandPivot : MonoBehaviour
     /// </summary>
     public void PoseHand()
     {
-        HandsController.Instance.RenderRightHand = poseExist;
+        if (handsController)
+        {
+            handsController.RenderRightHand = poseExist;
+        }
+
         if (!poseExist)
         {
             return;

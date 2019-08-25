@@ -26,6 +26,8 @@ namespace SD.UI
         public static event Void                OnPlayWithInventoryButton;
         public static event Void                OnSettingsButton;
         public static event Void                OnInventoryButton;
+        public static event Void                OnWeaponSelectionEnable;
+        public static event Void                OnWeaponSelectionDisable;
 
         public static event RegenerateHealth    OnHealthRegenerate;
 
@@ -109,6 +111,8 @@ namespace SD.UI
         {
             hudController.SetActiveHUD(false);
             hudController.SetActiveWeaponSelectionMenu(true);
+
+            OnWeaponSelectionEnable();
         }
 
         /// <summary>
@@ -119,6 +123,8 @@ namespace SD.UI
         {
             hudController.SetActiveHUD(true);
             hudController.SetActiveWeaponSelectionMenu(false);
+
+            OnWeaponSelectionDisable();
         }
 
         /// <summary>

@@ -14,6 +14,8 @@ namespace SD
 {
     class GameController : MonoBehaviour
     {
+        const float WeaponsSelectionMultiplier = 0.05f;
+
         [SerializeField]
         LanguageList                    languageList;
 
@@ -107,6 +109,8 @@ namespace SD
             InputController.OnPlayWithInventoryButton += PlayWithInventoryMenu;
             InputController.OnMainMenuButton += StopGame;
             InputController.OnInventoryButton += ShowInventory;
+            InputController.OnWeaponSelectionEnable += EnableWeaponsSelection;
+            InputController.OnWeaponSelectionDisable += DisableWeaponsSelection;
         }
 
         void UnsignFromEvents()
@@ -118,6 +122,8 @@ namespace SD
             InputController.OnPlayWithInventoryButton -= PlayWithInventoryMenu;
             InputController.OnMainMenuButton -= StopGame;
             InputController.OnInventoryButton -= ShowInventory;
+            InputController.OnWeaponSelectionEnable -= EnableWeaponsSelection;
+            InputController.OnWeaponSelectionDisable -= DisableWeaponsSelection;
 
             GlobalSettings.OnLanguageChange -= Dummy;
         }
@@ -130,21 +136,31 @@ namespace SD
             defaultTimeScale = Time.timeScale;
             defaultFixedDelta = Time.fixedDeltaTime;
 
+            // to sure that there is at least one listener
+            GlobalSettings.OnLanguageChange += Dummy;
+
             // load data from previous sessions
             LoadData();
 
             // init multilingual
             InitLanguages();
 
+            print("LANGUAGES INITTED");
+
             // find objects
             Background              = FindObjectOfType<BackgroundController>();
             cutsceneManager         = FindObjectOfType<CutsceneManager>();
             tutorialManager         = FindObjectOfType<TutorialManager>();
 
+            print("MANAGERS INITTED");
+
             WeaponsStats            = new AllWeaponsStats(weaponsList.Data);
             AmmoStats               = new AllAmmoStats(ammoList.Data);
+            print("STATS INITTED");
 
-            spawnersController      = new SpawnersController();
+            spawnersController = new SpawnersController();
+
+            print("SPAWNERS INITTED");
 
             // check all systems
             Debug.Assert(WeaponsStats != null,                              "Can't find AllWeaponsStats", this);
@@ -155,16 +171,23 @@ namespace SD
             Debug.Assert(FindObjectOfType<ObjectPool>() != null,            "Can't find ObjectPool", this);
             Debug.Assert(FindObjectOfType<ParticlesPool>() != null,         "Can't find ParticlesPool", this);
 
+            print("ASSERTS INITTED");
+
             InitPlayer();
 
             // inventory is loaded, create shop system
             Shop = new ShopSystem(Inventory);
+            print("SHOP INITTED");
 
             // all systems initialized, sign up to events
             SignToEvents();
+            print("EVENTS INITTED");
 
             // at last, init object and particle pools
             InitPools();
+
+            print("POOLS INITTED");
+
         }
 
         void InitPools()
@@ -175,9 +198,6 @@ namespace SD
 
         void InitLanguages()
         {
-            // to sure that there is at least one listener
-            GlobalSettings.OnLanguageChange += Dummy;
-
             csvLanguageTable = new CSVLanguageTable();
             csvLanguageTable.Parse(languageList.CSVLanguageTable);
         }
@@ -187,16 +207,24 @@ namespace SD
         /// </summary>
         void InitPlayer()
         {
+            print("PLAYER INIT START");
+
             FindPlayer();
+            print("FOUND PLAYER: " + CurrentPlayer.name);
 
             // independent
             // init player, player's vehicle, weapons
             CurrentPlayer.Init();
+            print("PLAYER INITTED");
 
             // inventory;
             // depends on player and weapons stats
             CurrentPlayer.InitInventory();
+
+            print("INVENTORY INITTED");
+
             DataSystem.LoadInventory(CurrentPlayer.Inventory);
+            print("LOADED INVENTORY");
 
             Inventory = CurrentPlayer.Inventory;
 
@@ -361,6 +389,18 @@ namespace SD
         {
             Time.timeScale = 1;
             OnGameUnpause();
+        }
+
+        void EnableWeaponsSelection()
+        {
+            Time.timeScale = defaultTimeScale * WeaponsSelectionMultiplier;
+            Time.fixedDeltaTime = defaultFixedDelta * WeaponsSelectionMultiplier;
+        }
+
+        void DisableWeaponsSelection()
+        {
+            Time.timeScale = defaultTimeScale;
+            Time.fixedDeltaTime = defaultFixedDelta;
         }
 
         /// <summary>
