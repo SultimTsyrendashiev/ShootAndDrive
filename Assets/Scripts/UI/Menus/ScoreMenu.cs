@@ -10,7 +10,7 @@ namespace SD.UI.Menus
         /// <summary>
         /// How long to count from old to new balance
         /// </summary>
-        const float BalanceCountTime = 2.5f;
+        const float BalanceCountTime = 1.5f;
 
         [SerializeField]
         string deathScreenAnimation;
@@ -64,6 +64,11 @@ namespace SD.UI.Menus
         void SetBalance(int oldBalance, int newBalance)
         {
             playerBalanceText.Set(newBalance, oldBalance, MoneyFormatter.MoneyFormat, BalanceCountTime);
+
+            if (!toCountScore && !toCountBalance)
+            {
+                toCountBalance = true;
+            }
         }
 
         /// <summary>

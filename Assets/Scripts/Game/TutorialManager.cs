@@ -1,15 +1,18 @@
 ﻿using System;
 using UnityEngine;
+using SD.PlayerLogic;
 
 namespace SD.Game
 {
     class TutorialManager : MonoBehaviour
     {
-        public void StartTutorial(Action onTutorialEnd)
+        public static event Action OnTutorialStart;
+
+        public void StartTutorial(Player player, Action onTutorialEnd)
         {
             Debug.Log("Tutorial invoked", this);
 
-            // TODO
+            player.Vehicle.Accelerate();
 
             onTutorialEnd?.Invoke();
         }

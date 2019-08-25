@@ -25,7 +25,7 @@ namespace SD.PlayerLogic
         const float                 SpeedEpsilon = 0.1f;
 
         // how long it takes to accelerate from 0 to default speed
-        const float                 AccelerationTime = 2.0f;
+        const float                 AccelerationTime = 5.0f;
         // how long it takes to stop, if vehicle has default speed
         const float                 BrakeTime = 2.0f;
         #endregion

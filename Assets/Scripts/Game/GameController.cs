@@ -55,14 +55,20 @@ namespace SD
         public LanguageTable            Languages => csvLanguageTable.Languages;
         CSVLanguageTable                csvLanguageTable;
 
-        // events
+        #region events
         public static event Void                    OnGameplayActivate;
         public static event Void                    OnGamePause;
         public static event Void                    OnGameUnpause;
         public static event Void                    OnMainMenuActivate;
+        public static event Void                    OnInventoryOpen;
+        
         public static event PlayerDeath             OnPlayerDeath;
 
-        public static event Void                    OnInventoryOpen;
+        /// <summary>
+        /// Called when game ends, i.e. after some time from player death
+        /// </summary>
+        public static event Void                    OnGameEnd;
+        #endregion
 
         // this class is always alive
         public static GameController    Instance { get; private set; }
@@ -94,6 +100,7 @@ namespace SD
         void SignToEvents()
         {
             CurrentPlayer.OnPlayerDeath += ProcessPlayerDeath;
+            
             InputController.OnPause += PauseGame;
             InputController.OnUnpause += UnpauseGame;
             InputController.OnPlayButton += Play;
@@ -292,6 +299,9 @@ namespace SD
         /// </summary>
         void ShowCutscene(Action onCutsceneEnd)
         {
+            // disable player object
+            CurrentPlayer.gameObject.SetActive(false);
+
             // don't play cutscene next time
             Settings.GameShowCutscene = false;
 
@@ -304,12 +314,10 @@ namespace SD
             Settings.GameShowTutorial = false;
 
             // at start of tutorial: player has zero speed and default position
-            // dont create 
             ActivateGameplay(false, false, false);
-            CurrentPlayer.Vehicle.Accelerate();
 
-            // on the end of tutorial enable spawners
-            tutorialManager.StartTutorial(spawnersController.RestartSpawn);
+            // on the end of tutorial: enable spawners
+            tutorialManager.StartTutorial(CurrentPlayer, spawnersController.RestartSpawn);
         }
 
         void ShowInventory()
@@ -374,13 +382,13 @@ namespace SD
             SaveData();
 
             // scale down time
-            StartCoroutine(WaitForScaleTime());
+            StartCoroutine(WaitForGameEnd());
         }
 
         /// <summary>
-        /// Scales down time scale and then reverts it
+        /// Scales down time scale and then reverts it, calls 'OnGameEnd' event
         /// </summary>
-        IEnumerator WaitForScaleTime()
+        IEnumerator WaitForGameEnd()
         {
             const float scale = 0.2f;
             const float toWait = 0.3f;
@@ -392,6 +400,8 @@ namespace SD
 
             Time.timeScale = defaultTimeScale;
             Time.fixedDeltaTime = defaultFixedDelta;
+
+            OnGameEnd();
 
             //    float startScale = 0.15f;
             //    Time.timeScale = defaultTimeScale * startScale;

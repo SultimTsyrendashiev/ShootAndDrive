@@ -54,6 +54,13 @@ namespace SD.Enemies.Spawner
             spawnedObjects = new LinkedList<ISpawnable>();
 
             AddSpawners();
+
+            GameController.OnGameEnd += DisableAll;
+        }
+
+        ~SpawnersController()
+        {
+            GameController.OnGameEnd -= DisableAll;
         }
 
         /// <summary>
@@ -96,7 +103,7 @@ namespace SD.Enemies.Spawner
                 return;
             }
 
-            const float safeDistance = 200;
+            const float safeDistance = 500;
             RestartSpawn(target.Target.position + Vector3.forward * safeDistance);
         }
 
