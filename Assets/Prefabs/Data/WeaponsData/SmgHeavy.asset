@@ -22,6 +22,7 @@ MonoBehaviour:
   ammoType: 1
   ammoConsumption: 1
   cost: 7000
+  repairCost: 750
   durability: 2500
   canBeDamaged: 1
   isAmmo: 0

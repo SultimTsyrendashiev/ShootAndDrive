@@ -12,7 +12,7 @@ namespace SD.UI.Shop
     {
         const float IndicatorMaxDamage = 50.0f;
         const float IndicatorMaxDurability = 4000.0f;
-        const float IndicatorMaxFireRate = 1200.0f;
+        const float IndicatorMaxFireRate = 1000.0f;
         const float IndicatorMaxAccuracy = 1.0f;
 
         [SerializeField]
@@ -26,6 +26,7 @@ namespace SD.UI.Shop
         [SerializeField]
         Image ammoImage;
 
+        #region buttons
         [SerializeField]
         Button buyButton;
         [SerializeField]
@@ -37,7 +38,9 @@ namespace SD.UI.Shop
         [SerializeField]
         Text repairText;
         TranslatedText repairTranslation;
+        #endregion
 
+        #region indicators
         [SerializeField]
         Image damageIndicatorImage;
         [SerializeField]
@@ -46,14 +49,28 @@ namespace SD.UI.Shop
         Image fireRateIndicatorImage;
         [SerializeField]
         Image accuracyIndicatorImage;
+        #endregion
 
+        #region health
         [SerializeField]
         GameObject health;
         [SerializeField]
         Image healthIndicatorImage;
+        #endregion
 
+        /// <summary>
+        /// Max width of indicator image
+        /// </summary>
         [SerializeField]
         float maxIndicatorsWidth;
+
+        #region stats that can be disabled
+        [SerializeField]
+        GameObject durabilityIndicator;
+
+        [SerializeField]
+        GameObject accuracyIndicator;
+        #endregion
 
         IShop shop;
         IWeaponItem weaponItem;
@@ -92,30 +109,72 @@ namespace SD.UI.Shop
         /// </summary>
         void UpdateInfo()
         {
-            if (!weaponItem.IsBought && weaponItem.Health > 0)
+            if (weaponItem == null)
             {
-                buyButton.gameObject.SetActive(true);
+                return;
+            }
+
+            if (!weaponItem.IsBought)
+            {
+                // if not bought, show buy button 
+                buyButton.gameObject.SetActive(ShowBuyButton(weaponItem));
+                buyText.text = GetBuyText(weaponItem.Price);
+
+                // don't show repair button and variable stats
                 repairButton.gameObject.SetActive(false);
                 health.SetActive(false);
-
-                buyText.text = GetBuyText(weaponItem.Price);
             }
             else
             {
+                bool canBeRepaired = CanBeRepaired(weaponItem);
+
+                // show, if necessary
+                repairButton.gameObject.SetActive(canBeRepaired);
+                health.SetActive(canBeRepaired);
+
+                if (canBeRepaired)
+                {
+                    float healthPercentage = Mathf.Clamp((float)weaponItem.Health / weaponItem.Durability, 0, 1);
+
+                    SetPercentage(healthIndicatorImage, maxIndicatorsWidth, healthPercentage);
+                
+                    // disable button, if full health
+                    repairButton.interactable = healthPercentage != 1;
+
+                    int repairCost = shop.GetRepairCost(weaponItem);
+                    repairText.text = GetRepairText(repairCost);
+                }
+
+                // disable buy button
                 buyButton.gameObject.SetActive(false);
-                repairButton.gameObject.SetActive(true);
-                health.SetActive(true);
-
-                float healthPercentage = Mathf.Clamp((float)weaponItem.Health / weaponItem.Durability, 0, 1);
-
-                SetPercentage(healthIndicatorImage, maxIndicatorsWidth, healthPercentage);
-
-                int repairCost = shop.GetRepairCost(weaponItem);
-                repairText.text = GetRepairText(repairCost);
-
-                // disable button, if full health
-                repairButton.interactable = healthPercentage != 1;
             }
+
+            // disable indicators that are not necessary
+            durabilityIndicator.SetActive(ShowDurabilityIndicator(weaponItem));
+            accuracyIndicator.SetActive(ShowAccuracyIndicator(weaponItem));
+        }
+
+        static bool CanBeRepaired(IWeaponItem weaponItem)
+        {
+            return weaponItem.CanBeDamaged && !weaponItem.IsAmmo;
+        }
+
+        static bool ShowBuyButton(IWeaponItem weaponItem)
+        {
+            return !weaponItem.IsAmmo;
+        }
+
+        static bool ShowDurabilityIndicator(IWeaponItem weaponItem)
+        {
+            return weaponItem.CanBeDamaged;
+        }
+
+        static bool ShowAccuracyIndicator(IWeaponItem weaponItem)
+        {
+           return !(weaponItem.AmmoType == AmmunitionType.FireBottles ||
+                weaponItem.AmmoType == AmmunitionType.Grenades ||
+                weaponItem.AmmoType == AmmunitionType.Cannonballs ||
+                weaponItem.AmmoType == AmmunitionType.Rockets);
         }
 
         void SetImage(Texture image)

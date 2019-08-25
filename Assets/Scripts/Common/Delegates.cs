@@ -35,6 +35,7 @@ namespace SD
     // weapons
     delegate void WeaponShootFinish(WeaponIndex finishedWeapon);    // to weapons controller
     delegate void WeaponBreak(WeaponIndex brokenWeapon);    // to weapons controller
+    delegate void WeaponAmmoRunOut(WeaponIndex weapon);     // to weapons controller
     delegate void WeaponAmmoChange(int currentAmount);      // for UI (ammo amount)
     delegate void WeaponSwitch(WeaponIndex switchTo);
 

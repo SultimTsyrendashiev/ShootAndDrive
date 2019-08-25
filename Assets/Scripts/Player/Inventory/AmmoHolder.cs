@@ -76,6 +76,11 @@ namespace SD.PlayerLogic
             return GetAmmo((AmmunitionType type) => ammo[type].CurrentAmount > 0 && IsNecessary(type, weapons));
         }
 
+        public List<AmmunitionType> GetNecessaryAmmo(List<WeaponIndex> weapons)
+        {
+            return GetAmmo((AmmunitionType type) => IsNecessary(type, weapons));
+        }
+
         /// <summary>
         /// Is this ammo type necessary for at least one weapon from the list?
         /// </summary>

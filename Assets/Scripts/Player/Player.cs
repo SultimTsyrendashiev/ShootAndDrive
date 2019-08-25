@@ -189,7 +189,7 @@ namespace SD.PlayerLogic
         void AddEnemyScore(Enemies.EnemyData data, Transform enemyPosition, GameObject initiator)
         {
             // if initiator is player, count score
-            if (initiator == gameObject)
+            if (initiator == gameObject || initiator == null)
             {
                 currentScore.KillsAmount++;
                 currentScore.ScorePoints += data.Score;
@@ -200,9 +200,9 @@ namespace SD.PlayerLogic
         }
 
         void AddEnemyVehicleScore(Enemies.EnemyVehicleData data, GameObject initiator)
-        {          
+        {
             // if initiator is player, count score
-            if (initiator == gameObject)
+            if (initiator == gameObject || initiator == null)
             {
                 currentScore.DestroyedVehiclesAmount++;
                 currentScore.ScorePoints += data.Score;

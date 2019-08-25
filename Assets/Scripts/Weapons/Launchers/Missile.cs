@@ -42,17 +42,17 @@ namespace SD.Weapons
         public void Init()
         {
             PhysicsModel = GetComponent<Rigidbody>();
-            MissileInit();
+            DoInit();
         }
 
         public void Reinit()
         {
             exploded = false;
-            MissileReinit();
+            DoReinit();
         }
 
-        protected virtual void MissileReinit() { }
-        protected virtual void MissileInit() { }
+        protected virtual void DoReinit() { }
+        protected virtual void DoInit() { }
 
         /// <summary>
         /// Set parameters of this missile.

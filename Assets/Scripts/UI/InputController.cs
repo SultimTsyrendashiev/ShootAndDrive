@@ -57,7 +57,12 @@ namespace SD.UI
             {
                 var w = FindObjectOfType<WeaponsController>();
 
-                if (!w.IsBusy())
+                if (w == null)
+                {
+                    return;
+                }
+
+                //if (!w.IsBusy())
                 {
                     if (w.GetCurrentWeapon(out WeaponIndex current))
                     {

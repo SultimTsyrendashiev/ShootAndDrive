@@ -53,6 +53,19 @@ namespace SD.UI.Menus
             GameController.Instance.Inventory.OnBalanceChange -= SetBalance;
         }
 
+        protected override void PlayActivationAnimation(string animName)
+        {
+            if (!firstTimeAfterDeath)
+            {
+                base.PlayActivationAnimation(animName);
+            }
+        }
+
+        void SetBalance(int oldBalance, int newBalance)
+        {
+            playerBalanceText.Set(newBalance, oldBalance, MoneyFormatter.MoneyFormat, BalanceCountTime);
+        }
+
         /// <summary>
         /// Activates this menu and set score for counters
         /// </summary>
@@ -70,40 +83,41 @@ namespace SD.UI.Menus
             scoreText.Set(score.ActualScorePoints);
             moneyText.Set(score.Money, 0, MoneyFormatter.MoneyFormat);
 
-            StartCoroutine(WaitForCount());
+            // StartCoroutine(WaitForCount());
+            tempTime = Time.unscaledTime + scoreCountingDelay;
+            toCountScore = true;
         }
 
-        void SetBalance(int oldBalance, int newBalance)
-        {
-            playerBalanceText.Set(newBalance, oldBalance, MoneyFormatter.MoneyFormat, BalanceCountTime);
-        }
+        float tempTime;
+        bool toCountScore;
+        bool toCountBalance;
 
-        protected override void PlayActivationAnimation(string animName)
+        void Update()
         {
-            if (!firstTimeAfterDeath)
+            if (Time.unscaledTime > tempTime)
             {
-                base.PlayActivationAnimation(animName);
+                if (toCountScore)
+                {            
+                    // start counting
+                    scoreText.StartCounting();
+                    moneyText.StartCounting();
+
+                    // wait for these counters
+                    float toWait = balanceCountingDelay + Mathf.Max(scoreText.CountTime, moneyText.CountTime);
+                    tempTime = Time.unscaledTime + toWait;
+
+                    // deactivate this, enable next
+                    toCountScore = false;
+                    toCountBalance = true;
+                }
+                else if (toCountBalance)
+                {
+                    // start counting balance
+                    playerBalanceText.StartCounting();
+
+                    toCountBalance = false;
+                }
             }
-        }
-
-        /// <summary>
-        /// Waits for UI death animation
-        /// </summary>
-        /// <returns></returns>
-        IEnumerator WaitForCount()
-        {
-            yield return new WaitForSecondsRealtime(scoreCountingDelay);
-
-            // start counting
-            scoreText.StartCounting();
-            moneyText.StartCounting();
-
-            // wait for these counters
-            float toWait = balanceCountingDelay + Mathf.Max(scoreText.CountTime, moneyText.CountTime);
-            yield return new WaitForSecondsRealtime(toWait);
-
-            // start counting balance
-            playerBalanceText.StartCounting();
         }
     }
 }

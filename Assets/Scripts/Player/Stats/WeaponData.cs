@@ -20,6 +20,7 @@ namespace SD.Weapons
         [SerializeField] int                ammoConsumption;
 
         [SerializeField] int                cost;               // cost in a shop
+        [SerializeField] int                repairCost;
         [SerializeField] int                durability;         // how many shots is needed to destroy weapon
 
         [SerializeField] bool               canBeDamaged;       // should health of this weapon reduce?
@@ -38,10 +39,6 @@ namespace SD.Weapons
         // for missiles
         [SerializeField] string             missileName;
         
-        void Awake()
-        {
-            translationKey = "Inventory.Weapons.Names." + Index.ToString();
-        }
 
         public WeaponIndex      Index => weaponIndex;
         public string           EditorName => weaponEditorName;
@@ -50,6 +47,8 @@ namespace SD.Weapons
         public AmmunitionType   AmmoType => ammoType;
         public int              AmmoConsumption => ammoConsumption;
         public int              Cost => cost;
+        public int              RepairCost => repairCost;
+
         public int              Durability => durability;
         public float            PercentageForJam => percentageForJam;
         /// <summary>

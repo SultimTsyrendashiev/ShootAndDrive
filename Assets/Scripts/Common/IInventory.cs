@@ -40,10 +40,16 @@ namespace SD
     interface IAmmoHolder
     {
         List<AmmunitionType> GetAvailableAmmo();
+        
         /// <summary>
         /// Get available ammo, based on given weapons list
         /// </summary>
         List<AmmunitionType> GetAvailableAmmo(List<WeaponIndex> weapons);
+
+        /// <summary>
+        /// Get ammo types that are necessary for given weapon list
+        /// </summary>
+        List<AmmunitionType> GetNecessaryAmmo(List<WeaponIndex> weapons);
 
         IAmmoItem Get(AmmunitionType ammoType);
         // ICollection<IAmmoItem> GetAll();

@@ -9,8 +9,15 @@ namespace SD.Weapons
     /// </summary>
     class FireBottle : Missile
     {
+        /// <summary>
+        /// How long fire must damage
+        /// </summary>
         [SerializeField]
         float fireDamageTime = 2.0f;
+
+        /// <summary>
+        /// Rate of fire damage
+        /// </summary>
         [SerializeField]
         float fireDamageRate = 0.075f;
 
@@ -23,13 +30,13 @@ namespace SD.Weapons
         MeshRenderer[] meshRenderers;
         Collider[] colliders;
 
-        protected override void MissileInit()
+        protected override void DoInit()
         {
             meshRenderers = GetComponentsInChildren<MeshRenderer>();
             colliders = GetComponentsInChildren<Collider>();
         }
 
-        protected override void MissileReinit()
+        protected override void DoReinit()
         {
             ActivateComponents(true);
         }

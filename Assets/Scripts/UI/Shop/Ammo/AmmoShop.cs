@@ -53,7 +53,7 @@ namespace SD.UI.Shop
             IInventory inventory = GameController.Instance.Inventory;
 
             List<WeaponIndex> availableWeapons = inventory.Weapons.GetAvailableWeapons();
-            List<AmmunitionType> availableAmmo = inventory.Ammo.GetAvailableAmmo(availableWeapons);
+            List<AmmunitionType> availableAmmo = inventory.Ammo.GetNecessaryAmmo(availableWeapons);
 
             // activate needed
             for (int i = 0; i < availableAmmo.Count; i++)

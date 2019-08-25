@@ -6,6 +6,7 @@ namespace SD.PlayerLogic
     public class SteerHand : MonoBehaviour
     {
         const string SteerAnimationName = "SteeringWheelHands";
+        const string EnableAnimationName = "LeftHandEnable";
 
         /// <summary>
         /// Transform for finding steering wheel
@@ -17,7 +18,10 @@ namespace SD.PlayerLogic
         Animation steerHandAnimation;
         AnimationState steerState;
 
-        void Start()
+        bool canBeUpdated;
+        float startTime;
+
+        void Awake()
         {
             steeringWheel = player.GetComponentInChildren<ISteeringWheel>();
             steerHandAnimation = GetComponent<Animation>();
@@ -29,13 +33,50 @@ namespace SD.PlayerLogic
             // set this hand as a child for the vehicle;
             // used for proper vehicle rotation (i.e. with steering hand)
             transform.SetParent(player.Vehicle.RotatingTransform, true);
+
+            canBeUpdated = false;
+
+            player.OnPlayerStateChange += ChangeState;
+        }
+
+        void ChangeState(PlayerState state)
+        {
+            canBeUpdated = false;
+            steerHandAnimation.Stop();
+
+            switch (state)
+            {
+                case PlayerState.Ready:
+                    // if ready, start animation
+                    EnableAnimation();
+
+                    return;
+                default:
+                    return;
+            }
+        }
+
+        void EnableAnimation()
+        {
+            steerHandAnimation.Play(EnableAnimationName, PlayMode.StopAll);
+            startTime = Time.time + steerHandAnimation[EnableAnimationName].length;
         }
 
         void LateUpdate()
         {
+            if (Time.time < startTime)
+            {
+                return;
+            }
+            else
+            {
+                canBeUpdated = true;
+            }
+
+
             // only if ready, otherwise dont sample animation,
             // as steering hand is used
-            if (player.State == PlayerState.Ready)
+            if (canBeUpdated)
             {
                 // get steering from steering wheel
                 // and then sample hand animation
@@ -44,10 +85,6 @@ namespace SD.PlayerLogic
                 steerState.normalizedTime = steeringWheel.SteeringNormalized;
 
                 steerHandAnimation.Sample();
-            }
-            else if (steerHandAnimation.isPlaying)
-            {
-                steerHandAnimation.Stop();
             }
         }
     }

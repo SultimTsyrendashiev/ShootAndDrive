@@ -102,6 +102,22 @@ namespace SD.PlayerLogic
             // init damage receiver
             damageReceiver = GetComponentInChildren<PlayerVehicleDamageReceiver>(true);
             damageReceiver.SetVehicle(this);
+
+            Player.OnPlayerDeath += ProcessPlayerDeath;
+        }
+
+        void OnDestroy()
+        {
+            if (Player != null)
+            {
+                Player.OnPlayerDeath -= ProcessPlayerDeath;
+            }
+        }
+
+        void ProcessPlayerDeath(GameScore score)
+        {
+            // stop the vehicle, if player died
+            Brake();
         }
 
         /// <summary>

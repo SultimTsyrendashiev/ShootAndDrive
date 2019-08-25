@@ -15973,7 +15973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39391da2b34307649b6f31b70a9f037c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchSpeed: 65
+  launchSpeed: 70
   needsAutoaim: 0
 --- !u!1 &2230671976434647286
 GameObject:
@@ -21943,7 +21943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39391da2b34307649b6f31b70a9f037c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchSpeed: 80
+  launchSpeed: 100
   needsAutoaim: 0
 --- !u!1 &3764704919015083989
 GameObject:
@@ -22686,7 +22686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39391da2b34307649b6f31b70a9f037c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchSpeed: 65
+  launchSpeed: 90
   needsAutoaim: 0
 --- !u!1 &4545666948798040056
 GameObject:
@@ -24439,7 +24439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39391da2b34307649b6f31b70a9f037c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchSpeed: 80
+  launchSpeed: 100
   needsAutoaim: 0
 --- !u!1 &6968877319634108226
 GameObject:
@@ -27964,7 +27964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39391da2b34307649b6f31b70a9f037c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchSpeed: 65
+  launchSpeed: 80
   needsAutoaim: 0
 --- !u!1 &7644785297359964928
 GameObject:

@@ -22,12 +22,13 @@ MonoBehaviour:
   ammoType: 5
   ammoConsumption: 1
   cost: 150
+  repairCost: 0
   durability: 1000000
   canBeDamaged: 0
   isAmmo: 1
   percentageForJam: 0.17
   jamProbability: 0.03
-  damage: 7
+  damage: 5
   reloadingTime: 1
   accuracy: 0
   missileName: MissileFireBottle

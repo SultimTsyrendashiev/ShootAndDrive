@@ -29,6 +29,8 @@ namespace SD.Weapons
         /// Calles when weapon finish shooting
         /// </summary>
         public static event WeaponShootFinish   OnShootFinish;
+
+        public static event WeaponAmmoRunOut    OnAmmoRunOut;
         #endregion
 
         // Items in player's inventory
@@ -223,6 +225,12 @@ namespace SD.Weapons
 
             ammo.Get(AmmoType).CurrentAmount = newAmount;
             OnAmmoChange(newAmount);
+
+            // if run out of ammo, send event
+            if (newAmount == 0)
+            {
+                OnAmmoRunOut(WeaponIndex);
+            }
         }
 
         void PlayJammingAnimation()
@@ -407,7 +415,7 @@ namespace SD.Weapons
             State = WeaponState.Reloading;
 
             // process shooting damage to the weapon
-            if (CanBreak())
+            if (Data.CanBeDamaged)
             {
                 refHealth.Value--;
             }

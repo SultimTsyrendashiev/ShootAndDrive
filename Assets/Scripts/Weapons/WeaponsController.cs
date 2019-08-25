@@ -20,7 +20,7 @@ namespace SD.Weapons
         Maybe<WeaponIndex>          currentWeapon;      // current player's weapon (if exist)
         Maybe<WeaponIndex>          nextWeapon;         // weapon to switch on
 
-        AmmoHolder                  inventoryAmmo;      // weapons in player's inventory
+        IAmmoHolder                 inventoryAmmo;      // weapons in player's inventory
 
         AudioSource[]               audioSources;       // audio sources for weapons
         int                         audioSourceIndex;   // last audio source  
@@ -29,6 +29,8 @@ namespace SD.Weapons
 
         bool                        isSwitching;
         bool                        canSwitchToAnotherNext;
+        bool                        isWaitingForAnotherNext;
+        Coroutine                   waitingForAnotherNext;
 
         Animation                   commonAnimation;
         const string                animHide    = "WeaponHide";
@@ -103,7 +105,8 @@ namespace SD.Weapons
 
         void SignToEvents()
         {
-            Weapon.OnWeaponBreak += ProcessWeaponBreak;
+            Weapon.OnWeaponBreak += ChangeToNextAvailable;
+            Weapon.OnAmmoRunOut += ChangeToNextAvailable;
             Weapon.OnShootFinish += FinishShootingWeapon;
             InputController.OnFireButton += Fire;
             InputController.OnWeaponSwitch += SwitchTo;
@@ -112,7 +115,8 @@ namespace SD.Weapons
         void UnsignFromEvents()
         {            
             // unsign from events to enable GC
-            Weapon.OnWeaponBreak -= ProcessWeaponBreak;
+            Weapon.OnWeaponBreak -= ChangeToNextAvailable;
+            Weapon.OnAmmoRunOut -= ChangeToNextAvailable;
             Weapon.OnShootFinish -= FinishShootingWeapon;
             InputController.OnFireButton -= Fire;
             InputController.OnWeaponSwitch -= SwitchTo;
@@ -315,8 +319,8 @@ namespace SD.Weapons
                 return;
             }
 
-            // check if available in inventorys
-            if (!inventoryWeapons.IsAvailable(currentWeapon.Value))
+            // check if available in inventory
+            if (!inventoryWeapons.IsAvailableInGame(currentWeapon.Value))
             {
                 return;
             }
@@ -387,14 +391,14 @@ namespace SD.Weapons
                 return;
             }
 
-            // if next is already processing
-            if (nextWeapon.Exist && nextWeapon.Value == w)
+            // check if available
+            if (!inventoryWeapons.IsAvailableInGame(w))
             {
                 return;
             }
 
-            // check if bought and not broken
-            if (!inventoryWeapons.IsAvailable(w))
+            // if next is already processing
+            if (nextWeapon.Exist && nextWeapon.Value == w)
             {
                 return;
             }
@@ -410,13 +414,20 @@ namespace SD.Weapons
                 // and don't call WaitForSwitch()
                 nextWeapon.Exist = true;
                 nextWeapon.Value = w;
+
                 return;
             }
             else if (isSwitching && !canSwitchToAnotherNext)
             {
+                // if already waiting for another next, stop old 
+                if (isWaitingForAnotherNext && waitingForAnotherNext != null)
+                {
+                    StopCoroutine(waitingForAnotherNext);
+                }
+
                 // old desired weapon is already appeared
                 // so start new coroutine
-                StartCoroutine(WaitForNewNext(w));
+                waitingForAnotherNext = StartCoroutine(WaitForNewNext(w));
 
                 return;
             }
@@ -448,8 +459,9 @@ namespace SD.Weapons
                 // if state is not Nothing then wait for disabling state
                 if (!weapons[currentWeapon.Value].ForceDisable())
                 {
-                    // wait for disabling state
-                    while (weapons[currentWeapon.Value].State != WeaponState.Disabling)
+                    // wait for disabling state or ready for unjam
+                    while (weapons[currentWeapon.Value].State != WeaponState.Disabling
+                        && weapons[currentWeapon.Value].State != WeaponState.ReadyForUnjam)
                     {
                         yield return null;
                     }
@@ -483,6 +495,7 @@ namespace SD.Weapons
 
         IEnumerator WaitForNewNext(WeaponIndex newNext)
         {
+            isWaitingForAnotherNext = true;
             // wait for old switching
             while (isSwitching)
             {
@@ -492,13 +505,18 @@ namespace SD.Weapons
             // now it's safe to reassign 'nextWeapon'
             nextWeapon.Exist = true;
             nextWeapon.Value = newNext;
+
+            waitingForAnotherNext = null;
+            isWaitingForAnotherNext = false;
+
             StartCoroutine(WaitForSwitch());
         }
         
         /// <summary>
-        /// Called on weapon break event
+        /// Change weapon to next available,
+        /// if there are no such weapons, disables current.
         /// </summary>
-        void ProcessWeaponBreak(WeaponIndex brokenWeapon)
+        void ChangeToNextAvailable(WeaponIndex oldWeapon)
         {
             // if there is no current weapon, then ignore
             if (!currentWeapon.Exist)
@@ -507,7 +525,7 @@ namespace SD.Weapons
             }
 
             // if not current, then ignore
-            if (currentWeapon.Value != brokenWeapon)
+            if (currentWeapon.Value != oldWeapon)
             {
                 Debug.Log("Incorrect broken weapon", this);
                 return;
@@ -520,15 +538,18 @@ namespace SD.Weapons
             }
 
             // try to switch to next available
-            if (GetNextAvailable(brokenWeapon, out WeaponIndex available))
+            if (GetNextAvailable(oldWeapon, out WeaponIndex available))
             {
                 // if found
                 SwitchTo(available);
+
                 return;
             }
 
-            // else, just disable broken
-            weapons[brokenWeapon].ForceDisable();
+            // otherwise:
+
+            // just disable old
+            weapons[oldWeapon].ForceDisable();
             commonAnimation.Play(animHide);
 
             // there is no current weapon anymore
@@ -571,7 +592,7 @@ namespace SD.Weapons
                     available = available - 1 < 0 ? allWeaponsCount - 1 : available - 1;
                 }
 
-                if (inventoryWeapons.IsAvailable((WeaponIndex)available))
+                if (IsAvailableAndHaveAmmo((WeaponIndex)available))
                 {
                     // if found
                     availableWeapon = (WeaponIndex)available;
@@ -582,6 +603,12 @@ namespace SD.Weapons
 
             availableWeapon = weapon;
             return false;
+        }
+
+        bool IsAvailableAndHaveAmmo(WeaponIndex w)
+        {
+            return inventoryWeapons.IsAvailableInGame(w)
+                && inventoryAmmo.Get(inventoryWeapons.Get(w).AmmoType).CurrentAmount > 0;
         }
 
         public bool GetCurrentWeapon(out WeaponIndex weapon)

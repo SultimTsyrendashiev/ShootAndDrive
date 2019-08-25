@@ -59,7 +59,7 @@ namespace SD.UI
         /// </summary>
         public void EnableMenu(string newMenu)
         {
-            if (currentMenu == newMenu)
+            if (currentMenu == newMenu && menus[currentMenu].activeSelf)
             {
                 return;
             }

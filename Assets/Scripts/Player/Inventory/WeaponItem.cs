@@ -43,7 +43,7 @@
         public AmmunitionType   AmmoType => Stats.AmmoType;
 
         public int              Price => Stats.Cost;
-        public int              RepairCost => Price / 4;
+        public int              RepairCost => Stats.RepairCost;
 
         public int              Durability => Stats.Durability;
         public float            Damage => Stats.Damage;
