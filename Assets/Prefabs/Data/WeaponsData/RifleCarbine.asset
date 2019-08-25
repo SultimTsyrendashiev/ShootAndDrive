@@ -27,7 +27,7 @@ MonoBehaviour:
   canBeDamaged: 1
   isAmmo: 0
   percentageForJam: 0.17
-  jamProbability: 0.03
+  jamProbability: 0.05
   damage: 22
   reloadingTime: 0.1
   accuracy: 0.88
