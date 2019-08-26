@@ -331,6 +331,7 @@ namespace SD.Enemies
 
         void StopAttacking()
         {
+            isAttacking = false;
             StopAllCoroutines();
         }
 
@@ -362,9 +363,18 @@ namespace SD.Enemies
 
             anglex *= maxAngle;
 
-            // apply angle
-            direction = Quaternion.AngleAxis(anglex, transform.up)
-                * direction;
+            // half of shots must be straight to target
+            if (shotIndex < data.ShotsAmount / 2)
+            {
+                // apply angle
+                direction = Quaternion.AngleAxis(anglex, transform.up)
+                    * direction;
+            }
+            else
+            {
+                direction = Quaternion.AngleAxis(Random.Range(-0.5f, 2.0f), transform.right)
+                    * direction;
+            }
 
             return direction;
         }

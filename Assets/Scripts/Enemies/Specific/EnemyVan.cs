@@ -155,12 +155,10 @@ namespace SD.Enemies
                 // move to bound, if far from it,
                 if (Mathf.Abs(VehicleRigidbody.position.x - xBound) > DriveAwayBoundEpsilon)
                 {
-                    var targetTransform = currentTarget.Target;
-
                     float x = Mathf.Lerp(VehicleRigidbody.position.x, xBound, SideSpeed * Time.fixedDeltaTime);
 
                     Vector3 pos = new Vector3(x, transform.position.y,
-                        targetTransform.position.z + AttackDistance);
+                        transform.position.z + targetVelocity.z * Time.fixedDeltaTime);
 
                     VehicleRigidbody.position = pos;
                 }
@@ -241,12 +239,12 @@ namespace SD.Enemies
             }
         }
 
-        protected override void DoVehicleCollision()
+        protected override void DoVehicleCollision(GameObject initiator)
         {
             // manually set not kinematic, as there is no driver
             SetKinematic(false);
 
-            KillAllPassengers(null);
+            KillAllPassengers(initiator);
         }
     }
 }

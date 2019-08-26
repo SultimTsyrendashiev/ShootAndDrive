@@ -26,12 +26,10 @@ namespace SD.Game.Shop
             int current = item.CurrentAmount;
 
             int newAmount;
-            int diff;
 
             if (buyAll)
             {
                 newAmount = item.MaxAmount;
-                diff = newAmount - current;
             }
             else
             {
@@ -40,15 +38,13 @@ namespace SD.Game.Shop
                 if (newAmount > item.MaxAmount)
                 {
                     newAmount = item.MaxAmount;
-                    diff = newAmount - current;
-                }
-                else
-                {
-                    diff = newAmount - current;
                 }
             }
 
-            if (!EnoughMoneyToBuy(item, newAmount))
+            // how many ammo to buy
+            int diff = newAmount - current;
+
+            if (!EnoughMoneyToBuy(item, diff))
             {
                 return false;
             }
@@ -63,6 +59,18 @@ namespace SD.Game.Shop
         public bool BuyWeapon(WeaponIndex type)
         {
             IWeaponItem item = inventory.Weapons.Get(type);
+
+            if (item.IsAmmo)
+            {
+                bool boughtAsAmmo = BuyAmmo(item.AmmoType, false);
+
+                if (boughtAsAmmo)
+                {
+                    item.IsBought = true;
+                }
+
+                return boughtAsAmmo;
+            }
 
             if (!CanBeBought(type))
             {
@@ -106,8 +114,6 @@ namespace SD.Game.Shop
             return true;
         }
 
-        //public List<ishop>
-
         public int CanBeBought(AmmunitionType type)
         {
             IAmmoItem item = inventory.Ammo.Get(type);
@@ -123,11 +129,24 @@ namespace SD.Game.Shop
 
         public bool EnoughMoneyToBuy(IWeaponItem item)
         {
-            return GetWeaponPrice(item) <= inventory.Money;
+            if (!item.IsAmmo)
+            {
+                return GetWeaponPrice(item) <= inventory.Money;
+            }
+            else
+            {
+                IAmmoItem ammoItem = inventory.Ammo.Get(item.AmmoType);
+                return EnoughMoneyToBuy(ammoItem, ammoItem.AmountToBuy);
+            }
         }
 
         public bool EnoughMoneyToRepair(IWeaponItem item)
         {
+            if (item.IsAmmo)
+            {
+                Debug.LogError("ShopSystem::Trying to repair weapon that is ammo");
+            }
+
             return GetRepairCost(item) <= inventory.Money;
         }
 
@@ -135,8 +154,7 @@ namespace SD.Game.Shop
         {
             IWeaponItem item = inventory.Weapons.Get(type);
 
-            return (!item.IsBought || item.Health == 0)
-                && inventory.Money >= item.Price;
+            return !item.IsBought && inventory.Money >= item.Price;
         }
 
         public bool CanBeRepaired(WeaponIndex type)
@@ -146,6 +164,7 @@ namespace SD.Game.Shop
             int currentRepairCost = GetRepairCost(item);
             return item.IsBought
                 && item.CanBeDamaged
+                && !item.IsAmmo
                 && inventory.Money >= currentRepairCost;
         }
 

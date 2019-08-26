@@ -54,21 +54,30 @@ namespace SD.UI.Indicators
             IWeaponsHolder weapons = inventory.Weapons;
             IAmmoHolder ammo = inventory.Ammo;
 
-            var available = weapons.GetAvailableWeaponsInGame();
+            List<WeaponIndex> available = weapons.GetAvailableWeaponsInGame();
             int availableAmount = available.Count;
 
             int counter = 0;
 
-            foreach (var b in buttons.Values)
+            foreach (WeaponButton b in buttons.Values)
             {
                 if (counter < availableAmount)
                 {
                     IWeaponItem w = weapons.Get(available[counter]);
                     IAmmoItem a = ammo.Get(w.AmmoType);
-                    b.Set(w, a, SelectWeapon, ammoList.HighlightAmmo);
+
+                    if (!w.IsAmmo || (w.IsAmmo && a.CurrentAmount > 0))
+                    {
+                        b.Set(w, a, SelectWeapon, ammoList.HighlightAmmo, ammoList.UnhighlightAll);
+                    }
+                    else
+                    {
+                        b.gameObject.SetActive(false);
+                    }
                 }
                 else
                 {
+                    // disable other buttons
                     b.gameObject.SetActive(false);
                 }
 

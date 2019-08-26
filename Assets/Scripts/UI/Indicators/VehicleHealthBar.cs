@@ -33,7 +33,11 @@ namespace SD.UI.Indicators
 
         void OnDestroy()
         {
-            vehicle.OnVehicleHealthChange -= SetVehicleHealth;
+            if (vehicle != null)
+            {
+                vehicle.OnVehicleHealthChange -= SetVehicleHealth;
+            }
+
             Player.OnPlayerSpawn -= Init;
         }
 

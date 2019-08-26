@@ -17,7 +17,11 @@
         }
 
 
-        public bool             IsBroken => HealthRef.Value <= 0;
+        /// <summary>
+        /// Weapon is broken, if it's not an ammo and health == 0.
+        /// Weapon is not broken, if it's an ammo or health > 0.
+        /// </summary>
+        public bool                 IsBroken => !IsAmmo && HealthRef.Value <= 0;
         public Weapons.WeaponData   Stats => GameController.Instance.WeaponsStats[This];
 
         public int Health
@@ -30,7 +34,7 @@
             {
                 HealthRef.Value = value;
 
-                if (value == 0)
+                if (value == 0 && !IsAmmo)
                 {
                     IsBought = false;
                 }

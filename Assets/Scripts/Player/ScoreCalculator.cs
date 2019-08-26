@@ -8,14 +8,14 @@ namespace SD.PlayerLogic
         {
             return 
                 score.ScorePoints + 
-                (int)score.TravelledDistance * 3 +
-                score.VehicleHealth;
+                (int)score.TravelledDistance * 2 +
+                score.VehicleHealth / 10;
         }
 
         public static int CalculateMoney(GameScore score)
         {
             int points = CalculateScorePoints(score);
-            return (int)((points + Random.Range(0f, points)) / Random.Range(30f, 50f));
+            return (int)((points + Random.Range(0f, Mathf.Max(points, 500))) / Random.Range(40f, 50f));
         }
     }
 }

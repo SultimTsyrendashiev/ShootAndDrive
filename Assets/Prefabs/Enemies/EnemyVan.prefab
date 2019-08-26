@@ -2980,6 +2980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 835931103d63c624aa5029132b3d7f3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableOnlyIfNonKinematic: 0
 --- !u!1 &7179349578210560749
 GameObject:
   m_ObjectHideFlags: 0
@@ -3117,6 +3118,7 @@ GameObject:
   - component: {fileID: 7179349578381798083}
   - component: {fileID: 2993470779388575982}
   - component: {fileID: 7179349578381798080}
+  - component: {fileID: 4826810209814734123}
   m_Layer: 8
   m_Name: CarCollider
   m_TagString: Untagged
@@ -3150,6 +3152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 835931103d63c624aa5029132b3d7f3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableOnlyIfNonKinematic: 1
 --- !u!64 &7179349578381798080
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3164,6 +3167,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 5325963853482324189, guid: 9269fec1d90c66c479abbc99e5f91049, type: 3}
+--- !u!65 &4826810209814734123
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179349578381798082}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.78, y: 6.72, z: 2}
+  m_Center: {x: 0, y: 0.15, z: 1.37}
 --- !u!1 &7179349578472522710
 GameObject:
   m_ObjectHideFlags: 0
@@ -3807,6 +3823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 835931103d63c624aa5029132b3d7f3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableOnlyIfNonKinematic: 0
 --- !u!1 &8771327345695981866
 GameObject:
   m_ObjectHideFlags: 0

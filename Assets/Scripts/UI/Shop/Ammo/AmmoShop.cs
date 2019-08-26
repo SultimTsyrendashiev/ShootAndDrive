@@ -12,6 +12,9 @@ namespace SD.UI.Shop
         [SerializeField]
         Transform itemsContainer;
 
+        [SerializeField]
+        GameObject noAvailableAmmoText;
+
         ShopItemAmmo[] ammoShopItems;
 
         public void Init(MenuController menuController)
@@ -60,10 +63,7 @@ namespace SD.UI.Shop
             {
                 ammoShopItems[i].gameObject.SetActive(true);
 
-                var ammoItem = inventory.Ammo.Get(availableAmmo[i]);
-                int priceAll = shop.GetAmmoPrice(ammoItem, ammoItem.MaxAmount - ammoItem.CurrentAmount);
-
-                ammoShopItems[i].SetInfo(shop, ammoItem);
+                ammoShopItems[i].SetInfo(shop, inventory.Ammo.Get(availableAmmo[i]));
             }
 
             // deactivate other
@@ -71,6 +71,8 @@ namespace SD.UI.Shop
             {
                 ammoShopItems[i].gameObject.SetActive(false);
             }
+
+            noAvailableAmmoText.SetActive(availableAmmo.Count == 0);
         }
 
         public void Deactivate()

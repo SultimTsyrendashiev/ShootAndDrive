@@ -46,9 +46,9 @@ namespace SD.Enemies
             VehicleRigidbody.AddTorque(torque, ForceMode.Impulse);
         }
 
-        protected override void DoVehicleCollision()
+        protected override void DoVehicleCollision(GameObject initiator)
         {
-            KillAllPassengers(null);
+            KillAllPassengers(initiator);
         }
     }
 }

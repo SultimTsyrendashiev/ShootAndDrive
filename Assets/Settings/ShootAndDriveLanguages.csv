@@ -1,5 +1,5 @@
-﻿Variable name,English,Русский
-Game.Name,Shoot And Drive,Shoot And Drive
+Variable name,English,Русский
+Game.Name,Shoot & Drive,Shoot & Drive
 MainMenu.Start,Start,Играть
 MainMenu.Settings,Settings,Настройки
 Settings.Name,Settings,Настройки
@@ -94,9 +94,17 @@ Inventory.Ammo.Rockets,Rockets,Ракеты
 Inventory.Ammo.Cannonballs,Cannonballs,Пушечные ядра
 Inventory.Ammo.BuyAll,Buy all,Купить всё
 Inventory.Ammo.Buy,Buy x{0},Купить x{0}
+Inventory.Ammo.NoAvailable,No available ammo,Нет доступных боеприпасов
 Inventory.Items.Medkit,Medkit,Аптечки
 Inventory.Items.BuyAll,Buy all,Купить всё
 Inventory.Items.Buy,Buy x{0},Купить x{0}
+Inventory.ConfirmPurchase,Buy for {0}?,Купить за {0}?
+Inventory.Yes,Yes,Да
+Inventory.No,No,Нет
+Inventory.Ok,OK,ОК
+Inventory.Purchase.Buy,Buy,Купить
+Inventory.Purchase.Cancel,Cancel,Отмена
+Inventory.Cancel,Cancel,Отмена
 Inventory.Weapons.Names.Pistol,Pistol,Пистолет
 Inventory.Weapons.Names.PistolHeavy,Heavy Pistol,Тяжёлый пистолет
 Inventory.Weapons.Names.PistolRevolver,Revolver,Револьвер

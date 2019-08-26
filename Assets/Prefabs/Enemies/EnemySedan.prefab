@@ -1601,6 +1601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 835931103d63c624aa5029132b3d7f3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableOnlyIfNonKinematic: 0
 --- !u!64 &2675283541330000702
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1612,7 +1613,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: -1
   m_Mesh: {fileID: 6362531700555023888, guid: 9297e5a5d70faa94aa9be1f6a77334ee, type: 3}
 --- !u!1 &2675283541353520150

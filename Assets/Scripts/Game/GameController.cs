@@ -27,6 +27,9 @@ namespace SD
         [SerializeField]
         GameObject                      playerPrefab;
 
+        [SerializeField]
+        GameObject                      mainMenuBackground;
+
 
 
         Vector3                         defaultPlayerPosition;
@@ -93,9 +96,9 @@ namespace SD
             Init();
         }
 
-        void OnDestroy()
+        void OnApplicationQuit()
         {
-            SaveData();
+            SaveSettings();
             UnsignFromEvents();
         }
 
@@ -140,27 +143,21 @@ namespace SD
             GlobalSettings.OnLanguageChange += Dummy;
 
             // load data from previous sessions
-            LoadData();
+            LoadSettings();
 
-            // init multilingual
+            // init localization
             InitLanguages();
 
-            print("LANGUAGES INITTED");
 
             // find objects
             Background              = FindObjectOfType<BackgroundController>();
             cutsceneManager         = FindObjectOfType<CutsceneManager>();
             tutorialManager         = FindObjectOfType<TutorialManager>();
 
-            print("MANAGERS INITTED");
-
             WeaponsStats            = new AllWeaponsStats(weaponsList.Data);
             AmmoStats               = new AllAmmoStats(ammoList.Data);
-            print("STATS INITTED");
 
             spawnersController = new SpawnersController();
-
-            print("SPAWNERS INITTED");
 
             // check all systems
             Debug.Assert(WeaponsStats != null,                              "Can't find AllWeaponsStats", this);
@@ -171,23 +168,16 @@ namespace SD
             Debug.Assert(FindObjectOfType<ObjectPool>() != null,            "Can't find ObjectPool", this);
             Debug.Assert(FindObjectOfType<ParticlesPool>() != null,         "Can't find ParticlesPool", this);
 
-            print("ASSERTS INITTED");
-
             InitPlayer();
 
             // inventory is loaded, create shop system
             Shop = new ShopSystem(Inventory);
-            print("SHOP INITTED");
-
+            
             // all systems initialized, sign up to events
             SignToEvents();
-            print("EVENTS INITTED");
-
+            
             // at last, init object and particle pools
             InitPools();
-
-            print("POOLS INITTED");
-
         }
 
         void InitPools()
@@ -207,24 +197,18 @@ namespace SD
         /// </summary>
         void InitPlayer()
         {
-            print("PLAYER INIT START");
-
             FindPlayer();
-            print("FOUND PLAYER: " + CurrentPlayer.name);
 
             // independent
             // init player, player's vehicle, weapons
             CurrentPlayer.Init();
-            print("PLAYER INITTED");
+            CurrentPlayer.gameObject.SetActive(false);
 
             // inventory;
             // depends on player and weapons stats
             CurrentPlayer.InitInventory();
 
-            print("INVENTORY INITTED");
-
             DataSystem.LoadInventory(CurrentPlayer.Inventory);
-            print("LOADED INVENTORY");
 
             Inventory = CurrentPlayer.Inventory;
 
@@ -249,18 +233,27 @@ namespace SD
         }
         #endregion
 
+        void Start()
+        {
+            mainMenuBackground.SetActive(true);
+        }
+
         void Update()
         {
             spawnersController.Update();
         }
 
-        void SaveData()
+        void SaveInventory()
         {
-            DataSystem.SaveInventory(CurrentPlayer.Inventory);
             DataSystem.SaveSettings(Settings);
         }
 
-        void LoadData()
+        void SaveSettings()
+        {
+            DataSystem.SaveInventory(CurrentPlayer.Inventory);
+        }
+
+        void LoadSettings()
         {
             Settings = DataSystem.LoadSettings();
         }
@@ -288,6 +281,8 @@ namespace SD
         /// </summary>
         public void Play()
         {
+            mainMenuBackground.SetActive(false);
+
             if (Settings.GameShowCutscene)
             {
                 if (Settings.GameShowTutorial)
@@ -372,7 +367,7 @@ namespace SD
 
             if (activateSpawners)
             {
-                spawnersController.RestartSpawn(CurrentPlayer.transform.position + Vector3.forward * 200);
+                spawnersController.RestartSpawn();
             }
 
             OnGameplayActivate();
@@ -408,6 +403,12 @@ namespace SD
         /// </summary>
         void StopGame()
         {
+            Time.timeScale = defaultTimeScale;
+            Time.fixedDeltaTime = defaultFixedDelta;
+
+            mainMenuBackground.SetActive(true);
+            CurrentPlayer.gameObject.SetActive(false);
+
             OnMainMenuActivate();
         }
 
@@ -419,7 +420,7 @@ namespace SD
             CurrentPlayer.Inventory.Money += score.Money;
 
             // and save
-            SaveData();
+            SaveInventory();
 
             // scale down time
             StartCoroutine(WaitForGameEnd());

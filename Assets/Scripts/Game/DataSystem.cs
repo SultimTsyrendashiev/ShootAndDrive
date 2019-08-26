@@ -2,6 +2,7 @@
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using SD.PlayerLogic;
+using System;
 
 namespace SD.Game.Data
 {
@@ -27,15 +28,26 @@ namespace SD.Game.Data
             
             if (File.Exists(path))
             {
-                // load from file
-                using (FileStream file = new FileStream(path, FileMode.Open))
+                try
                 {
-                    BinaryFormatter formatter = new BinaryFormatter();
+                    // load from file
+                    using (FileStream file = new FileStream(path, FileMode.Open))
+                    {
+                        BinaryFormatter formatter = new BinaryFormatter();
 
-                    // reset position in file
-                    file.Position = 0;
+                        // reset position in file
+                        file.Position = 0;
 
-                    return (GlobalSettings)formatter.Deserialize(file);
+                        return (GlobalSettings)formatter.Deserialize(file);
+                    }
+                }
+                catch
+                {
+                    // return default settings
+                    GlobalSettings settings = new GlobalSettings();
+                    settings.SetDefaults();
+
+                    return settings;
                 }
             }
             else
@@ -69,27 +81,34 @@ namespace SD.Game.Data
         /// </summary>
         public static void LoadInventory(PlayerInventory inventory)
         {
-            string path = Application.persistentDataPath + "/" + PlayerDataFileName;
-
-            if (File.Exists(path))
+            try
             {
-                // load from file
-                using (FileStream file = new FileStream(path, FileMode.Open))
+                string path = Application.persistentDataPath + "/" + PlayerDataFileName;
+
+                if (File.Exists(path))
                 {
-                    BinaryFormatter formatter = new BinaryFormatter();
+                    // load from file
+                    using (FileStream file = new FileStream(path, FileMode.Open))
+                    {
+                        BinaryFormatter formatter = new BinaryFormatter();
 
-                    // reset position in file
-                    file.Position = 0;
-                    // deserialize InventoryData
-                    InventoryData fromFile = (InventoryData)formatter.Deserialize(file);
+                        // reset position in file
+                        file.Position = 0;
+                        // deserialize InventoryData
+                        InventoryData fromFile = (InventoryData)formatter.Deserialize(file);
 
-                    // load from it to PlayerInventory
-                    fromFile.SaveTo(inventory);
+                        // load from it to PlayerInventory
+                        fromFile.SaveTo(inventory);
+                    }
+                }
+                else
+                {
+                    // return default
+                    inventory.SetDefault();
                 }
             }
-            else
+            catch
             {
-                // return default
                 inventory.SetDefault();
             }
         }

@@ -71,6 +71,8 @@ namespace SD.Game.Data
         /// </summary>
         public void SaveTo(PlayerInventory inventory)
         {
+            inventory.SetDefault();
+
             // all arrays must be not null
             Debug.Assert(SavedWeapons != null, "Weapons array in InventoryData must be not null");
             Debug.Assert(SavedAmmo != null, "Ammo array in InventoryData must be not null");

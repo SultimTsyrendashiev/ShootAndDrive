@@ -23,6 +23,10 @@ namespace SD.Weapons
         [SerializeField]
         int price;
 
+        [SerializeField]
+        bool isWeapon = false;
+
+
         public string       TranslationKey => translationKey;
         public string       EditorName => editorName;
         public AmmunitionType Type => type;

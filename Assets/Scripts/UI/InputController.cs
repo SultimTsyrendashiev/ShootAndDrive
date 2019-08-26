@@ -7,10 +7,6 @@ namespace SD.UI
 {
     class InputController : MonoBehaviour
     {
-        [SerializeField]
-        HUDController            hudController;
-
-
         public static bool      FireButton { get; private set; } = false;
         public static float     MovementHorizontal { get; private set; } = 0.0f;
 
@@ -109,9 +105,6 @@ namespace SD.UI
         /// </summary>
         public void OnWeaponSelectorDown()
         {
-            hudController.SetActiveHUD(false);
-            hudController.SetActiveWeaponSelectionMenu(true);
-
             OnWeaponSelectionEnable();
         }
 
@@ -121,9 +114,6 @@ namespace SD.UI
         /// </summary>
         public void OnWeaponSelectorUp()
         {
-            hudController.SetActiveHUD(true);
-            hudController.SetActiveWeaponSelectionMenu(false);
-
             OnWeaponSelectionDisable();
         }
 

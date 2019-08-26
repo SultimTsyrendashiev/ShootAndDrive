@@ -62,6 +62,11 @@ namespace SD.Weapons
         public WeaponState      State { get; private set; }
 
         /// <summary>
+        /// Was weapon jammed before disable?
+        /// </summary>
+        bool                    wasJammed;
+
+        /// <summary>
         /// Current owner of this weapon
         /// </summary>
         public GameObject               Owner { get; private set; }
@@ -163,6 +168,7 @@ namespace SD.Weapons
 
             // set state
             State = WeaponState.Nothing;
+            wasJammed = false;
 
             InitWeapon();
         }
@@ -306,11 +312,16 @@ namespace SD.Weapons
         #region states
         void Disable()
         {
-            if (State != WeaponState.Breaking && State != WeaponState.Ready)
+            if (State != WeaponState.Breaking 
+                && State != WeaponState.Ready
+                && State != WeaponState.ReadyForUnjam)
             {
                 Debug.LogWarning("Wrong weapon state");
                 return;
             }
+
+            // mark, it will be used when weapon will be enabled
+            wasJammed = State == WeaponState.ReadyForUnjam;
 
             State = WeaponState.Disabling;
 
@@ -340,13 +351,20 @@ namespace SD.Weapons
             {
                 case WeaponState.Nothing:
                     return true;
+
+                case WeaponState.ReadyForUnjam:
+                    Disable();
+                    return false;
+
                 case WeaponState.Breaking:
                     return false;
                 case WeaponState.Disabling:
                     return false;
+
                 case WeaponState.Ready:
                     Disable();
                     return false;
+
                 default:
                     StartCoroutine(WaitForReady());
                     return false;
@@ -405,7 +423,14 @@ namespace SD.Weapons
             }
 
             // wait for enabling
-            StartCoroutine(Wait(TakingOutTime, WeaponState.Ready));
+            if (!wasJammed)
+            {
+                StartCoroutine(Wait(TakingOutTime, WeaponState.Ready));
+            }
+            else
+            {
+                StartCoroutine(Wait(TakingOutTime, WeaponState.ReadyForUnjam));
+            }
         }
 
         public void Fire()
@@ -500,7 +525,7 @@ namespace SD.Weapons
         IEnumerator WaitForBreak()
         {
             // wait for breaking time without disabling
-            yield return new WaitForSeconds(weaponAnimation[AnimBreakName].length);
+            yield return new WaitForSeconds(weaponAnimation[AnimBreakName].length + 0.15f);
 
             // call event
             OnWeaponBreak(WeaponIndex);

@@ -5,8 +5,13 @@ namespace SD.Enemies
     [RequireComponent(typeof(Collider))]
     class EnemyVehicleDamageReceiver : MonoBehaviour, IDamageable
     {
+        [SerializeField]
+        bool enableOnlyIfNonKinematic = false;
+
         EnemyVehicle vehicle;
         MeshCollider meshCollider;
+
+        Collider[] allColliders;
 
         public float Health => ((IDamageable)vehicle).Health;
 
@@ -14,15 +19,30 @@ namespace SD.Enemies
         {
             this.vehicle = vehicle;
             meshCollider = GetComponent<MeshCollider>();
+            allColliders = GetComponents<Collider>();
         }
 
-        public void ActivateMeshCollider(bool active)
+        public void ActivateNonKinematicCollider(bool active)
         {
-            // disable mesh collider 
-            // as rigidbody can work only with convex colliders
             if (meshCollider != null)
             {
-                meshCollider.enabled = active;
+                if (!meshCollider.convex)
+                {
+                    // disable mesh collider 
+                    // as rigidbody can work only with convex colliders
+                    meshCollider.enabled = active;
+                }
+            }
+
+            if (enableOnlyIfNonKinematic)
+            {
+                foreach (Collider c in allColliders)
+                {
+                    if (c != meshCollider)
+                    {
+                        c.enabled = !active;
+                    }
+                }
             }
         }
 

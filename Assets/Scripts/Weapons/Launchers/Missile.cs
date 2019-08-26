@@ -224,10 +224,11 @@ namespace SD.Weapons
 
         void IgnoreCollisionWithOwner(bool ignore)
         {
+            Collider thisColl = GetComponent<Collider>();
             Collider[] ownerColl = owner.GetComponentsInChildren<Collider>();
             foreach (var c in ownerColl)
             {
-                Physics.IgnoreCollision(GetComponent<Collider>(), c, ignore);
+                Physics.IgnoreCollision(thisColl, c, ignore);
             }
         }
 

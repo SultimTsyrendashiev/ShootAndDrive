@@ -16,32 +16,64 @@ namespace SD.Game
         /// </summary>
         public static event Void OnCutsceneStart;
 
+        //[SerializeField]
+        //PlayableDirector    cutscene;
+
         [SerializeField]
-        PlayableDirector    cutscene;
+        PlayableDirector[] cutscenes;
+
+        int currentCutscene = -1;
+        int cutscenesAmount;
 
         /// <summary>
         /// Action after cutscene
         /// </summary>
         Action              onCutsceneEnd;
+        float               endTimeOfCurrentCutscene;
 
         float               endTime = -1;
+
         bool                isPlaying = false;
 
 
         public void Play(Action onCutsceneEnd)
         {
-            ActivateCutsceneObjects(true);
-
-            cutscene.Play();
             isPlaying = true;
 
-            endTime = Time.time + (float)cutscene.duration;
+            endTime = Time.time + GetOverallDuration();
+            cutscenesAmount = cutscenes.Length;
+
+            PlayCutscene(0);
+
             this.onCutsceneEnd = onCutsceneEnd;
 
             // sign to event to process forced skip
             CutsceneSkipper.OnCutsceneSkip += Stop;
 
             OnCutsceneStart();
+        }
+
+        void PlayCutscene(int index)
+        {
+            currentCutscene = index;
+
+            for (int i = 0; i < cutscenes.Length; i++)
+            {
+                if (i != index)
+                {
+                    // stop cutscene
+                    cutscenes[i].Stop();
+
+                    // deactivate all objects assocated with cutscene
+                    ActivateCutsceneObjects(cutscenes[i], false);
+                }
+            }
+
+            // activate current
+            ActivateCutsceneObjects(cutscenes[index], true);
+            cutscenes[index].Play();
+
+            endTimeOfCurrentCutscene = Time.time + (float)cutscenes[index].duration;
         }
 
         void OnDestroy()
@@ -51,8 +83,21 @@ namespace SD.Game
 
         void Update()
         {
-            // if not playing or ended
-            if (!isPlaying || Time.time < endTime)
+            if (!isPlaying)
+            {
+                return;
+            }
+
+            // if previous cutscene ended and there is next,
+            // start next
+            if (Time.time > endTimeOfCurrentCutscene
+                && currentCutscene < cutscenesAmount
+                && currentCutscene >= 0)
+            {
+                PlayCutscene(currentCutscene + 1);
+            }
+
+            if (Time.time < endTime)
             {
                 return;
             }
@@ -63,19 +108,35 @@ namespace SD.Game
         void Stop()
         {
             isPlaying = false;
+            currentCutscene = -1;
 
-            // stop cutscene
-            cutscene.Stop();
+            foreach (var c in cutscenes)
+            {
+                // stop cutscene
+                c.Stop();
 
-            // deactivate all objects assocated with cutscene
-            ActivateCutsceneObjects(false);
+                // deactivate all objects assocated with cutscene
+                ActivateCutsceneObjects(c, false);
+            }
 
             onCutsceneEnd?.Invoke();
         }
 
-        void ActivateCutsceneObjects(bool active)
+        static void ActivateCutsceneObjects(PlayableDirector cutsceneObject, bool active)
         {
-            cutscene.gameObject.SetActive(active);
+            cutsceneObject.gameObject.SetActive(active);
+        }
+
+        float GetOverallDuration()
+        {
+            float overallDuration = 0;
+
+            foreach (var c in cutscenes)
+            {
+                overallDuration += (float)c.duration;
+            }
+
+            return overallDuration;
         }
     }
 }

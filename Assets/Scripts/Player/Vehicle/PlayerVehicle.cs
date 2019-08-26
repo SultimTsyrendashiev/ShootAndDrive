@@ -25,7 +25,7 @@ namespace SD.PlayerLogic
         const float                 SpeedEpsilon = 0.1f;
 
         // how long it takes to accelerate from 0 to default speed
-        const float                 AccelerationTime = 5.0f;
+        const float                 AccelerationTime = 2.5f;
         // how long it takes to stop, if vehicle has default speed
         const float                 BrakeTime = 2.0f;
         #endregion
@@ -55,7 +55,7 @@ namespace SD.PlayerLogic
 
         #region particles
         [SerializeField]
-        string                      HitParticlesName = "Sparks";
+        ParticleSystem              hitParticles;
         //[SerializeField]
         //string SmokeParticlesName = "VehicleSmoke";
 
@@ -167,9 +167,11 @@ namespace SD.PlayerLogic
             Health -= damage.CalculateDamageValue(playerTransform.position);
 
             // play damage particle system
-            ParticlesPool.Instance.Play(HitParticlesName,
-                damage.Type == DamageType.Bullet ? damage.Point : transform.position, Quaternion.LookRotation(
-                damage.Type == DamageType.Bullet ? damage.Normal : damage.Point - transform.position));
+            hitParticles.transform.position = damage.Type == DamageType.Bullet ? damage.Point : transform.position;
+            hitParticles.transform.rotation = Quaternion.LookRotation(
+                damage.Type == DamageType.Bullet ? damage.Normal : damage.Point - transform.position);
+
+            hitParticles.Play();
 
             if (Health <= SmokeHealthPercentage * MaxHealth)
             {
@@ -210,12 +212,17 @@ namespace SD.PlayerLogic
             {
                 // receive damage
                 ReceiveDamage(Damage.CreateBulletDamage(
-                    damage, -transform.forward, transform.position, transform.up, null));
-
+                    damage, -Vector3.forward, info.CollisionPoint, info.CollisionNormal, info.Initiator));
             }
 
             // collide other with this, player don't send them damage
-            otherVehicle.Collide(this, new VehicleCollisionInfo());
+            var backInfo = new VehicleCollisionInfo();
+            backInfo.ThisWithOther = false;
+            backInfo.Initiator = Player.gameObject;
+            backInfo.CollisionPoint = info.CollisionPoint;
+            backInfo.CollisionNormal = -info.CollisionNormal;
+
+            otherVehicle.Collide(this, backInfo);
 
             // call event even if damage == 0
             OnVehicleCollision(otherVehicle, damage);
@@ -239,8 +246,8 @@ namespace SD.PlayerLogic
             // process brake / acceleration
             if (currentSpeed != targetSpeed || currentSideSpeed != targetSideSpeed)
             {
-                if (Mathf.Abs(currentSpeed - targetSpeed) < SpeedEpsilon ||
-                    Mathf.Abs(currentSideSpeed - targetSideSpeed) < SpeedEpsilon)
+                if (Mathf.Abs(currentSpeed - targetSpeed) > SpeedEpsilon ||
+                    Mathf.Abs(currentSideSpeed - targetSideSpeed) > SpeedEpsilon)
                 {
                     float time = currentSpeed < targetSpeed ? AccelerationTime : BrakeTime;
 

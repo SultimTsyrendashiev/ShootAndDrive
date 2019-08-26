@@ -72,13 +72,15 @@ namespace SD.UI.Shop
         GameObject accuracyIndicator;
         #endregion
 
-        IShop shop;
-        IWeaponItem weaponItem;
+        IShop               shop;
+        IWeaponItem         weaponItem;
+        IAmmoItem           ammoItem;
 
         public void SetInfo(IShop shop, IWeaponItem weaponItem, IAmmoItem ammoItem, Texture image)
         {
             this.shop = shop;
             this.weaponItem = weaponItem;
+            this.ammoItem = ammoItem;
 
             // firstly, set const info
             nameText.text = GetTranslation(weaponItem.TranslationKey);
@@ -114,39 +116,59 @@ namespace SD.UI.Shop
                 return;
             }
 
-            if (!weaponItem.IsBought)
+            if (!weaponItem.IsAmmo)
             {
-                // if not bought, show buy button 
-                buyButton.gameObject.SetActive(ShowBuyButton(weaponItem));
-                buyText.text = GetBuyText(weaponItem.Price);
+                if (!weaponItem.IsBought)
+                {
+                    buyButton.interactable = shop.EnoughMoneyToBuy(weaponItem);
+                    buyText.text = GetBuyText(weaponItem.Price);
 
-                // don't show repair button and variable stats
-                repairButton.gameObject.SetActive(false);
-                health.SetActive(false);
+                    buyButton.gameObject.SetActive(true);
+
+                    // if not bought, show buy button 
+                    // buyButton.gameObject.SetActive(!weaponItem.IsAmmo);
+
+                    // don't show repair button and variable stats
+                    repairButton.gameObject.SetActive(false);
+                    health.SetActive(false);
+                }
+                else
+                {
+                    bool canBeRepaired = CanBeRepaired(weaponItem);
+
+                    if (canBeRepaired)
+                    {
+                        float healthPercentage = Mathf.Clamp((float)weaponItem.Health / weaponItem.Durability, 0, 1);
+
+                        SetPercentage(healthIndicatorImage, maxIndicatorsWidth, healthPercentage);
+
+                        int repairCost = shop.GetRepairCost(weaponItem);
+                        repairText.text = GetRepairText(repairCost);
+
+                        // disable button, if full health or no enough money
+                        repairButton.interactable = healthPercentage != 1
+                            && shop.EnoughMoneyToRepair(weaponItem);
+                    }
+
+                    // show, if necessary
+                    repairButton.gameObject.SetActive(canBeRepaired);
+                    health.SetActive(canBeRepaired);
+
+                    // disable buy button
+                    buyButton.gameObject.SetActive(false);
+                }
             }
             else
             {
-                bool canBeRepaired = CanBeRepaired(weaponItem);
+                // if weapon is ammo too (f.e. grenades)
 
-                // show, if necessary
-                repairButton.gameObject.SetActive(canBeRepaired);
-                health.SetActive(canBeRepaired);
+                // show info not about weapon, but about ammo
+                buyButton.interactable = shop.EnoughMoneyToBuy(ammoItem, ammoItem.AmountToBuy);
+                buyText.text = GetBuyText(ammoItem.Price);
 
-                if (canBeRepaired)
-                {
-                    float healthPercentage = Mathf.Clamp((float)weaponItem.Health / weaponItem.Durability, 0, 1);
-
-                    SetPercentage(healthIndicatorImage, maxIndicatorsWidth, healthPercentage);
-                
-                    // disable button, if full health
-                    repairButton.interactable = healthPercentage != 1;
-
-                    int repairCost = shop.GetRepairCost(weaponItem);
-                    repairText.text = GetRepairText(repairCost);
-                }
-
-                // disable buy button
-                buyButton.gameObject.SetActive(false);
+                buyButton.gameObject.SetActive(true);
+                repairButton.gameObject.SetActive(false);
+                health.SetActive(false);
             }
 
             // disable indicators that are not necessary
@@ -157,11 +179,6 @@ namespace SD.UI.Shop
         static bool CanBeRepaired(IWeaponItem weaponItem)
         {
             return weaponItem.CanBeDamaged && !weaponItem.IsAmmo;
-        }
-
-        static bool ShowBuyButton(IWeaponItem weaponItem)
-        {
-            return !weaponItem.IsAmmo;
         }
 
         static bool ShowDurabilityIndicator(IWeaponItem weaponItem)
@@ -189,7 +206,16 @@ namespace SD.UI.Shop
                 return;
             }
 
-            shop.BuyWeapon(weaponItem.Index);
+            //// if weapon is not ammo
+            //if (!weaponItem.IsAmmo)
+            //{
+                shop.BuyWeapon(weaponItem.Index);
+            //}
+            //else
+            //{
+            //    // otherwise, weapon is ammo too (f.e. grenade)
+            //    shop.BuyAmmo(weaponItem.AmmoType, false);
+            //}
 
             UpdateInfo();
         }

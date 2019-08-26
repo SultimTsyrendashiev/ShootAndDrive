@@ -9,10 +9,13 @@ namespace SD.PlayerLogic
     {
         public Transform Target => transform;
 
-        void Start()
+        void OnEnable()
         {
-            // register this target in game controller
-            GameController.Instance.AddEnemyTarget(this);
+            if (GameController.Instance)
+            {
+                // register this target in game controller
+                GameController.Instance.AddEnemyTarget(this);
+            }
         }
     }
 }

@@ -10,6 +10,12 @@ namespace SD.UI.Controls
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            //// check if player have any weapons
+            //if (GameController.Instance != null && GameController.Instance.Inventory != null)
+            //{
+            //    GameController.Instance.Inventory.Weapons.Get
+            //}
+
             inputController.OnWeaponSelectorDown();
         }
     }

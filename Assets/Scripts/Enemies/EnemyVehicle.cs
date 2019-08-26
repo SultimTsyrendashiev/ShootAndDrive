@@ -63,7 +63,7 @@ namespace SD.Enemies
         /// <summary>
         /// Called on vehicle collision
         /// </summary>
-        protected virtual void DoVehicleCollision() { }
+        protected virtual void DoVehicleCollision(GameObject initiator) { }
         #endregion
 
         public void Init()
@@ -125,7 +125,7 @@ namespace SD.Enemies
             Health = data.StartHealth;
             foreach (var d in damageReceivers)
             {
-                d.ActivateMeshCollider(true);
+                d.ActivateNonKinematicCollider(true);
             }
 
             SetTarget(GameController.Instance.EnemyTarget);
@@ -216,7 +216,7 @@ namespace SD.Enemies
             // as rigidbody doesnt work with them
             foreach (var d in damageReceivers)
             {
-                d.ActivateMeshCollider(kinematic);
+                d.ActivateNonKinematicCollider(kinematic);
             }
 
             VehicleRigidbody.isKinematic = kinematic;
@@ -300,6 +300,16 @@ namespace SD.Enemies
                 // on this one with other data
                 info.ThisWithOther = true;
 
+                info.Initiator = gameObject;
+
+                // there is always at least one contact,
+                // so this check is unnecessary
+                if (col.contacts.Length > 0)
+                {
+                    info.CollisionPoint = col.contacts[0].point;
+                    info.CollisionNormal = col.contacts[0].normal;
+                }
+
                 other.Collide(this, info);
             }
         }
@@ -314,10 +324,18 @@ namespace SD.Enemies
                 VehicleCollisionInfo backInfo = new VehicleCollisionInfo();
                 backInfo.Damage = State == EnemyVehicleState.Active ? data.CollisionDamage : 0;
 
+                // don't process it on other side (to prevent loop)
+                backInfo.ThisWithOther = false;
+
+                backInfo.Initiator = gameObject;
+
+                backInfo.CollisionPoint = info.CollisionPoint;
+                backInfo.CollisionNormal = -info.CollisionNormal;
+
                 other.Collide(this, backInfo);
             }
 
-            DoVehicleCollision();
+            DoVehicleCollision(info.Initiator);
         }
 
         void ISpawnable.GetExtents(out Vector3 min, out Vector3 max)

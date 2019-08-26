@@ -10,21 +10,38 @@ public class FontChanger : ScriptableWizard
     public Font ForcedFont;
     public bool IncludeInactive = true;
 
+    public bool SetBestFit = false;
+    public int MinSizeFont;
+    public int MaxSizeFont;
+
     [MenuItem("GameObject/Font Changer")]
     static void CreateWizard()
     {
-        ScriptableWizard.DisplayWizard<FontChanger>("Change text fonts", "Change font");
+        DisplayWizard<FontChanger>("Change text fonts", "Change font");
     }
 
     void OnWizardCreate()
     {
-        if (TextsParent != null && ForcedFont != null)
+        if (TextsParent != null)
         {
             var texts = TextsParent.GetComponentsInChildren<Text>(IncludeInactive);
 
-            foreach (var t in texts)
+            if (ForcedFont != null)
             {
-                t.font = ForcedFont;
+                foreach (var t in texts)
+                {
+                    t.font = ForcedFont;
+                }
+            }
+            
+            if (SetBestFit && MinSizeFont >= 0 && MaxSizeFont >= 0 && MinSizeFont <= MaxSizeFont)
+            {
+                foreach (var t in texts)
+                {
+                    t.resizeTextForBestFit = true;
+                    t.resizeTextMinSize = MinSizeFont;
+                    t.resizeTextMaxSize = MaxSizeFont;
+                }
             }
         }
     }

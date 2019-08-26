@@ -17,7 +17,7 @@ namespace SD.Enemies
             VehicleRigidbody.position += velocity * Time.fixedDeltaTime;
         }
 
-        protected override void DoVehicleCollision()
+        protected override void DoVehicleCollision(GameObject initiator)
         {
             SetKinematic(false);
         }

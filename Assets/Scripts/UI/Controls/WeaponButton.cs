@@ -6,17 +6,19 @@ using UnityEngine.UI;
 
 namespace SD.UI.Controls
 {
-    class WeaponButton : MonoBehaviour, IPointerEnterHandler
+    class WeaponButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         Button button;
         Text weaponName;
 
         Action onAmmoSelection;
+        Action onAmmoDeselection;
 
-        public void Set(IWeaponItem item, IAmmoItem ammo, Action<WeaponIndex> onWeaponSelection, Action<AmmunitionType> onAmmoSelection)
+        public void Set(IWeaponItem item, IAmmoItem ammo, Action<WeaponIndex> onWeaponSelection, Action<AmmunitionType> onAmmoSelection, Action onAmmoDeselection)
         {
             // this.onWeaponSelection = () => onWeaponSelection(item.Index);
             this.onAmmoSelection = () => onAmmoSelection(item.AmmoType);
+            this.onAmmoDeselection = onAmmoDeselection;
 
             if (weaponName == null)
             {
@@ -32,12 +34,17 @@ namespace SD.UI.Controls
             }
 
             button.onClick.AddListener(() => onWeaponSelection(item.Index));
-            button.interactable = item.Health > 0 && ammo.CurrentAmount > 0;
+            button.interactable = (item.Health > 0 || item.IsAmmo) && ammo.CurrentAmount > 0;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
             onAmmoSelection();
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            onAmmoDeselection();
         }
     }
 }

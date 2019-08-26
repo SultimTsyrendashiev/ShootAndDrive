@@ -22,6 +22,18 @@ namespace SD.UI
             SetActiveHUD(true);
             SetActiveWeaponSelectionMenu(false);
 
+            InputController.OnWeaponSelectionDisable += () => 
+                {
+                    SetActiveHUD(true);
+                    SetActiveWeaponSelectionMenu(false);
+                };
+
+            InputController.OnWeaponSelectionEnable += () =>
+                {
+                    SetActiveHUD(false);
+                    SetActiveWeaponSelectionMenu(true);
+                };
+
             GlobalSettings.OnMovementInputTypeChange += SetMovementInputType;
         }
 

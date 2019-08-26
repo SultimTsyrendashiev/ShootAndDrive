@@ -21,7 +21,7 @@ namespace SD.PlayerLogic
         bool canBeUpdated;
         float startTime;
 
-        void Awake()
+        void Start()
         {
             steeringWheel = player.GetComponentInChildren<ISteeringWheel>();
             steerHandAnimation = GetComponent<Animation>();

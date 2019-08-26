@@ -297,7 +297,7 @@ namespace SD.Weapons
 
         #region weapon switch
         /// <summary>
-        /// Take out current weapon.
+        /// Enable current weapon.
         /// Note: only current
         /// </summary>
         public void TakeOutWeapon()
@@ -319,8 +319,8 @@ namespace SD.Weapons
                 return;
             }
 
-            // check if available in inventory
-            if (!inventoryWeapons.IsAvailableInGame(currentWeapon.Value))
+            // check if available in inventory and have ammo
+            if (!IsAvailableAndHaveAmmo(currentWeapon.Value))
             {
                 return;
             }
@@ -391,8 +391,8 @@ namespace SD.Weapons
                 return;
             }
 
-            // check if available
-            if (!inventoryWeapons.IsAvailableInGame(w))
+            // check if available and have ammo
+            if (!IsAvailableAndHaveAmmo(w))
             {
                 return;
             }

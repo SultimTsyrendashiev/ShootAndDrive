@@ -99,24 +99,29 @@ namespace SD.Enemies.Spawner
         {
             if (target == null)
             {
-                Debug.Log("SpawnersController::Target is null");
-                return;
+                FindTarget();
+
+                if (target == null)
+                {
+                    return;
+                }
             }
 
-            const float safeDistance = 500;
-            RestartSpawn(target.Target.position + Vector3.forward * safeDistance);
+            const float safeDistance = 300;
+            RestartSpawn(target.Target.position.z + safeDistance);
         }
 
         /// <summary>
         /// Restarts spawner in specified position
         /// </summary>
-        public void RestartSpawn(Vector3 startPosition)
+        public void RestartSpawn(float z)
         {
             // delete all previously spawned objects
             DisableAll();
 
+            currentPos = new Vector3(0, 0, z);
+
             shouldSpawn = true;
-            currentPos = startPosition;
             cleanTime = Time.time + CleanTimePeriod;
         }
 
@@ -190,26 +195,41 @@ namespace SD.Enemies.Spawner
 
             LinkedListNode<ISpawnable> node = spawnedObjects.First;
 
-            do
+            // return all unnecessary in head
+            while (node != null && ReturnIfOut(node.Value))
+            {
+                node = node.Next;
+                spawnedObjects.RemoveFirst();
+            }
+
+            // return all other unnecessary
+            while (node != null)
             {
                 LinkedListNode<ISpawnable> next = node.Next;
-                ISpawnable s = node.Value;
 
-                s.GetExtents(out Vector3 min, out Vector3 max);
-
-                // check, if out of background
-                if (Background.IsOut(s.Position + min, s.Position + max))
+                if (ReturnIfOut(node.Value))
                 {
-                    // return to object pool
-                    s.Return();
-
-                    // remove from active
                     spawnedObjects.Remove(node);
                 }
 
                 node = next;
+            }
+        }
 
-            } while (node != null);
+        bool ReturnIfOut(ISpawnable s)
+        {
+            s.GetExtents(out Vector3 min, out Vector3 max);
+
+            // check, if out of background
+            if (Background.IsOut(s.Position, s.Position))
+            {
+                // return to object pool
+                s.Return();
+
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>

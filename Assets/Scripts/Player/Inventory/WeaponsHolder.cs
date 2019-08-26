@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using SD.Weapons;
 
 namespace SD.PlayerLogic
 {
@@ -29,8 +28,8 @@ namespace SD.PlayerLogic
             {
                 if (!playerWeapons.ContainsKey(a))
                 {
-                    playerWeapons.Add(a, new WeaponItem(a, 0, false, true));
-                    return;
+                    playerWeapons.Add(a, new WeaponItem(a, 0, false, false));
+                    continue;
                 }
 
                 playerWeapons[a].HealthRef.Value = 0;
@@ -69,9 +68,9 @@ namespace SD.PlayerLogic
 
             // check weapon's health, if it's out of bounds, clamp it
             iitem.Health = Mathf.Clamp(iitem.Health, 0, iitem.Durability);
-            
+
             // normalize other values
-            if (iitem.Health == 0)
+            if (iitem.Health == 0 && !iitem.IsAmmo)
             {
                 iitem.IsBought = false;
                 iitem.IsSelected = false;
@@ -86,7 +85,8 @@ namespace SD.PlayerLogic
         }
 
         /// <summary>
-        /// Is this weapon available? True, if weapon is bought and not broken
+        /// Is this weapon available? True, if weapon is bought and not broken.
+        /// Weapon is not broken if health > 0 or weapon is ammo
         /// </summary>
         public bool IsAvailable(WeaponIndex w)
         {
@@ -95,9 +95,11 @@ namespace SD.PlayerLogic
 
         public bool IsAvailableInGame(WeaponIndex w)
         {
-            return /*!playerWeapons[w].IsBroken
-                &&*/ playerWeapons[w].IsBought
-                /*&& playerWeapons[w].IsSelected*/;
+            return playerWeapons[w].IsBought;
+
+            /*return !playerWeapons[w].IsBroken
+                && playerWeapons[w].IsBought
+                && playerWeapons[w].IsSelected*/;
         }
 
         public List<WeaponIndex> GetAvailableWeapons()
@@ -129,5 +131,18 @@ namespace SD.PlayerLogic
         {
             return playerWeapons.Values;
         }
+
+        //public bool ContainsAtLeastOne()
+        //{
+        //    foreach (IWeaponItem w in playerWeapons.Values)
+        //    {
+        //        if (w.IsBought && w.)
+        //        {
+        //            return true;
+        //        }
+        //    }
+
+        //    return false;
+        //}
     }
 }

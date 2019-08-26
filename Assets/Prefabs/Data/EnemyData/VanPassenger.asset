@@ -20,7 +20,7 @@ MonoBehaviour:
   projectileName: Bullet
   projectileDamage: 6
   projectileSpeed: 20
-  timeBetweenRounds: {x: 0.6, y: 1}
+  timeBetweenRounds: {x: 0.6, y: 1.5}
   fireRate: 0.15
   shotsAmount: 3
   maxAttackDistance: 100

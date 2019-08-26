@@ -28,7 +28,7 @@ MonoBehaviour:
   isAmmo: 1
   percentageForJam: 0.17
   jamProbability: 0.03
-  damage: 5
+  damage: 50
   reloadingTime: 1
   accuracy: 0
   missileName: MissileFireBottle

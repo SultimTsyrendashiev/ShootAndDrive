@@ -91,15 +91,29 @@ namespace SD.PlayerLogic
         {
             var weaponsStats = GameController.Instance.WeaponsStats;
 
-            foreach (var w in weapons)
+            bool forAmmo = false;
+
+            foreach (WeaponIndex w in weapons)
             {
                 if (weaponsStats[w].AmmoType == type)
                 {
+                    // if weapon is ammo too (f.e. grenades)
+                    if (weaponsStats[w].IsAmmo)
+                    {
+                        // then it's necessary if amount > 0;
+                        // don't return here, as there are other weapons,
+                        // and maybe one of them use this ammo but not IsAmmo
+
+                        forAmmo = forAmmo || ammo[type].CurrentAmount > 0;
+
+                        continue;
+                    }
+
                     return true;
                 }
             }
 
-            return false;
+            return forAmmo;
         }
 
         public ICollection<AmmoItem> GetAll()

@@ -94,9 +94,6 @@ namespace SD.PlayerLogic
             weaponsController.SetOwner(this);
 
             SignToEvents();
-
-            // by default player is inactive, it must be activated by game controller
-            gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -189,7 +186,7 @@ namespace SD.PlayerLogic
         void AddEnemyScore(Enemies.EnemyData data, Transform enemyPosition, GameObject initiator)
         {
             // if initiator is player, count score
-            if (initiator == gameObject || initiator == null)
+            //if (initiator == gameObject)
             {
                 currentScore.KillsAmount++;
                 currentScore.ScorePoints += data.Score;
@@ -202,7 +199,7 @@ namespace SD.PlayerLogic
         void AddEnemyVehicleScore(Enemies.EnemyVehicleData data, GameObject initiator)
         {
             // if initiator is player, count score
-            if (initiator == gameObject || initiator == null)
+            // if (initiator == gameObject)
             {
                 currentScore.DestroyedVehiclesAmount++;
                 currentScore.ScorePoints += data.Score;
@@ -226,6 +223,7 @@ namespace SD.PlayerLogic
 
             // send player's score
             currentScore.VehicleHealth = (int)Vehicle.Health;
+            currentScore.TravelledDistance = Vehicle.TravelledDistance;
 
             currentScore.Calculate();
             OnPlayerDeath(currentScore);

@@ -9,13 +9,15 @@ namespace SD.UI.Indicators
     {
         class ImageText
         {
-            public Image   Img;
-            public Text    Txt;
+            public GameObject   Obj;
+            public Image        Img;
+            public Text         Txt;
 
-            public ImageText(Image i, Text t)
+            public ImageText(Image i, Text t, GameObject obj)
             {
                 Img = i;
                 Txt = t;
+                Obj = obj;
             }
         }
 
@@ -30,6 +32,9 @@ namespace SD.UI.Indicators
 
         [SerializeField]
         Color ammoHighlighted;
+
+        [SerializeField]
+        Color ammoHighlightedEmpty;
 
         IInventory inventory;
         Dictionary<AmmunitionType, ImageText> ammo;
@@ -63,16 +68,23 @@ namespace SD.UI.Indicators
                 image.sprite = stats[a].Icon;
 
                 ammo.Add(a, new ImageText(
-                    image, o.GetComponentInChildren<Text>()));
+                    image, o.GetComponentInChildren<Text>(), o));
             }
 
             UpdateAvailableAmmoList();
             UpdateList();
         }
 
+        void OnDestro()
+        {
+            GameController.Instance.CurrentPlayer.OnPlayerStateChange -= ProcessPlayerStateChange;
+        }
+
+        /// <summary>
+        /// Updates available ammo list when player is respawned
+        /// </summary>
         void ProcessPlayerStateChange(PlayerLogic.PlayerState state)
         {
-            // update available ammo list when player is respawned
             if (state == PlayerLogic.PlayerState.Ready)
             {
                 UpdateAvailableAmmoList();
@@ -91,6 +103,14 @@ namespace SD.UI.Indicators
 
         void UpdateList()
         {
+            foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
+            {
+                if (!availableAmmo.Contains(a))
+                {
+                    Disable(a);
+                }
+            }
+
             foreach (AmmunitionType a in availableAmmo)
             {
                 Set(a, inventory.Ammo.Get(a).CurrentAmount);
@@ -99,9 +119,21 @@ namespace SD.UI.Indicators
 
         void Set(AmmunitionType t, int amount)
         {
-            ammo[t].Txt.text = amount.ToString();
-            ammo[t].Img.color = 
+            var a = ammo[t];
+
+            a.Obj.SetActive(true);
+
+            // set text 
+            a.Txt.text = amount.ToString();
+
+            // set color
+            a.Img.color = a.Txt.color =
                 amount > 0 ? ammoAvailable : ammoEmpty;
+        }
+
+        void Disable(AmmunitionType t)
+        {
+            ammo[t].Obj.SetActive(false);
         }
 
         void UpdateAvailableAmmoList()
@@ -112,16 +144,32 @@ namespace SD.UI.Indicators
 
         public void HighlightAmmo(AmmunitionType type)
         {
-            // reset all to default colors
-            UpdateList();
+            UnhighlightAll();
+
+            // if ammo indicator is hidden
+            if (!ammo[type].Obj.activeSelf)
+            {
+                // then ignore
+                return;
+            }
 
             // set new color for specific type
             Image img = ammo[type].Img;
+            Text txt = ammo[type].Txt;
 
             if (img.color != ammoEmpty)
             {
-                img.color = ammoHighlighted;
+                img.color = txt.color = ammoHighlighted;
             }
+            else
+            {
+                img.color = txt.color = ammoHighlightedEmpty;
+            }
+        }
+
+        public void UnhighlightAll()
+        {
+            UpdateList();
         }
     }
 }

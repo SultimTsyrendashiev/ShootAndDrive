@@ -86,8 +86,8 @@ namespace SD.UI.Shop
             currentAmountText.text = GetAmountText(ammoItem.CurrentAmount, ammoItem.MaxAmount);
             SetAmountPercentage((float)ammoItem.CurrentAmount / ammoItem.MaxAmount);
 
-            buyButton.interactable = diff != 0;
-            buyAllButton.interactable = diffAll != 0;
+            buyButton.interactable = diff != 0 && shop.EnoughMoneyToBuy(ammoItem, diff);
+            buyAllButton.interactable = diffAll != 0 && shop.EnoughMoneyToBuy(ammoItem, diffAll);
         }
 
 

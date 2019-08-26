@@ -47,7 +47,11 @@ namespace SD.UI.Indicators
 
         void OnDestroy()
         {
-            player.OnHealthChange -= SetHealth;
+            if (player != null)
+            {
+                player.OnHealthChange -= SetHealth;
+            }
+
             Player.OnPlayerSpawn -= Init;
         }
 
