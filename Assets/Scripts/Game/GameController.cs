@@ -9,6 +9,7 @@ using SD.UI;
 using SD.Game.Data;
 using SD.Game;
 using SD.Game.Shop;
+using SD.Game.Settings;
 
 namespace SD
 {
@@ -46,6 +47,8 @@ namespace SD
 
         public IBackgroundController    Background { get; private set; }
         public IEnemyTarget             EnemyTarget { get; private set; }
+
+        public SettingsSystem           SettingsSystem { get; private set; }
 
         SpawnersController              spawnersController;
         CutsceneManager                 cutsceneManager;
@@ -161,7 +164,8 @@ namespace SD
             WeaponsStats            = new AllWeaponsStats(weaponsList.Data);
             AmmoStats               = new AllAmmoStats(ammoList.Data);
 
-            spawnersController = new SpawnersController();
+            spawnersController      = new SpawnersController();
+            SettingsSystem          = new SettingsSystem(Settings);
 
             // check all systems
             Debug.Assert(WeaponsStats != null,                              "Can't find AllWeaponsStats", this);

@@ -1,4 +1,5 @@
 Variable name,English,Русский
+Language.Name,English,Русский
 Game.Name,Shoot & Drive,Shoot & Drive
 MainMenu.Start,Start,Играть
 MainMenu.Settings,Settings,Настройки
@@ -15,7 +16,7 @@ Settings.Game.ShowCutscene,Show cutscene,Показывать катсцену
 Settings.Game.ShowTutorial,Show tutorial,Показывать обучение
 Settings.Performance.Preset,Preset,Настройка
 Settings.Performance.Msaa,Antialiasing,Сглаживание
-Settings.Performance.Resolution,Resolution scale,Масштаб разрешения
+Settings.Performance.Resolution,Render scale,Масштаб рендеринга
 Settings.Performance.Lod,Detail distance,Дальность прорисовки
 Settings.Performance.Shadowmap,Shadow quality,Качество теней
 Settings.Performance.RagdollsAmount,Ragdolls amount,Количество рэгдоллов
@@ -60,6 +61,12 @@ Settings.Key.Shadow.Ultra,Ultra,Ультра
 Settings.Key.Movement.Joystick,Joystick,Джойстик
 Settings.Key.Movement.Buttons,Buttons,Кнопки
 Settings.Key.Movement.Gyro,Gyroscope,Гироскоп
+Settings.Key.MovementBtns.Distance.Small,Small,Маленькое
+Settings.Key.MovementBtns.Distance.Default,Default,По умолчанию
+Settings.Key.MovementBtns.Distance.Big,Big,Большое
+Settings.Key.MovementBtns.Size.Small,Small,Маленький
+Settings.Key.MovementBtns.Size.Default,Default,По умолчанию
+Settings.Key.MovementBtns.Size.Big,Big,Большой
 Settings.Key.PerfPreset.Low,Max FPS,Производительность
 Settings.Key.PerfPreset.Default,Default,По умолчанию
 Cutscene.HoldToSkip,Hold to skip,Удерживайте для пропуска

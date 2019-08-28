@@ -18,18 +18,22 @@ namespace SD.UI.Controls
         SettingsMenu settingsMenu;
         Text text;
 
-        void Start()
-        {
-            settingsMenu = GetComponentInParent<SettingsMenu>();
-            text = GetComponentInChildren<Text>();
-        }
-
         void UpdateText()
         {
             if (settingsMenu != null && text != null)
             {
-                text.text = settingsMenu.GetSetting(settingName);
+                text.text = settingsMenu.GetSettingValue(settingName);
             }
+        }
+
+        void Start()
+        {
+            settingsMenu = GetComponentInParent<SettingsMenu>();
+            text = GetComponentInChildren<Text>();
+
+            GlobalSettings.OnLanguageChange += UpdateTextS;
+
+            UpdateText();
         }
 
         void OnEnable()
@@ -42,5 +46,14 @@ namespace SD.UI.Controls
             settingsMenu.ChangeSetting(settingName);
             UpdateText();
         }
+
+        #region on language change
+        void OnDestroy()
+        {
+            GlobalSettings.OnLanguageChange -= UpdateTextS;
+        }
+
+        void UpdateTextS(string s) => UpdateText();
+        #endregion
     }
 }

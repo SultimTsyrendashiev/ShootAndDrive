@@ -84,11 +84,14 @@
             }
         }
         public bool                 InputLeftHanded;
+
+        public float                InputMovementBtnsSize;
+        public float                InputMovementBtnsDistance;
         #endregion
 
         #region hud
         public bool                 HUDShowPauseButton;
-        public bool                 HUDHiding;
+        public bool                 HUDHide;
         public bool                 HUDDiegetic;
         #endregion
 
@@ -108,10 +111,12 @@
             MusicVolume = 1;
 
             InputMovementType = MovementInputType.Joystick;
+            InputMovementBtnsSize = 1;
+            InputMovementBtnsDistance = 1;
             InputLeftHanded = false;
 
             HUDDiegetic = false;
-            HUDHiding = false;
+            HUDHide = false;
             HUDShowPauseButton = true;
         }
 
