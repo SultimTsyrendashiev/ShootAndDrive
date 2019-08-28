@@ -58,6 +58,8 @@ namespace SD.PlayerLogic
 
         void EnableAnimation()
         {
+            steerHandAnimation.Stop();
+
             steerHandAnimation.Play(EnableAnimationName, PlayMode.StopAll);
             startTime = Time.time + steerHandAnimation[EnableAnimationName].length;
         }

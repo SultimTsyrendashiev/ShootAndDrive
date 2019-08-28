@@ -57,6 +57,15 @@ namespace SD.UI.Controls
             inputController.UpdateMovementInput(delta);
         }
 
+        void OnEnable()
+        {
+            if (baseImage != null && dotImage != null)
+            {
+                // when joystick field activates, return to default
+                OnPointerUp(null);
+            }
+        }
+
         public void OnDrag(PointerEventData data)
         {
             // correct range according to canvas scale

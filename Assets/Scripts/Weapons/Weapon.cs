@@ -406,7 +406,7 @@ namespace SD.Weapons
             // pose hand
             if (handPivot != null)
             {
-                handPivot.PoseHand();
+                //handPivot.PoseHand();
             }
             else
             {

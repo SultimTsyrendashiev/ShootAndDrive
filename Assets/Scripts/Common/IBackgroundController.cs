@@ -6,6 +6,8 @@ namespace SD
     {
         float CurrentLength { get; }
 
+        void Reinit();
+
         /// <summary>
         /// Get containing block's bounds
         /// </summary>

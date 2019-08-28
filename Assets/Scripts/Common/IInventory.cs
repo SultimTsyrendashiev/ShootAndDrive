@@ -36,7 +36,7 @@ namespace SD
         IWeaponItem         Get(WeaponIndex weapon);
         // ICollection<IWeaponItem>    GetAll();
 
-        // bool ContainsAtLeastOne();
+        bool ContainsAtLeastOne();
     }
 
     interface IAmmoHolder

@@ -186,7 +186,7 @@ namespace SD.PlayerLogic
         void AddEnemyScore(Enemies.EnemyData data, Transform enemyPosition, GameObject initiator)
         {
             // if initiator is player, count score
-            //if (initiator == gameObject)
+            if (initiator == gameObject)
             {
                 currentScore.KillsAmount++;
                 currentScore.ScorePoints += data.Score;

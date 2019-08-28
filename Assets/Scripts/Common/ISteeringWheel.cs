@@ -16,5 +16,6 @@
         /// Process input
         /// </summary>
         void Steer(float steeringInput);
+        void Stop();
     }
 }

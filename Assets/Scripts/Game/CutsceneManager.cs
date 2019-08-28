@@ -55,6 +55,11 @@ namespace SD.Game
 
         void PlayCutscene(int index)
         {
+            if (index < 0 || index >= cutscenesAmount)
+            {
+                return;
+            }
+
             currentCutscene = index;
 
             for (int i = 0; i < cutscenes.Length; i++)

@@ -30,6 +30,13 @@ namespace SD.PlayerLogic
             targetSteering = Mathf.Clamp(steeringInput, -1.0f, 1.0f);
         }
 
+        public void Stop()
+        {
+            Steering = 0.0f;
+            SteeringNormalized = 0.5f;
+            targetSteering = 0;
+        }
+
         void Update()
         {
             Steering = Mathf.Lerp(Steering, targetSteering, lerpSpeed * Time.deltaTime);

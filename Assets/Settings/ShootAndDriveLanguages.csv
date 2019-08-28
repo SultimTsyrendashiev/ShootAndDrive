@@ -22,10 +22,14 @@ Settings.Performance.RagdollsAmount,Ragdolls amount,Количество рэг�
 Settings.Performance.Skybox3D,3D skybox,3D skybox
 Settings.Performance.ShaderQuality,Shader quality,Качество шейдеров
 Settings.Sound.MusicVolume,Music volume,Громкость музыки
-Settings.Input.MovementType,Movement input type,Тип управления
+Settings.Input.MovementType,Input type,Тип управления
+Settings.Input.MovementBtns.Distance,Distance between movement buttons,Расстояние между кнопками передвижения
+Settings.Input.MovementBtns.Size,Movement buttons size,Размер кнопок передвижения
 Settings.Input.LeftHanded,Left handed input,Для левшей
 Settings.HUD.ShowPauseButton,Pause button,Кнопка паузы
+Settings.HUD.Hide,Hide HUD,Скрыть HUD
 Settings.HUD.Hiding,HUD hiding,Скрывать HUD
+Settings.HUD.SafeZone,Safe zone,Безопасная зона
 Settings.HUD.Diegetic,Diegetic UI,Diegetic UI
 Settings.Credits.Text,...,...
 Settings.Key.Yes,Yes,Да

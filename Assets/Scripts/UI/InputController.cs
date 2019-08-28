@@ -22,8 +22,8 @@ namespace SD.UI
         public static event Void                OnPlayWithInventoryButton;
         public static event Void                OnSettingsButton;
         public static event Void                OnInventoryButton;
-        public static event Void                OnWeaponSelectionEnable;
-        public static event Void                OnWeaponSelectionDisable;
+        public static event Void                OnWeaponSelectionButton;
+        public static event Void                OnWeaponSelectionDisableButton;
 
         public static event RegenerateHealth    OnHealthRegenerate;
 
@@ -105,7 +105,7 @@ namespace SD.UI
         /// </summary>
         public void OnWeaponSelectorDown()
         {
-            OnWeaponSelectionEnable();
+            OnWeaponSelectionButton();
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace SD.UI
         /// </summary>
         public void OnWeaponSelectorUp()
         {
-            OnWeaponSelectionDisable();
+            OnWeaponSelectionDisableButton();
         }
 
         /// <summary>

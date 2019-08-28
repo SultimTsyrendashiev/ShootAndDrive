@@ -118,6 +118,8 @@ namespace SD.PlayerLogic
         {
             // stop the vehicle, if player died
             Brake();
+
+            SteeringWheel.Stop();
         }
 
         /// <summary>

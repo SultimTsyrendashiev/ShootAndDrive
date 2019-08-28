@@ -64,7 +64,7 @@ namespace SD.PlayerLogic
             Weapons.SetDefault();
             Ammo.SetDefault();
             Items.SetDefault();
-            Money = 1000;
+            Money = 2000;
         }
 
         #region cheats

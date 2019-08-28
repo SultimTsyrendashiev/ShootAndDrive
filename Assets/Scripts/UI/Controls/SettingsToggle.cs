@@ -24,22 +24,23 @@ namespace SD.UI.Controls
             text = GetComponentInChildren<Text>();
         }
 
-        void Update()
+        void UpdateText()
         {
+            if (settingsMenu != null && text != null)
+            {
                 text.text = settingsMenu.GetSetting(settingName);
+            }
         }
 
         void OnEnable()
         {
-            if (settingsMenu != null)
-            {
-                Update();
-            }
+            UpdateText();
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
             settingsMenu.ChangeSetting(settingName);
+            UpdateText();
         }
     }
 }

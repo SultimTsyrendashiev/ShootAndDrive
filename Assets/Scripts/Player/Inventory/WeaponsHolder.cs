@@ -132,17 +132,17 @@ namespace SD.PlayerLogic
             return playerWeapons.Values;
         }
 
-        //public bool ContainsAtLeastOne()
-        //{
-        //    foreach (IWeaponItem w in playerWeapons.Values)
-        //    {
-        //        if (w.IsBought && w.)
-        //        {
-        //            return true;
-        //        }
-        //    }
+        public bool ContainsAtLeastOne()
+        {
+            foreach (IWeaponItem w in playerWeapons.Values)
+            {
+                if (w.IsBought)
+                {
+                    return true;
+                }
+            }
 
-        //    return false;
-        //}
+            return false;
+        }
     }
 }

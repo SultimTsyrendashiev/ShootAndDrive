@@ -66,7 +66,10 @@ namespace SD
         public static event Void                    OnGameUnpause;
         public static event Void                    OnMainMenuActivate;
         public static event Void                    OnInventoryOpen;
-        
+
+        public static event Void                    OnWeaponSelectionEnable;
+        public static event Void                    OnWeaponSelectionDisable;
+
         public static event PlayerDeath             OnPlayerDeath;
 
         /// <summary>
@@ -112,21 +115,22 @@ namespace SD
             InputController.OnPlayWithInventoryButton += PlayWithInventoryMenu;
             InputController.OnMainMenuButton += StopGame;
             InputController.OnInventoryButton += ShowInventory;
-            InputController.OnWeaponSelectionEnable += EnableWeaponsSelection;
-            InputController.OnWeaponSelectionDisable += DisableWeaponsSelection;
+            InputController.OnWeaponSelectionButton += EnableWeaponsSelection;
+            InputController.OnWeaponSelectionDisableButton += DisableWeaponsSelection;
         }
 
         void UnsignFromEvents()
         {
             CurrentPlayer.OnPlayerDeath -= ProcessPlayerDeath;
+
             InputController.OnPause -= PauseGame;
             InputController.OnUnpause -= UnpauseGame;
             InputController.OnPlayButton -= Play;
             InputController.OnPlayWithInventoryButton -= PlayWithInventoryMenu;
             InputController.OnMainMenuButton -= StopGame;
             InputController.OnInventoryButton -= ShowInventory;
-            InputController.OnWeaponSelectionEnable -= EnableWeaponsSelection;
-            InputController.OnWeaponSelectionDisable -= DisableWeaponsSelection;
+            InputController.OnWeaponSelectionButton -= EnableWeaponsSelection;
+            InputController.OnWeaponSelectionDisableButton -= DisableWeaponsSelection;
 
             GlobalSettings.OnLanguageChange -= Dummy;
         }
@@ -245,12 +249,12 @@ namespace SD
 
         void SaveInventory()
         {
-            DataSystem.SaveSettings(Settings);
+            DataSystem.SaveInventory(CurrentPlayer.Inventory);
         }
 
         void SaveSettings()
         {
-            DataSystem.SaveInventory(CurrentPlayer.Inventory);
+            DataSystem.SaveSettings(Settings);
         }
 
         void LoadSettings()
@@ -281,6 +285,8 @@ namespace SD
         /// </summary>
         public void Play()
         {
+            SaveInventory();
+
             mainMenuBackground.SetActive(false);
 
             if (Settings.GameShowCutscene)
@@ -370,6 +376,8 @@ namespace SD
                 spawnersController.RestartSpawn();
             }
 
+            Background.Reinit();
+
             OnGameplayActivate();
         }
         #endregion
@@ -388,14 +396,21 @@ namespace SD
 
         void EnableWeaponsSelection()
         {
-            Time.timeScale = defaultTimeScale * WeaponsSelectionMultiplier;
-            Time.fixedDeltaTime = defaultFixedDelta * WeaponsSelectionMultiplier;
+            if (Inventory.Weapons.ContainsAtLeastOne())
+            {
+                Time.timeScale = defaultTimeScale * WeaponsSelectionMultiplier;
+                Time.fixedDeltaTime = defaultFixedDelta * WeaponsSelectionMultiplier;
+
+                OnWeaponSelectionEnable();
+            }
         }
 
         void DisableWeaponsSelection()
         {
             Time.timeScale = defaultTimeScale;
             Time.fixedDeltaTime = defaultFixedDelta;
+
+            OnWeaponSelectionDisable();
         }
 
         /// <summary>

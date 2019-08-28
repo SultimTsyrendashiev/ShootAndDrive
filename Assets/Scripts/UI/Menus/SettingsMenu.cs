@@ -26,12 +26,27 @@ namespace SD.UI.Menus
 
         public void ChangeSetting(string settingName)
         {
-            methodsList[settingName].Invoke();
+            if (methodsList.ContainsKey(settingName))
+            {
+                methodsList[settingName].Invoke();
+            }
+            else
+            {
+                Debug.Log("Setting key doesn't exist: " + settingName);
+            }
         }
 
         public string GetSetting(string settingName)
         {
-            return getNamesList[settingName].Invoke();
+            if (methodsList.ContainsKey(settingName))
+            {
+                return getNamesList[settingName].Invoke();
+            }
+            else
+            {
+                Debug.Log("Setting key doesn't exist: " + settingName);
+                return string.Empty;
+            }
         }
 
         #region menu

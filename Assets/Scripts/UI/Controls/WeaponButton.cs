@@ -16,6 +16,8 @@ namespace SD.UI.Controls
 
         public void Set(IWeaponItem item, IAmmoItem ammo, Action<WeaponIndex> onWeaponSelection, Action<AmmunitionType> onAmmoSelection, Action onAmmoDeselection)
         {
+            gameObject.SetActive(true);
+
             // this.onWeaponSelection = () => onWeaponSelection(item.Index);
             this.onAmmoSelection = () => onAmmoSelection(item.AmmoType);
             this.onAmmoDeselection = onAmmoDeselection;

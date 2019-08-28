@@ -59,7 +59,7 @@ namespace SD.Background
 
         public void Reinit()
         {
-
+            blocks.Clear();
         }
 
         #region creating blocks
