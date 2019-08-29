@@ -60,7 +60,7 @@ namespace SD
 
         // settings
         public GlobalSettings           Settings { get; private set; }
-        public LanguageTable            Languages => csvLanguageTable.Languages;
+        public LanguageTable            Localization => csvLanguageTable.Languages;
         CSVLanguageTable                csvLanguageTable;
 
         #region events
@@ -134,8 +134,6 @@ namespace SD
             InputController.OnInventoryButton -= ShowInventory;
             InputController.OnWeaponSelectionButton -= EnableWeaponsSelection;
             InputController.OnWeaponSelectionDisableButton -= DisableWeaponsSelection;
-
-            GlobalSettings.OnLanguageChange -= Dummy;
         }
 
         /// <summary>
@@ -146,14 +144,11 @@ namespace SD
             defaultTimeScale = Time.timeScale;
             defaultFixedDelta = Time.fixedDeltaTime;
 
-            // to sure that there is at least one listener
-            GlobalSettings.OnLanguageChange += Dummy;
-
             // load data from previous sessions
             LoadSettings();
 
             // init localization
-            InitLanguages();
+            InitLocalization();
 
 
             // find objects
@@ -167,14 +162,20 @@ namespace SD
             spawnersController      = new SpawnersController();
             SettingsSystem          = new SettingsSystem(Settings);
 
+
             // check all systems
-            Debug.Assert(WeaponsStats != null,                              "Can't find AllWeaponsStats", this);
-            Debug.Assert(Background != null,                                "Can't find BackgroundController", this);
-            Debug.Assert(spawnersController != null,                        "Can't find SpawnersController", this);
-            Debug.Assert(cutsceneManager != null,                           "Can't find CutsceneManager", this);
-            Debug.Assert(tutorialManager != null,                           "Can't find TutorialManager", this);
-            Debug.Assert(FindObjectOfType<ObjectPool>() != null,            "Can't find ObjectPool", this);
-            Debug.Assert(FindObjectOfType<ParticlesPool>() != null,         "Can't find ParticlesPool", this);
+            Debug.Assert(WeaponsStats != null,                              "Can't find AllWeaponsStats",           this);
+            Debug.Assert(Background != null,                                "Can't find BackgroundController",      this);
+            Debug.Assert(spawnersController != null,                        "Can't find SpawnersController",        this);
+            Debug.Assert(cutsceneManager != null,                           "Can't find CutsceneManager",           this);
+            Debug.Assert(tutorialManager != null,                           "Can't find TutorialManager",           this);
+            Debug.Assert(FindObjectOfType<ObjectPool>() != null,            "Can't find ObjectPool",                this);
+            Debug.Assert(FindObjectOfType<ParticlesPool>() != null,         "Can't find ParticlesPool",             this);
+            Debug.Assert(FindObjectOfType<UnitySettingsHandler>() != null,  "Can't find UnitySettingsHandler",      this);
+
+
+
+            InitUnitySettings();
 
             InitPlayer();
 
@@ -188,13 +189,18 @@ namespace SD
             InitPools();
         }
 
+        void InitUnitySettings()
+        {
+            FindObjectOfType<UnitySettingsHandler>().Init(SettingsSystem);
+        }
+
         void InitPools()
         {
             FindObjectOfType<ObjectPool>().Init();
             FindObjectOfType<ParticlesPool>().Init();
         }
 
-        void InitLanguages()
+        void InitLocalization()
         {
             csvLanguageTable = new CSVLanguageTable();
             csvLanguageTable.Parse(languageList.CSVLanguageTable);
@@ -336,7 +342,10 @@ namespace SD
             CurrentPlayer.gameObject.SetActive(false);
 
             // don't play cutscene next time
-            Settings.GameShowCutscene = false;
+            if (Settings.GameShowCutscene)
+            {
+                SettingsSystem.ChangeSetting(SettingsList.Setting_Key_Game_ShowCutscene);
+            }
 
             cutsceneManager.Play(onCutsceneEnd);
         }
@@ -344,7 +353,10 @@ namespace SD
         void ShowTutorial()
         {
             // don't show tutorial next time
-            Settings.GameShowTutorial = false;
+            if (Settings.GameShowTutorial)
+            {
+                SettingsSystem.ChangeSetting(SettingsList.Setting_Key_Game_ShowTutorial);
+            }
 
             // at start of tutorial: player has zero speed and default position
             ActivateGameplay(false, false, false);

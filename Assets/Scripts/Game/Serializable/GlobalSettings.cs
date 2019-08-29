@@ -3,24 +3,18 @@
     delegate void MovementInputTypeChange(MovementInputType type);
 
     /// <summary>
-    /// Holds all settings for the game
+    /// Holds all settings for the game.
+    /// Changing values in this class will not have effect,
+    /// they must be set through 'SettingsSystem' which provides events for this settings
     /// </summary>
     [System.Serializable]
     class GlobalSettings
     {
 
-        public static event MovementInputTypeChange OnMovementInputTypeChange;
-
         /// <summary>
         /// This language must be in language packs
         /// </summary>
         public const string DefaultLanguage = "English";
-
-        /// <summary>
-        /// This event is called, when new language is set.
-        /// New language's name is a parameter.
-        /// </summary>
-        public static event System.Action<string> OnLanguageChange;
 
         #region game
         private string              gameLanguage;
@@ -28,21 +22,19 @@
         {
             get
             {
-                // if language pack doesn't contain current languge
-                if (!GameController.Instance.Languages.Exist(gameLanguage))
-                {
-                    // reset it
-                    gameLanguage = DefaultLanguage;
-                }
-
                 return gameLanguage;
             }
             set
             {
-                if (value != gameLanguage)
+                // if language pack contain current languge
+                if (GameController.Instance.Localization.Exist(gameLanguage))
                 {
                     gameLanguage = value;
-                    OnLanguageChange(value);
+                }
+                else
+                {
+                    // otherwise, to default
+                    gameLanguage = DefaultLanguage;
                 }
             }
         }
@@ -68,21 +60,8 @@
         #endregion
 
         #region input
-        private MovementInputType   movementInputType;
-        public MovementInputType    InputMovementType
-        {
-            get
-            {
-                return movementInputType;
-            }
-            set
-            {
-                OnMovementInputTypeChange += DummyA;
-                OnMovementInputTypeChange(value);
-                OnMovementInputTypeChange -= DummyA;
-                movementInputType = value;
-            }
-        }
+        public MovementInputType    InputMovementType;
+
         public bool                 InputLeftHanded;
 
         public float                InputMovementBtnsSize;
@@ -101,7 +80,7 @@
         /// </summary>
         public void SetDefaults()
         {
-            ResetLanguage();
+            GameLanguage = DefaultLanguage;
             GameEnableSubtitles = false;
             GameShowCutscene = true;
             GameShowTutorial = true;
@@ -131,7 +110,6 @@
             PerfShadowQuality = ShadowQuality.None;
         }
 
-
         public void SetPerformanceDefault()
         {
             PerfPreset = PerformancePreset.Default;
@@ -140,14 +118,7 @@
             PerfRagdollAmount = 3;
             PerfResolutionMult = 1;
             PerfShaderQuality = ShaderQuality.PhysicallyBased;
-            PerfShadowQuality = ShadowQuality.Medium;
+            PerfShadowQuality = ShadowQuality.Low;
         }
-
-        public void ResetLanguage()
-        {
-            GameLanguage = DefaultLanguage;
-        }
-
-        void DummyA(MovementInputType type) { }
     }
 }

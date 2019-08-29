@@ -157,7 +157,7 @@ namespace SD.Weapons
 
                     if (isInitialized)
                     {                       
-                        TakeOutWeapon();
+                        //TakeOutWeapon();
                     }
 
                     break;
@@ -283,6 +283,10 @@ namespace SD.Weapons
                             // stop fire, now 'Fire' method can be called again
                             toFire = false;
                         }
+                    }
+                    else
+                    {
+                        toFire = false;
                     }
                 }
                 else

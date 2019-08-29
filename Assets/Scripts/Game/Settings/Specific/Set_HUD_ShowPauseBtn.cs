@@ -5,14 +5,14 @@
         public Set_HUD_ShowPauseBtn(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             Settings.HUDShowPauseButton = !Settings.HUDShowPauseButton;
         }
 
         public override string GetSettingsKey()
         {
-            return "HUD.ShowPauseBtn";
+            return SettingsList.Setting_Key_HUD_ShowPauseBtn;
         }
 
         const string Key_Yes = "Settings.Key.Yes";

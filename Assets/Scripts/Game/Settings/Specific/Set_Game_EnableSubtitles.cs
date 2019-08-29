@@ -5,14 +5,14 @@
         public Set_Game_EnableSubtitles(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             Settings.GameEnableSubtitles = !Settings.GameEnableSubtitles;
         }
 
         public override string GetSettingsKey()
         {
-            return "Game.EnableSubtitles";
+            return SettingsList.Setting_Key_Game_EnableSubtitles;
         }
 
         const string Key_Yes = "Settings.Key.Yes";

@@ -5,7 +5,7 @@
         public Set_Perf_LodMult(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             switch (Settings.PerfLODMultiplier)
             {
@@ -23,7 +23,7 @@
 
         public override string GetSettingsKey()
         {
-            return "Perf.LodMult";
+            return SettingsList.Setting_Key_Perf_LodMult;
         }
 
         const string Key_1x     = "Settings.Key.1x";

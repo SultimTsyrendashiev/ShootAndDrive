@@ -5,7 +5,7 @@
         public Set_Perf_ResolutionMult(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             switch (Settings.PerfResolutionMult)
             {
@@ -26,7 +26,7 @@
 
         public override string GetSettingsKey()
         {
-            return "Perf.ResolutionMult";
+            return SettingsList.Setting_Key_Perf_ResolutionMult;
         }
 
         const string Key_05x =      "Settings.Key.0.5x";

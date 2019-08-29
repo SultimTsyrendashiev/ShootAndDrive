@@ -5,14 +5,14 @@
         public Set_Game_EnableTutorial(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             Settings.GameShowTutorial = !Settings.GameShowTutorial;
         }
 
         public override string GetSettingsKey()
         {
-            return "Game.ShowTutorial";
+            return SettingsList.Setting_Key_Game_ShowTutorial;
         }
 
         const string Key_Yes = "Settings.Key.Yes";

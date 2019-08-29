@@ -5,16 +5,16 @@
         public Set_Input_MoveType(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             switch (Settings.InputMovementType)
             {
                 case MovementInputType.Joystick:
                     Settings.InputMovementType = MovementInputType.Buttons;
                     return;
-                case MovementInputType.Buttons:
-                    Settings.InputMovementType = MovementInputType.Gyroscope;
-                    return;
+                //case MovementInputType.Buttons:
+                //    Settings.InputMovementType = MovementInputType.Gyroscope;
+                //    return;
                 default:
                     Settings.InputMovementType = MovementInputType.Joystick;
                     return;
@@ -23,7 +23,7 @@
 
         public override string GetSettingsKey()
         {
-            return "Input.MovementType";
+            return SettingsList.Setting_Key_Input_MovementType;
         }
 
         const string Key_Movement_Joystick = "Settings.Key.Movement.Joystick";

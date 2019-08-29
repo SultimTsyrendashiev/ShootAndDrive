@@ -7,7 +7,7 @@
 
         public override string GetSettingsKey()
         {
-            return "Input.MoveBtnsSize";
+            return SettingsList.Setting_Key_Input_MoveBtnsSize;
         }
 
         const string Key_Small = "Settings.Key.MovementBtns.Size.Small";
@@ -18,7 +18,7 @@
         const float Value_Small = 0.5f;
         const float Value_Big = 1.5f;
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             switch (Settings.InputMovementBtnsSize)
             {

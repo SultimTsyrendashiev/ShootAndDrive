@@ -5,17 +5,23 @@
         public Set_Perf_ShadowQuality(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             int a = (int)Settings.PerfShadowQuality;
-            a = a + 1 < System.Enum.GetValues(typeof(ShadowQuality)).Length ? a + 1 : 0;
+
+            int max = System.Enum.GetValues(typeof(ShadowQuality)).Length;
+
+            // disable ultra quality
+            max -= 1;
+
+            a = a + 1 < max ? a + 1 : 0;
 
             Settings.PerfShadowQuality = (ShadowQuality)a;
         }
 
         public override string GetSettingsKey()
         {
-            return "Perf.ShadowQuality";
+            return SettingsList.Setting_Key_Perf_ShadowQuality;
         }
 
         const string Key_Shadow_No = "Settings.Key.Shadow.No";

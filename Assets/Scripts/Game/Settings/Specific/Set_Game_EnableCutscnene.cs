@@ -5,14 +5,14 @@
         public Set_Game_EnableCutscnene(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             Settings.GameShowCutscene = !Settings.GameShowCutscene;
         }
 
         public override string GetSettingsKey()
         {
-            return "Game.ShowCutscene";
+            return SettingsList.Setting_Key_Game_ShowCutscene;
         }
 
         const string Key_Yes = "Settings.Key.Yes";

@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using SD.UI.Menus;
+using SD.Game.Settings;
 
 namespace SD.UI.Controls
 {
@@ -31,7 +32,11 @@ namespace SD.UI.Controls
             settingsMenu = GetComponentInParent<SettingsMenu>();
             text = GetComponentInChildren<Text>();
 
-            GlobalSettings.OnLanguageChange += UpdateTextS;
+            // GlobalSettings.OnLanguageChange += UpdateTextS;
+            GameController.Instance.SettingsSystem.Subscribe(SettingsList.Setting_Key_Game_Language, UpdateTextS);
+
+            // also subscribe to this event, as it changes other settings too
+            GameController.Instance.SettingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Preset, UpdateTextS);
 
             UpdateText();
         }
@@ -50,10 +55,13 @@ namespace SD.UI.Controls
         #region on language change
         void OnDestroy()
         {
-            GlobalSettings.OnLanguageChange -= UpdateTextS;
+            // GlobalSettings.OnLanguageChange -= UpdateTextS;
+            GameController.Instance.SettingsSystem.Unsubscribe(SettingsList.Setting_Key_Game_Language, UpdateTextS);
+            GameController.Instance.SettingsSystem.Unsubscribe(SettingsList.Setting_Key_Perf_Preset, UpdateTextS);
         }
 
-        void UpdateTextS(string s) => UpdateText();
+        // update text on language change
+        void UpdateTextS(GlobalSettings s) => UpdateText();
         #endregion
     }
 }

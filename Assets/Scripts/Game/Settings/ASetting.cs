@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SD.Game.Settings
 {
     abstract class ASetting
     {
+        public event Action<GlobalSettings> OnSettingUpdate;
+
         public GlobalSettings Settings { get; }
 
         public ASetting(GlobalSettings settings)
@@ -15,11 +13,17 @@ namespace SD.Game.Settings
             Settings = settings;
         }
 
+        /// <summary>
+        /// Called after initializing all settings.
+        /// In this method should be all subscription to other settings.
+        /// </summary>
+        public virtual void Init(SettingsSystem settingsSystem) { }
+
         string GetTranslated(string key)
         {
             try
             {
-                return GameController.Instance.Languages.GetValue(Settings.GameLanguage, key);
+                return GameController.Instance.Localization.GetValue(Settings.GameLanguage, key);
             }
             catch
             {
@@ -55,10 +59,19 @@ namespace SD.Game.Settings
         /// </summary>
         public abstract string GetValueTranslationKey();
 
+        /// <summary>
+        /// Change value for this setting and call event
+        /// </summary>
+        public void ChangeSetting()
+        {
+            ChangeValue();
+
+            OnSettingUpdate?.Invoke(Settings);
+        }
 
         /// <summary>
         /// Change value for this setting
         /// </summary>
-        public abstract void ChangeValue();
+        protected abstract void ChangeValue();
     }
 }

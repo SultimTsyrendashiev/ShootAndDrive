@@ -5,14 +5,14 @@
         public Set_HUD_Hide(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             Settings.HUDHide = !Settings.HUDHide;
         }
 
         public override string GetSettingsKey()
         {
-            return "HUD.Hide";
+            return SettingsList.Setting_Key_HUD_Hide;
         }
 
         const string Key_Yes = "Settings.Key.Yes";

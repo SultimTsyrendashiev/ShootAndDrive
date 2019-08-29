@@ -5,14 +5,14 @@
         public Set_HUD_Diegetic(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             Settings.HUDDiegetic = !Settings.HUDDiegetic;
         }
 
         public override string GetSettingsKey()
         {
-            return "HUD.Diegetic";
+            return SettingsList.Setting_Key_HUD_Diegetic;
         }
 
         const string Key_Yes = "Settings.Key.Yes";

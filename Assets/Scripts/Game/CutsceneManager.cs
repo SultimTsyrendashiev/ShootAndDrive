@@ -14,10 +14,13 @@ namespace SD.Game
         /// <summary>
         /// Called when cutscene started
         /// </summary>
-        public static event Void OnCutsceneStart;
+        public static event Action OnCutsceneStart;
 
-        //[SerializeField]
-        //PlayableDirector    cutscene;
+        /// <summary>
+        /// Called when cutscene ended
+        /// </summary>
+        public static event Action OnCutsceneEnd;
+
 
         [SerializeField]
         PlayableDirector[] cutscenes;
@@ -28,7 +31,7 @@ namespace SD.Game
         /// <summary>
         /// Action after cutscene
         /// </summary>
-        Action              onCutsceneEnd;
+        Action              afterCutscene;
         float               endTimeOfCurrentCutscene;
 
         float               endTime = -1;
@@ -45,12 +48,12 @@ namespace SD.Game
 
             PlayCutscene(0);
 
-            this.onCutsceneEnd = onCutsceneEnd;
+            this.afterCutscene = onCutsceneEnd;
 
             // sign to event to process forced skip
             CutsceneSkipper.OnCutsceneSkip += Stop;
 
-            OnCutsceneStart();
+            OnCutsceneStart?.Invoke();
         }
 
         void PlayCutscene(int index)
@@ -124,7 +127,9 @@ namespace SD.Game
                 ActivateCutsceneObjects(c, false);
             }
 
-            onCutsceneEnd?.Invoke();
+            afterCutscene?.Invoke();
+
+            OnCutsceneEnd?.Invoke();
         }
 
         static void ActivateCutsceneObjects(PlayableDirector cutsceneObject, bool active)

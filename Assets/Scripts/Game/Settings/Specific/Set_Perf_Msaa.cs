@@ -5,7 +5,7 @@
         public Set_Perf_Msaa(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             switch (Settings.PerfMsaa)
             {
@@ -23,7 +23,7 @@
 
         public override string GetSettingsKey()
         {
-            return "Perf.Msaa";
+            return SettingsList.Setting_Key_Perf_Msaa;
         }
 
         const string Key_2x = "Settings.Key.2x";

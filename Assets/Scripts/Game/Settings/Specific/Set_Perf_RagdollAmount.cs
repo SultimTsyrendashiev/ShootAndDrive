@@ -5,7 +5,7 @@
         public Set_Perf_RagdollAmount(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             switch (Settings.PerfRagdollAmount)
             {
@@ -26,7 +26,7 @@
 
         public override string GetSettingsKey()
         {
-            return "Perf.RagdollAmount";
+            return SettingsList.Setting_Key_Perf_RagdollAmount;
         }
 
         string Key_Amount_Zero =        "Settings.Key.Amount.Zero";

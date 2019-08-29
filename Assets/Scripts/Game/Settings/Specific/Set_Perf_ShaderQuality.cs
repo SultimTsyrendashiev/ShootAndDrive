@@ -5,7 +5,7 @@
         public Set_Perf_ShaderQuality(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             switch (Settings.PerfShaderQuality)
             {
@@ -20,7 +20,7 @@
 
         public override string GetSettingsKey()
         {
-            return "Perf.ShaderQuality";
+            return SettingsList.Setting_Key_Perf_ShaderQuality;
         }
 
         const string Key_Shader_Perf = "Settings.Key.Shader.Performance";

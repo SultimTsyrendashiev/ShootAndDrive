@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf2edee5c58d82540a51f03df9d42094, type: 3}
-  m_Name: LWRP-HighQuality
+  m_Name: LWRP_Quality_0
   m_EditorClassIdentifier: 
   k_AssetVersion: 4
   m_RendererType: 1
@@ -19,10 +19,10 @@ MonoBehaviour:
   m_RequireOpaqueTexture: 0
   m_OpaqueDownsampling: 2
   m_SupportsHDR: 0
-  m_MSAA: 1
+  m_MSAA: 4
   m_RenderScale: 1
   m_MainLightRenderingMode: 1
-  m_MainLightShadowsSupported: 1
+  m_MainLightShadowsSupported: 0
   m_MainLightShadowmapResolution: 256
   m_AdditionalLightsRenderingMode: 0
   m_AdditionalLightsPerObjectLimit: 1

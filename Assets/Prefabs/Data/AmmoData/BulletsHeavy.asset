@@ -17,5 +17,6 @@ MonoBehaviour:
   translationKey: Inventory.Ammo.BulletsHeavy
   icon: {fileID: 21300000, guid: 2d3054f8cef856741ba302710a91dacd, type: 3}
   maxAmount: 2400
-  amountToBuy: 30
-  price: 63
+  amountToBuy: 40
+  price: 48
+  isWeapon: 0

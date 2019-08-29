@@ -59,7 +59,7 @@ namespace SD.Background
 
         public void Reinit()
         {
-            blocks.Clear();
+            DeleteAll();
         }
 
         #region creating blocks
@@ -219,6 +219,17 @@ namespace SD.Background
                 {
                     break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Remove all blocks
+        /// </summary>
+        void DeleteAll()
+        {
+            while (blocks.Count != 0)
+            {
+                DeleteBlock(blocks.First);
             }
         }
 

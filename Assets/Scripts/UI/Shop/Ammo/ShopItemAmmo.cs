@@ -183,7 +183,7 @@ namespace SD.UI.Shop
 
         string GetTranslation(string key)
         {
-            return GameController.Instance.Languages.GetValue(
+            return GameController.Instance.Localization.GetValue(
                 GameController.Instance.Settings.GameLanguage, key);
         }
         #endregion

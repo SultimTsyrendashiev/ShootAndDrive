@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using SD.Game.Settings;
 
 namespace SD.UI
 {
@@ -17,11 +17,10 @@ namespace SD.UI
         [SerializeField]
         GameObject movementButtons;
 
+        bool initialized = false;
+
         void Start()
         {
-            SetActiveHUD(true);
-            SetActiveWeaponSelectionMenu(false);
-
             GameController.OnWeaponSelectionDisable += () => 
                 {
                     SetActiveHUD(true);
@@ -34,12 +33,18 @@ namespace SD.UI
                     SetActiveWeaponSelectionMenu(true);
                 };
 
-            GlobalSettings.OnMovementInputTypeChange += SetMovementInputType;
+            // when setting is changed, call handler
+            GameController.Instance.SettingsSystem.Subscribe(SettingsList.Setting_Key_Input_MovementType, SetMovementInputType);
+
+            initialized = true;
         }
 
         void OnEnable()
         {
-            SetMovementInputType(GameController.Instance.Settings.InputMovementType);
+            if (!initialized)
+            {
+                SetMovementInputType(GameController.Instance.Settings);
+            }
 
             SetActiveHUD(true);
             SetActiveWeaponSelectionMenu(false);
@@ -47,12 +52,14 @@ namespace SD.UI
 
         void OnDestroy()
         {
-            GlobalSettings.OnMovementInputTypeChange -= SetMovementInputType;
+            GameController.Instance.SettingsSystem.Unsubscribe(SettingsList.Setting_Key_Input_MovementType, SetMovementInputType);
         }
 
-        void SetMovementInputType(MovementInputType type)
+        void SetMovementInputType(GlobalSettings settings)
         {
-            switch (type)
+            print("SetMovementInputType: " + settings.InputMovementType);
+
+            switch (settings.InputMovementType)
             {
                 case MovementInputType.Joystick:
                     movementField.SetActive(true);

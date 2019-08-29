@@ -5,9 +5,9 @@
         public Set_Game_Language(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
-            var ls = GameController.Instance.Languages.LanguageNames;
+            var ls = GameController.Instance.Localization.LanguageNames;
 
             for (int i = 0; i < ls.Length; i++)
             {
@@ -21,12 +21,12 @@
             }
 
             // default
-            Settings.ResetLanguage();
+            Settings.GameLanguage = GlobalSettings.DefaultLanguage;
         }
 
         public override string GetSettingsKey()
         {
-            return "Game.Language";
+            return SettingsList.Setting_Key_Game_Language;
         }
 
         public override string GetValueTranslationKey()

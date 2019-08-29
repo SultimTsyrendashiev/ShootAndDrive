@@ -27,7 +27,7 @@ namespace SD.UI.Controls
                 weaponName = GetComponentInChildren<Text>();
             }
 
-            weaponName.text = GameController.Instance.Languages.GetValue(
+            weaponName.text = GameController.Instance.Localization.GetValue(
                 GameController.Instance.Settings.GameLanguage, item.TranslationKey);
 
             if (button == null)

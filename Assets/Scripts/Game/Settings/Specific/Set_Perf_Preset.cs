@@ -5,7 +5,7 @@
         public Set_Perf_Preset(GlobalSettings settings) : base(settings)
         { }
 
-        public override void ChangeValue()
+        protected override void ChangeValue()
         {
             switch (Settings.PerfPreset)
             {
@@ -20,7 +20,7 @@
 
         public override string GetSettingsKey()
         {
-            return "Perf.Preset";
+            return SettingsList.Setting_Key_Perf_Preset;
         }
 
         const string Key_PerfPreset_Low = "Settings.Key.PerfPreset.Low";
