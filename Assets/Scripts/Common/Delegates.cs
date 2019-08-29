@@ -10,6 +10,7 @@ namespace SD
     // player
     delegate bool RegenerateHealth();
     delegate void ScoreChange(GameScore score);
+    delegate void ScoreSet(GameScore score, int prevBestScore);
     delegate void PlayerDeath(GameScore score);
     delegate void PlayerBalanceChange(int oldBalance, int newBalance);
     delegate void PlayerStateChange(PlayerState state);
@@ -25,20 +26,11 @@ namespace SD
 
     // enemies
     delegate void EnemyDeath(EnemyData data, Transform enemyPosition, GameObject initiator); // for player's score
-    delegate void VehicleDestroyed(EnemyVehicleData data, GameObject initiator);   // for player's score
+    delegate void VehicleDestroyed(EnemyVehicleData data, Transform vehiclePosition, GameObject initiator);   // for player's score
 
-    delegate void VehicleDeath();                                       // from damage receiver
     delegate void PassengerDeath(EnemyData data, Transform enemyPosition, GameObject initiator);     // from passengers of vehicles
 
-    // delegate void PassengerStateChacnge(PassengerState passengerState); // for animations, sounds etc
-
-    // weapons
-    delegate void WeaponShootFinish(WeaponIndex finishedWeapon);    // to weapons controller
-    delegate void WeaponBreak(WeaponIndex brokenWeapon);    // to weapons controller
-    delegate void WeaponAmmoRunOut(WeaponIndex weapon);     // to weapons controller
-    delegate void WeaponAmmoChange(int currentAmount);      // for UI (ammo amount)
-    delegate void WeaponSwitch(WeaponIndex switchTo);
-
-    // spawners
-    //delegate void SpawnerRegister(ISpawner s);
+    // shop
+    delegate void BuyWeapon(WeaponIndex index, int price);
+    delegate void BuyAmmo(AmmunitionType index, int price);
 }

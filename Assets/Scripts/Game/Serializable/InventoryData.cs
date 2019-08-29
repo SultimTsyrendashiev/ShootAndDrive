@@ -12,12 +12,12 @@ namespace SD.Game.Data
     [Serializable]
     class InventoryData
     {
-
-
         InvWeapon[]     SavedWeapons;
         InvAmmo[]       SavedAmmo;
         InvItem[]       SavedItems;
         int             SavedMoney;
+
+        PlayerStats     SavedStats;
 
         /// <summary>
         /// Load data from inventory to this class
@@ -58,12 +58,15 @@ namespace SD.Game.Data
             //    items.Add(new InvItem(t, amount));
             //}
 
+
             // to arrays, so this class is ready for serialization
             SavedWeapons = weapons.ToArray();
             SavedAmmo = ammo.ToArray();
             SavedItems = items.ToArray();
 
             SavedMoney = inventory.Money;
+
+            SavedStats = inventory.PlayerStats;
         }
 
         /// <summary>
@@ -95,7 +98,9 @@ namespace SD.Game.Data
             //    inventory.Items.Set(i.Type, i.Amount);
             //}
 
-            inventory.Money = SavedMoney;
+            inventory.InitMoney(SavedMoney);
+
+            inventory.PlayerStats = SavedStats;
         }
     }
 }

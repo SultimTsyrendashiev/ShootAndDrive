@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SD
 {
     interface IShop
     {
+        void Init(IInventory inventory);
+
         bool BuyAmmo(AmmunitionType type, bool buyAll);
         bool BuyWeapon(WeaponIndex type);
         bool RepairWeapon(WeaponIndex type);
@@ -23,5 +21,9 @@ namespace SD
         int GetAmmoPrice(IAmmoItem item, int amount);
         int GetRepairCost(IWeaponItem item);
         int GetWeaponPrice(IWeaponItem item);
+
+        event BuyWeapon     OnWeaponBuy;
+        event BuyWeapon     OnWeaponRepair;
+        event BuyAmmo       OnAmmoBuy;
     }
 }

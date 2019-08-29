@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using SD.PlayerLogic;
-using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 namespace SD.Weapons
 {
@@ -17,20 +19,22 @@ namespace SD.Weapons
         /// <summary>
         /// Common event, called on waepon breaking
         /// </summary>
-        public static event WeaponBreak         OnWeaponBreak;
+        public static event Action<WeaponIndex> OnWeaponBreak;
         
         /// <summary>
         /// Called on ammo change.
         /// Shows current weapon's ammo amount
         /// </summary>
-        public static event WeaponAmmoChange    OnAmmoChange;
+        public static event Action<int>         OnAmmoChange;
 
         /// <summary>
         /// Calles when weapon finish shooting
         /// </summary>
-        public static event WeaponShootFinish   OnShootFinish;
+        public static event Action<WeaponIndex> OnShootFinish;
 
-        public static event WeaponAmmoRunOut    OnAmmoRunOut;
+        public static event Action<WeaponIndex> OnAmmoRunOut;
+
+        public static event Action              OnShot;
         #endregion
 
         // Items in player's inventory
@@ -235,7 +239,7 @@ namespace SD.Weapons
             // if run out of ammo, send event
             if (newAmount == 0)
             {
-                OnAmmoRunOut(WeaponIndex);
+                OnAmmoRunOut?.Invoke(WeaponIndex);
             }
         }
 
@@ -474,8 +478,9 @@ namespace SD.Weapons
             // - shoot
             // - if weapon must jam, needed animation will be played
             //   everything else is same as primary
-
             PrimaryAttack();
+
+            OnShot?.Invoke();
 
             // wait for reload
             StartCoroutine(WaitForShoot(nextState));
@@ -555,7 +560,7 @@ namespace SD.Weapons
 
             if (nextState == WeaponState.Ready)
             {
-                OnShootFinish(WeaponIndex);
+                OnShootFinish?.Invoke(WeaponIndex);
             }
         }
         #endregion

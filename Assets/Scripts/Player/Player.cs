@@ -62,12 +62,19 @@ namespace SD.PlayerLogic
         public GameScore                    CurrentScore => currentScore;
         public PlayerVehicle                Vehicle { get; private set; }
 
+        #region events
         public event FloatChange            OnHealthChange;
         public event ScoreChange            OnScoreChange;
+
+        /// <summary>
+        /// Called when player dies, contains calculated score
+        /// </summary>
         public event PlayerDeath            OnPlayerDeath;
         public event PlayerStateChange      OnPlayerStateChange;
         public static event PlayerSpawn     OnPlayerSpawn;
         public event PlayerKills            OnKill;
+        public event PlayerKills            OnDestroyVehicle;
+        #endregion
 
         #region init / destroy
         /// <summary>
@@ -119,11 +126,7 @@ namespace SD.PlayerLogic
             State = PlayerState.Ready;
             OnPlayerStateChange(State);
 
-            try
-            {
-                OnScoreChange(currentScore);
-            }
-            catch { }
+            OnScoreChange?.Invoke(currentScore);
         }
 
         void Start()
@@ -191,12 +194,12 @@ namespace SD.PlayerLogic
                 currentScore.KillsAmount++;
                 currentScore.ScorePoints += data.Score;
 
-                OnScoreChange(currentScore);
-                OnKill(enemyPosition);
+                OnScoreChange?.Invoke(currentScore);
+                OnKill?.Invoke(enemyPosition);
             }
         }
 
-        void AddEnemyVehicleScore(Enemies.EnemyVehicleData data, GameObject initiator)
+        void AddEnemyVehicleScore(Enemies.EnemyVehicleData data, Transform enemyPosition, GameObject initiator)
         {
             // if initiator is player, count score
             // if (initiator == gameObject)
@@ -204,7 +207,8 @@ namespace SD.PlayerLogic
                 currentScore.DestroyedVehiclesAmount++;
                 currentScore.ScorePoints += data.Score;
 
-                OnScoreChange(currentScore);
+                OnScoreChange?.Invoke(currentScore);
+                OnDestroyVehicle?.Invoke(enemyPosition);
             }
         }
         #endregion
@@ -429,7 +433,7 @@ namespace SD.PlayerLogic
         {
             /// send event that score is changed, 
             /// so it may be presented in pause menu, for example
-            OnScoreChange(currentScore);
+            OnScoreChange?.Invoke(currentScore);
         }
     }
 }

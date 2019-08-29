@@ -21,6 +21,8 @@ namespace SD.UI.Menus
         SmoothCounter moneyText;
 
         [SerializeField]
+        SmoothCounter bestScoreText;
+        [SerializeField]
         SmoothCounter playerBalanceText;
 
         /// <summary>
@@ -43,13 +45,13 @@ namespace SD.UI.Menus
 
         protected override void DoInit()
         {
-            GameController.OnPlayerDeath += SetScore;
+            GameController.OnScoreSet += SetScore;
             GameController.Instance.Inventory.OnBalanceChange += SetBalance;
         }
 
         protected override void DoDestroy()
         {
-            GameController.OnPlayerDeath -= SetScore;
+            GameController.OnScoreSet -= SetScore;
             GameController.Instance.Inventory.OnBalanceChange -= SetBalance;
         }
 
@@ -74,7 +76,7 @@ namespace SD.UI.Menus
         /// <summary>
         /// Activates this menu and set score for counters
         /// </summary>
-        void SetScore(GameScore score)
+        void SetScore(GameScore score, int prevBestScore)
         {
             firstTimeAfterDeath = true;
 
@@ -84,9 +86,20 @@ namespace SD.UI.Menus
 
             Animator.Play(deathScreenAnimation);
 
+
             // set values
             scoreText.Set(score.ActualScorePoints);
             moneyText.Set(score.Money, 0, MoneyFormatter.MoneyFormat);
+
+            if (score.ActualScorePoints > prevBestScore)
+            {
+                bestScoreText.Set(score.ActualScorePoints, prevBestScore);
+            }
+            else
+            {
+                bestScoreText.Set(prevBestScore);
+            }
+
 
             // StartCoroutine(WaitForCount());
             tempTime = Time.unscaledTime + scoreCountingDelay;
@@ -119,6 +132,9 @@ namespace SD.UI.Menus
                 {
                     // start counting balance
                     playerBalanceText.StartCounting();
+
+                    // if not best score, counting will be reset
+                    bestScoreText.StartCounting();
 
                     toCountBalance = false;
                 }

@@ -28,6 +28,11 @@ namespace SD.UI
             GameController.Instance.CurrentPlayer.OnKill += ShowCrosshair;
         }
 
+        void OnDestroy()
+        {
+            GameController.Instance.CurrentPlayer.OnKill -= ShowCrosshair;
+        }
+
         void ShowCrosshair(Transform enemyTransform)
         {
             gameObject.SetActive(true);

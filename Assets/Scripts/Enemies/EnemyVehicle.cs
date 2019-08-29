@@ -200,7 +200,7 @@ namespace SD.Enemies
             ParticlesPool.Instance.Play(data.ExplosionName, transform.position, transform.rotation);
 
             // call event
-            OnVehicleDestroy(data, initiator);
+            OnVehicleDestroy?.Invoke(data, transform, initiator);
 
             // disable vehicle after exlosion
             Return();
@@ -241,7 +241,7 @@ namespace SD.Enemies
             alivePassengersAmount--;
 
             // call event
-            OnEnemyDeath(passengerData, enemyPosition, initiator);
+            OnEnemyDeath?.Invoke(passengerData, enemyPosition, initiator);
 
             // if there are passengers, but driver died
             if (passengerData.IsDriver)

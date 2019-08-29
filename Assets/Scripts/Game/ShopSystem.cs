@@ -8,7 +8,11 @@ namespace SD.Game.Shop
     {
         IInventory inventory;
 
-        public ShopSystem(IInventory inventory)
+        public event BuyWeapon OnWeaponBuy;
+        public event BuyWeapon OnWeaponRepair;
+        public event BuyAmmo OnAmmoBuy;
+
+        public void Init(IInventory inventory)
         {
             this.inventory = inventory;
         }
@@ -49,7 +53,10 @@ namespace SD.Game.Shop
                 return false;
             }
 
-            inventory.Money -= GetAmmoPrice(item, diff);
+            int price = GetAmmoPrice(item, diff);
+            inventory.Money -= price;
+
+            OnAmmoBuy?.Invoke(item.This, price);
 
             item.CurrentAmount = newAmount;
 
@@ -83,10 +90,13 @@ namespace SD.Game.Shop
                 return false;
             }
 
-            inventory.Money -= GetWeaponPrice(item);
+            int price = GetWeaponPrice(item);
+            inventory.Money -= price;
 
             item.IsBought = true;
             item.Health = item.Durability;
+
+            OnWeaponBuy?.Invoke(item.Index, price);
 
             return true;
         }
@@ -110,6 +120,8 @@ namespace SD.Game.Shop
             inventory.Money -= currentRepairCost;
 
             item.Health = item.Durability;
+
+            OnWeaponRepair?.Invoke(item.Index, currentRepairCost);
 
             return true;
         }

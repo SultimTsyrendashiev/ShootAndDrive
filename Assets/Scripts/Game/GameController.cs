@@ -73,7 +73,7 @@ namespace SD
         public static event Void                    OnWeaponSelectionEnable;
         public static event Void                    OnWeaponSelectionDisable;
 
-        public static event PlayerDeath             OnPlayerDeath;
+        public static event ScoreSet                OnScoreSet;
 
         /// <summary>
         /// Called when game ends, i.e. after some time from player death
@@ -161,6 +161,7 @@ namespace SD
 
             spawnersController      = new SpawnersController();
             SettingsSystem          = new SettingsSystem(Settings);
+            Shop                    = new ShopSystem();
 
 
             // check all systems
@@ -179,8 +180,8 @@ namespace SD
 
             InitPlayer();
 
-            // inventory is loaded, create shop system
-            Shop = new ShopSystem(Inventory);
+            // inventory is loaded, init shop system
+            Shop.Init(Inventory);
             
             // all systems initialized, sign up to events
             SignToEvents();
@@ -445,7 +446,7 @@ namespace SD
 
         void ProcessPlayerDeath(GameScore score)
         {
-            OnPlayerDeath(score);
+            OnScoreSet?.Invoke(score, Inventory.PlayerStats.Score_Best);
 
             // add money
             CurrentPlayer.Inventory.Money += score.Money;

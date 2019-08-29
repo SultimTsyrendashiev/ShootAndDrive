@@ -14,7 +14,7 @@ namespace SD.UI
         public static event FloatChange         OnMovementHorizontal;
 
         public static event Void                OnFireButton;
-        public static event WeaponSwitch        OnWeaponSwitch;
+        public static event Action<WeaponIndex> OnWeaponSwitch;
         public static event Void                OnPause;
         public static event Void                OnUnpause;
         public static event Void                OnMainMenuButton;

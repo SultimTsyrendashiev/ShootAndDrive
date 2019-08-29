@@ -5,12 +5,44 @@ namespace SD
 {
     interface IInventory
     {
-
         IWeaponsHolder      Weapons { get; }
         IAmmoHolder         Ammo { get; }
         int                 Money { get; set; }
 
+        PlayerStats         PlayerStats { get; set; }
+
         event PlayerBalanceChange OnBalanceChange;
+
+        /// <summary>
+        /// Use this only on initialization of money amount
+        /// </summary>
+        void InitMoney(int amount);
+    }
+
+    [System.Serializable]
+    struct PlayerStats
+    {
+        public int Score_Best;
+        public int Score_TotalEarned;
+
+        public int Combat_TotalShots;
+        public int Combat_TotalKills;
+        public int Combat_TotalVehiclesDestroyed;
+
+        public float Vehicle_OverallTravelledDistance;
+
+        public int Player_TotalDeaths;
+
+        public int Cash_TotalEarned;
+        public int Cash_TotalSpent;
+        public int Cash_SpentOnWeapons;
+        public int Cash_SpentOnWeaponBuys;
+        public int Cash_SpentOnRepairs;
+        public int Cash_SpentOnAmmo;
+
+        public int Cash_TotalWeaponBuys;
+        public int Cash_TotalWeaponRepairs;
+        public int Cash_TotalAmmoBuys;
     }
 
     interface IWeaponsHolder
