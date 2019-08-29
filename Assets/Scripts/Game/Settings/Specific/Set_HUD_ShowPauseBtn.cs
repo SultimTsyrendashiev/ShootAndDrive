@@ -15,12 +15,12 @@
             return SettingsList.Setting_Key_HUD_ShowPauseBtn;
         }
 
-        const string Key_Yes = "Settings.Key.Yes";
-        const string Key_No = "Settings.Key.No";
+        const string Key_Show = "Settings.Key.Show";
+        const string Key_Hide = "Settings.Key.Hide";
 
         public override string GetValueTranslationKey()
         {
-            return Settings.HUDShowPauseButton ? Key_Yes : Key_No;
+            return Settings.HUDShowPauseButton ? Key_Show : Key_Hide;
         }
     }
 }

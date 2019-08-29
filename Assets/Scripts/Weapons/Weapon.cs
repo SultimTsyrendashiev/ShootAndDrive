@@ -525,7 +525,7 @@ namespace SD.Weapons
         IEnumerator WaitForBreak()
         {
             // wait for breaking time without disabling
-            yield return new WaitForSeconds(weaponAnimation[AnimBreakName].length + 0.15f);
+            yield return new WaitForSeconds(weaponAnimation[AnimBreakName].length * 2);
 
             // call event
             OnWeaponBreak(WeaponIndex);

@@ -21,7 +21,7 @@ namespace SD.Game.Settings
         public const string Setting_Key_Input_MovementType     = "Input.MovementType";
         public const string Setting_Key_Input_MoveBtnsSize     = "Input.MoveBtnsSize";
         public const string Setting_Key_Input_MoveBtnsDistance = "Input.MoveBtnsDistance";
-        public const string Setting_Key_Input_LeftHanded       = "Input.LeftHanded";
+        // public const string Setting_Key_Input_LeftHanded       = "Input.LeftHanded";
 
         public const string Setting_Key_Perf_Preset            = "Perf.Preset";
         public const string Setting_Key_Perf_LodMult           = "Perf.LodMult";

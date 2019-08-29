@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using SD.Game.Settings;
 
 namespace SD.UI
@@ -17,7 +18,11 @@ namespace SD.UI
         [SerializeField]
         GameObject movementButtons;
 
+        [SerializeField]
+        Image pauseButtonImage;
+
         bool initialized = false;
+        bool hideHud;
 
         void Start()
         {
@@ -35,30 +40,36 @@ namespace SD.UI
 
             // when setting is changed, call handler
             GameController.Instance.SettingsSystem.Subscribe(SettingsList.Setting_Key_Input_MovementType, SetMovementInputType);
+            GameController.Instance.SettingsSystem.Subscribe(SettingsList.Setting_Key_HUD_ShowPauseBtn, DrawPauseButton);
+            GameController.Instance.SettingsSystem.Subscribe(SettingsList.Setting_Key_HUD_Hide, HideHud);
 
             initialized = true;
+        }
+
+        void OnDestroy()
+        {
+            GameController.Instance.SettingsSystem.Unsubscribe(SettingsList.Setting_Key_Input_MovementType, SetMovementInputType);
+            GameController.Instance.SettingsSystem.Unsubscribe(SettingsList.Setting_Key_HUD_ShowPauseBtn, DrawPauseButton);
+            GameController.Instance.SettingsSystem.Unsubscribe(SettingsList.Setting_Key_HUD_Hide, HideHud);
         }
 
         void OnEnable()
         {
             if (!initialized)
             {
-                SetMovementInputType(GameController.Instance.Settings);
+                var settings = GameController.Instance.Settings;
+
+                SetMovementInputType(settings);
+                DrawPauseButton(settings);
+                HideHud(settings);
             }
 
             SetActiveHUD(true);
             SetActiveWeaponSelectionMenu(false);
         }
 
-        void OnDestroy()
-        {
-            GameController.Instance.SettingsSystem.Unsubscribe(SettingsList.Setting_Key_Input_MovementType, SetMovementInputType);
-        }
-
         void SetMovementInputType(GlobalSettings settings)
         {
-            print("SetMovementInputType: " + settings.InputMovementType);
-
             switch (settings.InputMovementType)
             {
                 case MovementInputType.Joystick:
@@ -76,6 +87,16 @@ namespace SD.UI
             }
         }
 
+        void DrawPauseButton(GlobalSettings settings)
+        {
+            pauseButtonImage.enabled = settings.HUDShowPauseButton;
+        }
+
+        void HideHud(GlobalSettings settings)
+        {
+            hideHud = settings.HUDHide;
+        }
+
         public void SetActiveWeaponSelectionMenu(bool active)
         {
             weaponSelection.SetActive(active);
@@ -83,7 +104,7 @@ namespace SD.UI
 
         public void SetActiveHUD(bool active)
         {
-            hud.SetActive(active);
+            hud.SetActive(active && !hideHud);
             interactive.SetActive(active);
         }
     }

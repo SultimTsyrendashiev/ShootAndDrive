@@ -15,8 +15,8 @@
         const string Key_Big = "Settings.Key.MovementBtns.Distance.Big";
 
         const float Value_Default = 1.0f;
-        const float Value_Small = 0.5f;
-        const float Value_Big = 1.5f;
+        const float Value_Small = 0.0f;
+        const float Value_Big = 3.0f;
 
         protected override void ChangeValue()
         {

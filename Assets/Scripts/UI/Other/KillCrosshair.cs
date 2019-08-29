@@ -23,6 +23,7 @@ namespace SD.UI
         {
             crosshairImage = GetComponent<Image>();
             playerCamera = GameController.Instance.CurrentPlayer.MainCamera;
+            gameObject.SetActive(false);
 
             GameController.Instance.CurrentPlayer.OnKill += ShowCrosshair;
         }

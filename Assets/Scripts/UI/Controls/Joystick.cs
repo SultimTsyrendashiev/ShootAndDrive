@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using SD.Game.Settings;
 
 namespace SD.UI.Controls
 {
@@ -26,6 +27,8 @@ namespace SD.UI.Controls
         Vector3 startPosition;
         float movementRange;
 
+        bool drawImages;
+
         void Start()
         {
             // range is a half of parent's width
@@ -37,15 +40,7 @@ namespace SD.UI.Controls
             baseImage.enabled = false;
             dotImage.enabled = false;
 
-            if (!canvas)
-            {
-                canvas = GetComponentInParent<Canvas>();
-            }
-
-            if (!inputController)
-            {
-                inputController = GetComponentInParent<InputController>();
-            }
+            InitHandler();
         }
 
         void UpdateAxis(float delta)
@@ -95,8 +90,24 @@ namespace SD.UI.Controls
             joystickBase.position = startPosition;
             joystickDot.position = startPosition;
 
-            baseImage.enabled = true;
-            dotImage.enabled = true;
+            baseImage.enabled = true && drawImages;
+            dotImage.enabled = true && drawImages;
         }
+
+        #region settings handler
+        void InitHandler()
+        {
+            GameController.Instance.SettingsSystem.Subscribe(SettingsList.Setting_Key_HUD_Hide, Hide);
+            drawImages = !GameController.Instance.Settings.HUDHide;
+
+            baseImage.enabled = false;
+            dotImage.enabled = false;
+        }
+
+        void Hide(GlobalSettings settings)
+        {
+            drawImages = !settings.HUDHide;
+        }
+        #endregion
     }
 }

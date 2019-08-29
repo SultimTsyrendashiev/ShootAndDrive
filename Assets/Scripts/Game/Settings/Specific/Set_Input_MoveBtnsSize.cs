@@ -15,7 +15,7 @@
         const string Key_Big = "Settings.Key.MovementBtns.Size.Big";
 
         const float Value_Default = 1.0f;
-        const float Value_Small = 0.5f;
+        const float Value_Small = 0.75f;
         const float Value_Big = 1.5f;
 
         protected override void ChangeValue()
