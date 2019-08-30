@@ -227,6 +227,8 @@ namespace SD
 
             Inventory = CurrentPlayer.Inventory;
 
+            Inventory.Money = 200000;
+
             defaultPlayerPosition = CurrentPlayer.transform.position;
         }
 

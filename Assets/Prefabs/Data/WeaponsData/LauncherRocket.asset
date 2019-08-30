@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponEditorName: LauncherRocket
   translationKey: Inventory.Weapons.Names.LauncherRocket
   icon: {fileID: 0}
-  shotSound: {fileID: 0}
+  shotSound: {fileID: 8300000, guid: 8554471c6b149e445a8b51977fe15e2a, type: 3}
   unjamSound: {fileID: 0}
   breakSound: {fileID: 0}
   ammoType: 6

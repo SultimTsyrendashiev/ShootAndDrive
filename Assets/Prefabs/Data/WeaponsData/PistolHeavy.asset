@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponEditorName: PistolHeavy
   translationKey: Inventory.Weapons.Names.PistolHeavy
   icon: {fileID: 0}
-  shotSound: {fileID: 0}
+  shotSound: {fileID: 8300000, guid: 0e47a53d36d10fa45b0b42c67d3f8588, type: 3}
   unjamSound: {fileID: 0}
   breakSound: {fileID: 0}
   ammoType: 1

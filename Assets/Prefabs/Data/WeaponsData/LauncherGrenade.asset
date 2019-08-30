@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponEditorName: LauncherGrenade
   translationKey: Inventory.Weapons.Names.LauncherGrenade
   icon: {fileID: 0}
-  shotSound: {fileID: 0}
+  shotSound: {fileID: 8300000, guid: 9004ee8f691c66c4b85a3940e11be2ee, type: 3}
   unjamSound: {fileID: 0}
   breakSound: {fileID: 0}
   ammoType: 6

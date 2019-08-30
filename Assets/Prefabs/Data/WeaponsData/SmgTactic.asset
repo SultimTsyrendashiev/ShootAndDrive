@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponEditorName: SmgTactic
   translationKey: Inventory.Weapons.Names.SmgTactic
   icon: {fileID: 0}
-  shotSound: {fileID: 0}
+  shotSound: {fileID: 8300000, guid: 3ebfc703cc1cca14a9f47345cabced9b, type: 3}
   unjamSound: {fileID: 0}
   breakSound: {fileID: 0}
   ammoType: 1

@@ -6,6 +6,23 @@ namespace SD
 {
     class ParticlesPool : MonoBehaviour, IParticlesPool
     {
+        class PooledParticleSystem
+        {
+            public ParticleSystem Particles;
+            public AudioSource Audio;
+
+            public PooledParticleSystem(ParticleSystem particles, AudioSource audio)
+            {
+                Particles = particles;
+                Audio = audio;
+
+                if (Audio != null)
+                {
+                    Audio.playOnAwake = false;
+                }
+            }
+        }
+
         /// <summary>
         /// Contains all prefabs
         /// </summary>
@@ -13,7 +30,7 @@ namespace SD
         ParticlesPoolPrefabs prefabs;
 
         // Contains all particle systems in this pool
-        Dictionary<string, ParticleSystem> systems;
+        Dictionary<string, PooledParticleSystem> systems;
 
         bool isInitialized = false;
 
@@ -43,7 +60,7 @@ namespace SD
             isInitialized = true;
 
             Instance = this;
-            systems = new Dictionary<string, ParticleSystem>();
+            systems = new Dictionary<string, PooledParticleSystem>();
 
             foreach (var p in prefabs.Prefabs)
             {
@@ -66,18 +83,29 @@ namespace SD
             // force system not to play on awake
             main.playOnAwake = false;
 
-            systems.Add(prefabName, system);
+            systems.Add(prefabName, new PooledParticleSystem(system, system.GetComponent<AudioSource>()));
         }
 
-        public ParticleSystem GetParticleSystem(string name)
+        PooledParticleSystem GetPooledParticleSystem(string name)
         {
             Debug.Assert(systems.ContainsKey(name), "No particle system with name: " + name, this);
             return systems[name];
         }
 
+        public ParticleSystem GetParticleSystem(string name)
+        {
+            return GetPooledParticleSystem(name).Particles;
+        }
+
         public void Play(string name, Vector3 position, Quaternion rotation)
         {
-            ParticleSystem system = GetParticleSystem(name);
+            var pooled = GetPooledParticleSystem(name);
+            ParticleSystem system = pooled.Particles;
+
+            if (pooled.Audio != null)
+            {
+                pooled.Audio.Play();
+            }
 
             Transform systemTransform = system.transform;
             systemTransform.position = position;

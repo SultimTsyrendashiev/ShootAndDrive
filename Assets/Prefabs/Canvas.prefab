@@ -11862,6 +11862,9 @@ MonoBehaviour:
   playerBalanceText: {fileID: 4452081918345836180}
   scoreCountingDelay: 2.8
   balanceCountingDelay: 0.3
+  bestScorePanel: {fileID: 4452081919740766141}
+  bestScoreDefaultColor: {r: 0.97647065, g: 0.9803922, b: 0.7176471, a: 1}
+  bestScoreNewBestColor: {r: 1, g: 1, b: 0, a: 1}
 --- !u!95 &4452081918636868569
 Animator:
   serializedVersion: 3

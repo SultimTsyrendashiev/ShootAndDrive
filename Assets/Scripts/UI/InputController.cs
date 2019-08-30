@@ -11,7 +11,7 @@ namespace SD.UI
         public static float     MovementHorizontal { get; private set; } = 0.0f;
 
 
-        public static event FloatChange         OnMovementHorizontal;
+        public static event Action<float>       OnMovementHorizontal;
 
         public static event Void                OnFireButton;
         public static event Action<WeaponIndex> OnWeaponSwitch;

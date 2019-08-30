@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponEditorName: SmgHeavy
   translationKey: Inventory.Weapons.Names.SmgHeavy
   icon: {fileID: 0}
-  shotSound: {fileID: 0}
+  shotSound: {fileID: 8300000, guid: 3459bc339b2855d46b12426ead13cf50, type: 3}
   unjamSound: {fileID: 0}
   breakSound: {fileID: 0}
   ammoType: 1

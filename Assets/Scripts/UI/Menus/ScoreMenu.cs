@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using SD.UI.Indicators;
 using SD.PlayerLogic;
 
@@ -38,10 +39,22 @@ namespace SD.UI.Menus
         [SerializeField]
         float balanceCountingDelay = 0.25f;
 
+        [SerializeField]
+        Image bestScorePanel;
+        [SerializeField]
+        Color bestScoreDefaultColor;
+        [SerializeField]
+        Color bestScoreNewBestColor;
+
         /// <summary>
         /// If true, then don't play activation animation
         /// </summary>
         bool firstTimeAfterDeath;
+
+        float tempTime;
+        bool toCountScore;
+        bool toCountBalance;
+        bool newBestScore;
 
         protected override void DoInit()
         {
@@ -91,24 +104,15 @@ namespace SD.UI.Menus
             scoreText.Set(score.ActualScorePoints);
             moneyText.Set(score.Money, 0, MoneyFormatter.MoneyFormat);
 
-            if (score.ActualScorePoints > prevBestScore)
-            {
-                bestScoreText.Set(score.ActualScorePoints, prevBestScore);
-            }
-            else
-            {
-                bestScoreText.Set(prevBestScore);
-            }
+            newBestScore = score.ActualScorePoints > prevBestScore;
 
+            bestScoreText.Set(newBestScore ? score.ActualScorePoints : prevBestScore, prevBestScore);
+            bestScorePanel.color = bestScoreDefaultColor;
 
             // StartCoroutine(WaitForCount());
             tempTime = Time.unscaledTime + scoreCountingDelay;
             toCountScore = true;
         }
-
-        float tempTime;
-        bool toCountScore;
-        bool toCountBalance;
 
         void Update()
         {
@@ -135,6 +139,11 @@ namespace SD.UI.Menus
 
                     // if not best score, counting will be reset
                     bestScoreText.StartCounting();
+
+                    if (newBestScore)
+                    {
+                        bestScorePanel.color = bestScoreNewBestColor;
+                    }
 
                     toCountBalance = false;
                 }

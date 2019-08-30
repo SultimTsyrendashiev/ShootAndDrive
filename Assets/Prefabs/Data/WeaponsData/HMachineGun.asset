@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponEditorName: HMachineGun
   translationKey: Inventory.Weapons.Names.HMachineGun
   icon: {fileID: 0}
-  shotSound: {fileID: 0}
+  shotSound: {fileID: 8300000, guid: a150a7b0974349a4989500fab545e8a4, type: 3}
   unjamSound: {fileID: 0}
   breakSound: {fileID: 0}
   ammoType: 3

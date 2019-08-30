@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponEditorName: TFireBottle
   translationKey: Inventory.Weapons.Names.TFireBottle
   icon: {fileID: 0}
-  shotSound: {fileID: 0}
+  shotSound: {fileID: 8300000, guid: 26b86439a53f6d940bfe78d4ae8601e8, type: 3}
   unjamSound: {fileID: 0}
   breakSound: {fileID: 0}
   ammoType: 5

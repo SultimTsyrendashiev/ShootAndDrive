@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponEditorName: Pistol
   translationKey: Inventory.Weapons.Names.Pistol
   icon: {fileID: 0}
-  shotSound: {fileID: 0}
+  shotSound: {fileID: 8300000, guid: 8917028c906d6e54780ddb7ad43ccc89, type: 3}
   unjamSound: {fileID: 0}
   breakSound: {fileID: 0}
   ammoType: 1

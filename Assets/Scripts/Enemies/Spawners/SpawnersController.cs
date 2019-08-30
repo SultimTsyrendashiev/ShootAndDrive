@@ -56,11 +56,13 @@ namespace SD.Enemies.Spawner
             AddSpawners();
 
             GameController.OnGameEnd += DisableAll;
+            GameController.OnGameEnd += Stop;
         }
 
         ~SpawnersController()
         {
             GameController.OnGameEnd -= DisableAll;
+            GameController.OnGameEnd -= Stop;
         }
 
         /// <summary>
@@ -246,18 +248,15 @@ namespace SD.Enemies.Spawner
 
             do
             {
-                LinkedListNode<ISpawnable> next = node.Next;
-                ISpawnable s = node.Value;
-
                 // return to object pool
-                s.Return();
+                node.Value.Return();
 
-                // remove from active
-                spawnedObjects.Remove(node);
-
-                node = next;
+                node = node.Next;
 
             } while (node != null);
+
+            // remove from active
+            spawnedObjects.Clear();
         }
     }
 }

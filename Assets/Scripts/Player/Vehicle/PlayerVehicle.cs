@@ -40,6 +40,7 @@ namespace SD.PlayerLogic
         public event CollideVehicle OnVehicleCollision;
         public event FloatChange    OnVehicleHealthChange;
         public event FloatChange    OnDistanceChange;
+        public event FloatChange    OnSteering;
 
         #region speed
         public float                DefaultSpeed = 20;
@@ -322,6 +323,8 @@ namespace SD.PlayerLogic
 
                 rotatingTransform.localEulerAngles = euler;
             }
+
+            OnSteering?.Invoke(SteeringWheel.Steering);
         }
 
         #region explosion
