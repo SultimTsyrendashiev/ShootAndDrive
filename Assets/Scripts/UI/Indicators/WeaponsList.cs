@@ -68,7 +68,7 @@ namespace SD.UI.Indicators
 
                     if (!w.IsAmmo || (w.IsAmmo && a.CurrentAmount > 0))
                     {
-                        b.Set(w, a, SelectWeapon, ammoList.HighlightAmmo, ammoList.UnhighlightAll);
+                        b.Set(w, a, SelectWeapon, ammoList.HighlightAmmo);
                     }
                     else
                     {

@@ -22,7 +22,8 @@ Settings.Performance.Shadowmap,Shadow quality,Качество теней
 Settings.Performance.RagdollsAmount,Ragdolls amount,Количество рэгдоллов
 Settings.Performance.Skybox3D,3D skybox,3D skybox
 Settings.Performance.ShaderQuality,Shader quality,Качество шейдеров
-Settings.Sound.MusicVolume,Music volume,Громкость музыки
+Settings.Audio.MusicVolume,Music volume,Громкость музыки
+Settings.Audio.SoundVolume,Sound volume,Громкость звуков
 Settings.Input.MovementType,Input type,Тип управления
 Settings.Input.MovementBtns.Distance,Distance between movement buttons,Расстояние между кнопками передвижения
 Settings.Input.MovementBtns.Size,Movement buttons size,Размер кнопок передвижения
@@ -54,8 +55,8 @@ Settings.Key.Amount.Max,Max,Максимум
 Settings.Key.Shader.Performance,Performance,Производительность
 Settings.Key.Shader.PB,Physically based,По физике
 Settings.Key.Shadow.No,No,Нет
-Settings.Key.Shadow.Low,Low,Низкое
-Settings.Key.Shadow.Medium,Medium,По умолчанию
+Settings.Key.Shadow.Low,Default,По умолчанию
+Settings.Key.Shadow.Medium,Good,Хорошее
 Settings.Key.Shadow.High,High,Высокое
 Settings.Key.Shadow.Ultra,Ultra,Ультра
 Settings.Key.Movement.Joystick,Joystick,Джойстик

@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 8365640678026860319}
   - component: {fileID: 7999346668433784369}
   m_Layer: 5
-  m_Name: WeaponAmmo
+  m_Name: ShopAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -428,6 +428,7 @@ GameObject:
   - component: {fileID: 8365640678257514726}
   - component: {fileID: 8365640678257514725}
   - component: {fileID: 2693979374002540508}
+  - component: {fileID: 1383842553402319341}
   m_Layer: 5
   m_Name: Buy
   m_TagString: Untagged
@@ -551,6 +552,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e65e745e7ddd45ad573ebfeb2b2bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1383842553402319341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8365640678257514723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cdef68f51ff72a4285a5df65579f9c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 86accddfe547c3d43968b12a3ceb45ce, type: 3}
 --- !u!1 &8365640678744751963
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,6 +809,7 @@ GameObject:
   - component: {fileID: 8365640679165628360}
   - component: {fileID: 8365640679165628359}
   - component: {fileID: 2505312911833876116}
+  - component: {fileID: 2973563987892049387}
   m_Layer: 5
   m_Name: BuyAll
   m_TagString: Untagged
@@ -918,6 +933,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f08587d8ad0cf449207bafe0bb6f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2973563987892049387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8365640679165628357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cdef68f51ff72a4285a5df65579f9c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 86accddfe547c3d43968b12a3ceb45ce, type: 3}
 --- !u!1 &8365640679370840459
 GameObject:
   m_ObjectHideFlags: 0

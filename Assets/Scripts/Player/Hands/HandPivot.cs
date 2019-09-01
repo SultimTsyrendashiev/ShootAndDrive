@@ -38,12 +38,15 @@ public class HandPivot : MonoBehaviour
             handAnim = hand.GetComponentInChildren<Animation>();
         }
 
-        foreach (AnimationState a in handAnim)
+        if (handAnim != null)
         {
-            if (a.name == poseAnimName)
+            foreach (AnimationState a in handAnim)
             {
-                poseExist = true;
-                return;
+                if (a.name == poseAnimName)
+                {
+                    poseExist = true;
+                    return;
+                }
             }
         }
     }
@@ -65,9 +68,9 @@ public class HandPivot : MonoBehaviour
 
         // set hand's parent
         // so hand now is attached to a weapon
-        hand.SetParent(transform, true);
+        hand?.SetParent(transform, true);
 
         // play animation to place hand on weapon
-        handAnim.Play(poseAnimName);
+        handAnim?.Play(poseAnimName);
     }
 }

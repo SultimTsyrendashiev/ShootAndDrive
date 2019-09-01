@@ -30,5 +30,5 @@ MonoBehaviour:
   jamProbability: 0.03
   damage: 40
   reloadingTime: 0.14
-  accuracy: 0.76
+  accuracy: 0.78
   missileName: 

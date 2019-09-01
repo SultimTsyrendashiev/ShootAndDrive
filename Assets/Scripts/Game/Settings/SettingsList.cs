@@ -30,6 +30,9 @@ namespace SD.Game.Settings
         public const string Setting_Key_Perf_ResolutionMult    = "Perf.ResolutionMult";
         public const string Setting_Key_Perf_ShaderQuality     = "Perf.ShaderQuality";
         public const string Setting_Key_Perf_ShadowQuality     = "Perf.ShadowQuality";
+
+        public const string Setting_Key_Audio_MusicVolume       = "Audio.MusicVolume";
+        public const string Setting_Key_Audio_SoundVolume       = "Audio.SoundVolume";
         #endregion
 
         /// <summary>
@@ -59,6 +62,9 @@ namespace SD.Game.Settings
             settings.Add(new Set_Perf_ResolutionMult(globalSettings));
             settings.Add(new Set_Perf_ShaderQuality(globalSettings));
             settings.Add(new Set_Perf_ShadowQuality(globalSettings));
+
+            settings.Add(new Set_Sound_MusicVolume(globalSettings));
+            settings.Add(new Set_Sound_SoundVolume(globalSettings));
 
             return settings;
         }

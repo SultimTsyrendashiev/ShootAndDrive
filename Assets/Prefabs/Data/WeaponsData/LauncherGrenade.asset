@@ -28,7 +28,7 @@ MonoBehaviour:
   isAmmo: 0
   percentageForJam: 0.17
   jamProbability: 0.03
-  damage: 200
+  damage: 300
   reloadingTime: 1
   accuracy: 0
   missileName: MissileGrenadeLauncher

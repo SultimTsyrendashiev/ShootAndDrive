@@ -25,8 +25,18 @@ namespace SD.UI.Shop
         Text ammoText;
         [SerializeField]
         Image ammoImage;
+        [SerializeField]
+        Image ammoPanel;
 
-        #region buttons
+        [SerializeField]
+        Color ammoPanelDefault;
+        [SerializeField]
+        Color ammoPanelEmpty;
+
+        [SerializeField]
+        Button ammoMenuButton;
+
+        #region weapon buttons
         [SerializeField]
         Button buyButton;
         [SerializeField]
@@ -86,7 +96,6 @@ namespace SD.UI.Shop
             nameText.text = GetTranslation(weaponItem.TranslationKey);
 
             ammoImage.sprite = ammoItem.Icon;
-            ammoText.text = GetTranslation(ammoItem.TranslationKey);
 
             SetPercentage(damageIndicatorImage, maxIndicatorsWidth, 
                 Mathf.Clamp(weaponItem.Damage / IndicatorMaxDamage, 0, 1));
@@ -171,6 +180,23 @@ namespace SD.UI.Shop
                 health.SetActive(false);
             }
 
+
+            if (weaponItem.IsBought || weaponItem.IsAmmo)
+            {
+                ammoPanel.color =  ammoItem.CurrentAmount > 0 ? ammoPanelDefault : ammoPanelEmpty;
+
+                ammoText.text = GetTranslation(ammoItem.TranslationKey) + ' '
+                    + ammoItem.CurrentAmount + '/' + ammoItem.MaxAmount;
+            }
+            else
+            {
+                ammoPanel.color = ammoPanelDefault;
+
+                ammoText.text = GetTranslation(ammoItem.TranslationKey);
+            }
+
+            ammoMenuButton.interactable = !weaponItem.IsAmmo || (weaponItem.IsAmmo && ammoItem.CurrentAmount > 0);
+
             // disable indicators that are not necessary
             durabilityIndicator.SetActive(ShowDurabilityIndicator(weaponItem));
             accuracyIndicator.SetActive(ShowAccuracyIndicator(weaponItem));
@@ -229,6 +255,11 @@ namespace SD.UI.Shop
 
             shop.RepairWeapon(weaponItem.Index);
 
+            UpdateInfo();
+        }
+
+        void OnEnable()
+        {
             UpdateInfo();
         }
 

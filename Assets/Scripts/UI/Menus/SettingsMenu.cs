@@ -21,6 +21,16 @@ namespace SD.UI.Menus
             return settings.GetSettingValue(settingName);
         }
 
+        public void ChangeFloatSetting(string settingName, float value)
+        {
+            settings.ChangeFloatSetting(settingName, value);
+        }
+
+        public float GetFloatSettingValue(string settingName)
+        {
+            return settings.GetFloatSettingValue(settingName);
+        }
+
         protected override void DoInit()
         {
             settings = GameController.Instance.SettingsSystem;
@@ -31,12 +41,6 @@ namespace SD.UI.Menus
         protected override void DoDestroy()
         {
             InputController.OnSettingsButton -= ShowThisMenu;
-        }
-
-        public void Change_Sound_MusicVolume(float volume)
-        {
-            volume = Mathf.Clamp(volume, 0, 1);
-            // AudioMixer::SetFloat( , volume);
         }
     }
 }

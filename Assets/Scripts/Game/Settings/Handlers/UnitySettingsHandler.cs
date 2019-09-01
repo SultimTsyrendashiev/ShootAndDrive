@@ -1,11 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.LWRP;
 
 namespace SD.Game.Settings
 {
-    // TODO: start values
-
     /// <summary>
     /// Handles all settings that depends on Unity
     /// </summary>
@@ -28,30 +27,38 @@ namespace SD.Game.Settings
         SettingsSystem settingsSystem;
 
 
-        public void Init(SettingsSystem settingsSystem)
+        public void Init(SettingsSystem settingsSystem, GlobalSettings initSettings)
         {
             if (GraphicsSettings.renderPipelineAsset)
             {
-                GraphicsSettings.renderPipelineAsset = shadowsNone;
+                GraphicsSettings.renderPipelineAsset = shadowsLow;
             }
 
             this.settingsSystem = settingsSystem;
             this.currentPipelineAsset = (LightweightRenderPipelineAsset)GraphicsSettings.renderPipelineAsset;
 
             // when preset is changed this settings must be changed too
-            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Preset, ChangeShadows);
-            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Preset, ChangeMSAA);
-            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Preset, ChangeLOD);
-            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Preset, ChangeRenderScale);
+            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Preset, SetShadows);
+            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Preset, SetMSAA);
+            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Preset, SetLOD);
+            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Preset, SetRenderScale);
 
-            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_ShadowQuality, ChangeShadows);
-            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Msaa, ChangeMSAA);
-            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_LodMult, ChangeLOD);
-            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_ResolutionMult, ChangeRenderScale);
+            // performance
+            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_ShadowQuality, SetShadows);
+            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Msaa, SetMSAA);
+            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_LodMult, SetLOD);
+            settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_ResolutionMult, SetRenderScale);
 
             // when cutscene starts or ends, set specific shadow distance
             CutsceneManager.OnCutsceneStart += SetCutsceneShadowDistance;
             CutsceneManager.OnCutsceneEnd += SetDefaultShadowDistance;
+
+            // apply initSettings, as actual settings are not applied at the start
+            SetShadows(initSettings);
+            SetMSAA(initSettings);
+            SetLOD(initSettings);
+            SetRenderScale(initSettings);
+            SetDefaultShadowDistance();
         }
 
         void OnDestroy()
@@ -61,14 +68,15 @@ namespace SD.Game.Settings
                 return;
             }
 
-            settingsSystem.Unsubscribe(SettingsList.Setting_Key_Perf_ShadowQuality, ChangeShadows);
-            settingsSystem.Unsubscribe(SettingsList.Setting_Key_Perf_Msaa, ChangeMSAA);
+            settingsSystem.Unsubscribe(SettingsList.Setting_Key_Perf_ShadowQuality, SetShadows);
+            settingsSystem.Unsubscribe(SettingsList.Setting_Key_Perf_Msaa, SetMSAA);
 
             CutsceneManager.OnCutsceneStart -= SetCutsceneShadowDistance;
             CutsceneManager.OnCutsceneEnd -= SetDefaultShadowDistance;
         }
 
-        void ChangeRenderScale(GlobalSettings settings)
+        #region performance
+        void SetRenderScale(GlobalSettings settings)
         {
             shadowsNone.renderScale = settings.PerfResolutionMult;
             shadowsLow.renderScale = settings.PerfResolutionMult;
@@ -76,12 +84,12 @@ namespace SD.Game.Settings
             shadowsHigh.renderScale = settings.PerfResolutionMult;
         }
 
-        void ChangeLOD(GlobalSettings settings)
+        void SetLOD(GlobalSettings settings)
         {
             QualitySettings.lodBias = settings.PerfLODMultiplier;
         }
 
-        void ChangeMSAA(GlobalSettings settings)
+        void SetMSAA(GlobalSettings settings)
         {
             int msaa = settings.PerfMsaa;
 
@@ -96,7 +104,7 @@ namespace SD.Game.Settings
             shadowsHigh.msaaSampleCount = msaa;
         }
 
-        void ChangeShadows(GlobalSettings settings)
+        void SetShadows(GlobalSettings settings)
         {
             switch (settings.PerfShadowQuality)
             {
@@ -145,5 +153,6 @@ namespace SD.Game.Settings
             shadowsMedium.shadowDistance = DefaultShadowDistance;
             shadowsHigh.shadowDistance = DefaultShadowDistance;
         }
+        #endregion
     }
 }

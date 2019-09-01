@@ -35,9 +35,6 @@ namespace SD
 
         Vector3                         defaultPlayerPosition;
 
-        float                           defaultTimeScale;
-        float                           defaultFixedDelta;
-
 
         // services
         public Player                   CurrentPlayer { get; private set; }
@@ -50,9 +47,12 @@ namespace SD
 
         public SettingsSystem           SettingsSystem { get; private set; }
 
+        AudioManager                    audioManager;
+
         SpawnersController              spawnersController;
         CutsceneManager                 cutsceneManager;
         TutorialManager                 tutorialManager;
+        TimeController                  timeController;
 
         // stats
         public AllWeaponsStats          WeaponsStats { get; private set; }
@@ -63,12 +63,15 @@ namespace SD
         public LanguageTable            Localization => csvLanguageTable.Languages;
         CSVLanguageTable                csvLanguageTable;
 
+        AudioSettingsHandler            audioSettingsHandler;
+
         #region events
         public static event Void                    OnGameplayActivate;
         public static event Void                    OnGamePause;
         public static event Void                    OnGameUnpause;
         public static event Void                    OnMainMenuActivate;
         public static event Void                    OnInventoryOpen;
+        public static event Action<Player>          OnPlayerDeath;
 
         public static event Void                    OnWeaponSelectionEnable;
         public static event Void                    OnWeaponSelectionDisable;
@@ -141,9 +144,6 @@ namespace SD
         /// </summary>
         void Init()
         {
-            defaultTimeScale = Time.timeScale;
-            defaultFixedDelta = Time.fixedDeltaTime;
-
             // load data from previous sessions
             LoadSettings();
 
@@ -155,6 +155,7 @@ namespace SD
             Background              = FindObjectOfType<BackgroundController>();
             cutsceneManager         = FindObjectOfType<CutsceneManager>();
             tutorialManager         = FindObjectOfType<TutorialManager>();
+            audioManager            = FindObjectOfType<AudioManager>();
 
             WeaponsStats            = new AllWeaponsStats(weaponsList.Data);
             AmmoStats               = new AllAmmoStats(ammoList.Data);
@@ -162,6 +163,8 @@ namespace SD
             spawnersController      = new SpawnersController();
             SettingsSystem          = new SettingsSystem(Settings);
             Shop                    = new ShopSystem();
+            audioSettingsHandler    = new AudioSettingsHandler();
+            timeController          = new TimeController(Time.fixedDeltaTime);
 
 
             // check all systems
@@ -172,11 +175,10 @@ namespace SD
             Debug.Assert(tutorialManager != null,                           "Can't find TutorialManager",           this);
             Debug.Assert(FindObjectOfType<ObjectPool>() != null,            "Can't find ObjectPool",                this);
             Debug.Assert(FindObjectOfType<ParticlesPool>() != null,         "Can't find ParticlesPool",             this);
-            Debug.Assert(FindObjectOfType<UnitySettingsHandler>() != null,  "Can't find UnitySettingsHandler",      this);
+            Debug.Assert(audioManager != null,                              "Can't find AudioManager");
 
 
-
-            InitUnitySettings();
+            SettingsInitializer.Init(SettingsSystem, Settings, audioManager, audioSettingsHandler, timeController);
 
             InitPlayer();
 
@@ -188,11 +190,6 @@ namespace SD
             
             // at last, init object and particle pools
             InitPools();
-        }
-
-        void InitUnitySettings()
-        {
-            FindObjectOfType<UnitySettingsHandler>().Init(SettingsSystem);
         }
 
         void InitPools()
@@ -403,32 +400,24 @@ namespace SD
 
         void PauseGame()
         {
-            Time.timeScale = 0;
             OnGamePause();
         }
 
         void UnpauseGame()
         {
-            Time.timeScale = 1;
             OnGameUnpause();
         }
 
         void EnableWeaponsSelection()
         {
-            if (Inventory.Weapons.ContainsAtLeastOne())
+            // if (Inventory.Weapons.ContainsAtLeastOne())
             {
-                Time.timeScale = defaultTimeScale * WeaponsSelectionMultiplier;
-                Time.fixedDeltaTime = defaultFixedDelta * WeaponsSelectionMultiplier;
-
                 OnWeaponSelectionEnable();
             }
         }
 
         void DisableWeaponsSelection()
         {
-            Time.timeScale = defaultTimeScale;
-            Time.fixedDeltaTime = defaultFixedDelta;
-
             OnWeaponSelectionDisable();
         }
 
@@ -437,9 +426,6 @@ namespace SD
         /// </summary>
         void StopGame()
         {
-            Time.timeScale = defaultTimeScale;
-            Time.fixedDeltaTime = defaultFixedDelta;
-
             mainMenuBackground.SetActive(true);
             CurrentPlayer.gameObject.SetActive(false);
 
@@ -458,6 +444,8 @@ namespace SD
 
             // scale down time
             StartCoroutine(WaitForGameEnd());
+
+            OnPlayerDeath?.Invoke(CurrentPlayer);
         }
 
         /// <summary>
@@ -468,45 +456,12 @@ namespace SD
             const float scale = 0.2f;
             const float toWait = 0.3f;
 
-            Time.timeScale = defaultTimeScale * scale;
-            Time.fixedDeltaTime = defaultFixedDelta * scale;
-
+            timeController.SetTimeScale(scale);
             yield return new WaitForSeconds(toWait);
 
-            Time.timeScale = defaultTimeScale;
-            Time.fixedDeltaTime = defaultFixedDelta;
+            timeController.SetDefault();
 
             OnGameEnd();
-
-            //    float startScale = 0.15f;
-            //    Time.timeScale = defaultTimeScale * startScale;
-            //    Time.fixedDeltaTime = defaultFixedDelta * startScale;
-
-            //    yield return new WaitForSeconds(1.0f);
-
-            //    const float timeToWait = 0.25f;
-            //    float waited = 0;
-
-            //    while (waited < timeToWait)
-            //    {
-            //        yield return null;
-            //        waited += Time.unscaledDeltaTime;
-
-            //        if (waited > timeToWait)
-            //        {
-            //            waited = timeToWait;
-            //        }
-
-            //        float scale = 1 - waited / timeToWait;
-            //        scale *= startScale;
-
-            //        Time.timeScale = scale * defaultTimeScale;
-            //        Time.fixedDeltaTime = scale * defaultFixedDelta;
-            //    }
-
-            //    Time.timeScale = 0;
-            //    Time.fixedDeltaTime = 0;
-            //}
         }
 
         public void AddEnemyTarget(IEnemyTarget target)

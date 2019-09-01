@@ -57,6 +57,7 @@
 
         #region sound
         public float                MusicVolume;
+        public float                SoundVolume;
         #endregion
 
         #region input
@@ -88,6 +89,7 @@
             SetPerformanceDefault();
 
             MusicVolume = 1;
+            SoundVolume = 1;
 
             InputMovementType = MovementInputType.Joystick;
             InputMovementBtnsSize = 1;

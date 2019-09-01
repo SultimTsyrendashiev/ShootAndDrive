@@ -75,7 +75,7 @@ namespace SD.UI.Indicators
             UpdateList();
         }
 
-        void OnDestro()
+        void OnDestroy()
         {
             GameController.Instance.CurrentPlayer.OnPlayerStateChange -= ProcessPlayerStateChange;
         }

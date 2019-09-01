@@ -32,6 +32,14 @@ namespace SD.Game.Settings
             }
         }
 
+        public void ChangeFloatSetting(string settingName, float value)
+        {
+            if (allSettings.TryGetValue(settingName, out ASetting setting))
+            {
+                setting.ChangeSetting(value);
+            }
+        }
+
         public string GetSettingValue(string settingName)
         {
             if (allSettings.TryGetValue(settingName, out ASetting setting))
@@ -40,6 +48,16 @@ namespace SD.Game.Settings
             }
 
             return string.Empty;
+        }
+
+        public float GetFloatSettingValue(string settingName)
+        {
+            if (allSettings.TryGetValue(settingName, out ASetting setting))
+            {
+                return setting.GetFloatValue();
+            }
+
+            return 0;
         }
 
         /// <summary>

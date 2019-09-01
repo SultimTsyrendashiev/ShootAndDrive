@@ -118,10 +118,15 @@ namespace SD.Game
             isPlaying = false;
             currentCutscene = -1;
 
-            foreach (var c in cutscenes)
+            foreach (PlayableDirector c in cutscenes)
             {
+                c.time = 0;
+
                 // stop cutscene
                 c.Stop();
+
+                // evaluate 1 frame
+                c.Evaluate();
 
                 // deactivate all objects assocated with cutscene
                 ActivateCutsceneObjects(c, false);
