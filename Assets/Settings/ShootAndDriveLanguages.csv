@@ -23,6 +23,7 @@ Settings.Performance.RagdollsAmount,Ragdolls amount,Количество рэг�
 Settings.Performance.Skybox3D,3D skybox,3D skybox
 Settings.Performance.ShaderQuality,Shader quality,Качество шейдеров
 Settings.Audio.MusicVolume,Music volume,Громкость музыки
+Settings.Audio.UIVolume,UI volume,Громкость интерфейса
 Settings.Audio.SoundVolume,Sound volume,Громкость звуков
 Settings.Input.MovementType,Input type,Тип управления
 Settings.Input.MovementBtns.Distance,Distance between movement buttons,Расстояние между кнопками передвижения
@@ -33,7 +34,7 @@ Settings.HUD.Hide,Hide HUD,Скрыть HUD
 Settings.HUD.Hiding,HUD hiding,Скрывать HUD
 Settings.HUD.SafeZone,Safe zone,Безопасная зона
 Settings.HUD.Diegetic,Diegetic UI,Diegetic UI
-Settings.Credits.Text,...,...
+Settings.Credits.Text,Manrope font by Michael Sharanda,Шрифт Manrope - Michael Sharanda
 Settings.Key.Yes,Yes,Да
 Settings.Key.No,No,Нет
 Settings.Key.Enable,Enable,Включить
@@ -96,6 +97,7 @@ Inventory.Weapons.Health,Condition,Состояние
 Inventory.Weapons.Buy,Buy {0},Покупка {0}
 Inventory.Weapons.Repair,Repair {0},Починка {0}
 Inventory.Weapons.NotBought,Not bought,Не куплено
+Inventory.Weapons.NoAvailable,No available weapons,Нет доступных оружий
 Inventory.Ammo.BulletsPistol,Pistol bullets,Пистолетные патроны
 Inventory.Ammo.Bullets,Bullets,Патроны
 Inventory.Ammo.BulletsHeavy,Heavy bullets,Тяжёлые патроны
@@ -136,4 +138,8 @@ Inventory.Weapons.Names.TFireBottle,Fire Bottle,Бутылка с зажигат
 Inventory.Weapons.Names.LauncherRocket,Rocket Launcher,Ракетная установка
 Inventory.Weapons.Names.LauncherGrenade,Grenade Launcher,Гранатомёт
 Inventory.Weapons.Names.LauncherCannon,Cannon,Пушка
+Inventory.Weapons.State.Jammed,Weapon jammed,Оружие заклинило
+Inventory.Weapons.State.Unjamming,Unjamming,Предотвращение заедания
+Inventory.Weapons.State.Breaking,Weapon is broken,Оружие сломалось
+Inventory.Weapons.State.NoAmmo,No ammo,Нет боеприпасов
 Inventory.Weapons.Names,Weapon names,Названия оружия

@@ -167,7 +167,7 @@ namespace SD.UI.Shop
 
             try
             {
-                return buyTranslation.GetValue();
+                return buyAllTranslation.GetValue();
             }
             catch
             {

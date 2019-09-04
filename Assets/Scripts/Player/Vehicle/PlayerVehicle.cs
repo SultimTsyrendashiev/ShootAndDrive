@@ -41,6 +41,7 @@ namespace SD.PlayerLogic
         public event FloatChange    OnVehicleHealthChange;
         public event FloatChange    OnDistanceChange;
         public event FloatChange    OnSteering;
+        public event Void           OnVehicleStart;
 
         #region speed
         public float                DefaultSpeed = 20;
@@ -141,22 +142,17 @@ namespace SD.PlayerLogic
 
             TravelledDistance = 0;
 
-            try
-            {
-                OnDistanceChange(TravelledDistance);
-            }
-            catch { }
+
+            OnDistanceChange?.Invoke(TravelledDistance);
 
             Health = MaxHealth;
 
-            try
-            {
-                OnVehicleHealthChange(Health);
-            }
-            catch { }
+            OnVehicleHealthChange?.Invoke(Health);
 
             engineSmoke.Stop();
             engineFire.Stop();
+
+            OnVehicleStart?.Invoke();
         }
 
         #region interface impl
@@ -197,7 +193,7 @@ namespace SD.PlayerLogic
                 StartCoroutine(WaitToExplode(TimeToExplode));
             }
 
-            OnVehicleHealthChange(Health);
+            OnVehicleHealthChange?.Invoke(Health);
         }
 
         // this should be called only from other vehicles
@@ -306,7 +302,7 @@ namespace SD.PlayerLogic
 
             if (Mathf.Abs(TravelledDistance - prevUpdatedDistance) > DistanceUpdateEpsilon)
             {
-                OnDistanceChange(TravelledDistance);
+                OnDistanceChange?.Invoke(TravelledDistance);
                 prevUpdatedDistance = TravelledDistance;
             }
         }

@@ -8,13 +8,22 @@ namespace SD.Game
     {
         public static event Action OnTutorialStart;
 
+        bool isStarted;
+
         public void StartTutorial(Player player, Action onTutorialEnd)
         {
+            if (isStarted)
+            {
+                return;
+            }
+
+            isStarted = true;
             Debug.Log("Tutorial invoked", this);
 
             player.Vehicle.Accelerate();
 
             onTutorialEnd?.Invoke();
+            isStarted = false;
         }
     }
 }

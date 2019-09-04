@@ -29,7 +29,7 @@ namespace SD.Game.Settings
 
         public void Init(SettingsSystem settingsSystem, GlobalSettings initSettings)
         {
-            if (GraphicsSettings.renderPipelineAsset)
+            if (GraphicsSettings.renderPipelineAsset != null)
             {
                 GraphicsSettings.renderPipelineAsset = shadowsLow;
             }
@@ -37,7 +37,7 @@ namespace SD.Game.Settings
             this.settingsSystem = settingsSystem;
             this.currentPipelineAsset = (LightweightRenderPipelineAsset)GraphicsSettings.renderPipelineAsset;
 
-            // when preset is changed this settings must be changed too
+            // when preset is changed this settings must be set
             settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Preset, SetShadows);
             settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Preset, SetMSAA);
             settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Preset, SetLOD);
@@ -82,11 +82,17 @@ namespace SD.Game.Settings
             shadowsLow.renderScale = settings.PerfResolutionMult;
             shadowsMedium.renderScale = settings.PerfResolutionMult;
             shadowsHigh.renderScale = settings.PerfResolutionMult;
+
+            Debug.Log("Setting RenderScale: " + settings.PerfResolutionMult
+                + ". Result: " + currentPipelineAsset.renderScale);
         }
 
         void SetLOD(GlobalSettings settings)
         {
             QualitySettings.lodBias = settings.PerfLODMultiplier;
+
+            Debug.Log("Setting LOD: " + settings.PerfLODMultiplier
+                + ". Result: " + QualitySettings.lodBias);
         }
 
         void SetMSAA(GlobalSettings settings)
@@ -102,6 +108,10 @@ namespace SD.Game.Settings
             shadowsLow.msaaSampleCount = msaa;
             shadowsMedium.msaaSampleCount = msaa;
             shadowsHigh.msaaSampleCount = msaa;
+            QualitySettings.antiAliasing = msaa;
+
+            Debug.Log("Setting MSAA: " + settings.PerfMsaa
+                + ". Result: " + currentPipelineAsset.msaaSampleCount);
         }
 
         void SetShadows(GlobalSettings settings)
@@ -130,6 +140,10 @@ namespace SD.Game.Settings
             }
 
             GraphicsSettings.renderPipelineAsset = currentPipelineAsset;
+
+            Debug.Log(settings.PerfShadowQuality + ". GraphicsAsset: " +
+                GraphicsSettings.renderPipelineAsset + ". CurrentAsset: " +
+                currentPipelineAsset);
         }
 
         /// <summary>

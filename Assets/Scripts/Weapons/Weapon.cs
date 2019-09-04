@@ -35,6 +35,8 @@ namespace SD.Weapons
         public static event Action<WeaponIndex> OnAmmoRunOut;
 
         public static event Action              OnShot;
+
+        public static event Action<WeaponState, WeaponState> OnStateChange;
         #endregion
 
         // Items in player's inventory
@@ -63,7 +65,21 @@ namespace SD.Weapons
         protected int DamageableLayer { get; private set; }    // Layer with damageable objects
         #endregion
 
-        public WeaponState      State { get; private set; }
+        WeaponState state;
+        public WeaponState      State
+        {
+            get
+            {
+                return state;
+            }
+            private set
+            {
+                WeaponState prev = state;
+                state = value;
+
+                OnStateChange?.Invoke(prev, state);
+            }
+        }
 
         /// <summary>
         /// Was weapon jammed before disable?

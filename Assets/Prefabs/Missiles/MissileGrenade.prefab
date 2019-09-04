@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 672987870569055846}
   - component: {fileID: 672987870569055847}
   - component: {fileID: 6814677195071187634}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: MissileGrenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,6 +52,7 @@ MonoBehaviour:
   ExplosionName: Explosion
   lifetime: 5
   damageRadius: 5
+  maxAngularSpeed: 100
 --- !u!135 &672987870569055847
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -93,7 +94,7 @@ GameObject:
   - component: {fileID: 672987872110448813}
   - component: {fileID: 672987872110448814}
   - component: {fileID: 672987872110448815}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

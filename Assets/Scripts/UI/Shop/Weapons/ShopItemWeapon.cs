@@ -172,7 +172,8 @@ namespace SD.UI.Shop
                 // if weapon is ammo too (f.e. grenades)
 
                 // show info not about weapon, but about ammo
-                buyButton.interactable = shop.EnoughMoneyToBuy(ammoItem, ammoItem.AmountToBuy);
+                buyButton.interactable = shop.EnoughMoneyToBuy(ammoItem, ammoItem.AmountToBuy)
+                    && shop.CanBeBought(ammoItem.This) > 0;
                 buyText.text = GetBuyText(ammoItem.Price);
 
                 buyButton.gameObject.SetActive(true);

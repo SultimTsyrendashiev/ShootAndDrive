@@ -14,7 +14,15 @@ namespace SD.UI.Indicators
         AmmoList ammoList;
 
         [SerializeField]
+        Transform weaponsBtnsParent;
+
+        [SerializeField]
         GameObject weaponBtnPrefab;
+
+        [SerializeField]
+        GameObject weaponSelectionObj;
+        [SerializeField]
+        GameObject noAvailableWeaponsObj;
 
         Dictionary<WeaponIndex, WeaponButton> buttons;
         IInventory inventory;
@@ -24,7 +32,7 @@ namespace SD.UI.Indicators
             inventory = GameController.Instance.Inventory;
             buttons = new Dictionary<WeaponIndex, WeaponButton>();
 
-            var inScene = GetComponentsInChildren<WeaponButton>();
+            var inScene = GetComponentsInChildren<WeaponButton>(true);
             foreach (var i in inScene)
             {
                 Destroy(i.gameObject);
@@ -32,7 +40,7 @@ namespace SD.UI.Indicators
 
             foreach (WeaponIndex a in Enum.GetValues(typeof(WeaponIndex)))
             {
-                GameObject o = Instantiate(weaponBtnPrefab, transform);
+                GameObject o = Instantiate(weaponBtnPrefab, weaponsBtnsParent);
                 buttons.Add(a, o.GetComponent<WeaponButton>());
             }
 
@@ -57,6 +65,17 @@ namespace SD.UI.Indicators
             List<WeaponIndex> available = weapons.GetAvailableWeaponsInGame();
             int availableAmount = available.Count;
 
+            if (availableAmount == 0)
+            {
+                weaponSelectionObj.SetActive(false);
+                noAvailableWeaponsObj.SetActive(true);
+            }
+            else
+            {
+                weaponSelectionObj.SetActive(true);
+                noAvailableWeaponsObj.SetActive(false);
+            }
+
             int counter = 0;
 
             foreach (WeaponButton b in buttons.Values)
@@ -66,14 +85,14 @@ namespace SD.UI.Indicators
                     IWeaponItem w = weapons.Get(available[counter]);
                     IAmmoItem a = ammo.Get(w.AmmoType);
 
-                    if (!w.IsAmmo || (w.IsAmmo && a.CurrentAmount > 0))
+                    //if (!w.IsAmmo || (w.IsAmmo && a.CurrentAmount > 0))
                     {
                         b.Set(w, a, SelectWeapon, ammoList.HighlightAmmo);
                     }
-                    else
-                    {
-                        b.gameObject.SetActive(false);
-                    }
+                    //else
+                    //{
+                    //    b.gameObject.SetActive(false);
+                    //}
                 }
                 else
                 {

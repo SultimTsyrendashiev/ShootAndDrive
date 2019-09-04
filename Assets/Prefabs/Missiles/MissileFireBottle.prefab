@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4350354084819636679}
   - component: {fileID: 8154001582860317090}
   - component: {fileID: 2647248736926470602}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4765,7 +4765,7 @@ GameObject:
   - component: {fileID: 8330642420140535753}
   - component: {fileID: 8330642420140535756}
   - component: {fileID: 8330642420140535759}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4846,7 +4846,7 @@ GameObject:
   - component: {fileID: 8330642420343945479}
   - component: {fileID: 5195874575366381248}
   - component: {fileID: -4739446488864112313}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: MissileFireBottle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

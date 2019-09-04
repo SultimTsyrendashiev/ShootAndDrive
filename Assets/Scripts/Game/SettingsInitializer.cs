@@ -11,6 +11,7 @@ namespace SD.Game.Settings
             var ush = Object.FindObjectOfType<UnitySettingsHandler>();
             Debug.Assert(ush != null, "Can't find UnitySettingsHandler");
 
+            ush.Init(settingsSystem, initSettings);
             audioSettingsHandler.Init(audioManager, settingsSystem, initSettings);
         }
     }

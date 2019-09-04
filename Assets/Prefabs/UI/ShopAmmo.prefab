@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8365640677481292783}
   - component: {fileID: 8365640677481292753}
   - component: {fileID: 8365640677481292752}
+  - component: {fileID: 6050638903217924186}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -79,6 +80,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Buy all
+--- !u!114 &6050638903217924186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8365640677481292782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4f3f0f8380bfb4c818d53a9dcf2a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Inventory.Ammo.BuyAll
+  updateTextOnStart: 0
 --- !u!1 &8365640677625694405
 GameObject:
   m_ObjectHideFlags: 0
@@ -1113,6 +1128,7 @@ GameObject:
   - component: {fileID: 8365640679444300582}
   - component: {fileID: 8365640679444300584}
   - component: {fileID: 8365640679444300583}
+  - component: {fileID: 8193356379332732167}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1181,3 +1197,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Buy x14
+--- !u!114 &8193356379332732167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8365640679444300581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4f3f0f8380bfb4c818d53a9dcf2a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Inventory.Ammo.Buy
+  updateTextOnStart: 0

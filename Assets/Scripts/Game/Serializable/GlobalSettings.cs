@@ -118,7 +118,7 @@
             PerfLODMultiplier = 1;
             PerfMsaa = 0;
             PerfRagdollAmount = 3;
-            PerfResolutionMult = 1;
+            PerfResolutionMult = 0.75f;
             PerfShaderQuality = ShaderQuality.PhysicallyBased;
             PerfShadowQuality = ShadowQuality.Low;
         }

@@ -15,8 +15,6 @@ namespace SD
 {
     class GameController : MonoBehaviour
     {
-        const float WeaponsSelectionMultiplier = 0.05f;
-
         [SerializeField]
         LanguageList                    languageList;
 
@@ -53,6 +51,8 @@ namespace SD
         CutsceneManager                 cutsceneManager;
         TutorialManager                 tutorialManager;
         TimeController                  timeController;
+
+        public GameState                State { get; private set; }
 
         // stats
         public AllWeaponsStats          WeaponsStats { get; private set; }
@@ -144,6 +144,8 @@ namespace SD
         /// </summary>
         void Init()
         {
+            State = GameState.Menu;
+
             // load data from previous sessions
             LoadSettings();
 
@@ -338,6 +340,8 @@ namespace SD
         /// </summary>
         void ShowCutscene(Action onCutsceneEnd)
         {
+            State = GameState.Cutscene;
+
             // disable player object
             CurrentPlayer.gameObject.SetActive(false);
 
@@ -352,6 +356,8 @@ namespace SD
 
         void ShowTutorial()
         {
+            State = GameState.Tutorial;
+
             // don't show tutorial next time
             if (Settings.GameShowTutorial)
             {
@@ -377,6 +383,8 @@ namespace SD
         /// <param name="defaultVehicleSpeed">if false, player's vehicle will accelerate from zero speed</param>
         void ActivateGameplay(bool defaultVehicleSpeed, bool defaultPosition, bool activateSpawners = true)
         {
+            State = GameState.Game;
+
             // restart player
             if (defaultPosition)
             {
@@ -400,11 +408,23 @@ namespace SD
 
         void PauseGame()
         {
+            if (State != GameState.Game)
+            {
+                return;
+            }
+
+            State = GameState.Paused;
             OnGamePause();
         }
 
         void UnpauseGame()
         {
+            if (State != GameState.Paused)
+            {
+                return;
+            }
+
+            State = GameState.Game;
             OnGameUnpause();
         }
 
@@ -426,6 +446,13 @@ namespace SD
         /// </summary>
         void StopGame()
         {
+            if (State == GameState.Menu)
+            {
+                return;
+            }
+
+            State = GameState.Menu;
+
             mainMenuBackground.SetActive(true);
             CurrentPlayer.gameObject.SetActive(false);
 
@@ -434,6 +461,8 @@ namespace SD
 
         void ProcessPlayerDeath(GameScore score)
         {
+            State = GameState.Menu;
+
             OnScoreSet?.Invoke(score, Inventory.PlayerStats.Score_Best);
 
             // add money

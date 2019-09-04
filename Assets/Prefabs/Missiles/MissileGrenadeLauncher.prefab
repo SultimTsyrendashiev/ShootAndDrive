@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6602864537248324367}
   - component: {fileID: 585876984979175358}
   - component: {fileID: 6228250946027883608}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: MissileGrenadeLauncher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6817947617455997121}
   - component: {fileID: 4763344506094959475}
   - component: {fileID: 5701862782129780933}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

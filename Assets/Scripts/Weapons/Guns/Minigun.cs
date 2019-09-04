@@ -133,16 +133,16 @@ namespace SD.Weapons
                 case RotatorState.Spinning:
                     rotatorAudioSource.loop = true;
                     rotatorAudioSource.clip = rotatorSpin;
-                    rotatorAudioSource.Play();
+                    rotatorAudioSource?.Play();
                     break;
                 case RotatorState.SpinningDown:
-                    rotatorAudioSource.PlayOneShot(rotatorSpinDown);
+                    rotatorAudioSource?.PlayOneShot(rotatorSpinDown);
                     break;
                 case RotatorState.SpinningUp:
-                    rotatorAudioSource.PlayOneShot(rotatorSpinUp);
+                    rotatorAudioSource?.PlayOneShot(rotatorSpinUp);
                     break;
                 case RotatorState.Nothing:
-                    rotatorAudioSource.Stop();
+                    rotatorAudioSource?.Stop();
                     break;
             }
         }

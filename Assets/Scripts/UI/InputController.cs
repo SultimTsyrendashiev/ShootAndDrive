@@ -32,9 +32,17 @@ namespace SD.UI
         bool useEditorInput;
         [SerializeField]
         bool ignoreMovementInput;
+        #endregion
 
         void Update()
         {
+            // check back button
+            //if (Input.GetKey(KeyCode.Escape))
+            //{
+            //    Pause();
+            //}
+
+            #region input in the editor
 #if UNITY_EDITOR
             if (!useEditorInput)
             {
@@ -72,9 +80,9 @@ namespace SD.UI
                 }
             }
 #endif
+            #endregion
         }
 
-        #endregion
 
         public void UpdateMovementInput(float x)
         {

@@ -23,12 +23,12 @@ MonoBehaviour:
   ammoConsumption: 2
   cost: 9000
   repairCost: 500
-  durability: 1000
+  durability: 230
   canBeDamaged: 1
   isAmmo: 0
   percentageForJam: 0.17
   jamProbability: 0.03
-  damage: 13
+  damage: 14
   reloadingTime: 1
   accuracy: 0.65
   missileName: 

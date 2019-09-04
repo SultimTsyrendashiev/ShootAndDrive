@@ -49,7 +49,10 @@ namespace SD.UI.Controls
                 button = GetComponentInChildren<Button>();
             }
 
+            // reinit listeners
+            button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => onWeaponSelection(item.Index));
+
             button.interactable = (item.Health > 0 || item.IsAmmo) && ammo.CurrentAmount > 0;
 
             // Vector2 size = healthImage.sizeDelta;
@@ -101,6 +104,11 @@ namespace SD.UI.Controls
         public void OnPointerEnter(PointerEventData eventData)
         {
             onAmmoSelection?.Invoke();
+        }
+
+        void OnDestroy()
+        {
+            button?.onClick.RemoveAllListeners();
         }
 
         //public void OnPointerExit(PointerEventData eventData)

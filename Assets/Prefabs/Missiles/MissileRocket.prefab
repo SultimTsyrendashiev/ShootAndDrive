@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3632560430916030691}
   - component: {fileID: 3381510474734857041}
   - component: {fileID: 2582340181114874087}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 3987184421558651693}
   - component: {fileID: 7266049236625450908}
   - component: {fileID: 189514815294878549}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: MissileRocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}

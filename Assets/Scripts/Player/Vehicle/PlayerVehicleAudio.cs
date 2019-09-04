@@ -10,6 +10,12 @@ namespace SD.PlayerLogic
         [SerializeField]
         AudioClip[] crashSounds;
 
+        /// <summary>
+        /// Vehicle's audio sources.
+        /// 0 - vehicle colliding
+        /// 1 - vehicle steering
+        /// 2 - vehicle engine
+        /// </summary>
         AudioSource[] vehicleAudio;
         PlayerVehicle vehicle;
 
@@ -22,13 +28,32 @@ namespace SD.PlayerLogic
 
             vehicle.OnVehicleCollision += CollideVehicle;
             vehicle.OnSteering += UpdateSteeringAudio;
+            vehicle.OnVehicleHealthChange += ProcessVehicleBreak;
+            vehicle.OnVehicleStart += StartEngineAudio;
+            GameController.OnPlayerDeath += ProcessPlayerDeath;
 
-            Debug.Assert(vehicleAudio.Length >= 2, "Must 2 audio sources", this);
+            StartEngineAudio();
+
+            Debug.Assert(vehicleAudio.Length >= 3, "Must 3 audio sources", this);
         }
 
         void OnDestroy()
         {
-            vehicle.OnVehicleCollision -= CollideVehicle;
+            if (vehicle != null)
+            {
+                vehicle.OnVehicleCollision -= CollideVehicle;
+                vehicle.OnSteering -= UpdateSteeringAudio;
+                vehicle.OnVehicleHealthChange -= ProcessVehicleBreak;
+                vehicle.OnVehicleStart -= StartEngineAudio;
+                GameController.OnPlayerDeath -= ProcessPlayerDeath;
+            }
+        }
+
+        void StartEngineAudio()
+        {
+            vehicleAudio[2].Play();
+
+            Debug.Log("Vehicle engine sound started");
         }
 
         void UpdateSteeringAudio(float steering)
@@ -36,6 +61,19 @@ namespace SD.PlayerLogic
             // steering in [-1..1]
             float volume = Mathf.Abs(steering);
             vehicleAudio[1].volume = volume;
+        }
+
+        void ProcessPlayerDeath(Player obj)
+        {
+            vehicleAudio[2].Stop();
+        }
+
+        void ProcessVehicleBreak(float health)
+        {
+            if (health == 0)
+            {
+                vehicleAudio[2].Stop();
+            }
         }
 
         void CollideVehicle(IVehicle other, float damage)

@@ -9,9 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2043840971285129420}
-  - component: {fileID: 7380868523403996764}
   - component: {fileID: 2111073130443011464}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: Colider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,19 +31,6 @@ Transform:
   m_Father: {fileID: 1693673381357935132}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &7380868523403996764
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1327947089403895346}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.45
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &2111073130443011464
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -70,7 +56,7 @@ GameObject:
   - component: {fileID: 7731161243125842258}
   - component: {fileID: 8632944854248078048}
   - component: {fileID: 8860191190649846102}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +233,7 @@ GameObject:
   - component: {fileID: 7959755397061073564}
   - component: {fileID: 4464713267371423277}
   - component: {fileID: 6594012021555487460}
-  m_Layer: 8
+  m_Layer: 14
   m_Name: MissileCannonball
   m_TagString: Untagged
   m_Icon: {fileID: 0}

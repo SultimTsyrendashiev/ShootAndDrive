@@ -23,7 +23,7 @@ MonoBehaviour:
   ammoConsumption: 1
   cost: 4000
   repairCost: 500
-  durability: 2100
+  durability: 2050
   canBeDamaged: 1
   isAmmo: 0
   percentageForJam: 0.17
