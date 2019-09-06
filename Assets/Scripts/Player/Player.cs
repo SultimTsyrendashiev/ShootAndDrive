@@ -107,7 +107,7 @@ namespace SD.PlayerLogic
         /// Reinit player
         /// </summary>
         /// <param name="position">where to spawn player</param>
-        /// <param name="defaultVehicleSpeed">if false, player's vehicle will accelerate from zero speed</param>
+        /// <param name="defaultVehicleSpeed">if false, speed of player's vehicle will be zero</param>
         public void Reinit(Vector3 position, bool defaultVehicleSpeed = true)
         {
             gameObject.SetActive(true);

@@ -22,6 +22,7 @@ namespace SD.Background
         BackgroundData  data;
 
         string[]        blockPrefabs;
+        string          blockCutscenePrefab;
 
         /// <summary>
         /// Holds all active blocks in current scene
@@ -33,21 +34,14 @@ namespace SD.Background
         /// </summary>
         Transform       target;
 
-        /// <summary>
-        /// Length of all active blocks
-        /// Must be >= 'distance'
-        /// </summary>
-        public float    CurrentLength { get; private set; }
-
-
-        public void Awake()
+        void Awake()
         {
             blockPrefabs = data.Blocks;
+            blockCutscenePrefab = data.CutsceneBlockName;
 
             Debug.Assert(blockPrefabs.Length > 0, "Block prefabs amount must be > 0", this);
 
             blocks = new LinkedList<IBackgroundBlock>();
-            CurrentLength = 0.0f;
 
             // delete all child block components in this scene
             BackgroundBlock[] inScene = GetComponentsInChildren<BackgroundBlock>();
@@ -62,34 +56,40 @@ namespace SD.Background
             DeleteAll();
         }
 
+        public void CreateCutsceneBackground(Vector3 position)
+        {
+            // clear all
+            DeleteAll();
+
+            var b = CreateBlock(ref blockCutscenePrefab);
+            b.Center = position;
+
+            blocks.AddFirst(b);
+        }
+
+        //public void Reinit(bool ignoreCutsceneBlocks)
+        //{
+        //    if (ignoreCutsceneBlocks)
+        //    {
+        //        DeleteAllNotCutscene();
+        //    }
+        //    else
+        //    {
+        //        Reinit();
+        //    }
+        //}
+
         #region creating blocks
         /// <summary>
-        /// Creates block at undefined position
+        /// Create block at undefined position.
+        /// Note: this method only creates block, but doesn't add to list
         /// </summary>
-        IBackgroundBlock CreateBlock()
+        IBackgroundBlock CreateBlock(ref string blockName)
         {
-            int index = GetNextBlockIndex();
-
-            GameObject newBlockObj = ObjectPool.Instance.GetObject(blockPrefabs[index]);
+            GameObject newBlockObj = ObjectPool.Instance.GetObject(blockName);
 
             IBackgroundBlock newBlock = newBlockObj.GetComponent<IBackgroundBlock>();
             Debug.Assert(newBlock != null, "Block must contain 'IBackgroundBlock' component", newBlockObj);
-
-            //if (blocks.Count > 0)
-            //{
-            //    IBackgroundBlock last = blocks.Last.Value;
-
-            //    Vector3 newPosition = last.Center;
-            //    newPosition.z += (newBlock.Length + last.Length) / 2;
-            //    newBlockObj.transform.position = newPosition;
-            //}
-            //else
-            //{
-            //    newBlockObj.transform.position = target.position;
-            //}
-
-            CurrentLength += newBlock.Length;
-            blocks.AddLast(newBlock);
 
             return newBlock;
         }
@@ -101,7 +101,6 @@ namespace SD.Background
 
             // return to pool
             first.CurrentObject.SetActive(false);
-            CurrentLength -= first.Length;
 
             blocks.Remove(node);
         }
@@ -233,6 +232,28 @@ namespace SD.Background
             }
         }
 
+        ///// <summary>
+        ///// Remove all blocks except cutscene ones
+        ///// </summary>
+        //void DeleteAllNotCutscene()
+        //{
+        //    if (blocks.Count == 0)
+        //    {
+        //        return;
+        //    }
+
+        //    var current = blocks.First;
+
+        //    while (current != null)
+        //    {
+        //        var next = current.Next;
+
+        //        DeleteBlock(current);
+
+        //        current = next;
+        //    }
+        //}
+
         /// <summary>
         /// If there are no blocks, adds block to the begginning
         /// </summary>
@@ -240,8 +261,10 @@ namespace SD.Background
         {
             if (blocks.Count == 0)
             {
+                int index = GetNextBlockIndex();
+                
                 // if there are no blocks, add around target
-                var b = CreateBlock();
+                var b = CreateBlock(ref blockPrefabs[index]);
                 b.Center = target.position;
 
                 blocks.AddFirst(b);
@@ -264,8 +287,9 @@ namespace SD.Background
             while (blocks.Last.Value.GetMaxZ() < desiredZ)
             {
                 var last = blocks.Last.Value;
+                int index = GetNextBlockIndex();
 
-                var b = CreateBlock();
+                var b = CreateBlock(ref blockPrefabs[index]);
                 b.Center = (last.GetMaxZ() + b.Length / 2) * Vector3.forward;
 
                 blocks.AddLast(b);

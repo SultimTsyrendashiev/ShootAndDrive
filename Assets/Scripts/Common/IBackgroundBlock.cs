@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using SD.Background;
 
 namespace SD
 {
@@ -38,5 +39,7 @@ namespace SD
         /// Get max on z axis
         /// </summary>
         float GetMaxZ();
+
+        BackgroundBlockType BlockType { get; }
     }
 }

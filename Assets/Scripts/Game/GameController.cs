@@ -252,6 +252,7 @@ namespace SD
         void Start()
         {
             mainMenuBackground.SetActive(true);
+            Background.CreateCutsceneBackground(Vector3.zero);
         }
 
         void Update()
@@ -303,6 +304,8 @@ namespace SD
 
             if (Settings.GameShowCutscene)
             {
+                Background.CreateCutsceneBackground(Vector3.zero);
+
                 if (Settings.GameShowTutorial)
                 {
                     // show cutscene after tutorial
@@ -322,6 +325,8 @@ namespace SD
             }
             else
             {
+                Background.Reinit();
+
                 if (Settings.GameShowTutorial)
                 {
                     ShowTutorial();
@@ -380,7 +385,7 @@ namespace SD
         /// Activate player object, start enemy spawn
         /// </summary>
         /// <param name="defaultPosition">use default player position</param>
-        /// <param name="defaultVehicleSpeed">if false, player's vehicle will accelerate from zero speed</param>
+        /// <param name="defaultVehicleSpeed">if false, speed of player's vehicle will be zero</param>
         void ActivateGameplay(bool defaultVehicleSpeed, bool defaultPosition, bool activateSpawners = true)
         {
             State = GameState.Game;
@@ -399,8 +404,6 @@ namespace SD
             {
                 spawnersController.RestartSpawn();
             }
-
-            Background.Reinit();
 
             OnGameplayActivate();
         }
@@ -454,6 +457,8 @@ namespace SD
             State = GameState.Menu;
 
             mainMenuBackground.SetActive(true);
+            Background.CreateCutsceneBackground(Vector3.zero);
+            
             CurrentPlayer.gameObject.SetActive(false);
 
             OnMainMenuActivate();

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1962802555}
   - component: {fileID: 2795152022852249576}
   - component: {fileID: 907128869417506283}
+  - component: {fileID: 929002661}
   m_Layer: 0
   m_Name: GameMain
   m_TagString: Untagged
@@ -67,6 +68,8 @@ MonoBehaviour:
   cutscenes:
   - {fileID: 0}
   - {fileID: 0}
+  cutsceneUiObjects:
+  - {fileID: 0}
 --- !u!114 &2795152022852249576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,3 +98,19 @@ MonoBehaviour:
   shadowsLow: {fileID: 11400000, guid: 10ca72079ca4d904f85bc02792bc2c00, type: 2}
   shadowsMedium: {fileID: 11400000, guid: 890a365ac9330804cb0bdf6eba166e24, type: 2}
   shadowsHigh: {fileID: 11400000, guid: 37c7d7c0dfc174d41b88ca94979597fb, type: 2}
+--- !u!114 &929002661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8485158570479898581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b08dff1f768d2554989a7a24af2676a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 7e9edb8f59e72e2418b45c5a9f48884f, type: 2}
+  soundVolumeParamName: SoundVolume
+  musicVolumeParamName: MusicVolume
+  soundPitchParamName: SoundPitch

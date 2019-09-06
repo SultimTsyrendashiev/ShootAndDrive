@@ -25,6 +25,13 @@ namespace SD.Game
         [SerializeField]
         PlayableDirector[] cutscenes;
 
+        /// <summary>
+        /// All UI objects that are in cutscene,
+        /// they will be enabled on start and disabled on end
+        /// </summary>
+        [SerializeField]
+        GameObject[] cutsceneUiObjects;
+
         int currentCutscene = -1;
         int cutscenesAmount;
 
@@ -45,6 +52,12 @@ namespace SD.Game
 
             endTime = Time.time + GetOverallDuration();
             cutscenesAmount = cutscenes.Length;
+
+            // enable ui objects
+            foreach (GameObject uiObj in cutsceneUiObjects)
+            {
+                uiObj.SetActive(false);
+            }
 
             PlayCutscene(0);
 
@@ -118,8 +131,17 @@ namespace SD.Game
             isPlaying = false;
             currentCutscene = -1;
 
+            // disable ui objects
+            foreach (GameObject uiObj in cutsceneUiObjects)
+            {
+                uiObj.SetActive(false);
+            }
+
             foreach (PlayableDirector c in cutscenes)
             {
+                // deactivate all objects assocated with cutscene
+                ActivateCutsceneObjects(c, false);
+
                 c.time = 0;
 
                 // stop cutscene
@@ -127,9 +149,6 @@ namespace SD.Game
 
                 // evaluate 1 frame
                 c.Evaluate();
-
-                // deactivate all objects assocated with cutscene
-                ActivateCutsceneObjects(c, false);
             }
 
             afterCutscene?.Invoke();

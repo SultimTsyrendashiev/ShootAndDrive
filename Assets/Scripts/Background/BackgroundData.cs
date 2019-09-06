@@ -8,6 +8,11 @@ namespace SD.Background
         [SerializeField]
         string[] blockNames;
 
+        [SerializeField]
+        string cutsceneBlockName;
+
         public string[] Blocks => blockNames;
+
+        public string CutsceneBlockName => cutsceneBlockName;
     }
 }

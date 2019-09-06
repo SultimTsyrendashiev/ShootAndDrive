@@ -18,7 +18,9 @@ namespace SD.Background
 
         public GameObject ThisObject => gameObject;
         public PooledObjectType Type => PooledObjectType.Important;
-        public int AmountInPool => 4;
+        public virtual int AmountInPool => 4;
+
+        public virtual BackgroundBlockType BlockType => BackgroundBlockType.Default;
 
         public void Init()
         { }

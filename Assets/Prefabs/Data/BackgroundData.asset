@@ -15,3 +15,4 @@ MonoBehaviour:
   blockNames:
   - BlockSteppe0
   - BlockSteppe1
+  cutsceneBlockName: CutsceneBackgroundBlock
