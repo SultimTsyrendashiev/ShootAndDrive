@@ -34,7 +34,10 @@ Settings.HUD.Hide,Hide HUD,Скрыть HUD
 Settings.HUD.Hiding,HUD hiding,Скрывать HUD
 Settings.HUD.SafeZone,Safe zone,Безопасная зона
 Settings.HUD.Diegetic,Diegetic UI,Diegetic UI
-Settings.Credits.Text,Manrope font by Michael Sharanda,Шрифт Manrope - Michael Sharanda
+Settings.Credits.Main,Design - Art - Code - Story - Sound Design,Гейм-дизайн - Моделирование - Программирование - Сценарий - Звуковой дизайн
+Settings.Credits.Main.Names,Tsyrendashiev Sultim,Цырендашиев Сультим
+Settings.Credits.Font,Manrope font,Шрифт Manrope
+Settings.Credits.Font.Names,Michael Sharanda,Michael Sharanda
 Settings.Key.Yes,Yes,Да
 Settings.Key.No,No,Нет
 Settings.Key.Enable,Enable,Включить

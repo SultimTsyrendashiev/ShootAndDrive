@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using SD.Game.Settings;
+﻿using SD.Game.Settings;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,13 +17,13 @@ namespace SD.UI
         [SerializeField]
         bool updateTextOnStart = true;
 
-        Text text;
-
         public string TranslationKey => key;
+
+        public Text Text { get; private set; }
 
         void Start()
         {
-            text = GetComponentInChildren<Text>();
+            Text = GetComponentInChildren<Text>();
 
             if (updateTextOnStart)
             {
@@ -54,7 +52,16 @@ namespace SD.UI
 
         void UpdateText(string newLanguage)
         {
-            text.text = GameController.Instance.Localization.GetValue(newLanguage, key);
+            SetText(GameController.Instance.Localization.GetValue(newLanguage, key));
+        }
+
+        /// <summary>
+        /// Set string to text component.
+        /// Override this method to add effects (f.e. repalacing '\n' with d)
+        /// </summary>
+        protected virtual void SetText(string localizedText)
+        {
+            Text.text = localizedText;
         }
 
         public string GetValue()
