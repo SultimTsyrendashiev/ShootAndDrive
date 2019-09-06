@@ -17,10 +17,10 @@ namespace SD.Game
 
         const float GameSfxVolumeMult = 1.0f;
         const float MenuSfxVolumeMult = 0.0f;
-        float currentSfxVolumeMult;
-        float targetSfxVolumeMult;
+        float currentSfxVolumeMult = 1.0f;
+        float targetSfxVolumeMult = 1.0f;
         float currentTransitionSpeed;
-        bool isTransited;
+        bool isTransition = false;
         float soundVolume;
 
         [SerializeField]
@@ -48,6 +48,9 @@ namespace SD.Game
             GameController.OnGameplayActivate += EnableGame;
 
             GameController.OnPlayerDeath += PlayerDied;
+
+            TutorialManager.OnTutorialStart += EnableGame;
+            CutsceneManager.OnCutsceneStart += EnableGame;
         }
 
         public void SetTimeContoller(TimeController timeController)
@@ -70,22 +73,29 @@ namespace SD.Game
             {
                 timeController.OnTimeScaleChange -= ProcessTimeScale;
             }
+
+            TutorialManager.OnTutorialStart -= EnableGame;
+            CutsceneManager.OnCutsceneStart -= EnableGame;
         }
 
         void EnableMenu() => SetMenuSnapshot();
         void EnableGame() => SetGameSnapshot();
-        void PlayerDied(PlayerLogic.Player p) => SetMenuSnapshot(1);
+        void PlayerDied(PlayerLogic.Player p) => SetMenuSnapshot(1.25f);
 
         void SetMenuSnapshot(float transitionTime = 0)
         {
             if (transitionTime == 0)
             {
                 currentSfxVolumeMult = targetSfxVolumeMult = MenuSfxVolumeMult;
+                UpdateSfxVolume();
+
                 return;
             }
 
             targetSfxVolumeMult = MenuSfxVolumeMult;
             currentTransitionSpeed = 1.0f / transitionTime;
+
+            isTransition = true;
 
             //menu.TransitionTo(transitionTime);
         }
@@ -95,11 +105,15 @@ namespace SD.Game
             if (transitionTime == 0)
             {
                 currentSfxVolumeMult = targetSfxVolumeMult = GameSfxVolumeMult;
+                UpdateSfxVolume();
+
                 return;
             }
 
             targetSfxVolumeMult = GameSfxVolumeMult;
             currentTransitionSpeed = 1.0f / transitionTime;
+
+            isTransition = true;
 
             //game.TransitionTo(transitionTime);
         }
@@ -109,22 +123,24 @@ namespace SD.Game
         /// </summary>
         void Update()
         {
-            if (!isTransited)
+            if (!isTransition)
             {
                 return;
             }
 
             const float Epsilon = 0.01f;
 
-            if (Mathf.Abs(targetSfxVolumeMult - currentSfxVolumeMult) < Epsilon)
+            if (Mathf.Abs(targetSfxVolumeMult - currentSfxVolumeMult) > Epsilon)
             {
                 currentSfxVolumeMult = Mathf.Lerp(currentSfxVolumeMult, targetSfxVolumeMult, Time.unscaledDeltaTime * currentTransitionSpeed);
             }
             else
             {
                 currentSfxVolumeMult = targetSfxVolumeMult;
-                isTransited = false;
+                isTransition = false;
             }
+
+            UpdateSfxVolume();
         }
 
         /// <summary>
@@ -153,13 +169,13 @@ namespace SD.Game
         {
             soundVolume = value;
 
-            SetSoundVolumeRaw(value);
+            UpdateSfxVolume();
             SetUIVolume(value);
         }
 
-        void SetSoundVolumeRaw(float value)
+        void UpdateSfxVolume()
         {
-            audioMixer.SetFloat(soundVolumeParamName, GetVolume(value));
+            audioMixer.SetFloat(soundVolumeParamName, GetVolume(soundVolume * currentSfxVolumeMult));
         }
 
         /// <summary>

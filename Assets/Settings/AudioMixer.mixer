@@ -88,6 +88,8 @@ AudioMixerController:
     name: SoundVolume
   - guid: bb95515aa06813746805dce8786a2dc1
     name: SoundPitch
+  - guid: 5ef9526b75f28ea4ebc4a7e9ae61cc8f
+    name: UIVolume
   m_AudioMixerGroupViews:
   - guids:
     - 496d62ea6db44644f8ce92250e64a472

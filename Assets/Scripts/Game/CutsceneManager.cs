@@ -56,7 +56,7 @@ namespace SD.Game
             // enable ui objects
             foreach (GameObject uiObj in cutsceneUiObjects)
             {
-                uiObj.SetActive(false);
+                uiObj.SetActive(true);
             }
 
             PlayCutscene(0);

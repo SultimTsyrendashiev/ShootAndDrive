@@ -8983,7 +8983,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAmmoText: {fileID: 2041308726}
   readyStateColor: {r: 1, g: 1, b: 1, a: 1}
-  notReadyStateColor: {r: 1, g: 1, b: 1, a: 0.7529412}
+  notReadyStateColor: {r: 1, g: 1, b: 1, a: 0.8784314}
 --- !u!1 &762890729
 GameObject:
   m_ObjectHideFlags: 0
@@ -10414,9 +10414,9 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 51aa05d22f4edcc4088c24f33cafc173, type: 3}
     m_FontSize: 64
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
-    m_MaxSize: 87
+    m_MaxSize: 64
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
@@ -29347,9 +29347,9 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 51aa05d22f4edcc4088c24f33cafc173, type: 3}
     m_FontSize: 64
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
-    m_MaxSize: 72
+    m_MaxSize: 64
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
@@ -36750,7 +36750,7 @@ AudioSource:
   m_GameObject: {fileID: 777044079}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -6329100616344683915, guid: 7e9edb8f59e72e2418b45c5a9f48884f,
+  OutputAudioMixerGroup: {fileID: 6742077046017877496, guid: 7e9edb8f59e72e2418b45c5a9f48884f,
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
