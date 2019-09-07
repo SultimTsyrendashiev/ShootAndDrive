@@ -79,7 +79,8 @@ namespace SD
         public static event ScoreSet                OnScoreSet;
 
         /// <summary>
-        /// Called when game ends, i.e. after some time from player death
+        /// Called when game ends, i.e. when gameplay elements can be destroyed :
+        /// when goes to main menu, when player dies etc
         /// </summary>
         public static event Void                    OnGameEnd;
         #endregion
@@ -461,7 +462,8 @@ namespace SD
             
             CurrentPlayer.gameObject.SetActive(false);
 
-            OnMainMenuActivate();
+            OnMainMenuActivate?.Invoke();
+            OnGameEnd?.Invoke();
         }
 
         void ProcessPlayerDeath(GameScore score)

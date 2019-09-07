@@ -139,9 +139,6 @@ namespace SD.Game
 
             foreach (PlayableDirector c in cutscenes)
             {
-                // deactivate all objects assocated with cutscene
-                ActivateCutsceneObjects(c, false);
-
                 c.time = 0;
 
                 // stop cutscene
@@ -149,6 +146,9 @@ namespace SD.Game
 
                 // evaluate 1 frame
                 c.Evaluate();
+
+                // deactivate all objects assocated with cutscene
+                ActivateCutsceneObjects(c, false);
             }
 
             afterCutscene?.Invoke();

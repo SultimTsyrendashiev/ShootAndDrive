@@ -10,10 +10,21 @@ namespace SD.Background
     /// </summary>
     class BackgroundTarget : MonoBehaviour
     {
-        void Awake()
+        BackgroundController background;
+
+        void OnEnable()
         {
-            var b = FindObjectOfType<BackgroundController>();
-            b?.SetTarget(transform);
+            if (background == null)
+            {
+                background = FindObjectOfType<BackgroundController>();
+            }
+
+            background?.SetTarget(transform);
+        }
+
+        void OnDisable()
+        {
+            background?.SetTarget(null);
         }
     }
 }
