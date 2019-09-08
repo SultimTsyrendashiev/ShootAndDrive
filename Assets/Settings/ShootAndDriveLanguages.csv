@@ -1,4 +1,4 @@
-Variable name,English,Русский
+﻿Variable name,English,Русский
 Language.Name,English,Русский
 Game.Name,Shoot & Drive,Shoot & Drive
 MainMenu.Start,Start,Играть
@@ -34,7 +34,7 @@ Settings.HUD.Hide,Hide HUD,Скрыть HUD
 Settings.HUD.Hiding,HUD hiding,Скрывать HUD
 Settings.HUD.SafeZone,Safe zone,Безопасная зона
 Settings.HUD.Diegetic,Diegetic UI,Diegetic UI
-Settings.Credits.Main,Design - Art - Code - Story - Sound Design,Гейм-дизайн - Моделирование - Программирование - Сценарий - Звуковой дизайн
+Settings.Credits.Main,"Design, Art, Code, Story, Sound Design","Гейм-дизайн, Моделирование, Программирование, Сценарий, Звуковой дизайн"
 Settings.Credits.Main.Names,Tsyrendashiev Sultim,Цырендашиев Сультим
 Settings.Credits.Font,Manrope font,Шрифт Manrope
 Settings.Credits.Font.Names,Michael Sharanda,Michael Sharanda
@@ -145,4 +145,14 @@ Inventory.Weapons.State.Jammed,Weapon jammed,Оружие заклинило
 Inventory.Weapons.State.Unjamming,Unjamming,Предотвращение заедания
 Inventory.Weapons.State.Breaking,Weapon is broken,Оружие сломалось
 Inventory.Weapons.State.NoAmmo,No ammo,Нет боеприпасов
-Inventory.Weapons.Names,Weapon names,Названия оружия
+Cutscenes.00.001,,Дурацкий кетчуп.
+Cutscenes.01.001,,Почему всегда именно мы делаем грязную работу?
+Cutscenes.01.002,,"Если хорошо платят, то лучше не задавать вопросов."
+Cutscenes.01.003,,Вот посмотри: какую пушку я купил.
+Cutscenes.01.004,,Впечатляет.
+Cutscenes.01.005.1,,"Тяжелый, огромный, с большой отдачей -"
+Cutscenes.01.005.2,,"вообще, с таким просто так не походишь."
+Cutscenes.01.006,,"Нее, его только хранить в багажнике на самый крайний случай."
+Cutscenes.01.007,,"Да и ладно, зато круто выглядит."
+Cutscenes.02.001,,Что...
+Blank,,

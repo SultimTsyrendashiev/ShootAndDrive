@@ -24,6 +24,7 @@ namespace SD.UI
         void Start()
         {
             Text = GetComponentInChildren<Text>();
+            Debug.Assert(Text != null, "Can't find text component", this);
 
             if (updateTextOnStart)
             {

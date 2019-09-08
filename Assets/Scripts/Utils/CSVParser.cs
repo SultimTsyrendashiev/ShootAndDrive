@@ -28,10 +28,24 @@ namespace SD.Utils
 
             StringBuilder builder = new StringBuilder();
 
+            bool inQuotes = false;
+
             foreach (var c in data)
             {
-                if (c != ',')
+                if (c == ',' && !inQuotes)
                 {
+                    table[i][j] = builder.ToString();
+                    j++;
+
+                    builder.Clear();
+                }
+                else
+                {
+                    if (c == '"')
+                    {
+                        inQuotes = !inQuotes;
+                    }
+
                     if (c != '\n')
                     {
                         // value
@@ -39,6 +53,8 @@ namespace SD.Utils
                     }
                     else
                     {
+                        UnityEngine.Debug.Assert(j < 3, builder.ToString());
+
                         table[i][j] = builder.ToString();
                         builder.Clear();
 
@@ -46,13 +62,6 @@ namespace SD.Utils
                         i++;
                         j = 0;
                     }
-                }
-                else
-                {
-                    table[i][j] = builder.ToString();
-                    j++;
-
-                    builder.Clear();
                 }
             }
 
