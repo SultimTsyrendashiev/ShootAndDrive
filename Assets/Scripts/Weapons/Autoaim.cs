@@ -30,7 +30,7 @@ namespace SD.Weapons
 
         public static Transform GetTarget(Vector3 from, Vector3 direction, float radius, float range, int mask)
         {
-            if (Physics.SphereCast(from, radius, direction, out RaycastHit hit, range, mask))
+            if (Physics.SphereCast(from + direction * 3, radius, direction, out RaycastHit hit, range, mask))
             {
                 return hit.collider.transform;
             }

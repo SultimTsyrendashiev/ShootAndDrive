@@ -15,13 +15,20 @@ namespace SD.UI
 
         public static event Void                OnFireButton;
         public static event Action<WeaponIndex> OnWeaponSwitch;
+
         public static event Void                OnPause;
         public static event Void                OnUnpause;
+
         public static event Void                OnMainMenuButton;
+
+        public static event Void                OnSettingsApply;
+
         public static event Void                OnPlayButton;
         public static event Void                OnPlayWithInventoryButton;
+
         public static event Void                OnSettingsButton;
         public static event Void                OnInventoryButton;
+
         public static event Void                OnWeaponSelectionButton;
         public static event Void                OnWeaponSelectionDisableButton;
 
@@ -53,7 +60,7 @@ namespace SD.UI
             {
                 float x = Input.GetAxis("Horizontal");
                 MovementHorizontal = x;
-                OnMovementHorizontal(MovementHorizontal);
+                OnMovementHorizontal?.Invoke(MovementHorizontal);
             }
 
             bool pressedRight = Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.UpArrow);
@@ -87,7 +94,7 @@ namespace SD.UI
         public void UpdateMovementInput(float x)
         {
             MovementHorizontal = x;
-            OnMovementHorizontal(MovementHorizontal);
+            OnMovementHorizontal?.Invoke(MovementHorizontal);
         }
 
         #region event subscribers
@@ -97,7 +104,7 @@ namespace SD.UI
         public void FireDown()
         {
             FireButton = true;
-            OnFireButton();
+            OnFireButton?.Invoke();
         }
 
         /// <summary>
@@ -113,7 +120,10 @@ namespace SD.UI
         /// </summary>
         public void OnWeaponSelectorDown()
         {
-            OnWeaponSelectionButton();
+            OnWeaponSelectionButton?.Invoke();
+
+            // quick fix
+            FireUp();
         }
 
         /// <summary>
@@ -130,7 +140,7 @@ namespace SD.UI
         /// </summary>
         public void Pause()
         {
-            OnPause();
+            OnPause?.Invoke();
         }
 
         /// <summary>
@@ -138,32 +148,37 @@ namespace SD.UI
         /// </summary>
         public void Unpause()
         {
-            OnUnpause();
+            OnUnpause?.Invoke();
+        }
+
+        public void ApplySettings()
+        {
+            OnSettingsApply?.Invoke();
         }
 
         public void OpenMainMenu()
         {
-            OnMainMenuButton();
+            OnMainMenuButton?.Invoke();
         }
 
         public void OpenSettings()
         {
-            OnSettingsButton();
+            OnSettingsButton?.Invoke();
         }
 
         public void OpenInventory()
         {
-            OnInventoryButton();
+            OnInventoryButton?.Invoke();
         }
 
         public void Play()
         {
-            OnPlayButton();
+            OnPlayButton?.Invoke();
         }
 
         public void PlayWithInventory()
         {
-            OnPlayWithInventoryButton();
+            OnPlayWithInventoryButton?.Invoke();
         }
 
         /// <summary>
@@ -172,7 +187,7 @@ namespace SD.UI
         public void HealthClick()
         {
             // try to regenerate
-            OnHealthRegenerate();
+            OnHealthRegenerate?.Invoke();
         }
 
         /// <summary>
@@ -180,7 +195,7 @@ namespace SD.UI
         /// </summary>
         public void SelectWeapon(WeaponIndex w)
         {
-            OnWeaponSwitch(w);
+            OnWeaponSwitch?.Invoke(w);
         }
 #endregion
     }

@@ -74,9 +74,6 @@ namespace SD.Weapons
                     weapons.Add(index, w);
                     w.Init(this, inventoryWeapons.Get(index), inventoryAmmo);
                 }
-
-                // hide
-                w.gameObject.SetActive(false);
             }
 
             // get audio sources
@@ -100,7 +97,27 @@ namespace SD.Weapons
             // set parameters for weapons particles
             InitParticles();
 
+            // to default
+            Reinit();
+
             isInitialized = true;
+        }
+
+        void Reinit()
+        {
+            var ws = weapons.Values;
+
+            foreach (Weapon w in ws)
+            {
+                // hide
+                w.Reinit();
+            }
+
+            isSwitching = false;
+            canSwitchToAnotherNext = false;
+
+            currentWeapon.Exist = false;
+            nextWeapon.Exist = false;
         }
 
         void SignToEvents()
@@ -156,8 +173,11 @@ namespace SD.Weapons
                     playerIsActive = true;
 
                     if (isInitialized)
-                    {                       
+                    {
                         //TakeOutWeapon();
+
+                        // reinit, when player respawns
+                        Reinit();
                     }
 
                     break;

@@ -59,7 +59,8 @@ namespace SD.UI.CutsceneSubtitles
                 return;
             }
 
-            if (string.IsNullOrEmpty(translationKey))
+            if (string.IsNullOrEmpty(translationKey)
+                || !GameController.Instance.Settings.GameEnableSubtitles)
             {
                 Text.text = string.Empty;
                 return;
@@ -77,7 +78,8 @@ namespace SD.UI.CutsceneSubtitles
                 return;
             }
 
-            if (string.IsNullOrEmpty(translationKey))
+            if (string.IsNullOrEmpty(translationKey)
+                || !GameController.Instance.Settings.GameEnableSubtitles)
             {
                 Text.text = string.Empty;
                 return;

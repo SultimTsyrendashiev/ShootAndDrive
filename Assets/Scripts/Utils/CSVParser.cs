@@ -44,6 +44,9 @@ namespace SD.Utils
                     if (c == '"')
                     {
                         inQuotes = !inQuotes;
+
+                        // ignore symbol itself
+                        continue;
                     }
 
                     if (c != '\n')
@@ -53,8 +56,6 @@ namespace SD.Utils
                     }
                     else
                     {
-                        UnityEngine.Debug.Assert(j < 3, builder.ToString());
-
                         table[i][j] = builder.ToString();
                         builder.Clear();
 

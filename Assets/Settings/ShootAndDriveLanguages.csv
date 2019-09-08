@@ -1,4 +1,4 @@
-﻿Variable name,English,Русский
+Variable name,English,Русский
 Language.Name,English,Русский
 Game.Name,Shoot & Drive,Shoot & Drive
 MainMenu.Start,Start,Играть
@@ -152,7 +152,8 @@ Cutscenes.01.003,,Вот посмотри: какую пушку я купил.
 Cutscenes.01.004,,Впечатляет.
 Cutscenes.01.005.1,,"Тяжелый, огромный, с большой отдачей -"
 Cutscenes.01.005.2,,"вообще, с таким просто так не походишь."
-Cutscenes.01.006,,"Нее, его только хранить в багажнике на самый крайний случай."
+Cutscenes.01.006.1,,"Нее, его только хранить в багажнике"
+Cutscenes.01.006.2,,на самый крайний случай.
 Cutscenes.01.007,,"Да и ладно, зато круто выглядит."
 Cutscenes.02.001,,Что...
 Blank,,

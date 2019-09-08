@@ -302,9 +302,21 @@ namespace SD.Weapons
                 return false;
             }
 
-            float healthPercentage = (float)refHealth.Value / Durability;
+            if (refHealth.Value >= 3)
+            {
+                float healthPercentage = (float)refHealth.Value / Durability;
 
-            return healthPercentage > PercentageForJam ? false : Random.Range(0.0f, 1.0f) < JamProbability;
+                return healthPercentage > PercentageForJam ? false : Random.Range(0.0f, 1.0f) < JamProbability;
+            }
+            else if (refHealth.Value == 2)
+            {
+                return Random.Range(0.0f, 1.0f) > 0.3f;
+            }
+            else
+            {
+                // last shot always jam
+                return true;
+            }
         }
 
         /// <summary>
@@ -389,6 +401,18 @@ namespace SD.Weapons
                     StartCoroutine(WaitForReady());
                     return false;
             }
+        }
+        
+        /// <summary>
+        /// Must be called when weapons' controller is reinitting
+        /// </summary>
+        public void Reinit()
+        {
+            wasJammed = State == WeaponState.ReadyForUnjam;
+            State = WeaponState.Nothing;
+
+            gameObject.SetActive(false);
+            Deactivate();
         }
 
         /// <summary>

@@ -22,6 +22,14 @@ namespace SD.UI.Controls
             PointerUp();
         }
 
+        void OnEnable()
+        {
+            if (skipAnimation != null)
+            {
+                PointerUp();
+            }
+        }
+
         public void PointerDown()
         {
             isHolding = true;

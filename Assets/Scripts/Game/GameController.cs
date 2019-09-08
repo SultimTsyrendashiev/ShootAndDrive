@@ -115,29 +115,56 @@ namespace SD
         void SignToEvents()
         {
             CurrentPlayer.OnPlayerDeath += ProcessPlayerDeath;
+            Inventory.OnBalanceChange += SaveInventoryOnBalanceChange;
             
             InputController.OnPause += PauseGame;
             InputController.OnUnpause += UnpauseGame;
+
             InputController.OnPlayButton += Play;
             InputController.OnPlayWithInventoryButton += PlayWithInventoryMenu;
+
             InputController.OnMainMenuButton += StopGame;
             InputController.OnInventoryButton += ShowInventory;
+
             InputController.OnWeaponSelectionButton += EnableWeaponsSelection;
             InputController.OnWeaponSelectionDisableButton += DisableWeaponsSelection;
+
+            InputController.OnSettingsApply += ApplySettings;
         }
 
         void UnsignFromEvents()
         {
-            CurrentPlayer.OnPlayerDeath -= ProcessPlayerDeath;
+            if (CurrentPlayer != null)
+            {
+                CurrentPlayer.OnPlayerDeath -= ProcessPlayerDeath;
+            }
+
+            if (Inventory != null)
+            {
+                Inventory.OnBalanceChange -= SaveInventoryOnBalanceChange;
+            }
 
             InputController.OnPause -= PauseGame;
             InputController.OnUnpause -= UnpauseGame;
+
             InputController.OnPlayButton -= Play;
             InputController.OnPlayWithInventoryButton -= PlayWithInventoryMenu;
+
             InputController.OnMainMenuButton -= StopGame;
             InputController.OnInventoryButton -= ShowInventory;
+
             InputController.OnWeaponSelectionButton -= EnableWeaponsSelection;
             InputController.OnWeaponSelectionDisableButton -= DisableWeaponsSelection;
+
+            InputController.OnSettingsApply -= ApplySettings;
+        }
+
+        void ApplySettings()
+        {
+            // currently, settings applied instantly,
+            // so just save them
+
+            SaveSettings();
         }
 
         /// <summary>
@@ -261,6 +288,11 @@ namespace SD
             spawnersController.Update();
         }
 
+        void SaveInventoryOnBalanceChange(int oldBalance, int newBalance)
+        {
+            SaveInventory();
+        }
+
         void SaveInventory()
         {
             DataSystem.SaveInventory(CurrentPlayer.Inventory);
@@ -299,8 +331,6 @@ namespace SD
         /// </summary>
         public void Play()
         {
-            SaveInventory();
-
             mainMenuBackground.SetActive(false);
 
             if (Settings.GameShowCutscene)
@@ -474,10 +504,7 @@ namespace SD
 
             // add money
             CurrentPlayer.Inventory.Money += score.Money;
-
-            // and save
-            SaveInventory();
-
+            
             // scale down time
             StartCoroutine(WaitForGameEnd());
 
