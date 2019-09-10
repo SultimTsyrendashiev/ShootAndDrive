@@ -63,7 +63,7 @@ namespace SD.UI.Controls
 
         void SkipCutscene()
         {
-            OnCutsceneSkip();
+            OnCutsceneSkip?.Invoke();
         }
     }
 }

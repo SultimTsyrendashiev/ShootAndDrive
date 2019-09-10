@@ -250,7 +250,7 @@ namespace SD.Weapons
             int newAmount = ammo.Get(AmmoType).CurrentAmount - AmmoConsumption;
 
             ammo.Get(AmmoType).CurrentAmount = newAmount;
-            OnAmmoChange(newAmount);
+            OnAmmoChange?.Invoke(newAmount);
 
             // if run out of ammo, send event
             if (newAmount == 0)
@@ -358,7 +358,7 @@ namespace SD.Weapons
             State = WeaponState.Disabling;
 
             // disable current ammo amount
-            OnAmmoChange(-1);
+            OnAmmoChange?.Invoke(-1);
 
             // wait for disabling
             StartCoroutine(WaitForDisabling(HidingTime));
@@ -411,6 +411,8 @@ namespace SD.Weapons
             wasJammed = State == WeaponState.ReadyForUnjam;
             State = WeaponState.Nothing;
 
+            OnAmmoChange?.Invoke(-1);
+
             gameObject.SetActive(false);
             Deactivate();
         }
@@ -445,7 +447,7 @@ namespace SD.Weapons
 
             // this weapon is activating,
             // show its ammo
-            OnAmmoChange(ammo.Get(AmmoType).CurrentAmount);
+            OnAmmoChange?.Invoke(ammo.Get(AmmoType).CurrentAmount);
 
             // pose hand
             if (handPivot != null)

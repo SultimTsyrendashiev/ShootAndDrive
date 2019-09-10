@@ -82,7 +82,7 @@
         public void SetDefaults()
         {
             gameLanguage = DefaultLanguage;
-            GameEnableSubtitles = false;
+            GameEnableSubtitles = true;
             GameShowCutscene = true;
             GameShowTutorial = true;
 

@@ -128,6 +128,11 @@ namespace SD.Game
 
         void Stop()
         {
+            if (!isPlaying)
+            {
+                return;
+            }
+
             isPlaying = false;
             currentCutscene = -1;
 

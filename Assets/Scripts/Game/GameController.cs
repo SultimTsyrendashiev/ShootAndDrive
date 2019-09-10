@@ -10,6 +10,7 @@ using SD.Game.Data;
 using SD.Game;
 using SD.Game.Shop;
 using SD.Game.Settings;
+using SD.Online;
 
 namespace SD
 {
@@ -51,6 +52,8 @@ namespace SD
         CutsceneManager                 cutsceneManager;
         TutorialManager                 tutorialManager;
         TimeController                  timeController;
+
+        IOnlineService                  onlineService;
 
         public GameState                State { get; private set; }
 
@@ -196,6 +199,9 @@ namespace SD
             audioSettingsHandler    = new AudioSettingsHandler();
             timeController          = new TimeController(Time.fixedDeltaTime);
 
+#if UNITY_ANDROID && !UNITY_EDITOR
+            onlineService           = new PlayGamesService();
+#endif
 
             // check all systems
             Debug.Assert(WeaponsStats != null,                              "Can't find AllWeaponsStats",           this);
@@ -207,6 +213,9 @@ namespace SD
             Debug.Assert(FindObjectOfType<ParticlesPool>() != null,         "Can't find ParticlesPool",             this);
             Debug.Assert(audioManager != null,                              "Can't find AudioManager");
 
+
+            onlineService?.Activate();
+            onlineService?.SignIn();
 
             SettingsInitializer.Init(SettingsSystem, Settings, audioManager, audioSettingsHandler, timeController);
 
@@ -250,7 +259,7 @@ namespace SD
             // depends on player and weapons stats
             CurrentPlayer.InitInventory();
 
-            DataSystem.LoadInventory(CurrentPlayer.Inventory);
+            DataSystem.LoadInventory(CurrentPlayer.Inventory, null);
 
             Inventory = CurrentPlayer.Inventory;
 
@@ -295,7 +304,7 @@ namespace SD
 
         void SaveInventory()
         {
-            DataSystem.SaveInventory(CurrentPlayer.Inventory);
+            DataSystem.SaveInventory(CurrentPlayer.Inventory, null);
         }
 
         void SaveSettings()
@@ -480,11 +489,6 @@ namespace SD
         /// </summary>
         void StopGame()
         {
-            if (State == GameState.Menu)
-            {
-                return;
-            }
-
             State = GameState.Menu;
 
             mainMenuBackground.SetActive(true);
@@ -504,7 +508,10 @@ namespace SD
 
             // add money
             CurrentPlayer.Inventory.Money += score.Money;
-            
+
+            onlineService?.ReportProgress(GPGSIds.leaderboard_score, score.ActualScorePoints);
+            onlineService?.ReportProgress(GPGSIds.leaderboard_cash, CurrentPlayer.Inventory.Money);
+
             // scale down time
             StartCoroutine(WaitForGameEnd());
 
@@ -531,8 +538,5 @@ namespace SD
         {
             EnemyTarget = target;
         }
-
-        void Dummy(string c)
-        { }
     }
 }

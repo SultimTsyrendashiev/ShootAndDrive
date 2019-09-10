@@ -60,42 +60,59 @@ namespace SD.Game.Data
             }
         }
 
-        public static void SaveInventory(PlayerInventory inventory)
+        public static void SaveInventory(PlayerInventory inventory, IOnlineService onlineService)
         {
             string path = Application.persistentDataPath + "/" + PlayerDataFileName;
 
-            using (FileStream file = new FileStream(path, FileMode.OpenOrCreate))
-            {
-                // load from PlayerInventory to InventoryData
-                InventoryData data = new InventoryData();
-                data.LoadFrom(inventory);
+            // load from PlayerInventory to InventoryData
+            InventoryData inventoryData = new InventoryData();
+            inventoryData.LoadFrom(inventory);
 
-                // save file
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(file, data);
+            if (onlineService != null)
+            {
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    // save file
+                    formatter.Serialize(stream, inventoryData);
+
+                    onlineService.Save(stream.GetBuffer());
+                }
+            }
+            else
+            {
+                using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate))
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    // save file
+                    formatter.Serialize(stream, inventoryData);
+                }
             }
         }
 
         /// <summary>
         /// Load data from file to the inventory
         /// </summary>
-        public static void LoadInventory(PlayerInventory inventory)
+        public static void LoadInventory(PlayerInventory inventory, IOnlineService onlineService)
         {
             try
             {
-                string path = Application.persistentDataPath + "/" + PlayerDataFileName;
-
-                if (File.Exists(path))
+                if (onlineService != null)
                 {
-                    // load from file
-                    using (FileStream file = new FileStream(path, FileMode.Open))
+                    onlineService.Load();
+
+                    // wait for loading
+                    //while (!onlineService.IsLoaded)
+                    //{ }
+
+                    byte[] fromService = onlineService.LoadedData;
+
+                    using (MemoryStream stream = new MemoryStream(fromService))
                     {
                         BinaryFormatter formatter = new BinaryFormatter();
 
-                        // reset position in file
-                        file.Position = 0;
                         // deserialize InventoryData
-                        InventoryData fromFile = (InventoryData)formatter.Deserialize(file);
+                        InventoryData fromFile = (InventoryData)formatter.Deserialize(stream);
 
                         // load from it to PlayerInventory
                         fromFile.SaveTo(inventory);
@@ -103,12 +120,36 @@ namespace SD.Game.Data
                 }
                 else
                 {
-                    // return default
-                    inventory.SetDefault();
+                    string path = Application.persistentDataPath + "/" + PlayerDataFileName;
+
+                    if (File.Exists(path))
+                    {
+                        // load from file
+                        using (FileStream stream = new FileStream(path, FileMode.Open))
+                        {
+                            BinaryFormatter formatter = new BinaryFormatter();
+
+                            // reset position in file
+                            stream.Position = 0;
+
+                            // deserialize InventoryData
+                            InventoryData fromFile = (InventoryData)formatter.Deserialize(stream);
+
+                            // load from it to PlayerInventory
+                            fromFile.SaveTo(inventory);
+                        }
+                    }
+                    else
+                    {
+                        // return default
+                        inventory.SetDefault();
+                    }
                 }
             }
-            catch
+            catch (Exception e)
             {
+                Debug.Log("DataSystem::Setting inventory to default as: " + e.Message);
+
                 inventory.SetDefault();
             }
         }
