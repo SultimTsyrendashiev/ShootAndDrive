@@ -30,6 +30,8 @@ namespace SD
 
         [SerializeField]
         ObjectPoolPrefabs               objectPoolPrefabs;
+        [SerializeField]
+        ParticlesPoolPrefabs            particlesPoolPrefabs;
 
 
         [SerializeField]
@@ -59,6 +61,7 @@ namespace SD
         TimeController                  timeController;
 
         public ObjectPool               ObjectPool { get; private set; }
+        public ParticlesPool            ParticlesPool { get; private set; }
 
         public IOnlineService           OnlineService { get; private set; }
 
@@ -104,20 +107,15 @@ namespace SD
         #region init / destroy
         void Awake()
         {
-            if (Instance != null)
-            {
-                Debug.Log("Several game controllers. Destroying: ", this);
-
-                // deactivate
-                Destroy(this);
-            }
-
+            Debug.Assert(Instance == null, "Several game controllers.", this);
             Instance = this;
 
             Application.targetFrameRate = 60;
 
             Init();
         }
+
+
 
         void OnApplicationQuit()
         {
@@ -205,24 +203,25 @@ namespace SD
         void CreateSystems()
         {
             // find objects
-            Background = FindObjectOfType<BackgroundController>();
-            cutsceneManager = FindObjectOfType<CutsceneManager>();
-            tutorialManager = FindObjectOfType<TutorialManager>();
-            audioManager = FindObjectOfType<AudioManager>();
+            Background                  = FindObjectOfType<BackgroundController>();
+            cutsceneManager             = FindObjectOfType<CutsceneManager>();
+            tutorialManager             = FindObjectOfType<TutorialManager>();
+            audioManager                = FindObjectOfType<AudioManager>();
 
-            WeaponsStats = new AllWeaponsStats(weaponsList.Data);
-            AmmoStats = new AllAmmoStats(ammoList.Data);
+            WeaponsStats                = new AllWeaponsStats(weaponsList.Data);
+            AmmoStats                   = new AllAmmoStats(ammoList.Data);
 
-            spawnersController = new SpawnersController();
-            SettingsSystem = new SettingsSystem(Settings);
-            Shop = new ShopSystem();
-            audioSettingsHandler = new AudioSettingsHandler();
-            timeController = new TimeController(Time.fixedDeltaTime);
+            spawnersController          = new SpawnersController();
+            SettingsSystem              = new SettingsSystem(Settings);
+            Shop                        = new ShopSystem();
+            audioSettingsHandler        = new AudioSettingsHandler();
+            timeController              = new TimeController(Time.fixedDeltaTime);
 
-            ObjectPool = new ObjectPool(objectPoolPrefabs, transform);
+            ObjectPool                  = new ObjectPool(objectPoolPrefabs, transform);
+            ParticlesPool               = new ParticlesPool(particlesPoolPrefabs, transform);
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-            onlineService           = new PlayGamesService();
+            onlineService               = new PlayGamesService();
 #endif
         }
 
@@ -235,7 +234,7 @@ namespace SD
             Debug.Assert(cutsceneManager != null, "Can't find CutsceneManager", this);
             Debug.Assert(tutorialManager != null, "Can't find TutorialManager", this);
             Debug.Assert(ObjectPool != null, "Can't find ObjectPool", this);
-            Debug.Assert(FindObjectOfType<ParticlesPool>() != null, "Can't find ParticlesPool", this);
+            Debug.Assert(ParticlesPool != null, "Can't find ParticlesPool", this);
             Debug.Assert(audioManager != null, "Can't find AudioManager");
         }
 
@@ -261,7 +260,7 @@ namespace SD
         void InitPools()
         {
             ObjectPool.Init();
-            FindObjectOfType<ParticlesPool>().Init();
+            ParticlesPool.Init();
         }
 
         void InitLocalization()

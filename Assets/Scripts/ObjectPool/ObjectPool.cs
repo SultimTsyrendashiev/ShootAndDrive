@@ -18,7 +18,7 @@ namespace SD
 
         bool isInitialized = false;
 
-        public static IObjectPool Instance { get; private set; }
+        public static IObjectPool Instance => GameController.Instance.ObjectPool;
 
         public ObjectPool(ObjectPoolPrefabs objectPoolPrefabs, Transform parent)
         {
@@ -31,12 +31,10 @@ namespace SD
         /// </summary>
         public void Init()
         {
-            Debug.Assert(Instance == null, "ObjectPool::Several object pools. Destroying: ");
-            Debug.Assert(isInitialized, "ObjectPool::Already initialized");
+            Debug.Assert(!isInitialized, "ObjectPool::Already initialized");
 
             isInitialized = true;
 
-            Instance = this;
             allocated = new Dictionary<string, AllocatedPrefab>();
 
             foreach (var o in prefabs.Prefabs)
