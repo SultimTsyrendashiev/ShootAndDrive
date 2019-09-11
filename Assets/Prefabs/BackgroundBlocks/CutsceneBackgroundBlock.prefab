@@ -46,7 +46,7 @@ ReflectionProbe:
   m_TimeSlicingMode: 0
   m_Resolution: 64
   m_UpdateFrequency: 0
-  m_BoxSize: {x: 40, y: 20, z: 120}
+  m_BoxSize: {x: 40, y: 20, z: 380}
   m_BoxOffset: {x: 0, y: 0, z: 0}
   m_NearClip: 0.3
   m_FarClip: 1000
@@ -132,41 +132,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6539936350957000651}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: f2f6ce696999b9546aeb76cccef046b8,
-        type: 3}
-      propertyPath: m_Name
-      value: CutsceneBackground
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: f2f6ce696999b9546aeb76cccef046b8,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: -8471428587232215237, guid: f2f6ce696999b9546aeb76cccef046b8,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: -8471428587232215237, guid: f2f6ce696999b9546aeb76cccef046b8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -5175126020885213775, guid: f2f6ce696999b9546aeb76cccef046b8,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -5175126020885213775, guid: f2f6ce696999b9546aeb76cccef046b8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -5175126020885213775, guid: f2f6ce696999b9546aeb76cccef046b8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: f2f6ce696999b9546aeb76cccef046b8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -237,21 +202,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.3
       objectReference: {fileID: 0}
-    - target: {fileID: 3321964930086222136, guid: f2f6ce696999b9546aeb76cccef046b8,
+    - target: {fileID: -5175126020885213775, guid: f2f6ce696999b9546aeb76cccef046b8,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: d503aaaeeb291794db55f59cd1e8c0c9, type: 2}
-    - target: {fileID: 6865716161954489274, guid: f2f6ce696999b9546aeb76cccef046b8,
-        type: 3}
-      propertyPath: m_CastShadows
-      value: 0
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6865716161954489274, guid: f2f6ce696999b9546aeb76cccef046b8,
+    - target: {fileID: -5175126020885213775, guid: f2f6ce696999b9546aeb76cccef046b8,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: d503aaaeeb291794db55f59cd1e8c0c9, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5175126020885213775, guid: f2f6ce696999b9546aeb76cccef046b8,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7343251883448050162, guid: f2f6ce696999b9546aeb76cccef046b8,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -267,11 +232,46 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: f2f6ce696999b9546aeb76cccef046b8,
+        type: 3}
+      propertyPath: m_Name
+      value: CutsceneBackground
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: f2f6ce696999b9546aeb76cccef046b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: -8471428587232215237, guid: f2f6ce696999b9546aeb76cccef046b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: -8471428587232215237, guid: f2f6ce696999b9546aeb76cccef046b8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1123174136193391015, guid: f2f6ce696999b9546aeb76cccef046b8,
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 64
       objectReference: {fileID: 0}
+    - target: {fileID: 3321964930086222136, guid: f2f6ce696999b9546aeb76cccef046b8,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d503aaaeeb291794db55f59cd1e8c0c9, type: 2}
+    - target: {fileID: 6865716161954489274, guid: f2f6ce696999b9546aeb76cccef046b8,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6865716161954489274, guid: f2f6ce696999b9546aeb76cccef046b8,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d503aaaeeb291794db55f59cd1e8c0c9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2f6ce696999b9546aeb76cccef046b8, type: 3}
 --- !u!4 &5605015021381710176 stripped

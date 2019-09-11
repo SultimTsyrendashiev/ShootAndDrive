@@ -4,37 +4,26 @@ using SD.ObjectPooling;
 
 namespace SD
 {
-    class ObjectPool : MonoBehaviour, IObjectPool
+    class ObjectPool : IObjectPool
     {
         /// <summary>
         /// Contains all prefabs
         /// </summary>
-        [SerializeField]
         ObjectPoolPrefabs prefabs;
        
         // Contains all already allocated objects
         Dictionary<string, AllocatedPrefab> allocated;
 
+        Transform prefabsParent;
+
         bool isInitialized = false;
 
         public static IObjectPool Instance { get; private set; }
 
-        void Awake()
+        public ObjectPool(ObjectPoolPrefabs objectPoolPrefabs, Transform parent)
         {
-            if (isInitialized)
-            {
-                return;
-            }
-
-            if (Instance != null)
-            {
-                Debug.Log("Several object pools. Destroying: ", this);
-
-                // deactivate
-                Destroy(this);
-            }
-
-            Init();
+            prefabs = objectPoolPrefabs;
+            prefabsParent = parent;
         }
 
         /// <summary>
@@ -42,6 +31,9 @@ namespace SD
         /// </summary>
         public void Init()
         {
+            Debug.Assert(Instance == null, "ObjectPool::Several object pools. Destroying: ");
+            Debug.Assert(isInitialized, "ObjectPool::Already initialized");
+
             isInitialized = true;
 
             Instance = this;
@@ -49,19 +41,19 @@ namespace SD
 
             foreach (var o in prefabs.Prefabs)
             {
-                Register(o);
+                Register(o, prefabsParent);
             }
         }
         
         /// <summary>
         /// Add prefab to object pool
         /// </summary>
-        public void Register(GameObject prefab)
+        public void Register(GameObject prefab, Transform parent)
         {
             var pooled = prefab.GetComponent<IPooledObject>();
             Debug.Assert(pooled != null, "Prefab must contain 'IPooledObject' component", prefab);
 
-            AllocatedPrefab ap = new AllocatedPrefab(transform, pooled);
+            AllocatedPrefab ap = new AllocatedPrefab(parent, pooled);
             allocated.Add(prefab.name, ap);
         }
 
@@ -70,7 +62,7 @@ namespace SD
             // check if there is prefab
             if (!allocated.ContainsKey(name))
             {
-                Debug.LogError("Object pool doesn't contain this key: " + name, this);
+                Debug.LogError("ObjectPool::Object pool doesn't contain this key: " + name);
                 return null;
             }
 
@@ -105,11 +97,11 @@ namespace SD
         /// </summary>
         void Resize(string prefabName, int newAmount)
         {
-            Debug.Assert(newAmount > 0, "New amount must be > 0", this);
+            Debug.Assert(newAmount > 0, "ObjectPool::New amount must be > 0");
 
             if (!allocated.ContainsKey(prefabName))
             {
-                Debug.Log("Can't change amount in ObjectPool: prefab doesn't exist: " + prefabName, this);
+                Debug.Log("ObjectPool::Can't change amount in ObjectPool: prefab doesn't exist: " + prefabName);
                 return;
             }
 
@@ -117,7 +109,7 @@ namespace SD
 
             if (ap.Prefab.Type != PooledObjectType.NotImportant)
             {
-                Debug.Log("Can't change amount in ObjectPool: only NotImportant can be resized", this);
+                Debug.Log("ObjectPool::Can't change amount in ObjectPool: only NotImportant can be resized");
             }
 
             ap.Resize(newAmount);

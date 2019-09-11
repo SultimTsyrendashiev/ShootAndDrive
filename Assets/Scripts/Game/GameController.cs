@@ -11,6 +11,7 @@ using SD.Game;
 using SD.Game.Shop;
 using SD.Game.Settings;
 using SD.Online;
+using SD.ObjectPooling;
 
 namespace SD
 {
@@ -26,6 +27,10 @@ namespace SD
 
         [SerializeField]
         GameObject                      playerPrefab;
+
+        [SerializeField]
+        ObjectPoolPrefabs               objectPoolPrefabs;
+
 
         [SerializeField]
         GameObject                      mainMenuBackground;
@@ -53,7 +58,9 @@ namespace SD
         TutorialManager                 tutorialManager;
         TimeController                  timeController;
 
-        IOnlineService                  onlineService;
+        public ObjectPool               ObjectPool { get; private set; }
+
+        public IOnlineService           OnlineService { get; private set; }
 
         public GameState                State { get; private set; }
 
@@ -68,7 +75,10 @@ namespace SD
 
         AudioSettingsHandler            audioSettingsHandler;
 
+        
         #region events
+        public static event Action<GameController>  OnGameInit;
+
         public static event Void                    OnGameplayActivate;
         public static event Void                    OnGamePause;
         public static event Void                    OnGameUnpause;
@@ -183,39 +193,56 @@ namespace SD
             // init localization
             InitLocalization();
 
+            CreateSystems();
+            CheckSystems();
 
+            InitSystems();
+        }
+
+        /// <summary>
+        /// Create or find systems
+        /// </summary>
+        void CreateSystems()
+        {
             // find objects
-            Background              = FindObjectOfType<BackgroundController>();
-            cutsceneManager         = FindObjectOfType<CutsceneManager>();
-            tutorialManager         = FindObjectOfType<TutorialManager>();
-            audioManager            = FindObjectOfType<AudioManager>();
+            Background = FindObjectOfType<BackgroundController>();
+            cutsceneManager = FindObjectOfType<CutsceneManager>();
+            tutorialManager = FindObjectOfType<TutorialManager>();
+            audioManager = FindObjectOfType<AudioManager>();
 
-            WeaponsStats            = new AllWeaponsStats(weaponsList.Data);
-            AmmoStats               = new AllAmmoStats(ammoList.Data);
+            WeaponsStats = new AllWeaponsStats(weaponsList.Data);
+            AmmoStats = new AllAmmoStats(ammoList.Data);
 
-            spawnersController      = new SpawnersController();
-            SettingsSystem          = new SettingsSystem(Settings);
-            Shop                    = new ShopSystem();
-            audioSettingsHandler    = new AudioSettingsHandler();
-            timeController          = new TimeController(Time.fixedDeltaTime);
+            spawnersController = new SpawnersController();
+            SettingsSystem = new SettingsSystem(Settings);
+            Shop = new ShopSystem();
+            audioSettingsHandler = new AudioSettingsHandler();
+            timeController = new TimeController(Time.fixedDeltaTime);
+
+            ObjectPool = new ObjectPool(objectPoolPrefabs, transform);
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             onlineService           = new PlayGamesService();
 #endif
+        }
 
+        void CheckSystems()
+        {
             // check all systems
-            Debug.Assert(WeaponsStats != null,                              "Can't find AllWeaponsStats",           this);
-            Debug.Assert(Background != null,                                "Can't find BackgroundController",      this);
-            Debug.Assert(spawnersController != null,                        "Can't find SpawnersController",        this);
-            Debug.Assert(cutsceneManager != null,                           "Can't find CutsceneManager",           this);
-            Debug.Assert(tutorialManager != null,                           "Can't find TutorialManager",           this);
-            Debug.Assert(FindObjectOfType<ObjectPool>() != null,            "Can't find ObjectPool",                this);
-            Debug.Assert(FindObjectOfType<ParticlesPool>() != null,         "Can't find ParticlesPool",             this);
-            Debug.Assert(audioManager != null,                              "Can't find AudioManager");
+            Debug.Assert(WeaponsStats != null, "Can't find AllWeaponsStats", this);
+            Debug.Assert(Background != null, "Can't find BackgroundController", this);
+            Debug.Assert(spawnersController != null, "Can't find SpawnersController", this);
+            Debug.Assert(cutsceneManager != null, "Can't find CutsceneManager", this);
+            Debug.Assert(tutorialManager != null, "Can't find TutorialManager", this);
+            Debug.Assert(ObjectPool != null, "Can't find ObjectPool", this);
+            Debug.Assert(FindObjectOfType<ParticlesPool>() != null, "Can't find ParticlesPool", this);
+            Debug.Assert(audioManager != null, "Can't find AudioManager");
+        }
 
-
-            onlineService?.Activate();
-            onlineService?.SignIn();
+        void InitSystems()
+        {
+            OnlineService?.Activate();
+            OnlineService?.SignIn();
 
             SettingsInitializer.Init(SettingsSystem, Settings, audioManager, audioSettingsHandler, timeController);
 
@@ -223,17 +250,17 @@ namespace SD
 
             // inventory is loaded, init shop system
             Shop.Init(Inventory);
-            
+
             // all systems initialized, sign up to events
             SignToEvents();
-            
+
             // at last, init object and particle pools
             InitPools();
         }
 
         void InitPools()
         {
-            FindObjectOfType<ObjectPool>().Init();
+            ObjectPool.Init();
             FindObjectOfType<ParticlesPool>().Init();
         }
 
@@ -290,6 +317,8 @@ namespace SD
         {
             mainMenuBackground.SetActive(true);
             Background.CreateCutsceneBackground(Vector3.zero);
+
+            OnGameInit?.Invoke(this);
         }
 
         void Update()
@@ -451,7 +480,7 @@ namespace SD
 
         void PauseGame()
         {
-            if (State != GameState.Game)
+            if (State == GameState.Paused || State == GameState.Menu)
             {
                 return;
             }
@@ -509,8 +538,8 @@ namespace SD
             // add money
             CurrentPlayer.Inventory.Money += score.Money;
 
-            onlineService?.ReportProgress(GPGSIds.leaderboard_score, score.ActualScorePoints);
-            onlineService?.ReportProgress(GPGSIds.leaderboard_cash, CurrentPlayer.Inventory.Money);
+            OnlineService?.ReportProgress(GPGSIds.leaderboard_score, score.ActualScorePoints);
+            OnlineService?.ReportProgress(GPGSIds.leaderboard_cash, CurrentPlayer.Inventory.Money);
 
             // scale down time
             StartCoroutine(WaitForGameEnd());

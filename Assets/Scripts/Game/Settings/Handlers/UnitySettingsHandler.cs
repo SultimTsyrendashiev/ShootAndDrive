@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Rendering;
+using URPA = UnityEngine.Rendering.LWRP.LightweightRenderPipelineAsset;
 
 namespace SD.Game.Settings
 {
@@ -13,15 +14,15 @@ namespace SD.Game.Settings
         const float CutsceneShadowDistance = 10;
 
         [SerializeField]
-        UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset shadowsNone;
+        URPA shadowsNone;
         [SerializeField]
-        UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset shadowsLow;
+        URPA shadowsLow;
         [SerializeField]
-        UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset shadowsMedium;
+        URPA shadowsMedium;
         [SerializeField]
-        UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset shadowsHigh;
+        URPA shadowsHigh;
 
-        UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset currentPipelineAsset;
+        URPA currentPipelineAsset;
 
         SettingsSystem settingsSystem;
 
@@ -34,7 +35,7 @@ namespace SD.Game.Settings
             }
 
             this.settingsSystem = settingsSystem;
-            this.currentPipelineAsset = (UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset)GraphicsSettings.renderPipelineAsset;
+            this.currentPipelineAsset = (URPA)GraphicsSettings.renderPipelineAsset;
 
             // when preset is changed this settings must be set
             settingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Preset, SetShadows);

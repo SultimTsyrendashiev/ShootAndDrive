@@ -24,6 +24,8 @@ namespace SD.Online
             savedGames = new SavedGames();
         }
 
+        public bool IsAuthenicated => Social.localUser.authenticated;
+        
         public void SignIn()
         {
             if (!Social.localUser.authenticated)

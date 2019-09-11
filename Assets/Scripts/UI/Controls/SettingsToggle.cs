@@ -29,7 +29,8 @@ namespace SD.UI.Controls
 
         void Start()
         {
-            settingsMenu = GetComponentInParent<SettingsMenu>();
+            settingsMenu = FindSettingsMenu();
+
             text = GetComponentInChildren<Text>();
 
             // GlobalSettings.OnLanguageChange += UpdateTextS;
@@ -39,6 +40,11 @@ namespace SD.UI.Controls
             GameController.Instance.SettingsSystem.Subscribe(SettingsList.Setting_Key_Perf_Preset, UpdateTextS);
 
             UpdateText();
+        }
+
+        protected virtual SettingsMenu FindSettingsMenu()
+        {
+            return GetComponentInParent<SettingsMenu>();
         }
 
         void OnEnable()

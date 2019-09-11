@@ -20,5 +20,7 @@ namespace SD
         bool IsLoaded { get; }
         byte[] LoadedData { get; }
         void Load();
+
+        bool IsAuthenicated { get; }
     }
 }

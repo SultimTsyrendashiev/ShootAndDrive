@@ -39,6 +39,8 @@
             }
         }
 
+        public bool                 FirstStart;
+
         public bool                 GameEnableSubtitles;
         public bool                 GameShowCutscene;
         public bool                 GameShowTutorial;
@@ -82,6 +84,8 @@
         public void SetDefaults()
         {
             gameLanguage = DefaultLanguage;
+
+            FirstStart = true;
             GameEnableSubtitles = true;
             GameShowCutscene = true;
             GameShowTutorial = true;
