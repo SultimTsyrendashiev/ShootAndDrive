@@ -129,7 +129,7 @@ namespace SD.UI
             }
             else
             {
-                o.SetActive(false);
+                // o.SetActive(false);
             }
         }
     }

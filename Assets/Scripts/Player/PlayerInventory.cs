@@ -71,7 +71,12 @@ namespace SD.PlayerLogic
             Weapons.SetDefault();
             Ammo.SetDefault();
             Items.SetDefault();
-            money = 2000;
+            money = 2500;
+
+            // TODO: remove
+            money = 500000;
+            Weapons.Set(WeaponIndex.PistolRevolver, 4, true, true);
+            Ammo.Set(AmmunitionType.BulletsPistol, 4);
         }
 
         #region player's stats handlers

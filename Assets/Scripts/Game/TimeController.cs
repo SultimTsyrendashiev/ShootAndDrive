@@ -5,7 +5,8 @@ namespace SD.Game
 {
     class TimeController
     {
-        const float WeaponsSelectionMultiplier = 0.05f;
+        const float WeaponsSelectionMultiplier = 0.2f;
+        const float TutorialPanelMultiplier = 0.01f;
 
         float defaultTimeScale;
         float defaultFixedDelta;
@@ -26,6 +27,9 @@ namespace SD.Game
             GameController.OnWeaponSelectionDisable += SetDefault;
 
             GameController.OnMainMenuActivate += SetDefault;
+
+            TutorialManager.OnTutorialPanelActivate += ProcessTutorialPanelActivation;
+            TutorialManager.OnTutorialPanelDeactivate += SetDefault;
         }
 
         ~TimeController()
@@ -52,6 +56,11 @@ namespace SD.Game
         void ProcessWeaponSelection()
         {
             SetTimeScale(WeaponsSelectionMultiplier);
+        }
+
+        void ProcessTutorialPanelActivation()
+        {
+            SetTimeScale(TutorialPanelMultiplier);
         }
 
         public void SetTimeScale(float scale)

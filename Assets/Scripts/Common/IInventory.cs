@@ -14,7 +14,8 @@ namespace SD
         event PlayerBalanceChange OnBalanceChange;
 
         /// <summary>
-        /// Use this only on initialization of money amount
+        /// Set money amount without checking and calling events.
+        /// Use this only on initialization of money amount.
         /// </summary>
         void InitMoney(int amount);
     }

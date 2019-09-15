@@ -25,7 +25,7 @@ namespace SD.Game.Data
         public static GlobalSettings LoadSettings()
         {
             string path = Application.persistentDataPath + "/" + SettingsFileName;
-            
+
             if (File.Exists(path))
             {
                 try
@@ -62,88 +62,97 @@ namespace SD.Game.Data
 
         public static void SaveInventory(PlayerInventory inventory, IOnlineService onlineService)
         {
+            // load from PlayerInventory to InventoryData
+            InventoryData inventoryData = new InventoryData();
+            inventoryData.LoadFrom(inventory);
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                // save file
+                formatter.Serialize(stream, inventoryData);
+
+                onlineService.Save(stream.GetBuffer());
+            }
+        }
+
+        public static void SaveInventory(PlayerInventory inventory)
+        {
             string path = Application.persistentDataPath + "/" + PlayerDataFileName;
 
             // load from PlayerInventory to InventoryData
             InventoryData inventoryData = new InventoryData();
             inventoryData.LoadFrom(inventory);
 
-            if (onlineService != null)
+            using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate))
             {
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    BinaryFormatter formatter = new BinaryFormatter();
-                    // save file
-                    formatter.Serialize(stream, inventoryData);
-
-                    onlineService.Save(stream.GetBuffer());
-                }
-            }
-            else
-            {
-                using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate))
-                {
-                    BinaryFormatter formatter = new BinaryFormatter();
-                    // save file
-                    formatter.Serialize(stream, inventoryData);
-                }
+                BinaryFormatter formatter = new BinaryFormatter();
+                // save file
+                formatter.Serialize(stream, inventoryData);
             }
         }
 
         /// <summary>
-        /// Load data from file to the inventory
+        /// Load data from byte array to the inventory
         /// </summary>
-        public static void LoadInventory(PlayerInventory inventory, IOnlineService onlineService)
+        public static void LoadInventory(PlayerInventory inventory, byte[] data, out InventoryData invData)
         {
+            invData = null;
+
             try
             {
-                if (onlineService != null)
+                using (MemoryStream stream = new MemoryStream(data))
                 {
-                    onlineService.Load();
+                    BinaryFormatter formatter = new BinaryFormatter();
 
-                    // wait for loading
-                    //while (!onlineService.IsLoaded)
-                    //{ }
+                    // deserialize InventoryData
+                    InventoryData fromFile = (InventoryData)formatter.Deserialize(stream);
 
-                    byte[] fromService = onlineService.LoadedData;
+                    // load from it to PlayerInventory
+                    fromFile.SaveTo(inventory);
 
-                    using (MemoryStream stream = new MemoryStream(fromService))
+                    invData = fromFile;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log("DataSystem::Setting inventory to default as: " + e.Message);
+
+                inventory.SetDefault();
+            }
+        }
+
+        public static void LoadInventory(PlayerInventory inventory, out InventoryData invData)
+        {
+            invData = null;
+
+            try
+            {
+                string path = Application.persistentDataPath + "/" + PlayerDataFileName;
+
+                if (File.Exists(path))
+                {
+                    // load from file
+                    using (FileStream stream = new FileStream(path, FileMode.Open))
                     {
                         BinaryFormatter formatter = new BinaryFormatter();
+
+                        // reset position in file
+                        stream.Position = 0;
 
                         // deserialize InventoryData
                         InventoryData fromFile = (InventoryData)formatter.Deserialize(stream);
 
                         // load from it to PlayerInventory
                         fromFile.SaveTo(inventory);
+
+                        invData = fromFile;
                     }
                 }
                 else
                 {
-                    string path = Application.persistentDataPath + "/" + PlayerDataFileName;
-
-                    if (File.Exists(path))
-                    {
-                        // load from file
-                        using (FileStream stream = new FileStream(path, FileMode.Open))
-                        {
-                            BinaryFormatter formatter = new BinaryFormatter();
-
-                            // reset position in file
-                            stream.Position = 0;
-
-                            // deserialize InventoryData
-                            InventoryData fromFile = (InventoryData)formatter.Deserialize(stream);
-
-                            // load from it to PlayerInventory
-                            fromFile.SaveTo(inventory);
-                        }
-                    }
-                    else
-                    {
-                        // return default
-                        inventory.SetDefault();
-                    }
+                    // return default
+                    inventory.SetDefault();
                 }
             }
             catch (Exception e)

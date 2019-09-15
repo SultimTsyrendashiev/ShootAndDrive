@@ -15,6 +15,7 @@ using SD.ObjectPooling;
 
 namespace SD
 {
+    // TODO: refactoring
     class GameController : MonoBehaviour
     {
         [SerializeField]
@@ -40,6 +41,8 @@ namespace SD
 
 
         Vector3                         defaultPlayerPosition;
+
+        InventoryData                   lastLoadedInventoryData;
 
 
         // services
@@ -78,8 +81,9 @@ namespace SD
 
         AudioSettingsHandler            audioSettingsHandler;
 
-        
+
         #region events
+        public static event Action<IOnlineService>  OnSignIn;
         public static event Action<GameController>  OnGameInit;
 
         public static event Void                    OnGameplayActivate;
@@ -115,8 +119,6 @@ namespace SD
             Init();
         }
 
-
-
         void OnApplicationQuit()
         {
             SaveSettings();
@@ -136,6 +138,8 @@ namespace SD
 
             InputController.OnMainMenuButton += StopGame;
             InputController.OnInventoryButton += ShowInventory;
+
+            InputController.OnInventoryRevert += RevertInventory;
 
             InputController.OnWeaponSelectionButton += EnableWeaponsSelection;
             InputController.OnWeaponSelectionDisableButton += DisableWeaponsSelection;
@@ -163,6 +167,8 @@ namespace SD
 
             InputController.OnMainMenuButton -= StopGame;
             InputController.OnInventoryButton -= ShowInventory;
+
+            InputController.OnInventoryRevert -= RevertInventory;
 
             InputController.OnWeaponSelectionButton -= EnableWeaponsSelection;
             InputController.OnWeaponSelectionDisableButton -= DisableWeaponsSelection;
@@ -221,7 +227,7 @@ namespace SD
             ParticlesPool               = new ParticlesPool(particlesPoolPrefabs, transform);
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-            onlineService               = new PlayGamesService();
+            OnlineService               = new PlayGamesService();
 #endif
         }
 
@@ -240,9 +246,6 @@ namespace SD
 
         void InitSystems()
         {
-            OnlineService?.Activate();
-            OnlineService?.SignIn();
-
             SettingsInitializer.Init(SettingsSystem, Settings, audioManager, audioSettingsHandler, timeController);
 
             InitPlayer();
@@ -255,6 +258,42 @@ namespace SD
 
             // at last, init object and particle pools
             InitPools();
+
+            if (OnlineService != null)
+            {
+                OnlineService.Activate();
+                OnlineService.SignIn();
+
+                StartCoroutine(WaitForOnlineServiceInit());
+            }
+        }
+
+        IEnumerator WaitForOnlineServiceInit()
+        {
+            // wait for authenticating,
+            // always wait 1 frame
+            do
+            {
+                yield return null;
+
+            } while (!OnlineService.IsAuthenicated);
+
+            OnSignIn?.Invoke(OnlineService);
+
+            // authenticated, now load inventory
+            OnlineService.Load();
+
+            // wait for load
+            do
+            {
+                yield return null;
+
+            } while (!OnlineService.IsLoaded);
+
+            // load data to inventory
+            DataSystem.LoadInventory(CurrentPlayer.Inventory, OnlineService.LoadedData, out lastLoadedInventoryData);
+
+            OnGameInit?.Invoke(this);
         }
 
         void InitPools()
@@ -285,11 +324,7 @@ namespace SD
             // depends on player and weapons stats
             CurrentPlayer.InitInventory();
 
-            DataSystem.LoadInventory(CurrentPlayer.Inventory, null);
-
             Inventory = CurrentPlayer.Inventory;
-
-            Inventory.Money = 200000;
 
             defaultPlayerPosition = CurrentPlayer.transform.position;
         }
@@ -317,7 +352,33 @@ namespace SD
             mainMenuBackground.SetActive(true);
             Background.CreateCutsceneBackground(Vector3.zero);
 
-            OnGameInit?.Invoke(this);
+            if (OnlineService == null)
+            {           
+                // load data to inventory from file
+                DataSystem.LoadInventory(CurrentPlayer.Inventory, out lastLoadedInventoryData);
+
+                // if there is no service, everything is initialized
+                OnGameInit?.Invoke(this);
+            }
+
+            Shop.OnAmmoBuy += Shop_OnAmmoBuy;
+            Shop.OnWeaponBuy += Shop_OnWeaponBuy;
+            Shop.OnWeaponRepair += Shop_OnWeaponRepair;
+        }
+
+        private void Shop_OnWeaponRepair(WeaponIndex index, int price)
+        {
+            OnlineService?.ReportProgress(GPGSIds.achievement_first_purchase, 100);
+        }
+
+        private void Shop_OnWeaponBuy(WeaponIndex index, int price)
+        {
+            OnlineService?.ReportProgress(GPGSIds.achievement_first_purchase, 100);
+        }
+
+        private void Shop_OnAmmoBuy(AmmunitionType index, int price)
+        {
+            OnlineService?.ReportProgress(GPGSIds.achievement_first_purchase, 100);
         }
 
         void Update()
@@ -332,7 +393,29 @@ namespace SD
 
         void SaveInventory()
         {
-            DataSystem.SaveInventory(CurrentPlayer.Inventory, null);
+            if (OnlineService != null)
+            {
+                DataSystem.SaveInventory(CurrentPlayer.Inventory, OnlineService);
+            }
+            else
+            {
+                DataSystem.SaveInventory(CurrentPlayer.Inventory);
+            }
+        }
+
+        /// <summary>
+        /// Revert inventory to last loaded
+        /// </summary>
+        void RevertInventory()
+        {
+            if (Inventory == null || lastLoadedInventoryData == null)
+            {
+                return;
+            }
+
+            print("Reverting inventory");
+
+            lastLoadedInventoryData.SaveTo((PlayerInventory)Inventory);
         }
 
         void SaveSettings()
@@ -538,12 +621,19 @@ namespace SD
             CurrentPlayer.Inventory.Money += score.Money;
 
             OnlineService?.ReportProgress(GPGSIds.leaderboard_score, score.ActualScorePoints);
-            OnlineService?.ReportProgress(GPGSIds.leaderboard_cash, CurrentPlayer.Inventory.Money);
+            OnlineService?.ReportProgress(GPGSIds.leaderboard_cash, score.Money);
 
+            UpdateScoreAchievements();
+            
             // scale down time
             StartCoroutine(WaitForGameEnd());
 
             OnPlayerDeath?.Invoke(CurrentPlayer);
+        }
+
+        void UpdateScoreAchievements()
+        {
+            OnlineService?.ReportProgress(GPGSIds.achievement_ten_thoudsand, Inventory.PlayerStats.Combat_TotalShots);
         }
 
         /// <summary>

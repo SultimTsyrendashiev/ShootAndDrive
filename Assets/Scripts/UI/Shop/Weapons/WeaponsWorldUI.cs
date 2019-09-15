@@ -6,6 +6,9 @@ namespace SD.UI.Shop
     class WeaponsWorldUI : MonoBehaviour
     {
         [SerializeField]
+        int size = 256;
+
+        [SerializeField]
         WeaponItemCamera itemCamera;
 
         [SerializeField]
@@ -21,13 +24,9 @@ namespace SD.UI.Shop
             // select weapon
             container.Select(w);
 
-            // TODO: from settings
-            int width = 192;
-            int height = 192;
-
             // render it
             itemCamera.enabled = true;
-            return itemCamera.GetImage(w, width, height);
+            return itemCamera.GetImage(w, size, size);
         }
 
         public void Activate()

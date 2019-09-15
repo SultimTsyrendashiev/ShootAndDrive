@@ -10,7 +10,7 @@ namespace SD.UI.Shop
     class WeaponItemCamera : MonoBehaviour
     {
         const int CameraDepth = 128;
-        const int RenderTextureMaxSize = 512;
+        const int RenderTextureMaxSize = 1024;
 
         Camera thisCamera;
 
@@ -48,6 +48,8 @@ namespace SD.UI.Shop
             }
 
             RenderTexture renderTexture = RenderTexture.GetTemporary(width, height, 16);
+            renderTexture.antiAliasing = 4;
+            renderTexture.autoGenerateMips = true;
 
             if (thisCamera == null)
             {

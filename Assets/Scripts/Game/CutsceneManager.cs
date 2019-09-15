@@ -123,6 +123,9 @@ namespace SD.Game
                 return;
             }
 
+            // TODO: remove from here
+            GameController.Instance.OnlineService?.ReportProgress(GPGSIds.achievement_ketchup, 100);
+
             Stop();
         }
 

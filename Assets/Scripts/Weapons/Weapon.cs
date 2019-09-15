@@ -20,7 +20,8 @@ namespace SD.Weapons
         /// Common event, called on waepon breaking
         /// </summary>
         public static event Action<WeaponIndex> OnWeaponBreak;
-        
+        public static event Action<WeaponIndex> OnWeaponJam;
+
         /// <summary>
         /// Called on ammo change.
         /// Shows current weapon's ammo amount
@@ -531,6 +532,7 @@ namespace SD.Weapons
         void Jam()
         {
             State = WeaponState.Jamming;
+            OnWeaponJam?.Invoke(WeaponIndex);
         }
 
         public void Unjam()

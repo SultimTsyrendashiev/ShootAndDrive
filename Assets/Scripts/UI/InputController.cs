@@ -20,6 +20,7 @@ namespace SD.UI
         public static event Void                OnUnpause;
 
         public static event Void                OnMainMenuButton;
+        public static event Void                OnInventoryRevert;
 
         public static event Void                OnSettingsApply;
 
@@ -159,6 +160,11 @@ namespace SD.UI
         public void OpenMainMenu()
         {
             OnMainMenuButton?.Invoke();
+        }
+
+        public void RevertInventory()
+        {
+            OnInventoryRevert?.Invoke();
         }
 
         public void OpenSettings()
