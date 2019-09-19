@@ -6,7 +6,7 @@ namespace SD.UI.Menus
     /// <summary>
     /// Has enabling and hiding animation
     /// </summary>
-    abstract class AAnimatedMenu : MonoBehaviour, IMenu
+    class AAnimatedMenu : MonoBehaviour, IMenu
     {
         [SerializeField]
         string          enablingAnimation;

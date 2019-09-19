@@ -101,9 +101,13 @@ namespace SD.Game
             }
         }
 
+        const float WaitBeforeMove = 1.0f;
+        const float WaitBeforeSwitch = 3.0f;
+        const float WaitBeforeShoot = 1.0f;
+
         IEnumerator WaitForTutorial()
         {
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(WaitBeforeMove);
             OnTutorialPanelActivate?.Invoke();
             OnTutorial_Move?.Invoke(this);
 
@@ -116,20 +120,25 @@ namespace SD.Game
 
 
 
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(WaitBeforeSwitch);
             OnTutorialPanelActivate?.Invoke();
             OnTutorial_WeaponSwitch?.Invoke(this);
 
-            // wait for menu to disable and weapon to be selected
-            while (waitForWeaponSwitch || !weaponSelected)
+            // wait for menu to disable
+            while (waitForWeaponSwitch)
             {
                 yield return null;
             }
             OnTutorialPanelDeactivate?.Invoke();
 
+            // wait weapon to select
+            while (!weaponSelected)
+            {
+                yield return null;
+            }
 
 
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(WaitBeforeShoot);
             OnTutorialPanelActivate?.Invoke();
             OnTutorial_Shoot?.Invoke(this);
 

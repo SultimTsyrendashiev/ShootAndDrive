@@ -401,6 +401,13 @@ namespace SD
             {
                 DataSystem.SaveInventory(CurrentPlayer.Inventory);
             }
+
+            if (lastLoadedInventoryData == null)
+            {
+                lastLoadedInventoryData = new InventoryData();
+            }
+
+            lastLoadedInventoryData.LoadFrom(CurrentPlayer.Inventory);
         }
 
         /// <summary>
@@ -415,7 +422,7 @@ namespace SD
 
             print("Reverting inventory");
 
-            lastLoadedInventoryData.SaveTo((PlayerInventory)Inventory);
+            lastLoadedInventoryData.SaveTo(CurrentPlayer.Inventory);
         }
 
         void SaveSettings()
@@ -431,12 +438,16 @@ namespace SD
         #region game start: cutscene / tutorial / gameplay
         /// <summary>
         /// Same method as Play(), but shows inventory menu,
-        /// if cutscene and tutorial are disabled
+        /// if it's the first time when player starts the game
         /// </summary>
         public void PlayWithInventoryMenu()
         {
-            if (!Settings.GameShowCutscene && !Settings.GameShowTutorial)
+            // if (!Settings.GameShowCutscene && !Settings.GameShowTutorial)
+            if (Settings.FirstStart)
             {
+                // disable first time
+                Settings.FirstStart = false;
+
                 ShowInventory();
             }
             else

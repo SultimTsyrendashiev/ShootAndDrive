@@ -50,9 +50,6 @@ namespace SD.UI.Menus
             {
                 loadingScreen.SetActive(false);
                 initSettings.SetActive(true);
-
-                // disable
-                obj.Settings.FirstStart = false;
             }
             else
             {

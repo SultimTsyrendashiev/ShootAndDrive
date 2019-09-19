@@ -80,6 +80,8 @@ namespace SD.UI.Menus
         public void ApplyCurrentTutorial()
         {
             current?.Invoke();
+            current = null;
+
             tutorialMenuController.EnableMenu(emptyTutorial);
         }
 

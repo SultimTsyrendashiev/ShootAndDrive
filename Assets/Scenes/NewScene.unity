@@ -3052,13 +3052,14 @@ GameObject:
   - component: {fileID: 190504638}
   - component: {fileID: 190504637}
   - component: {fileID: 190504636}
+  - component: {fileID: 190504639}
   m_Layer: 5
   m_Name: Tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &190504635
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3148,6 +3149,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 190504634}
   m_CullTransparentMesh: 1
+--- !u!95 &190504639
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190504634}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f97d84790bf96f040b078041014e64a4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &197582060
 GameObject:
   m_ObjectHideFlags: 0
@@ -3403,6 +3423,7 @@ GameObject:
   - component: {fileID: 243364978}
   - component: {fileID: 243364977}
   - component: {fileID: 243364979}
+  - component: {fileID: 243364980}
   m_Layer: 5
   m_Name: BreakTutorial
   m_TagString: Untagged
@@ -3498,6 +3519,25 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!95 &243364980
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243364975}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3c7009aafac3c89469c6329ecd2e40d3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &254192232
 GameObject:
   m_ObjectHideFlags: 0
@@ -8049,6 +8089,7 @@ GameObject:
   - component: {fileID: 624850788}
   - component: {fileID: 624850787}
   - component: {fileID: 624850789}
+  - component: {fileID: 624850790}
   m_Layer: 5
   m_Name: JamTutorial
   m_TagString: Untagged
@@ -8144,6 +8185,25 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!95 &624850790
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624850785}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cafbc1b34250889478138a61c3cb15c9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &627919011
 GameObject:
   m_ObjectHideFlags: 0
@@ -10363,6 +10423,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 964217075}
         m_MethodName: OpenMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 964217075}
+        m_MethodName: RevertInventory
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16080,6 +16151,7 @@ GameObject:
   - component: {fileID: 1084230412}
   - component: {fileID: 1084230411}
   - component: {fileID: 1084230413}
+  - component: {fileID: 1084230414}
   m_Layer: 5
   m_Name: ShootTutorial
   m_TagString: Untagged
@@ -16176,6 +16248,25 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!95 &1084230414
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084230409}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 01a5f43c5fc440e4095b1c1af6156a0c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1087911177
 GameObject:
   m_ObjectHideFlags: 0
@@ -17618,6 +17709,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 964217075}
         m_MethodName: OpenMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 964217075}
+        m_MethodName: RevertInventory
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24208,8 +24310,8 @@ GameObject:
   - component: {fileID: 1510848584}
   - component: {fileID: 1510848586}
   - component: {fileID: 1510848585}
-  - component: {fileID: 1510848587}
   - component: {fileID: 1510848588}
+  - component: {fileID: 1510848587}
   m_Layer: 5
   m_Name: SwitchWeaponTutorial
   m_TagString: Untagged
@@ -24286,9 +24388,9 @@ Animator:
   m_GameObject: {fileID: 1510848583}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 01a5f43c5fc440e4095b1c1af6156a0c, type: 2}
+  m_Controller: {fileID: 9100000, guid: a0cec9380bccae24ca3abb8170ada7b2, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -32161,6 +32263,7 @@ GameObject:
   - component: {fileID: 1700040204}
   - component: {fileID: 1700040203}
   - component: {fileID: 1700040205}
+  - component: {fileID: 1700040206}
   m_Layer: 5
   m_Name: MovementTutorial
   m_TagString: Untagged
@@ -32244,6 +32347,25 @@ MonoBehaviour:
   - {fileID: 190504634}
   startMenu: MovementSettings
   startMenuOnEnable: 1
+--- !u!95 &1700040206
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700040201}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d6336e1dcc624f148aa105fa8a513afd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1712153426
 GameObject:
   m_ObjectHideFlags: 0

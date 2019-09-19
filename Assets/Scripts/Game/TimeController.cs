@@ -6,7 +6,7 @@ namespace SD.Game
     class TimeController
     {
         const float WeaponsSelectionMultiplier = 0.2f;
-        const float TutorialPanelMultiplier = 0.01f;
+        const float TutorialPanelMultiplier = 0.0f;
 
         float defaultTimeScale;
         float defaultFixedDelta;

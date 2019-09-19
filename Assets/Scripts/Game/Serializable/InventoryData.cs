@@ -25,9 +25,9 @@ namespace SD.Game.Data
         public void LoadFrom(IInventory inventory)
         {
             // all arrays must be null
-            Debug.Assert(SavedWeapons == null, "Weapons array in InventoryData must be null");
-            Debug.Assert(SavedAmmo == null, "Ammo array in InventoryData must be null");
-            Debug.Assert(SavedItems == null, "Items array in InventoryData must be null");
+            //Debug.Assert(SavedWeapons == null, "Weapons array in InventoryData must be null");
+            //Debug.Assert(SavedAmmo == null, "Ammo array in InventoryData must be null");
+            //Debug.Assert(SavedItems == null, "Items array in InventoryData must be null");
 
             List<InvWeapon> weapons = new List<InvWeapon>();
             List<InvAmmo> ammo = new List<InvAmmo>();
@@ -98,7 +98,7 @@ namespace SD.Game.Data
             //    inventory.Items.Set(i.Type, i.Amount);
             //}
 
-            inventory.InitMoney(SavedMoney);
+            inventory.Money = SavedMoney;
 
             inventory.PlayerStats = SavedStats;
         }
