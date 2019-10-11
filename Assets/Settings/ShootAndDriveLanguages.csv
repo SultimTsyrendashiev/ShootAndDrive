@@ -148,11 +148,11 @@ Inventory.Weapons.State.NoAmmo,No ammo,Нет боеприпасов
 Cutscenes.00.001,Damn ketchup.,Дурацкий кетчуп.
 Cutscenes.01.001,Why should we always do a dirty work?,Почему всегда именно мы делаем грязную работу?
 Cutscenes.01.002,"If it pays well, it's better not to ask questions.","Если хорошо платят, то лучше не задавать вопросов."
-Cutscenes.01.003,Just look what a gun I bought.,Вот посмотри: какую пушку я купил.
-Cutscenes.01.004,Impressive. But...,Впечатляет. Но...
-Cutscenes.01.005.1,"Big, heavy, with a huge recoil -","Тяжелый, огромный, с большой отдачей -"
-Cutscenes.01.005.2,"hell, you can't just walk(?) with it.","вообще, с таким просто так не походишь."
-Cutscenes.01.006.1,"Meh, it's better to keep it in the trunk","Нее, его только хранить в багажнике"
+Cutscenes.01.003,Just look at the gun I bought.,Вот посмотри: какой револьвер я купил.
+Cutscenes.01.004,Hell...,Чееерт...
+Cutscenes.01.005.1,Who sold it to you?!,Кто тебе его продал?!
+Cutscenes.01.005.2,Are you sure that it won't explode in my hands?,Он точно не развалится при выстреле?
+Cutscenes.01.006.1,"Meh, it's better to keep it in a trunk","Нее, его только хранить в багажнике"
 Cutscenes.01.006.2,as a last resort.,на самый крайний случай.
 Cutscenes.01.007,"Whatever, if it looks serious.","Да и ладно, зато круто выглядит."
 Cutscenes.02.001,What the...,Что...
@@ -161,6 +161,6 @@ StartScreen.LoadingGPG,Signing in Google Play Games...,Вход в Google Play G
 Tutorial.Shoot,To shoot,Стрельба
 Tutorial.Move,To move,Передвижение
 Tutorial.WeaponSwitch,To switch weapons,Смена оружия
-Tutorial.WeaponJam,"Weapon jammed.\nTo prevent it, repair weapons in a shop.\n\nTap one more time to unjam.","Оружие заклинило.\nЧтобы этого не происходило, вовремя чините оружие в магазине.\n\nНажмите ещё раз, чтобы предотвратить заедание."
+Tutorial.WeaponJam,"Weapon jammed.\nTo prevent it, repair weapons in a shop.\n\nTap on shoot button to unjam.","Оружие заклинило.\nЧтобы этого не происходило, вовремя чините оружие в магазине.\n\nНажмите на кнопку стрельбы для предотвращения заедания."
 Tutorial.WeaponBreak,Weapon broke and you can no longer use it.\n\nIt happens when weapon is in very poor condition.,"Оружие сломалось и теперь его нельзя больше использовать.\n\nЭто происходит, когда состояние оружия становится совсем плохим."
 Blank,,

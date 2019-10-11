@@ -37,6 +37,9 @@ namespace SD.Enemies
         [SerializeField] string     bloodParticlesName = "Blood";
         [SerializeField] string     corpseName;
 
+        [SerializeField] AudioClip  attackSound;
+        [SerializeField] AudioClip  deathSound;
+        [SerializeField] AudioClip  woundSound;
 
         public bool                 IsDriver => isDriver;
         public bool                 CanAttack => canAttack;
@@ -69,5 +72,9 @@ namespace SD.Enemies
 
         public float                MaxAttackDistance => maxAttackDistance;
         public float                MinAttackDistance => minAttackDistance;
+
+        public AudioClip            AttackSound => attackSound;
+        public AudioClip            DeathSound => deathSound;
+        public AudioClip            WoundSound => woundSound;
     }
 }

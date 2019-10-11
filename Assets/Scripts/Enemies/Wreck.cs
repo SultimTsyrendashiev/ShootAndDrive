@@ -11,6 +11,9 @@ namespace SD.Enemies
         [SerializeField]
         float maxAngularVelocity = 30;
 
+        [SerializeField]
+        ParticleSystem smoke;
+
         public GameObject ThisObject => gameObject;
         public PooledObjectType Type => PooledObjectType.NotImportant;
         public int AmountInPool => 4;
@@ -30,9 +33,24 @@ namespace SD.Enemies
         {
             reinittable.ReinitTransforms();
 
-            Vector3 v = Random.onUnitSphere * Random.Range(0, maxVelocity);
-            Vector3 av = Random.onUnitSphere * Random.Range(0, maxAngularVelocity);
+            Vector3 v = Random.onUnitSphere;
+
+            if (v.y < 0)
+            {
+                v.y = -v.y;
+            }
+
+            if (v.y < 0.2f)
+            {
+                v.y = 0.2f;
+            }
+
+            v *= Random.Range(0.6f * maxVelocity, maxVelocity);
+
+            Vector3 av = Random.onUnitSphere * Random.Range(0.6f * maxAngularVelocity, maxAngularVelocity);
             reinittable.ReinitRigidbodies(v, av);
+
+            smoke?.Play();
         }
     }
 }

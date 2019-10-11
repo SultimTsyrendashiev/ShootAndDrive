@@ -27,3 +27,6 @@ MonoBehaviour:
   minAttackDistance: 20
   bloodParticlesName: Blood
   corpseName: 
+  attackSound: {fileID: 8300000, guid: 7b4e01c9160248f4b929ca36a058c6e6, type: 3}
+  deathSound: {fileID: 0}
+  woundSound: {fileID: 0}

@@ -6,16 +6,17 @@ namespace SD.PlayerLogic
     {
         public static int CalculateScorePoints(GameScore score)
         {
-            return 
-                score.ScorePoints + 
+            int scorePoints = score.ScorePoints +
                 (int)score.TravelledDistance * 2 +
                 score.VehicleHealth / 10;
+
+            return scorePoints;
         }
 
         public static int CalculateMoney(GameScore score)
         {
             int points = CalculateScorePoints(score);
-            return (int)((points) / Random.Range(25f, 35f));
+            return (int)(points / Random.Range(17f, 22f));
         }
     }
 }

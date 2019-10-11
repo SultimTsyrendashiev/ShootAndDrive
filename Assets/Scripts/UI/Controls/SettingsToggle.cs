@@ -17,6 +17,8 @@ namespace SD.UI.Controls
         string settingName;
 
         SettingsMenu settingsMenu;
+
+        Button button;
         Text text;
 
         void UpdateText()
@@ -32,6 +34,7 @@ namespace SD.UI.Controls
             settingsMenu = FindSettingsMenu();
 
             text = GetComponentInChildren<Text>();
+            button = GetComponent<Button>();
 
             // GlobalSettings.OnLanguageChange += UpdateTextS;
             GameController.Instance.SettingsSystem.Subscribe(SettingsList.Setting_Key_Game_Language, UpdateTextS);
@@ -54,6 +57,14 @@ namespace SD.UI.Controls
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (button != null)
+            {
+                if (!button.interactable)
+                {
+                    return;
+                }
+            }
+
             settingsMenu.ChangeSetting(settingName);
             UpdateText();
         }

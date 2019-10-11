@@ -26,6 +26,9 @@ namespace SD.Enemies
         [SerializeField]
         Collider                    autoaimTarget;
 
+        [SerializeField]
+        AudioSource                 audioSource;
+
         Collider                    damageable;
         // Current vehicle of this passenger
         EnemyVehicle                vehicle;
@@ -35,6 +38,9 @@ namespace SD.Enemies
         [SerializeField]
         // Animation for this passenger
         EnemyPassengerAnimation     passengerAnimation;
+
+        [SerializeField]
+        ParticleSystem              muzzleFlash;
 
         // When to end damaging
         float                       damageEndTime;
@@ -299,6 +305,10 @@ namespace SD.Enemies
                 }
 
                 LaunchMissile(i);
+                muzzleFlash?.Play();
+
+                PlayAttackSound();
+
                 yield return new WaitForSeconds(fireRate);
             }
 
@@ -327,6 +337,11 @@ namespace SD.Enemies
             var missile = missileObj.GetComponent<Weapons.Missile>();
             missile.Set(data.ProjectileDamage, vehicle.gameObject);
             missile.Launch(data.ProjectileSpeed);
+        }
+
+        void PlayAttackSound()
+        {
+            audioSource?.PlayOneShot(data.AttackSound);
         }
 
         void StopAttacking()

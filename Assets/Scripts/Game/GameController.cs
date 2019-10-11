@@ -448,11 +448,11 @@ namespace SD
                 // disable first time
                 Settings.FirstStart = false;
 
-                ShowInventory();
+                Play();
             }
             else
             {
-                Play();
+                ShowInventory();
             }
         }
 

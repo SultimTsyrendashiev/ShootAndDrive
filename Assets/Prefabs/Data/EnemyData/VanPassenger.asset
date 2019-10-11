@@ -27,3 +27,6 @@ MonoBehaviour:
   minAttackDistance: 1
   bloodParticlesName: Blood
   corpseName: HumanRagdoll
+  attackSound: {fileID: 8300000, guid: b6ef4da6fb8bf0949b80836216bf5df6, type: 3}
+  deathSound: {fileID: 0}
+  woundSound: {fileID: 0}
