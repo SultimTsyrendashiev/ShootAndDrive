@@ -27,8 +27,16 @@ namespace SD.Weapons
             float deltax = 2 * (1 - Accuracy) / pelletCount;
             float basex = -(1 - Accuracy);
 
-            deltax *= MaxAngleX;
-            basex *= MaxAngleX;
+            if (HealthInt >= 3)
+            {
+                deltax *= MaxAngleX;
+                basex *= MaxAngleX;
+            }
+            else
+            {
+                deltax *= MaxAngleX / 3.0f;
+                basex *= MaxAngleX / 3.0f;
+            }
 
             for (int i = 0; i < pelletCount; i++)
             {

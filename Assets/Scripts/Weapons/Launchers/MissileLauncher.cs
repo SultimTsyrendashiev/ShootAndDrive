@@ -18,6 +18,9 @@ namespace SD.Weapons
         [SerializeField]
         bool needsAutoaim = false;
 
+        [SerializeField]
+        bool onlyForward = false;
+
         Transform missileSpawn;
         Vector3 spawnStartEuler;
 
@@ -56,14 +59,18 @@ namespace SD.Weapons
 
             float speed = launchSpeed;
 
-            // find target
-            Transform target = Autoaim.GetTarget(missileSpawn.position, Owner.transform.forward, AutoaimRadius, AutoaimRange, AutoaimLayerMask);
-            Vector3 targetPos;
+            Transform target = null;
+
+            if (!onlyForward)
+            {
+                // find target
+                target = Autoaim.GetTarget(missileSpawn.position, Owner.transform.forward, AutoaimRadius, AutoaimRange, AutoaimLayerMask);
+            }
 
             if (target != null)
             {
                 // target found
-                targetPos = target.position;
+                Vector3 targetPos = target.position;
 
                 if (needsAutoaim)
                 {

@@ -71,7 +71,7 @@ namespace SD.PlayerLogic
             Weapons.SetDefault();
             Ammo.SetDefault();
             Items.SetDefault();
-            money = 250000;
+            money = 2500;
 
             Weapons.Set(WeaponIndex.PistolRevolver, 4, true, true);
             Ammo.Set(AmmunitionType.BulletsPistol, 4);

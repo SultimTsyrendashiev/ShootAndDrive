@@ -32,6 +32,10 @@ namespace SD.PlayerLogic
                 {
                     ammo.Add(a, new AmmoItem(a, 0));
                 }
+                else
+                {
+                    ammo[a].CurrentAmount = 0;
+                }
             }
         }
 

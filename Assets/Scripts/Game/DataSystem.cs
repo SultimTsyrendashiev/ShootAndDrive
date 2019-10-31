@@ -133,7 +133,7 @@ namespace SD.Game.Data
                 if (File.Exists(path))
                 {
                     // load from file
-                    using (FileStream stream = new FileStream(path, FileMode.Open))
+                    using (FileStream stream = File.Open(path, FileMode.Open))
                     {
                         BinaryFormatter formatter = new BinaryFormatter();
 

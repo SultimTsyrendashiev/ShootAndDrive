@@ -5,7 +5,7 @@ using System;
 namespace SD.UI.Menus
 {
     [RequireComponent(typeof(MenuController))]
-    class TutorialMenu : MonoBehaviour, IMenu
+    class TutorialMenu : MonoBehaviour
     {
         [SerializeField]
         GameObject weaponSwitchBlock;
@@ -27,12 +27,12 @@ namespace SD.UI.Menus
         MenuController tutorialMenuController;
         Action current;
 
-        public void Init(MenuController menuController)
+        public void Awake()
         {
             tutorialMenuController = GetComponent<MenuController>();
 
-            TutorialManager.OnTutorialStart += Activate;
-            TutorialManager.OnTutorialEnd += Deactivate;
+            TutorialManager.OnTutorialStart += StartTutorial;
+            TutorialManager.OnTutorialEnd += StopTutorial;
 
             TutorialManager.OnTutorial_Move += TutorialManager_OnTutorial_Move;
             TutorialManager.OnTutorial_WeaponSwitch += TutorialManager_OnTutorial_WeaponSwitch;
@@ -87,8 +87,8 @@ namespace SD.UI.Menus
 
         void OnDestroy()
         {
-            TutorialManager.OnTutorialStart -= Activate;
-            TutorialManager.OnTutorialEnd -= Deactivate;
+            TutorialManager.OnTutorialStart -= StartTutorial;
+            TutorialManager.OnTutorialEnd -= StopTutorial;
 
             TutorialManager.OnTutorial_Move -= TutorialManager_OnTutorial_Move;
             TutorialManager.OnTutorial_WeaponSwitch -= TutorialManager_OnTutorial_WeaponSwitch;
@@ -97,13 +97,13 @@ namespace SD.UI.Menus
             TutorialManager.OnTutorial_WeaponBreak -= TutorialManager_OnTutorial_WeaponBreak;
         }
 
-        public void Activate()
+        public void StartTutorial()
         {
             weaponSwitchBlock.SetActive(true);
             gameObject.SetActive(true);
         }
 
-        public void Deactivate()
+        void StopTutorial()
         {
             gameObject.SetActive(false);
         }

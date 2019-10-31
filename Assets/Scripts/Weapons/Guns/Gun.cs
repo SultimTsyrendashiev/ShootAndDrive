@@ -13,10 +13,11 @@ namespace SD.Weapons
             float rangex = (1 - Accuracy) * MaxAngleX;
             float rangey = (1 - Accuracy) * MaxAngleY;
 
-            Vector3 distortedDir =
+            Vector3 distortedDir = HealthInt >= 3 ?
                 Quaternion.AngleAxis(Random.Range(-rangex, rangex), AimTransform.up)
                 * Quaternion.AngleAxis(Random.Range(-rangey, rangey), AimTransform.right)
-                * aimedDir;
+                * aimedDir :
+                aimedDir;
 
             Vector3 end = CheckRay(AimTransform.position, distortedDir);
 

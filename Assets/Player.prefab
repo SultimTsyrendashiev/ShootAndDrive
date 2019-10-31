@@ -20190,6 +20190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   launchSpeed: 70
   needsAutoaim: 0
+  onlyForward: 1
 --- !u!1 &2230671976434647286
 GameObject:
   m_ObjectHideFlags: 0
@@ -27375,6 +27376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   launchSpeed: 100
   needsAutoaim: 0
+  onlyForward: 0
 --- !u!1 &3698002975936692125
 GameObject:
   m_ObjectHideFlags: 0
@@ -28463,6 +28465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   launchSpeed: 90
   needsAutoaim: 0
+  onlyForward: 0
 --- !u!1 &4440431904991330925
 GameObject:
   m_ObjectHideFlags: 0
@@ -37459,6 +37462,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   launchSpeed: 100
   needsAutoaim: 0
+  onlyForward: 0
 --- !u!1 &6968877319634108226
 GameObject:
   m_ObjectHideFlags: 0
@@ -41430,6 +41434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   launchSpeed: 80
   needsAutoaim: 0
+  onlyForward: 1
 --- !u!1 &7637416201157445665
 GameObject:
   m_ObjectHideFlags: 0

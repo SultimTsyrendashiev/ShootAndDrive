@@ -106,6 +106,7 @@ namespace SD.Weapons
         /// Health in [0..1]
         /// </summary>
         public float            Health => (float)refHealth.Value / Durability;
+        public float            HealthInt => refHealth.Value;
         public float            PercentageForJam { get; private set; }
         public float            JamProbability { get; private set; }
         /// <summary>
@@ -192,6 +193,8 @@ namespace SD.Weapons
             wasJammed = false;
 
             InitWeapon();
+
+            SaveTransforms();
         }
         #endregion
 
@@ -416,6 +419,8 @@ namespace SD.Weapons
 
             gameObject.SetActive(false);
             Deactivate();
+
+            RestoreTransforms();
         }
 
         /// <summary>
@@ -630,6 +635,68 @@ namespace SD.Weapons
             }
 
             return null;
+        }
+
+        struct SavedTransform
+        {
+            public Transform   ThisTransform;
+            public Vector3     LocalPosition;
+            public Quaternion  LocalRotation;
+
+            public SavedTransform(Transform thisTransform, Vector3 localPosition, Quaternion localRotation)
+            {
+                ThisTransform = thisTransform;
+                LocalPosition = localPosition;
+                LocalRotation = localRotation;
+            }
+        }
+
+        List<SavedTransform> savedTransforms;
+
+        void SaveTransforms()
+        {
+            if (savedTransforms != null)
+            {
+                Debug.Log("Weapon transforms saving:: already saved");
+                return;
+            }
+
+            savedTransforms = new List<SavedTransform>(4);
+
+            Transform current = weaponAnimation.transform;
+            SaveChildTransforms(current);
+        }
+
+        void SaveChildTransforms(Transform parent)
+        {
+            savedTransforms.Add(new SavedTransform(parent, parent.localPosition, parent.localRotation));
+
+            foreach (Transform child in parent)
+            {
+                if (child.name == "HandRight" || child.name == "HBase")
+                {
+                    continue;
+                }
+
+                SaveChildTransforms(child);
+            }
+        }
+
+        /// <summary>
+        /// Reset default transforms after animation
+        /// </summary>
+        void RestoreTransforms()
+        {
+            if (savedTransforms == null)
+            {
+                return;
+            }
+
+            foreach (var t in savedTransforms)
+            {
+                t.ThisTransform.localPosition = t.LocalPosition;
+                t.ThisTransform.localRotation = t.LocalRotation;
+            }
         }
     }
 }

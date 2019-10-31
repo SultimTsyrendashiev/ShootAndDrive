@@ -29,11 +29,13 @@ namespace SD.PlayerLogic
                 if (!playerWeapons.ContainsKey(a))
                 {
                     playerWeapons.Add(a, new WeaponItem(a, 0, false, false));
-                    continue;
                 }
-
-                playerWeapons[a].HealthRef.Value = 0;
-                playerWeapons[a].IsBought = false;
+                else
+                {
+                    playerWeapons[a].HealthRef.Value = 0;
+                    playerWeapons[a].IsBought = false;
+                    playerWeapons[a].IsSelected = false;
+                }
             }
         }
 
