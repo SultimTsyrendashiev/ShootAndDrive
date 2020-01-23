@@ -96,6 +96,10 @@ namespace SD.Game.Shop
             item.IsBought = true;
             item.Health = item.Durability;
 
+            // weapon is bought, most likely that player
+            // wants to add it to selected
+            inventory.Weapons.Select(item.Index);
+
             OnWeaponBuy?.Invoke(item.Index, price);
 
             return true;

@@ -10,6 +10,10 @@ namespace SD.UI.Controls
         const string WeaponIconName = "Image";
         const float ImageSmallMult = 0.7f;
         const float ImageLargeMult = 1.3f;
+        const float SectorImageLargeMult = 1.05f;
+
+        readonly Color DefaultImageColor = Color.white;
+        readonly Color DisabledImageColor = new Color(1, 1, 1, 0.7f);
 
         Image weaponIcon;
 
@@ -21,8 +25,11 @@ namespace SD.UI.Controls
         bool isPoiterIn;
 
         Image sectorImage;
+        Vector2 defaultSectorImageSize;
+        Vector2 largeSectorImageSize;
 
-        RectTransform image;
+        RectTransform imageTransform;
+        Image image;
         Vector2 defaultImageSize;
         Vector2 smallImageSize;
         Vector2 largeImageSize;
@@ -33,10 +40,11 @@ namespace SD.UI.Controls
 
         void Check()
         {
-            if (image == null)
+            if (imageTransform == null || image == null)
             {
-                image = (RectTransform)transform.GetChild(0);
-                defaultImageSize = image.sizeDelta;
+                imageTransform = (RectTransform)transform.GetChild(0);
+                image = imageTransform.GetComponent<Image>();
+                defaultImageSize = imageTransform.sizeDelta;
 
                 smallImageSize = defaultImageSize * ImageSmallMult;
                 largeImageSize = defaultImageSize * ImageLargeMult;
@@ -58,6 +66,9 @@ namespace SD.UI.Controls
             if (sectorImage == null)
             {
                 sectorImage = GetComponent<Image>();
+
+                defaultSectorImageSize = sectorImage.rectTransform.sizeDelta;
+                largeSectorImageSize = defaultSectorImageSize * SectorImageLargeMult;
             }
         }
 
@@ -66,27 +77,34 @@ namespace SD.UI.Controls
         {
             Check();
 
-            this.select = () => select(item.Index);
-            this.highlight = (canBeSelected) => highlight(item.Index, canBeSelected);
-            this.unhighlight = unhighlight;
+            if (this.select == null || this.highlight == null || this.unhighlight == null)
+            {
+                this.select = () => select(item.Index);
+                this.highlight = (canBeSelected) => highlight(item.Index, canBeSelected);
+                this.unhighlight = unhighlight;
+            }
 
             weaponIcon.rectTransform.eulerAngles = new Vector3(0, 0, 0);
             weaponIcon.sprite = item.Icon;
 
-            image.gameObject.SetActive(true);
+            imageTransform.gameObject.SetActive(true);
 
             isInteractable = (item.Health > 0 || item.IsAmmo) && ammo.CurrentAmount > 0;
 
             if (isInteractable)
             {
-                image.sizeDelta = defaultImageSize;
+                image.color = DefaultImageColor;
+                imageTransform.sizeDelta = defaultImageSize;
                 sectorImage.color = defaultColor;
             }
             else
             {
-                image.sizeDelta = smallImageSize;
+                image.color = DisabledImageColor;
+                imageTransform.sizeDelta = smallImageSize;
                 sectorImage.color = disabledColor;
             }
+
+            sectorImage.rectTransform.sizeDelta = defaultSectorImageSize;
         }
 
         public void SetColors(Color defaultColor, Color highlitedColor, Color disabledColor)
@@ -104,8 +122,9 @@ namespace SD.UI.Controls
             highlight = null;
             unhighlight = null;
 
-            image.gameObject.SetActive(false);
+            imageTransform.gameObject.SetActive(false);
             sectorImage.color = disabledColor;
+            sectorImage.rectTransform.sizeDelta = defaultSectorImageSize;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -113,11 +132,13 @@ namespace SD.UI.Controls
             if (isInteractable)
             {
                 sectorImage.color = highlitedColor;
-                image.sizeDelta = largeImageSize;
+                sectorImage.rectTransform.sizeDelta = largeSectorImageSize;
+                imageTransform.sizeDelta = largeImageSize;
             }
             else
             {
-                image.sizeDelta = largeImageSize;
+                sectorImage.rectTransform.sizeDelta = defaultSectorImageSize;
+                imageTransform.sizeDelta = defaultImageSize;
             }
 
             isPoiterIn = true;
@@ -130,12 +151,14 @@ namespace SD.UI.Controls
             if (isInteractable)
             {
                 sectorImage.color = defaultColor;
-                image.sizeDelta = defaultImageSize;
+                imageTransform.sizeDelta = defaultImageSize;
             }
             else
             {
-                image.sizeDelta = smallImageSize;
+                imageTransform.sizeDelta = smallImageSize;
             }
+
+            sectorImage.rectTransform.sizeDelta = defaultSectorImageSize;
 
             isPoiterIn = false;
 

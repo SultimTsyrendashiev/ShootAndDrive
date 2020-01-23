@@ -6,6 +6,9 @@ namespace SD.Enemies
     class EnemySedan : EnemyVehicle
     {
         [SerializeField]
+        Collider vehicleAimTarget;
+
+        [SerializeField]
         float deathTorque;
 
         Vector3 velocity;
@@ -14,6 +17,11 @@ namespace SD.Enemies
         {
             VehicleRigidbody.isKinematic = true;
             velocity = transform.forward * Data.Speed;
+
+            if (vehicleAimTarget != null)
+            {
+                vehicleAimTarget.enabled = false;
+            }
         }
 
         void FixedUpdate()
@@ -42,6 +50,15 @@ namespace SD.Enemies
         protected override void DoVehicleCollision(GameObject initiator)
         {
             KillAllPassengers(initiator);
+        }
+
+        protected override void DoPassengerDeath()
+        {
+            if (vehicleAimTarget != null)
+            {
+                // when all passengers are dead, set vehicle as aim target
+                vehicleAimTarget.enabled = true;
+            }
         }
 
         //IEnumerator StopVehicle()

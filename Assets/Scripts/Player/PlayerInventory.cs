@@ -77,7 +77,7 @@ namespace SD.PlayerLogic
             Ammo.Set(AmmunitionType.BulletsPistol, 4);
 
 #if UNITY_EDITOR
-            GiveAll();
+            //GiveAll();
 #endif
         }
 

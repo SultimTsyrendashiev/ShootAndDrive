@@ -65,6 +65,10 @@ namespace SD.UI.Controls
         void OnEnable()
         {
             isSelected = false;
+            SetName(null);
+            SetHealth(null);
+            SetAmmo(null);
+
             UpdateWheel();
         }
 
@@ -112,6 +116,12 @@ namespace SD.UI.Controls
 
         void SetHealth(IWeaponItem item)
         {
+            if (item == null)
+            {
+                healthText.enabled = healthImage.enabled = false;
+                return;
+            }
+
             healthText.enabled = healthImage.enabled = !item.IsAmmo;
             
             if (item.IsAmmo) 

@@ -92,6 +92,7 @@ Inventory.Text,Inventory,Инвентарь
 Inventory.WeaponsText,Weapons,Оружие
 Inventory.AmmoText,Ammo,Боеприпасы
 Inventory.ItemsText,Items,Другое
+Inventory.Select,Select,Выберите
 Inventory.Weapons.Damage,Damage,Урон
 Inventory.Weapons.Durability,Durability,Прочность
 Inventory.Weapons.FireRate,Fire rate,Темп
