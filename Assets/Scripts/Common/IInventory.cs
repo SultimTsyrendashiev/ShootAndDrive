@@ -126,6 +126,8 @@ namespace SD
 
 
         WeaponIndex         Index { get; }
+        
+        Sprite              Icon { get; }
 
         string              EditorName { get; }
         string              TranslationKey { get; }

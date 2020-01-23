@@ -15,13 +15,13 @@ MonoBehaviour:
   weaponIndex: 14
   weaponEditorName: TGrenade
   translationKey: Inventory.Weapons.Names.TGrenade
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: bc79a355ff9514f48a06d6b1e040fa86, type: 3}
   shotSound: {fileID: 8300000, guid: 1715eca453195aa4bb85751fff8c1e41, type: 3}
   unjamSound: {fileID: 0}
   breakSound: {fileID: 0}
   ammoType: 4
   ammoConsumption: 1
-  cost: 200
+  cost: 320
   repairCost: 0
   durability: 1000000
   canBeDamaged: 0

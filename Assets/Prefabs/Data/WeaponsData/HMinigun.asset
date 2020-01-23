@@ -15,7 +15,7 @@ MonoBehaviour:
   weaponIndex: 13
   weaponEditorName: HMinigun
   translationKey: Inventory.Weapons.Names.HMinigun
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 086e26a0cf11fda41b0ffaa14924a20d, type: 3}
   shotSound: {fileID: 8300000, guid: 972ed465c20b8b84db0c65f4b0e23521, type: 3}
   unjamSound: {fileID: 0}
   breakSound: {fileID: 0}

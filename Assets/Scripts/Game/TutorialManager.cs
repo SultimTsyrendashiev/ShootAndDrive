@@ -57,6 +57,7 @@ namespace SD.Game
             weaponBroke = false;
 
             GameController.OnPlayerDeath += ProcessPlayerDeath;
+            GameController.OnMainMenuActivate += ForceStop;
             GameController.OnWeaponSelectionDisable += ProcessWeaponSelection;
             Weapons.Weapon.OnStateChange += Weapon_OnStateChange;
 
@@ -71,6 +72,7 @@ namespace SD.Game
         void OnDestroy()
         {
             GameController.OnPlayerDeath -= ProcessPlayerDeath;
+            GameController.OnMainMenuActivate -= ForceStop;
             GameController.OnWeaponSelectionDisable -= ProcessWeaponSelection;
             Weapons.Weapon.OnStateChange -= Weapon_OnStateChange;
         }
@@ -94,6 +96,11 @@ namespace SD.Game
 
         void ProcessPlayerDeath(Player obj)
         {
+            ForceStop();
+        }
+
+        void ForceStop()
+        {
             if (isStarted)
             {
                 StopAllCoroutines();
@@ -107,6 +114,8 @@ namespace SD.Game
 
         IEnumerator WaitForTutorial()
         {
+            startEnemySpawn();
+
             yield return new WaitForSeconds(WaitBeforeMove);
             OnTutorialPanelActivate?.Invoke();
             OnTutorial_Move?.Invoke(this);
@@ -148,10 +157,6 @@ namespace SD.Game
                 yield return null;
             }
             OnTutorialPanelDeactivate?.Invoke();
-
-
-
-            startEnemySpawn();
 
 
 

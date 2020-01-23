@@ -119,6 +119,9 @@ namespace SD.Game.Data
                 Debug.Log("DataSystem::Setting inventory to default as: " + e.Message);
 
                 inventory.SetDefault();
+
+                invData = new InventoryData();
+                invData.LoadFrom(inventory);
             }
         }
 
@@ -160,6 +163,9 @@ namespace SD.Game.Data
                 Debug.Log("DataSystem::Setting inventory to default as: " + e.Message);
 
                 inventory.SetDefault();
+
+                invData = new InventoryData();
+                invData.LoadFrom(inventory);
             }
         }
     }

@@ -15,7 +15,7 @@ MonoBehaviour:
   weaponIndex: 4
   weaponEditorName: SmgTactic
   translationKey: Inventory.Weapons.Names.SmgTactic
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 44a8b8f9ee65e744bbcfecc7fff54e94, type: 3}
   shotSound: {fileID: 8300000, guid: 3ebfc703cc1cca14a9f47345cabced9b, type: 3}
   unjamSound: {fileID: 0}
   breakSound: {fileID: 0}
@@ -23,7 +23,7 @@ MonoBehaviour:
   ammoConsumption: 1
   cost: 10000
   repairCost: 800
-  durability: 3000
+  durability: 1700
   canBeDamaged: 1
   isAmmo: 0
   percentageForJam: 0.17

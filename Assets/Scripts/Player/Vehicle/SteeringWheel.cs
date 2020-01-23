@@ -10,6 +10,8 @@ namespace SD.PlayerLogic
         private float lerpSpeed = 10.0f;
         [SerializeField]
         private Transform rotator;
+        [SerializeField]
+        private float maxDelta = 0.25f;
 
         private float targetSteering;
 
@@ -28,12 +30,29 @@ namespace SD.PlayerLogic
         public void Steer(float steeringInput)
         {
             targetSteering = Mathf.Clamp(steeringInput, -1.0f, 1.0f);
+
+            if (targetSteering - Steering > maxDelta)
+            {
+                targetSteering = Steering + maxDelta;
+            }
+            else if (Steering - targetSteering > maxDelta)
+            {
+                targetSteering = Steering - maxDelta;
+            }
+        }
+
+        public void Restart()
+        {
+            Steering = 0.0f;
+            SteeringNormalized = 0.5f;
+            targetSteering = 0;
         }
 
         public void Stop()
         {
-            Steering = 0.0f;
-            SteeringNormalized = 0.5f;
+            // to make smooth transition
+            // Steering = 0.0f;
+            // SteeringNormalized = 0.5f;
             targetSteering = 0;
         }
 

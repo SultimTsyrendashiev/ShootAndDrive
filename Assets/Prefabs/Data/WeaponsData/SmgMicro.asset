@@ -15,15 +15,15 @@ MonoBehaviour:
   weaponIndex: 3
   weaponEditorName: SmgMicro
   translationKey: Inventory.Weapons.Names.SmgMicro
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 0860a5e6c0ca8fe499d3851d57b814d7, type: 3}
   shotSound: {fileID: 8300000, guid: 4b2d48002ec46f949a18322ef0779738, type: 3}
   unjamSound: {fileID: 0}
   breakSound: {fileID: 0}
   ammoType: 1
   ammoConsumption: 1
   cost: 4000
-  repairCost: 500
-  durability: 2050
+  repairCost: 400
+  durability: 1500
   canBeDamaged: 1
   isAmmo: 0
   percentageForJam: 0.17

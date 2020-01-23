@@ -16,7 +16,7 @@ namespace SD.Weapons
         float launchSpeed;
 
         [SerializeField]
-        bool needsAutoaim = false;
+        bool calculateTrajectory = false;
 
         [SerializeField]
         bool onlyForward = false;
@@ -26,6 +26,8 @@ namespace SD.Weapons
 
         protected float AutoaimRadius = 3;
         protected float AutoaimRange = 150;
+
+        const float AutoaimThreshold = 2; // in meters
 
         void Start()
         {
@@ -64,7 +66,8 @@ namespace SD.Weapons
             if (!onlyForward)
             {
                 // find target
-                target = Autoaim.GetTarget(missileSpawn.position, Owner.transform.forward, AutoaimRadius, AutoaimRange, AutoaimLayerMask);
+                target = Autoaim.GetTarget(missileSpawn.position + Owner.transform.forward * AutoaimThreshold, 
+                    Owner.transform.forward, AutoaimRadius, AutoaimRange, AutoaimLayerMask);
             }
 
             if (target != null)
@@ -72,10 +75,9 @@ namespace SD.Weapons
                 // target found
                 Vector3 targetPos = target.position;
 
-                if (needsAutoaim)
+                if (calculateTrajectory)
                 {
-                    // rotate spawn transform to aim,
-                    // and get speed
+                    // rotate spawn transform and get missile speed for aiming
                     Autoaim.AimMissile(missileSpawn, targetPos, launchSpeed, out speed);
                 }
                 else

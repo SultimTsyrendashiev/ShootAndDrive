@@ -16,6 +16,11 @@
         /// Process input
         /// </summary>
         void Steer(float steeringInput);
+
+        /// <summary>
+        /// Set init values
+        /// </summary>
+        void Restart();
         void Stop();
     }
 }

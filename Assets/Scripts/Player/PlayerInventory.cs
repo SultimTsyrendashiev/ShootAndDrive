@@ -75,9 +75,13 @@ namespace SD.PlayerLogic
 
             Weapons.Set(WeaponIndex.PistolRevolver, 4, true, true);
             Ammo.Set(AmmunitionType.BulletsPistol, 4);
+
+#if UNITY_EDITOR
+            GiveAll();
+#endif
         }
 
-        #region player's stats handlers
+#region player's stats handlers
         ~PlayerInventory()
         {
             // unsign
@@ -157,44 +161,44 @@ namespace SD.PlayerLogic
         {
             playerStats.Combat_TotalShots++;
         }
-        #endregion
+#endregion
 
-        #region cheats
-        //        /// <summary>
-        //        /// Give all to player
-        //        /// </summary>
-        //        public void GiveAll()
-        //        {
-        //            // only in editor
-        //#if !UNITY_EDITOR
-        //            return;
-        //#endif
+#region cheats
+        /// <summary>
+        /// Give all to player
+        /// </summary>
+        public void GiveAll()
+        {
+            // only in editor
+#if !UNITY_EDITOR
+                    return;
+#endif
 
-        //            GiveAllWeapons();
-        //            GiveAllAmmo();
-        //        }
+            GiveAllWeapons();
+            GiveAllAmmo();
+        }
 
-        //        /// <summary>
-        //        /// Give all weapons to player
-        //        /// </summary>
-        //        public void GiveAllWeapons()
-        //        {
-        //            foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
-        //            {
-        //                Weapons.Set(w, GameController.Instance.WeaponsStats[w].Durability, true, true);
-        //            }
-        //        }
+        /// <summary>
+        /// Give all weapons to player
+        /// </summary>
+        public void GiveAllWeapons()
+        {
+            foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
+            {
+                Weapons.Set(w, GameController.Instance.WeaponsStats[w].Durability, true, true);
+            }
+        }
 
-        //        /// <summary>
-        //        /// Give all ammo to player
-        //        /// </summary>
-        //        public void GiveAllAmmo()
-        //        {
-        //            foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
-        //            {
-        //                Ammo.Set(a, GameController.Instance.AmmoStats[a].MaxAmount);
-        //            }
-        //        }
-        #endregion
+        /// <summary>
+        /// Give all ammo to player
+        /// </summary>
+        public void GiveAllAmmo()
+        {
+            foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
+            {
+                Ammo.Set(a, GameController.Instance.AmmoStats[a].MaxAmount);
+            }
+        }
+#endregion
     }
 }

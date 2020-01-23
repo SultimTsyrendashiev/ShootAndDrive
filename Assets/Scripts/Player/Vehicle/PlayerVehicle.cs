@@ -149,8 +149,13 @@ namespace SD.PlayerLogic
 
             OnVehicleHealthChange?.Invoke(Health);
 
+            // stop and remove existing particles
             engineSmoke.Stop();
             engineFire.Stop();
+            engineSmoke.Clear(true);
+            engineFire.Clear(true);
+
+            SteeringWheel.Restart();
 
             OnVehicleStart?.Invoke();
         }

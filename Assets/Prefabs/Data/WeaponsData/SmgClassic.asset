@@ -15,7 +15,7 @@ MonoBehaviour:
   weaponIndex: 6
   weaponEditorName: SmgClassic
   translationKey: Inventory.Weapons.Names.SmgClassic
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 22dc0283341403240bf38e77df69e5a9, type: 3}
   shotSound: {fileID: 8300000, guid: bcd0daa25bc75d147a17d74e04de232c, type: 3}
   unjamSound: {fileID: 0}
   breakSound: {fileID: 0}
@@ -23,7 +23,7 @@ MonoBehaviour:
   ammoConsumption: 1
   cost: 11000
   repairCost: 500
-  durability: 3000
+  durability: 1700
   canBeDamaged: 1
   isAmmo: 0
   percentageForJam: 0.17

@@ -151,7 +151,7 @@ namespace SD.Weapons
 
             if (ExplosionName.Length > 0)
             {
-                ParticlesPool.Instance.Play(ExplosionName, position, Quaternion.identity);
+                ParticlesPool.Instance.Play(ExplosionName, position, Quaternion.LookRotation(Vector3.up));
             }
 
             if (disableAfterExplosion)

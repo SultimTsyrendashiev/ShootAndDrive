@@ -705,7 +705,12 @@ namespace SD.Weapons
 
             if (system != null)
             {
-                ParticlesPool.Instance.Emit(system, position, rotation, amount);
+                // ParticlesPool.Instance.Emit(system, position, rotation, amount);
+                // to correctly play smoke particles
+                for (int i = 0; i < amount; i++)
+                { 
+                    ParticlesPool.Instance.Play(system, position, rotation);
+                }
             }
         }
 

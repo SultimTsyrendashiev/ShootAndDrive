@@ -1,4 +1,6 @@
-﻿namespace SD.PlayerLogic
+﻿using UnityEngine;
+
+namespace SD.PlayerLogic
 {
     // Represents weapon item in player's inventory
     class WeaponItem : IWeaponItem
@@ -42,6 +44,7 @@
         }
 
         public WeaponIndex      Index => Stats.Index;
+        public Sprite           Icon => Stats.Icon;
         public string           EditorName => Stats.EditorName;
         public string           TranslationKey => Stats.TranslationKey;
         public AmmunitionType   AmmoType => Stats.AmmoType;

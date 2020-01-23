@@ -97,11 +97,11 @@ namespace SD.PlayerLogic
 
         public bool IsAvailableInGame(WeaponIndex w)
         {
-            return playerWeapons[w].IsBought;
+            //return playerWeapons[w].IsBought;
 
-            /*return !playerWeapons[w].IsBroken
+            return !playerWeapons[w].IsBroken
                 && playerWeapons[w].IsBought
-                && playerWeapons[w].IsSelected*/;
+                && playerWeapons[w].IsSelected;
         }
 
         public List<WeaponIndex> GetAvailableWeapons()

@@ -16,7 +16,7 @@ namespace SD.PlayerLogic
         public static int CalculateMoney(GameScore score)
         {
             int points = CalculateScorePoints(score);
-            return (int)(points / Random.Range(14f, 17f));
+            return (int)(points / Random.Range(5f, 7f));
         }
     }
 }

@@ -532,7 +532,7 @@ namespace SD
             }
 
             // at start of tutorial: player has zero speed and default position
-            ActivateGameplay(false, false, false);
+            ActivateGameplay(false, true, false);
 
             // on the end of tutorial: enable spawners
             tutorialManager.StartTutorial(CurrentPlayer, spawnersController.RestartSpawn);

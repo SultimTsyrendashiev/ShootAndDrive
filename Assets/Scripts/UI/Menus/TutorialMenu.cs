@@ -7,6 +7,8 @@ namespace SD.UI.Menus
     [RequireComponent(typeof(MenuController))]
     class TutorialMenu : MonoBehaviour
     {
+        const float MinTimeForTutorial = 0.75f;
+
         [SerializeField]
         GameObject weaponSwitchBlock;
 
@@ -26,6 +28,7 @@ namespace SD.UI.Menus
 
         MenuController tutorialMenuController;
         Action current;
+        float timeCurrentActionSet;
 
         public void Awake()
         {
@@ -39,20 +42,22 @@ namespace SD.UI.Menus
             TutorialManager.OnTutorial_Shoot += TutorialManager_OnTutorial_Shoot;
             TutorialManager.OnTutorial_WeaponJam += TutorialManager_OnTutorial_WeaponJam;
             TutorialManager.OnTutorial_WeaponBreak += TutorialManager_OnTutorial_WeaponBreak;
+
+            StopTutorial();
         }
 
         private void TutorialManager_OnTutorial_WeaponBreak(TutorialManager obj)
         {
             tutorialMenuController.EnableMenu(breakTutorial);
 
-            current = () => obj.SetWaitForWeaponBreak(false);
+            SetCurrentAction(() => obj.SetWaitForWeaponBreak(false));
         }
 
         private void TutorialManager_OnTutorial_WeaponJam(TutorialManager obj)
         {
             tutorialMenuController.EnableMenu(jamTutorial);
 
-            current = () => obj.SetWaitForWeaponJam(false);
+            SetCurrentAction(() => obj.SetWaitForWeaponJam(false));
         }
 
         private void TutorialManager_OnTutorial_WeaponSwitch(TutorialManager obj)
@@ -60,25 +65,37 @@ namespace SD.UI.Menus
             weaponSwitchBlock.SetActive(false);
             tutorialMenuController.EnableMenu(weaponSwitchTutorial);
 
-            current = () => obj.SetWaitForWeaponSwitch(false);
+            SetCurrentAction(() => obj.SetWaitForWeaponSwitch(false));
         }
 
         private void TutorialManager_OnTutorial_Shoot(TutorialManager obj)
         {
             tutorialMenuController.EnableMenu(shootTutorial);
 
-            current = () => obj.SetWaitForShoot(false);
+            SetCurrentAction(() => obj.SetWaitForShoot(false));
         }
 
         private void TutorialManager_OnTutorial_Move(TutorialManager obj)
         {
             tutorialMenuController.EnableMenu(moveTutorial);
 
-            current = () => obj.SetWaitForMove(false);
+            SetCurrentAction(() => obj.SetWaitForMove(false));
+        }
+
+        private void SetCurrentAction(Action action)
+        {
+            current = action;
+            timeCurrentActionSet = Time.realtimeSinceStartup;
         }
 
         public void ApplyCurrentTutorial()
         {
+            // don't apply if tutorial panel was skipped too fast
+            if (Time.realtimeSinceStartup - timeCurrentActionSet < MinTimeForTutorial)
+            {
+                return;
+            }
+         
             current?.Invoke();
             current = null;
 
@@ -105,6 +122,7 @@ namespace SD.UI.Menus
 
         void StopTutorial()
         {
+            weaponSwitchBlock.SetActive(false);
             gameObject.SetActive(false);
         }
     }

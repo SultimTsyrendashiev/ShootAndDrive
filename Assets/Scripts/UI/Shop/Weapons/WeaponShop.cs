@@ -73,7 +73,16 @@ namespace SD.UI.Shop
             IAmmoItem ammoItem = inventory.Ammo.Get(weaponItem.AmmoType);
 
             // get image
-            Texture renderTexture = weaponsWorldUI.GetImage(w);
+            var renderTexture = weaponsWorldUI.GetImage(w);
+
+            //Texture2D texture2D = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
+            //RenderTexture.active = renderTexture;
+            //texture2D.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+            //texture2D.Apply();
+            //byte[] png = texture2D.EncodeToPNG();
+            //System.IO.File.WriteAllBytes("D:/UI/UI_Weapon_" + Enum.GetName(typeof(WeaponIndex), w) + ".png", png);
+            //RenderTexture.active = null;
+            //print("saved");
 
             // set info
             weaponShopItem.SetInfo(shop, weaponItem, ammoItem, renderTexture);

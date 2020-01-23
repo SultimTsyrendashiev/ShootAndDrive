@@ -1,11 +1,11 @@
 fileFormatVersion: 2
 guid: 2eac18bf7f91cf0409cdc651925b9569
 ModelImporter:
-  serializedVersion: 28
+  serializedVersion: 26
   internalIDToNameTable: []
   externalObjects: {}
   materials:
-    materialImportMode: 1
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -69,6 +69,7 @@ ModelImporter:
     normalSmoothingSource: 0
   referencedClips: []
   importAnimation: 1
+  copyAvatar: 0
   humanDescription:
     serializedVersion: 3
     human: []
@@ -88,7 +89,6 @@ ModelImporter:
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

@@ -18,4 +18,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 806439afc4addfc408fb605999c59303, type: 3}
   maxAmount: 60
   amountToBuy: 1
-  price: 200
+  price: 320
+  isWeapon: 0

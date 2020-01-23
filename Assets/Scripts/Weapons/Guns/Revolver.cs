@@ -13,13 +13,31 @@ namespace SD.Weapons
 
         protected override void PrimaryAttack()
         {
+            // start animation
+            PlayPrimaryAnimation();
+            // and wait for delay
             StartCoroutine(WaitForTrigger());
         }
 
         IEnumerator WaitForTrigger()
         {
             yield return new WaitForSeconds(triggerTime);
-            base.PrimaryAttack();
+            
+            // same as base.PrimaryAttack(), but without animation
+
+            // main
+            Hitscan();
+            ReduceAmmo();
+
+            // effects
+            PlayAudio(ShotSound);
+            RecoilJump();
+
+            // particles
+            if (MuzzleFlash != null && ShowMuzzleFlash)
+            {
+                ParticlesPool.Instance.Play(MuzzleParticlesName, MuzzleFlash.position, MuzzleFlash.rotation);
+            }
         }
     }
 }

@@ -57,6 +57,15 @@ namespace SD.UI
                 return;
             }
 
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                FireDown();
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                FireUp();
+            }
+
             if (!ignoreMovementInput)
             {
                 float x = Input.GetAxis("Horizontal");
