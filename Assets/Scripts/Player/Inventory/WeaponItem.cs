@@ -6,16 +6,18 @@ namespace SD.PlayerLogic
     class WeaponItem : IWeaponItem
     {
         public bool         IsBought { get; set; }
-        public bool         IsSelected { get; set; }
+        public bool         IsSelected => holder.IsSelected(This);
         public RefInt       HealthRef { get; }
         public WeaponIndex  This { get; }
 
-        public WeaponItem(WeaponIndex weapon, int health, bool isBought, bool isSelected)
+        WeaponsHolder holder;
+
+        public WeaponItem(WeaponsHolder holder, WeaponIndex weapon, int health, bool isBought)
         {
             this.This = weapon;
+            this.holder = holder;
             this.HealthRef = new RefInt(health);
             this.IsBought = isBought;
-            this.IsSelected = isSelected;
         }
 
 

@@ -115,6 +115,7 @@ Inventory.Ammo.NoAvailable,No available ammo,Нет доступных боеп�
 Inventory.Items.Medkit,Medkit,Аптечки
 Inventory.Items.BuyAll,Buy all,Купить всё
 Inventory.Items.Buy,Buy x{0},Купить x{0}
+Inventory.WSelect.NoAvailable,No available weapons,Нет доступного оружия
 Inventory.ConfirmPurchase,Buy for {0}?,Купить за {0}?
 Inventory.Yes,Yes,Да
 Inventory.No,No,Нет

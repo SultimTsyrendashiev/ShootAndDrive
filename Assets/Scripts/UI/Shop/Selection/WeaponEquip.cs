@@ -6,9 +6,6 @@ namespace SD.UI.Shop
 {
     class WeaponEquip : MonoBehaviour, IMenu
     {
-        // TODO
-        int maxWeaponAmount = 8;
-
         [SerializeField]
         Transform content;
         [SerializeField]
@@ -25,8 +22,6 @@ namespace SD.UI.Shop
         Color selectedButtonColor;
 
         WeaponEquipItem[] items;
-        // actually, unique queue
-        LinkedList<WeaponIndex> selectedWeapons;
         IInventory inventory;
 
         public void Init(MenuController menuController)
@@ -52,18 +47,16 @@ namespace SD.UI.Shop
             int j = 0;
             foreach(WeaponIndex index in weaponIndices)
             {
-                items[j].Set(inventory.Weapons.Get(index), Select, Remove);
-                items[j].SetColors(defaultButtonColor, selectedButtonColor);
-                j++;
+                items[j++].Init(inventory.Weapons.Get(index), 
+                    inventory.Weapons.Select, inventory.Weapons.Deselect,
+                    defaultButtonColor, selectedButtonColor);
             }
-
-            selectedWeapons = new LinkedList<WeaponIndex>();
         }
 
         public void Activate()
         {
-            gameObject.SetActive(true);
             UpdateList();
+            gameObject.SetActive(true);
         }
 
         public void Deactivate()
@@ -73,9 +66,6 @@ namespace SD.UI.Shop
 
         void UpdateList()
         {
-            // list must be refilled
-            selectedWeapons.Clear();
-         
             var available = inventory.Weapons.GetAvailableWeapons();
 
             availableWeaponsObject.SetActive(available.Count != 0);
@@ -86,10 +76,10 @@ namespace SD.UI.Shop
                 return;
             }
 
-            foreach (var i in items)
+            // disable all
+            foreach (WeaponEquipItem i in items)
             {
                 i.gameObject.SetActive(false);
-                i.SetSelection(false);
             }
             
             // enable only available
@@ -97,49 +87,6 @@ namespace SD.UI.Shop
             {
                 items[(int)index].gameObject.SetActive(true);
             }
-
-            var selected = inventory.Weapons.GetAvailableWeaponsInGame();
-
-            foreach (WeaponIndex index in selected)
-            {
-                // add to list and check
-                Select(index);
-            }
-
-            // mark weapons
-            foreach (WeaponIndex index in selectedWeapons)
-            {
-                items[(int)index].SetSelection(true);
-            }
-        }
-
-        // TODO: remove from here. Max amount must be checked in weapons holder
-        void Select(WeaponIndex index)
-        {
-            if (!selectedWeapons.Contains(index))
-            {
-                selectedWeapons.AddLast(index);
-                inventory.Weapons.Get(index).IsSelected = true;
-            }
-            else
-            {
-                // remove and add to the end of list
-                selectedWeapons.Remove(index);
-                selectedWeapons.AddLast(index);
-            }
-
-            while (selectedWeapons.Count > maxWeaponAmount)
-            {
-                // remove beginning
-                Remove(selectedWeapons.First.Value);
-            }
-        }
-
-        void Remove(WeaponIndex index)
-        {
-            // using linked list as queue doesn't have remove method
-            selectedWeapons.Remove(index);
-            inventory.Weapons.Get(index).IsSelected = false;
         }
     }
 }

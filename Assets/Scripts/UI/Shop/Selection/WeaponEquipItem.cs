@@ -12,15 +12,22 @@ namespace SD.UI.Shop
         Text weaponNameText;
         Color defaultColor;
         Color selectedColor;
-        bool isSelected;
+        IWeaponItem item;
 
         Action select;
         Action remove;
 
-        public void Set(IWeaponItem item, Action<WeaponIndex> select, Action<WeaponIndex> remove)
+        public bool IsSelected => item.IsSelected;
+
+        public void Init(IWeaponItem item, 
+            Action<WeaponIndex> select, Action<WeaponIndex> remove,
+            Color defaultColor, Color selectedColor)
         {
+            this.item = item;
             this.select = () => select(item.Index);
             this.remove = () => remove(item.Index);
+            this.defaultColor = defaultColor;
+            this.selectedColor = selectedColor;
 
             if (weaponIcon == null)
             {
@@ -42,31 +49,36 @@ namespace SD.UI.Shop
             string weaponName = GameController.Instance.Localization.GetValue(
                 GameController.Instance.Settings.GameLanguage, item.TranslationKey);
             weaponNameText.text = weaponName;
+
+            UpdateColor();
         }
 
-        public void SetColors(Color defaultColor, Color selectedColor)
+        void OnEnable()
         {
-            this.defaultColor = defaultColor;
-            this.selectedColor = selectedColor;
-        }
-
-        public void SetSelection(bool isSelected)
-        {
-            this.isSelected = isSelected;
-            mainPanel.color = isSelected ? selectedColor : defaultColor;
+            UpdateColor();
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            SetSelection(!isSelected);
+            bool toSelect = !IsSelected;
 
-            if (isSelected)
+            if (toSelect)
             {
                 select();
             }
             else
             {
                 remove();
+            }
+
+            UpdateColor();
+        }
+
+        public void UpdateColor()
+        {
+            if (mainPanel != null)
+            {
+                mainPanel.color = IsSelected ? selectedColor : defaultColor;
             }
         }
     }

@@ -48,6 +48,8 @@ namespace SD.UI.Controls
 
         [SerializeField]
         Text healthText;
+        [SerializeField]
+        Image healthImage;
 
         [SerializeField]
         Color greenHealthColor;
@@ -110,7 +112,7 @@ namespace SD.UI.Controls
 
         void SetHealth(IWeaponItem item)
         {
-            healthText.enabled = !item.IsAmmo;
+            healthText.enabled = healthImage.enabled = !item.IsAmmo;
             
             if (item.IsAmmo) 
             {
@@ -127,14 +129,17 @@ namespace SD.UI.Controls
             if (health > Yellow)
             {
                 healthText.color = greenHealthColor;
+                healthImage.color = ammoColor;
             }
             else if (health > Red)
             {
                 healthText.color = yellowHealthColor;
+                healthImage.color = ammoColor;
             }
             else
             {
                 healthText.color = redHealthColor;
+                healthImage.color = redHealthColor;
             }
         }
 
@@ -180,12 +185,13 @@ namespace SD.UI.Controls
 
             foreach (WeaponWheelButton b in bs)
             {
+                b.SetColors(defaultColor, highlitedColor, disabledColor);
+
                 if (counter < availableAmount)
                 {
                     IWeaponItem w = weapons.Get(available[counter]);
                     IAmmoItem a = ammo.Get(w.AmmoType);
 
-                    b.SetColors(defaultColor, highlitedColor, disabledColor);
                     b.Set(w, a, Select, Highlight, Unhighlight);
                 }
                 else

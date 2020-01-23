@@ -12,7 +12,7 @@ namespace SD.UI.Shop
         [SerializeField]
         GameObject          inventoryWorldUIPrefab;
 
-        WeaponsWorldUI      weaponsWorldUI;
+        //WeaponsWorldUI      weaponsWorldUI;
 
         /// <summary>
         /// Container of weapon items
@@ -31,22 +31,22 @@ namespace SD.UI.Shop
         {
             weaponShopItem = itemsContainer.GetComponentInChildren<ShopItemWeapon>(true);
 
-            Debug.Assert(inventoryWorldUIPrefab.GetComponent<WeaponsWorldUI>() != null,
-                "Prefab must contain 'InventoryWorldUI' script", inventoryWorldUIPrefab);
+            //Debug.Assert(inventoryWorldUIPrefab.GetComponent<WeaponsWorldUI>() != null,
+            //    "Prefab must contain 'InventoryWorldUI' script", inventoryWorldUIPrefab);
 
-            var found = FindObjectOfType<WeaponsWorldUI>();
+            //var found = FindObjectOfType<WeaponsWorldUI>();
 
-            if (found == null)
-            {
-                // create
-                weaponsWorldUI = Instantiate(inventoryWorldUIPrefab).GetComponent<WeaponsWorldUI>();
-            }
-            else
-            {
-                weaponsWorldUI = found;
-            }
+            //if (found == null)
+            //{
+            //    // create
+            //    weaponsWorldUI = Instantiate(inventoryWorldUIPrefab).GetComponent<WeaponsWorldUI>();
+            //}
+            //else
+            //{
+            //    weaponsWorldUI = found;
+            //}
 
-            weaponsWorldUI.Deactivate();
+            //weaponsWorldUI.Deactivate();
         }
 
         public void Activate()
@@ -56,7 +56,7 @@ namespace SD.UI.Shop
             shop = GameController.Instance.Shop;
             inventory = GameController.Instance.Inventory;
 
-            weaponsWorldUI.Activate();
+            //weaponsWorldUI.Activate();
 
             SetWeaponItem(currentWeapon);
         }
@@ -72,8 +72,8 @@ namespace SD.UI.Shop
             IWeaponItem weaponItem = inventory.Weapons.Get(w);
             IAmmoItem ammoItem = inventory.Ammo.Get(weaponItem.AmmoType);
 
-            // get image
-            var renderTexture = weaponsWorldUI.GetImage(w);
+            //// get image
+            //var renderTexture = weaponsWorldUI.GetImage(w);
 
             //Texture2D texture2D = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
             //RenderTexture.active = renderTexture;
@@ -84,13 +84,14 @@ namespace SD.UI.Shop
             //RenderTexture.active = null;
             //print("saved");
 
-            // set info
-            weaponShopItem.SetInfo(shop, weaponItem, ammoItem, renderTexture);
+            //// set info
+            //weaponShopItem.SetInfo(shop, weaponItem, ammoItem, renderTexture);
+            weaponShopItem.SetInfo(shop, weaponItem, ammoItem, weaponItem.Icon.texture);
         }
 
         public void Deactivate()
         {
-            weaponsWorldUI.Deactivate();
+            //weaponsWorldUI.Deactivate();
             gameObject.SetActive(false);
         }
 

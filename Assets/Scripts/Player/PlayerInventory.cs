@@ -170,12 +170,10 @@ namespace SD.PlayerLogic
         public void GiveAll()
         {
             // only in editor
-#if !UNITY_EDITOR
-                    return;
-#endif
-
+#if UNITY_EDITOR
             GiveAllWeapons();
             GiveAllAmmo();
+#endif
         }
 
         /// <summary>
@@ -183,10 +181,12 @@ namespace SD.PlayerLogic
         /// </summary>
         public void GiveAllWeapons()
         {
+#if UNITY_EDITOR
             foreach (WeaponIndex w in Enum.GetValues(typeof(WeaponIndex)))
             {
                 Weapons.Set(w, GameController.Instance.WeaponsStats[w].Durability, true, true);
             }
+#endif
         }
 
         /// <summary>
@@ -194,10 +194,12 @@ namespace SD.PlayerLogic
         /// </summary>
         public void GiveAllAmmo()
         {
+#if UNITY_EDITOR
             foreach (AmmunitionType a in Enum.GetValues(typeof(AmmunitionType)))
             {
                 Ammo.Set(a, GameController.Instance.AmmoStats[a].MaxAmount);
             }
+#endif
         }
 #endregion
     }

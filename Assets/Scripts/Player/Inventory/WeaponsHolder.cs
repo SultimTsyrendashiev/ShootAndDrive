@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using SD.Utils.Collections;
 
 namespace SD.PlayerLogic
 {
@@ -9,9 +10,14 @@ namespace SD.PlayerLogic
     {
         Dictionary<WeaponIndex, WeaponItem> playerWeapons;
 
+        // TODO: make variable
+        const int MaxSelectedWeaponAmount = 8;
+        UniqueQueue<WeaponIndex> selectedWeapons;
+
         public WeaponsHolder()
         {
             playerWeapons = new Dictionary<WeaponIndex, WeaponItem>();
+            selectedWeapons = new UniqueQueue<WeaponIndex>(MaxSelectedWeaponAmount);
         }
 
         public void Init()
@@ -28,20 +34,22 @@ namespace SD.PlayerLogic
             {
                 if (!playerWeapons.ContainsKey(a))
                 {
-                    playerWeapons.Add(a, new WeaponItem(a, 0, false, false));
+                    playerWeapons.Add(a, new WeaponItem(this, a, 0, false));
                 }
                 else
                 {
                     playerWeapons[a].HealthRef.Value = 0;
                     playerWeapons[a].IsBought = false;
-                    playerWeapons[a].IsSelected = false;
                 }
             }
+
+            selectedWeapons.Clear();
         }
 
         public void Clear()
         {
             playerWeapons.Clear();
+            selectedWeapons.Clear();
         }
 
         /// <summary>
@@ -51,31 +59,38 @@ namespace SD.PlayerLogic
         /// </summary>
         public void Set(WeaponIndex weapon, int health, bool isBought, bool isSelected)
         {
+            if (isSelected)
+            {
+                selectedWeapons.Push(weapon);
+            }
+            else
+            {
+                selectedWeapons.Remove(weapon);
+            }
+
             if (playerWeapons.ContainsKey(weapon))
             {
                 playerWeapons[weapon].IsBought = isBought;
                 playerWeapons[weapon].HealthRef.Value = health;
-                playerWeapons[weapon].IsSelected = isSelected;
-
-                return;
             }
-
-            playerWeapons.Add(weapon, new WeaponItem(weapon, health, isBought, isSelected));
+            else
+            {
+                playerWeapons.Add(weapon, new WeaponItem(this, weapon, health, isBought));
+            }
         }
 
         public WeaponItem Get(WeaponIndex w)
         {
             WeaponItem item = playerWeapons[w];
-            IWeaponItem iitem = item;
 
             // check weapon's health, if it's out of bounds, clamp it
-            iitem.Health = Mathf.Clamp(iitem.Health, 0, iitem.Durability);
+            item.Health = Mathf.Clamp(item.Health, 0, item.Durability);
 
             // normalize other values
-            if (iitem.Health == 0 && !iitem.IsAmmo)
+            if (item.Health == 0 && !item.IsAmmo)
             {
-                iitem.IsBought = false;
-                iitem.IsSelected = false;
+                item.IsBought = false;
+                selectedWeapons.Remove(w);
             }
 
             return item;
@@ -145,6 +160,22 @@ namespace SD.PlayerLogic
             }
 
             return false;
+        }
+
+        public void Select(WeaponIndex index)
+        {
+            selectedWeapons.Push(index);
+        }
+
+        public void Deselect(WeaponIndex index)
+        {
+            selectedWeapons.Remove(index);
+        }
+
+        public bool IsSelected(WeaponIndex index)
+        {
+            WeaponItem item = playerWeapons[index];
+            return selectedWeapons.Contains(index) && !(item.Health == 0 && !item.IsAmmo);
         }
     }
 }

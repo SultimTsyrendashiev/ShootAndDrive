@@ -60,7 +60,7 @@ namespace SD
         /// <summary>
         /// Is the weapon selected and bought?
         /// </summary>
-        bool IsAvailableInGame(WeaponIndex weapon);
+        bool                IsAvailableInGame(WeaponIndex weapon);
         /// <summary>
         /// Get all selected and bought weapons
         /// </summary>
@@ -69,7 +69,13 @@ namespace SD
         IWeaponItem         Get(WeaponIndex weapon);
         // ICollection<IWeaponItem>    GetAll();
 
-        bool ContainsAtLeastOne();
+        bool                ContainsAtLeastOne();
+
+        /// <summary>
+        /// Select weapon so it can be used during the game
+        /// </summary>
+        void                Select(WeaponIndex weapon);
+        void                Deselect(WeaponIndex weapon);
     }
 
     interface IAmmoHolder
@@ -122,7 +128,7 @@ namespace SD
         /// <summary>
         /// If true, can be used in a game
         /// </summary>
-        bool                IsSelected { get; set; }
+        bool                IsSelected { get; }
 
 
         WeaponIndex         Index { get; }
