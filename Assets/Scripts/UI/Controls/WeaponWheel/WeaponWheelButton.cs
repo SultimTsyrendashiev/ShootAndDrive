@@ -77,12 +77,9 @@ namespace SD.UI.Controls
         {
             Check();
 
-            if (this.select == null || this.highlight == null || this.unhighlight == null)
-            {
-                this.select = () => select(item.Index);
-                this.highlight = (canBeSelected) => highlight(item.Index, canBeSelected);
-                this.unhighlight = unhighlight;
-            }
+            this.select = () => select(item.Index);
+            this.highlight = (canBeSelected) => highlight(item.Index, canBeSelected);
+            this.unhighlight = unhighlight;
 
             weaponIcon.rectTransform.eulerAngles = new Vector3(0, 0, 0);
             weaponIcon.sprite = item.Icon;

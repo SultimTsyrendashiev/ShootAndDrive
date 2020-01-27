@@ -3056,9 +3056,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.6666667}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
+  m_EffectColor: {r: NaN, g: 0, b: 0, a: 0}
+  m_EffectDistance: {x: 0, y: 0}
+  m_UseGraphicAlpha: 0
 --- !u!114 &162754126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15538,7 +15538,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &920354801
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21411,7 +21411,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -48.00006, y: -48}
+  m_AnchoredPosition: {x: -48.000122, y: -48}
   m_SizeDelta: {x: 96, y: 96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1197214158
@@ -38236,8 +38236,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1163354866}
-  - {fileID: 1623959836}
   - {fileID: 1627512571}
+  - {fileID: 1623959836}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43958,6 +43958,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1842274646}
     m_Modifications:
+    - target: {fileID: 1584003123, guid: 2303cdbe64da441439e7eb9bca761e59, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4316951885291513044, guid: 2303cdbe64da441439e7eb9bca761e59,
         type: 3}
       propertyPath: m_LocalRotation.x
